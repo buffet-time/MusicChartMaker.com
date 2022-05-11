@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TODO: condense these and make pull more things out into global classes*/
+@layer components {
+	/* Text */
+	.tw-h1 {
+		@apply text-2xl font-semibold antialiased;
+	}
+}

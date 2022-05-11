@@ -1,0 +1,51 @@
+{
+	"root": true,
+	"ignorePatterns": [
+		"/src/assets/*",
+		"/src/dist/*",
+		"acronymWords.json",
+		"index.html"
+	],
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": [
+		"prettier",
+		"eslint:recommended",
+		"plugin:vue/vue3-recommended",
+		"@vue/typescript/recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"ecmaFeatures": {
+			"jsx": false
+		},
+		"sourceType": "module",
+		"ecmaVersion": "latest"
+	},
+	"plugins": ["vue", "@typescript-eslint", "prettier"],
+	"rules": {
+		"no-fallthrough": "off",
+		"prefer-const": "error",
+		"no-mixed-spaces-and-tabs": "off",
+		"prettier/prettier": "error",
+		"vue/max-attributes-per-line": "off",
+		"vue/html-indent": "off",
+		"vue/html-self-closing": "off",
+		"vue/singleline-html-element-content-newline": "off",
+		"vue/multi-word-component-names": "off",
+		"@typescript-eslint/no-extra-semi": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/ban-ts-comment": "off"
+	},
+	"globals": {
+		"defineProps": "readonly",
+		"defineEmits": "readonly",
+		"defineExpose": "readonly",
+		"withDefaults": "readonly"
+	}
+}

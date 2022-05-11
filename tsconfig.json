@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "ES2017", // First version to support Async Await
+		"module": "esnext",
+		"moduleResolution": "node",
+
+		"strict": true,
+		"sourceMap": true,
+		"skipLibCheck": true,
+		"removeComments": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"useDefineForClassFields": true,
+
+		"jsx": "preserve", // Needed for Volar to work properly.
+		"lib": ["esnext", "dom"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"references": [{ "path": "./tsconfig.node.json" }]
+}
