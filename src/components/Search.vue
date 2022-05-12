@@ -25,7 +25,7 @@ async function search() {
 	}
 
 	searchResults.value = await ProperFetch(
-		`https://musicsheet.danielturcich.com/Search?album=${searchInput.value}`
+		`https://musicsheet.danielturcich.com/Search?album=${searchInput.value}&limit=10`
 	)
 
 	if (!showSearchResults.value) {
