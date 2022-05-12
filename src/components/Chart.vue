@@ -3,10 +3,12 @@
 </script>
 
 <template>
-	<div>the section for just the images</div>
 	<div>
-		and the album title section would be great to be able to edit the names here
-		given how annoying seeing (remaster, explicit, etc can be)
+		<div>the section for just the images</div>
+		<div>
+			and the album title section would be great to be able to edit the names
+			here given how annoying seeing (remaster, explicit, etc can be)
+		</div>
 	</div>
 
 	<!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
