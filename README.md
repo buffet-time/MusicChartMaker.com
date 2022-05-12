@@ -7,11 +7,15 @@
 3. [Patrician Music Chartposting](https://www.facebook.com/groups/patricianmusicchartposting) commenters agreed
 4. Topsters isn't open source.
 
+## API
+
+Source Code lives in my API monorepo [here](https://github.com/buffet-time/APIs/tree/main/src/musicChartApi)
+
 ## Dev setup
 
 - install [node 18](https://nodejs.org/en/)
 
-- install pnpm (Performant NPM)  
+- install pnpm 7+ (Performant NPM)  
   $ `npm install -g pnpm`
 
 - install dependencies  
