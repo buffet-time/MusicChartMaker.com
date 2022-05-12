@@ -32,7 +32,10 @@ async function search() {
 		showSearchResults.value = true
 	}
 
-	console.log(searchResults.value[5])
+	const logVal = searchResults.value.length
+		? searchResults.value[5]
+		: 'Search Returned No Results'
+	console.log(logVal)
 }
 </script>
 
