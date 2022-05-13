@@ -4,12 +4,28 @@ export interface AlbumSearchResult {
 	artist: string
 }
 
-export interface ChartTileBase {
-	image: string
-	name: string
+export interface AlbumTile extends AlbumSearchResult {
+	timesPlayed?: string
 }
 
-export interface AlbumTile extends ChartTileBase {
-	artist: string
-	timesPlayed?: string
+export interface ChartOptions {
+	chartSize: number[]
+	displayTitles: boolean
+	displayNumberRank: boolean
+	displayPlaycount: boolean
+	background?: string
+	font?: string
+	padding?: string
+}
+
+export enum ChartSizeOptions {
+	COLLAGE = 0,
+	TOP_40 = 1,
+	TOP_42 = 2,
+	TOP_100 = 3
+}
+
+export interface ChartState {
+	options: ChartOptions
+	chartTiles: AlbumTile[][]
 }

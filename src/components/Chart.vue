@@ -1,11 +1,4 @@
-<script setup lang="ts">
-import { ref, type Ref } from 'vue'
-import { ChartTileBase } from '../types'
-
-const chartCollage = ref() as Ref<ChartTileBase[][]>
-const chartWidth = ref(5)
-const chartHeight = ref(2)
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<div>
