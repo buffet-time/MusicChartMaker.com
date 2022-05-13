@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref } from 'vue'
 import { ProperFetch } from '../../shared'
 import { type AlbumSearchResult } from '../../types'
@@ -36,8 +37,8 @@ async function search() {
 }
 
 function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
-	dragEvent.dataTransfer.setData('text/plain', JSON.stringify(album))
-	dragEvent.dataTransfer.dropEffect = 'copy'
+	dragEvent.dataTransfer!.setData('text/plain', JSON.stringify(album))
+	dragEvent.dataTransfer!.dropEffect = 'copy'
 	// emit('currentAlbum', album)
 }
 </script>

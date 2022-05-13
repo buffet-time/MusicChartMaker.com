@@ -23,7 +23,7 @@ function onDrop(dragEvent: DragEvent) {
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as AlbumSearchResult
 
-	dragEvent.target!.appendChild(document.getElementById(data))
+	// dragEvent.target!.appendChild(document.getElementById(data))
 
 	console.log(data, albumDraggedIn)
 	console.log('on drop')
