@@ -15,7 +15,8 @@
 		"build:preview": "vite preview"
 	},
 	"dependencies": {
-		"vue": "^3.2.25"
+		"vue": "^3.2.25",
+		"vuedraggable": "^2.24.3"
 	},
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^1.4.0",

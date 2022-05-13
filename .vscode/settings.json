@@ -1,0 +1,19 @@
+{
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"javascript.format.semicolons": "remove",
+	"typescript.format.semicolons": "remove",
+	"editor.formatOnSave": true,
+	"eslint.validate": ["javascript", "vue"],
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+	"search.exclude": {
+		"**/.github": true,
+		"**/dist": true,
+		"**/node_modules": true,
+		"**acronymWords.json": true,
+		"pnpm-lock.yaml": true,
+		"LICENSE": true,
+		"README.md": true
+	}
+}

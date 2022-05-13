@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue'
-import { ProperFetch } from '../shared'
-import { type AlbumSearchResult } from '../types'
+import { ProperFetch } from '../../shared'
+import { type AlbumSearchResult } from '../../types'
 
 const searchInput = ref('')
 const searchResults = ref() as Ref<AlbumSearchResult[]>
@@ -14,9 +14,9 @@ const urlRegex = new RegExp(
 		'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
 		'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
 		'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-		'(\\#[-a-z\\d_]*)?$',
+		'(\\#[-a-z\\d_]*)?$', // fragment locator
 	'i'
-) // fragment locator
+)
 
 // should ability for setting how many results you get back and make the default smaller to reduce impact
 async function search() {
@@ -33,6 +33,12 @@ async function search() {
 	}
 
 	console.log(searchResults.value[5])
+}
+
+function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
+	dragEvent.dataTransfer.setData('text/plain', JSON.stringify(album))
+	dragEvent.dataTransfer.dropEffect = 'copy'
+	// emit('currentAlbum', album)
 }
 </script>
 
@@ -61,13 +67,9 @@ async function search() {
 				width="150"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
+				draggable="true"
+				@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
 			/>
 		</div>
 	</div>
-	<!-- a search section with selection for searching for artist or for album title
-	(this will likely change a ton) -->
 </template>
-
-<!-- <style scoped>
-/*  */
-</style> -->
