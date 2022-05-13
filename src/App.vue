@@ -9,8 +9,8 @@ import Sidebar from './components/Sidebar.vue'
 
 <template>
 	<div class="flex">
-		<Sidebar />
-		<Chart />
+		<Sidebar class="w-2/5" />
+		<Chart class="w-3/5" />
 	</div>
 </template>
 
