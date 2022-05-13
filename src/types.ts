@@ -9,7 +9,10 @@ export interface AlbumTile extends AlbumSearchResult {
 }
 
 export interface ChartOptions {
-	chartSize: number[]
+	chartSize: {
+		length: number
+		width: number
+	}
 	displayTitles: boolean
 	displayNumberRank: boolean
 	displayPlaycount: boolean
