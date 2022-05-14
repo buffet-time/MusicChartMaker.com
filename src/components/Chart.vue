@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { type Ref, ref } from 'vue'
-import { type AlbumSearchResult } from '../types'
+import { DragSetData } from '../shared'
+import { type DragDataTransfer, type AlbumSearchResult } from '../types'
 
 const showText = ref(false)
 const chartSize = { length: 3, height: 3 }
@@ -18,39 +19,35 @@ for (let x = 0; x < chartSize.height * chartSize.length; x++) {
 }
 
 function onDragOver(dragEvent: DragEvent) {
-	try {
-		dragEvent.preventDefault()
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		dragEvent.dataTransfer!.dropEffect = 'move'
-	} catch {
-		//
-	}
+	dragEvent.preventDefault()
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	dragEvent.dataTransfer!.dropEffect = 'move'
 }
 
-function onDrop(dragEvent: DragEvent, index: number) {
-	try {
-		dragEvent.preventDefault()
-		const data = dragEvent.dataTransfer?.getData('text/plain')!
-		const albumDraggedIn = JSON.parse(data) as AlbumSearchResult
-		const currrentElement = dragEvent.currentTarget as HTMLImageElement
+function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
+	dragEvent.preventDefault()
+	const data = dragEvent.dataTransfer?.getData('text/plain')!
+	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
+	const currrentElement = dragEvent.currentTarget as HTMLImageElement
 
-		albumArray.value[index] = albumDraggedIn
-
-		currrentElement.src = albumDraggedIn.image
-		currrentElement.alt = `${albumDraggedIn.artist} - ${albumDraggedIn.name}`
-
-		console.log(currrentElement)
-		console.log(albumDraggedIn)
-	} catch {
-		//
+	if (albumDraggedIn.dragSource === 'Chart') {
+		// If in chart move the dragge element to the position you drop and push everything else back one
+		const blah = albumArray.value.splice(albumDraggedIn.originatingIndex!, 1)[0]
+		albumArray.value.splice(droppedElementsIndex, 0, blah)
+	} else {
+		// from search replace current dropped
+		albumArray.value.splice(droppedElementsIndex, 1, albumDraggedIn.albumObject)
+		currrentElement.src = albumDraggedIn.albumObject.image
+		currrentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 	}
 }
 
 function onDragStart(dragEvent: DragEvent, index: number) {
-	dragEvent.dataTransfer!.setData(
-		'text/plain',
-		JSON.stringify(albumArray.value[index])
-	)
+	DragSetData(dragEvent, {
+		albumObject: albumArray.value[index],
+		dragSource: 'Chart',
+		originatingIndex: index
+	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 }
 </script>
