@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import Chart from './components/Chart.vue'
 import Sidebar from './components/Sidebar.vue'
-
-// Data will be handled here and handed down as props to chart
-
-// https://musicsheet.danielturcich.com/Search?album=bleed
 </script>
 
 <template>

@@ -12,7 +12,3 @@ import Options from './SidebarComponents/Options.vue'
 		<div>info section maybe?</div>
 	</div>
 </template>
-
-<!-- <style scoped>
-/*  */
-</style> -->
