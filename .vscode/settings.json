@@ -9,8 +9,6 @@
 	"editor.insertSpaces": false,
 	"files.eol": "\n",
 	"search.exclude": {
-		"**/.github": true,
-		"**/dist": true,
 		"**/node_modules": true,
 		"pnpm-lock.yaml": true,
 		"LICENSE": true,
