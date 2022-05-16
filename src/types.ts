@@ -13,6 +13,7 @@ export interface ChartOptions {
 		length: number
 		width: number
 	}
+	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean
 	displayPlaycount: boolean
@@ -30,5 +31,5 @@ export enum ChartSizeOptions {
 
 export interface ChartState {
 	options: ChartOptions
-	chartTiles: AlbumTile[][]
+	chartTiles: AlbumTile[]
 }
