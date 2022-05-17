@@ -1,3 +1,9 @@
+export interface DragDataTransfer {
+	albumObject: AlbumSearchResult
+	dragSource: 'Search' | 'Chart'
+	originatingIndex?: number
+}
+
 export interface AlbumSearchResult {
 	image: string
 	name: string

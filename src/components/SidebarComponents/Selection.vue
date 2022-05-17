@@ -83,8 +83,8 @@ onMounted(() => {
 </script>
 
 <template>
-	a section for for selecting your chart, creating new, renaming, and deleting
-	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png
+	<!-- a section for for selecting your chart, creating new, renaming, and deleting
+	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
 	<select v-model="selected" class="text-black" @onchange.stop="onSelect">
 		<option v-for="name in storedChartNames">
 			{{ name }}

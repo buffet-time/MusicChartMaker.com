@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "ES2017", // First version to support Async Await
+		"target": "ES2015", // First version to support Async Await
 		"module": "esnext",
 		"moduleResolution": "node",
 
