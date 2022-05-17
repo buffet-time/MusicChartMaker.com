@@ -2,28 +2,27 @@
 /* eslint-disable vue/require-v-for-key */
 import { ref, type Ref, onMounted } from 'vue'
 import { GenerateDefaultChart } from '../../shared'
+import {
+	setStoredChart,
+	getStoredChart,
+	deleteStoredChart
+} from '../../storage'
 import { type ChartState } from '../../types'
 
 const chartNameInput = ref('')
+// Make a text input field, tie it to rename and Add
 const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
 
 // TODO - Need a Text box, an Input for names, a dropdown
 // TODO - Cleanse input text maybe?
-// TODO - Probably best to move all the local storage code and persistence to a seperate file.
 
-function getStoredChart(key: string): ChartState | undefined {
-	const item = localStorage.getItem(key)
-	console.log(`getStoredChart => retrieved ${item} from storage`)
-	return item ? (JSON.parse(item) as ChartState) : undefined
-}
-
-function setStoredChart(input: string, value: ChartState): void {
-	localStorage.setItem(input, JSON.stringify(value))
-	console.log(
-		`setStoredChart => Under name ${input}, stored chart state ${value}`
-	)
+function saveCurrentChart() {
+	if (selected.value && selectedChart.value) {
+		return setStoredChart(selected.value, selectedChart.value)
+	}
+	throw new Error('Error: Cannot save current Chart!')
 }
 
 function onSelect() {
@@ -39,10 +38,29 @@ function onSelect() {
 	setStoredChart('storedLastChart', loadedChart)
 }
 
+function addChart() {
+	// add a visible text or alert error to specify a name must be present in the text field
+	console.log(chartNameInput.value)
+	saveCurrentChart()
+	storedChartNames.value.unshift(chartNameInput.value)
+	selected.value = chartNameInput.value
+	selectedChart.value = GenerateDefaultChart()
+}
+
+function renameChart() {
+	console.log('rename chart', chartNameInput.value)
+	const index = storedChartNames.value.findIndex(
+		(n) => n.toLocaleLowerCase() === selected.value.toLocaleLowerCase()
+	)
+	deleteStoredChart(selected.value)
+	storedChartNames.value[index] = chartNameInput.value
+	selected.value = chartNameInput.value
+}
+
 onMounted(() => {
 	// Should find a way to make this local storage item not be something the user could input on accident or on purpose.
 	// Should consider any frequently used names for local storage be on a seperate, server side file or function.
-	const storedVal = localStorage.getItem('storedChartNames')
+	// const storedVal = localStorage.getItem('storedChartNames')
 	const storedLastChart = getStoredChart('storedLastChart')
 
 	// Use these for when this component is complete
@@ -51,10 +69,12 @@ onMounted(() => {
 		? storedLastChart
 		: GenerateDefaultChart()
 	storedChartNames.value = [
+		'New Album Chart',
 		'Test Chart',
 		'sampleText',
 		'This Topster Service brought to you by someone who is not a right wing religious weirdo.'
 	]
+	selected.value = selectedChart.value.options.chartTitle
 	console.log(
 		'Selection Successfully Mounted, current chart state:',
 		selectedChart.value
@@ -70,4 +90,10 @@ onMounted(() => {
 			{{ name }}
 		</option>
 	</select>
+	<div class="flex-col gap-4 mt-8 mb-8">
+		<input v-model="chartNameInput" type="text" class="p-2 text-black mr-2" />
+		<!--Lmao garbo formatting here but will fix later. Please fix this later me, I beg of thee-->
+		<a class="underline mr-1" href="#" @click="addChart">Add Chart</a>
+		<a class="underline mr-1" href="#" @click="renameChart">Rename Chart</a>
+	</div>
 </template>
