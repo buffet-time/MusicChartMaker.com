@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { type ChartState, type DragDataTransfer } from './types'
 
 // This is a wrapper around the Fetch WebAPI to handle errors without any fuss
@@ -40,3 +41,5 @@ export function DragSetData(
 		JSON.stringify(objectToTransfer)
 	)
 }
+
+export const GlobalChartState = reactive(GenerateDefaultChart())
