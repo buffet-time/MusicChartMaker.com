@@ -17,7 +17,7 @@ export interface AlbumTile extends AlbumSearchResult {
 export interface ChartOptions {
 	chartSize: {
 		length: number
-		width: number
+		height: number
 	}
 	chartTitle: string
 	displayTitles: boolean
