@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
-import { type ChartState, type DragDataTransfer } from './types'
+import { type AlbumTile, type ChartState, type DragDataTransfer } from './types'
 
-// This is a wrapper around the Fetch WebAPI to handle errors without any fuss
+// // // // // // // //
+// Function wrappers
+// // // // // // // //
 export async function ProperFetch(url: string): Promise<any | null> {
+	// This is a wrapper around the Fetch WebAPI to handle errors without any fuss
 	try {
 		const response = await fetch(url)
 
@@ -18,19 +21,9 @@ export async function ProperFetch(url: string): Promise<any | null> {
 	}
 }
 
-export function GenerateDefaultChart(): ChartState {
-	return {
-		options: {
-			chartSize: { length: 3, width: 3 },
-			chartTitle: 'New Album Chart',
-			displayNumberRank: false,
-			displayTitles: false,
-			displayPlaycount: false
-		},
-		chartTiles: []
-	}
-}
-
+// // // // // //
+// Drag Stuff
+// // // // // //
 export function DragSetData(
 	dragEvent: DragEvent,
 	objectToTransfer: DragDataTransfer
@@ -42,4 +35,32 @@ export function DragSetData(
 	)
 }
 
+// // // // // //
+// Chart stuff
+// // // // // //
 export const GlobalChartState = reactive(GenerateDefaultChart())
+
+export function GenerateDefaultChart(): ChartState {
+	const albumArray = [] as AlbumTile[]
+	const defaultChartSize = { length: 3, height: 3 }
+
+	for (let x = 0; x < defaultChartSize.height * defaultChartSize.length; x++) {
+		albumArray.push({
+			artist: '',
+			name: '',
+			image:
+				'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Square_gray.svg/1200px-Square_gray.svg.png'
+		})
+	}
+
+	return {
+		options: {
+			chartSize: defaultChartSize,
+			chartTitle: 'New Album Chart',
+			displayNumberRank: false,
+			displayTitles: false,
+			displayPlaycount: false
+		},
+		chartTiles: albumArray
+	}
+}

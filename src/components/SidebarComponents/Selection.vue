@@ -1,7 +1,6 @@
 <script setup lang="ts">
-/* eslint-disable vue/require-v-for-key */
 import { ref, type Ref, onMounted } from 'vue'
-import { GenerateDefaultChart } from '../../shared'
+import { GenerateDefaultChart, GlobalChartState } from '../../shared'
 import {
 	setStoredChart,
 	getStoredChart,
@@ -65,9 +64,7 @@ onMounted(() => {
 
 	// Use these for when this component is complete
 	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
-	selectedChart.value = storedLastChart
-		? storedLastChart
-		: GenerateDefaultChart()
+	selectedChart.value = storedLastChart ? storedLastChart : GlobalChartState
 	storedChartNames.value = [
 		'New Album Chart',
 		'Test Chart',
@@ -86,7 +83,7 @@ onMounted(() => {
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
 	<select v-model="selected" class="text-black" @onchange.stop="onSelect">
-		<option v-for="name in storedChartNames">
+		<option v-for="(name, index) in storedChartNames" :key="index">
 			{{ name }}
 		</option>
 	</select>

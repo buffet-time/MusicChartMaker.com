@@ -2,21 +2,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { DragSetData, GlobalChartState } from '../shared'
+import { setStoredChart } from '../storage'
+// import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type AlbumTile } from '../types'
 
 const showText = ref(false)
-const chartSize = { length: 3, height: 3 }
 const albumArray: AlbumTile[] = GlobalChartState.chartTiles
 
-for (let x = 0; x < chartSize.height * chartSize.length; x++) {
-	albumArray.push({
-		artist: 'George Clanton',
-		name: 'Slide',
-		image: 'https://upload.wikimedia.org/wikipedia/en/4/41/Slide_GC.png'
-	})
-}
+watch(albumArray, () => {
+	setStoredChart(GlobalChartState.options.chartTitle, GlobalChartState)
+	console.table(albumArray)
+})
 
 function onDragOver(dragEvent: DragEvent) {
 	dragEvent.preventDefault()
@@ -62,7 +60,7 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 				height="150"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
-				class="flex-[0_0_33%]"
+				class="flex-[0_0_33%] p-1"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
 				@dragover="onDragOver"

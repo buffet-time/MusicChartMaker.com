@@ -1,4 +1,4 @@
-import { ChartState } from './types'
+import { type ChartState } from './types'
 
 export function getStoredChart(key: string): ChartState | undefined {
 	const item = localStorage.getItem(key)
