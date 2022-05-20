@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { ref, type Ref } from 'vue'
 import { type AlbumTile, type ChartState, type DragDataTransfer } from './types'
 
 // // // // // // // //
@@ -38,7 +38,7 @@ export function DragSetData(
 // // // // // //
 // Chart stuff
 // // // // // //
-export const GlobalChartState = reactive(GenerateDefaultChart())
+export const GlobalChartState = ref() as Ref<ChartState>
 
 export function GenerateDefaultChart(): ChartState {
 	const albumArray = [] as AlbumTile[]

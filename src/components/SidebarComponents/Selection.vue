@@ -8,6 +8,10 @@ import {
 } from '../../storage'
 import { type ChartState } from '../../types'
 
+const emit = defineEmits<{
+	(event: 'canRenderChart'): void
+}>()
+
 const chartNameInput = ref('')
 // Make a text input field, tie it to rename and Add
 const storedChartNames = ref([''])
@@ -34,7 +38,11 @@ function onSelect() {
 	setStoredChart(selectedChart.value.options.chartTitle, selectedChart.value)
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
+	console.log(1)
 	setStoredChart('storedLastChart', loadedChart)
+	GlobalChartState.value = loadedChart
+	console.log(2, loadedChart)
+	emit('canRenderChart')
 }
 
 function addChart() {
@@ -64,7 +72,10 @@ onMounted(() => {
 
 	// Use these for when this component is complete
 	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
-	selectedChart.value = storedLastChart ? storedLastChart : GlobalChartState
+	selectedChart.value = storedLastChart
+		? storedLastChart
+		: (GlobalChartState.value = GenerateDefaultChart())
+	GlobalChartState.value = selectedChart.value
 	storedChartNames.value = [
 		'New Album Chart',
 		'Test Chart',
@@ -76,13 +87,14 @@ onMounted(() => {
 		'Selection Successfully Mounted, current chart state:',
 		selectedChart.value
 	)
+	emit('canRenderChart')
 })
 </script>
 
 <template>
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-	<select v-model="selected" class="text-black" @onchange.stop="onSelect">
+	<select v-model="selected" class="text-black" @change="onSelect">
 		<option v-for="(name, index) in storedChartNames" :key="index">
 			{{ name }}
 		</option>
