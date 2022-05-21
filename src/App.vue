@@ -5,11 +5,15 @@ import Chart from './components/Chart.vue'
 import Sidebar from './components/Sidebar.vue'
 
 const renderChart = ref(false)
+
+function onCanRender() {
+	renderChart.value = true
+}
 </script>
 
 <template>
 	<div class="flex">
-		<Sidebar class="w-2/5" @can-render-chart="renderChart = true" />
+		<Sidebar class="w-2/5" @can-render-chart="onCanRender()" />
 		<Chart v-if="renderChart" class="w-3/5" />
 	</div>
 </template>

@@ -5,15 +5,14 @@
 import { watch, ref, Ref } from 'vue'
 import { DragSetData, GlobalChartState } from '../shared'
 import { setStoredChart } from '../storage'
-// import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type AlbumTile } from '../types'
 
-const showText = ref(false)
+const showText = ref(true)
 const albumArray: Ref<AlbumTile[]> = ref(GlobalChartState.value.chartTiles)
 
 watch(albumArray.value, () => {
 	console.table(albumArray.value)
-	// console.log(albumArray)
+	console.log('Triggered albumArray watch')
 	setStoredChart(GlobalChartState.value.options.chartTitle, {
 		chartTiles: albumArray.value,
 		options: GlobalChartState.value.options

@@ -7,10 +7,16 @@ export function getStoredChart(key: string): ChartState | undefined {
 }
 
 export function setStoredChart(input: string, value: ChartState): void {
-	localStorage.setItem(input, JSON.stringify(value))
-	console.log(
-		`setStoredChart => Under name ${input}, stored chart state ${value}`
-	)
+	if (!value || value.chartTiles == null) {
+		console.error(
+			'Error: attempted to store a chart of undefined or null value'
+		)
+	} else {
+		localStorage.setItem(input, JSON.stringify(value))
+		console.log(
+			`setStoredChart => Under name ${input}, stored chart state ${value}`
+		)
+	}
 }
 
 export function deleteStoredChart(input: string): void {
