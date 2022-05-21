@@ -21,6 +21,9 @@
 - install dependencies\
   $ `pnpm install`
 
+- initialize husky\
+  $ `pnpm prepare:husky`
+
 - serve with hot reload at `localhost:3000`\
   $ `pnpm serve`
 
