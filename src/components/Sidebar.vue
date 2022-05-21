@@ -13,6 +13,6 @@ const emit = defineEmits<{
 		<Selection @can-render-chart="emit('canRenderChart')" />
 		<Options />
 		<Search />
-		<div>info section maybe?</div>
+		<!-- <div>info section maybe?</div> -->
 	</div>
 </template>

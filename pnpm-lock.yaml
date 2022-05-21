@@ -12,8 +12,10 @@ specifiers:
   eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^8.7.1
+  husky: ^8.0.1
   postcss: ^8.4.13
   prettier: ^2.6.2
+  prettier-plugin-tailwindcss: ^0.1.11
   tailwindcss: ^3.0.24
   typescript: ^4.6.4
   vite: ^2.9.9
@@ -36,8 +38,10 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.15.0
   eslint-plugin-prettier: 4.0.0_iqftbjqlxzn3ny5nablrkczhqi
   eslint-plugin-vue: 8.7.1_eslint@8.15.0
+  husky: 8.0.1
   postcss: 8.4.13
   prettier: 2.6.2
+  prettier-plugin-tailwindcss: 0.1.11_prettier@2.6.2
   tailwindcss: 3.0.24
   typescript: 4.6.4
   vite: 2.9.9
@@ -1190,6 +1194,12 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /husky/8.0.1:
+    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
+
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
     engines: {node: '>= 4'}
@@ -1481,6 +1491,15 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       fast-diff: 1.2.0
+    dev: true
+
+  /prettier-plugin-tailwindcss/0.1.11_prettier@2.6.2:
+    resolution: {integrity: sha512-a28+1jvpIZQdZ/W97wOXb6VqI762MKE/TxMMuibMEHhyYsSxQA8Ek30KObd5kJI2HF1ldtSYprFayXJXi3pz8Q==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      prettier: '>=2.2.0'
+    dependencies:
+      prettier: 2.6.2
     dev: true
 
   /prettier/2.6.2:

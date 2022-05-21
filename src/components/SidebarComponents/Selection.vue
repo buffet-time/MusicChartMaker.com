@@ -1,10 +1,14 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref, onMounted } from 'vue'
 import { GenerateDefaultChart, GlobalChartState } from '../../shared'
 import {
 	setStoredChart,
 	getStoredChart,
-	deleteStoredChart
+	deleteStoredChart,
+	setCurrentChart,
+	getCurrentChart,
+	getAllSavedKeys
 } from '../../storage'
 import { type ChartState } from '../../types'
 
@@ -35,31 +39,32 @@ function onSelect() {
 		return
 	}
 	// First, store current chart
-	setStoredChart(selectedChart.value.options.chartTitle, selectedChart.value)
+	setCurrentChart(selectedChart.value.options.chartTitle)
+
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
-	console.log(1)
-	setStoredChart('storedLastChart', loadedChart)
 	GlobalChartState.value = loadedChart
-	console.log(2, loadedChart)
 	emit('canRenderChart')
 }
 
+// TODO: need to make sure add is working fine
 function addChart() {
-	// add a visible text or alert error to specify a name must be present in the text field
-	console.log(chartNameInput.value)
 	saveCurrentChart()
 	storedChartNames.value.unshift(chartNameInput.value)
 	selected.value = chartNameInput.value
 	selectedChart.value = GenerateDefaultChart()
 }
 
+// TODO: need to make sure rename is working fine
 function renameChart() {
-	console.log('rename chart', chartNameInput.value)
 	const index = storedChartNames.value.findIndex(
 		(n) => n.toLocaleLowerCase() === selected.value.toLocaleLowerCase()
 	)
+	selectedChart.value.options.chartTitle = chartNameInput.value
+	setStoredChart(chartNameInput.value, selectedChart.value)
 	deleteStoredChart(selected.value)
+	setCurrentChart(chartNameInput.value)
+
 	storedChartNames.value[index] = chartNameInput.value
 	selected.value = chartNameInput.value
 }
@@ -68,25 +73,35 @@ onMounted(() => {
 	// Should find a way to make this local storage item not be something the user could input on accident or on purpose.
 	// Should consider any frequently used names for local storage be on a seperate, server side file or function.
 	// const storedVal = localStorage.getItem('storedChartNames')
-	const storedLastChart = getStoredChart('storedLastChart')
+	const storedLastChart = getCurrentChart()
 
 	// Use these for when this component is complete
 	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
-	selectedChart.value = storedLastChart
-		? storedLastChart
-		: (GlobalChartState.value = GenerateDefaultChart())
+
+	// selectedChart.value = storedLastChart
+	// 	? getStoredChart(storedLastChart)!
+	// 	: (GlobalChartState.value = GenerateDefaultChart())
+
+	if (storedLastChart) {
+		selectedChart.value = getStoredChart(storedLastChart)!
+	} else {
+		const newDefaultChart = GenerateDefaultChart()
+		setStoredChart(newDefaultChart.options.chartTitle, newDefaultChart)
+		selectedChart.value = newDefaultChart
+	}
+
+	setCurrentChart(selectedChart.value.options.chartTitle)
 	GlobalChartState.value = selectedChart.value
-	storedChartNames.value = [
-		'New Album Chart',
-		'Test Chart',
-		'sampleText',
-		'This Topster Service brought to you by someone who is not a right wing religious weirdo.'
-	]
+	storedChartNames.value = getAllSavedKeys()
 	selected.value = selectedChart.value.options.chartTitle
-	console.log(
-		'Selection Successfully Mounted, current chart state:',
-		selectedChart.value
-	)
+
+	chartNameInput.value = selected.value
+
+	// console.log(
+	// 	'Selection Successfully Mounted, current chart state:',
+	// 	selectedChart.value.options.chartTitle
+	// )
+
 	emit('canRenderChart')
 })
 </script>

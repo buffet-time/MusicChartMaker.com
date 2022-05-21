@@ -5,14 +5,13 @@
 import { watch, ref, Ref } from 'vue'
 import { DragSetData, GlobalChartState } from '../shared'
 import { setStoredChart } from '../storage'
-// import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type AlbumTile } from '../types'
 
 const showText = ref(false)
 const albumArray: Ref<AlbumTile[]> = ref(GlobalChartState.value.chartTiles)
 
 watch(albumArray.value, () => {
-	console.table(albumArray.value)
+	// console.table(albumArray.value)
 	// console.log(albumArray)
 	setStoredChart(GlobalChartState.value.options.chartTitle, {
 		chartTiles: albumArray.value,
@@ -28,7 +27,7 @@ function onDragOver(dragEvent: DragEvent) {
 }
 
 function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
-	console.log(10, albumArray.value)
+	// console.log(10, albumArray.value)
 	dragEvent.preventDefault()
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
@@ -44,7 +43,7 @@ function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
 		currrentElement.src = albumDraggedIn.albumObject.image
 		currrentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 	}
-	console.log(11, albumArray.value)
+	// console.log(11, albumArray.value)
 }
 
 function onDragStart(dragEvent: DragEvent, index: number) {
@@ -59,7 +58,7 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 
 <template>
 	<div class="flex justify-center items-center">
-		<div class="flex flex-wrap">
+		<div class="flex flex-wrap gap-1">
 			<img
 				v-for="(album, index) in albumArray"
 				:key="index"
@@ -67,7 +66,7 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 				height="150"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
-				class="flex-[0_0_33%] p-1"
+				class="flex-[0_0_32%] cursor-pointer"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
 				@dragover="onDragOver"
