@@ -40,6 +40,7 @@ export function DragSetData(
 // // // // // //
 export const GlobalChartState = ref() as Ref<ChartState>
 
+// enhance this to prevent name collisions (vineet would hate this)
 export function GenerateDefaultChart(): ChartState {
 	const albumArray = [] as AlbumTile[]
 	const defaultChartSize = { length: 3, height: 3 }

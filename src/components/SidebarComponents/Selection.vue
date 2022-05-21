@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, type Ref, onMounted, onUnmounted } from 'vue'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { ref, type Ref, onMounted } from 'vue'
 import { GenerateDefaultChart, GlobalChartState } from '../../shared'
 import {
 	setStoredChart,
 	getStoredChart,
-	deleteStoredChart
+	deleteStoredChart,
+	setCurrentChart,
+	getCurrentChart,
+	getAllSavedKeys
 } from '../../storage'
 import { type ChartState } from '../../types'
 
@@ -46,21 +50,17 @@ function onSelect() {
 		)
 		return
 	}
-	// First, store current chart. Avoiding save current chart because selected should have changed at this point
-	setStoredChart(selectedChart.value.options.chartTitle, selectedChart.value)
+	// First, store current chart
+	loadedChart.options.chartTitle = selected.value
+	setCurrentChart(selectedChart.value.options.chartTitle)
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
-	loadedChart.options.chartTitle = selected.value
-	console.log(1)
-	setStoredChart('storedLastChart', loadedChart)
 	GlobalChartState.value = loadedChart
-	console.log(2, loadedChart)
 	emit('canRenderChart')
 }
 
+// TODO: need to make sure add is working fine
 function addChart() {
-	// add a visible text or alert error to specify a name must be present in the text field
-	console.log(chartNameInput.value)
 	saveCurrentChart()
 	storedChartNames.value.unshift(chartNameInput.value)
 	selected.value = chartNameInput.value
@@ -68,18 +68,21 @@ function addChart() {
 	selectedChart.value.options.chartTitle = chartNameInput.value
 	emit('canRenderChart')
 	storeChartNameList()
-	setStoredChart('storedLastChart', selectedChart.value)
+	setCurrentChart(chartNameInput.value)
 }
 
+// TODO: need to make sure rename is working fine
 function renameChart() {
-	console.log('rename chart', chartNameInput.value)
 	const index = storedChartNames.value.findIndex(
 		(n) => n.toLocaleLowerCase() === selected.value.toLocaleLowerCase()
 	)
+	selectedChart.value.options.chartTitle = chartNameInput.value
+	setStoredChart(chartNameInput.value, selectedChart.value)
 	deleteStoredChart(selected.value)
+	setCurrentChart(chartNameInput.value)
+
 	storedChartNames.value[index] = chartNameInput.value
 	selected.value = chartNameInput.value
-	selectedChart.value.options.chartTitle = chartNameInput.value
 	storeChartNameList()
 	setStoredChart('storedLastChart', selectedChart.value)
 }
@@ -87,22 +90,31 @@ function renameChart() {
 onMounted(() => {
 	// Should find a way to make this local storage item not be something the user could input on accident or on purpose.
 	// Should consider any frequently used names for local storage be on a seperate, server side file or function.
-	const storedVal = localStorage.getItem('storedChartNames')
-	const storedLastChart = getStoredChart('storedLastChart')
-
+	const storedLastChart = getCurrentChart()
 	// Use these for when this component is complete
-	selectedChart.value = storedLastChart
-		? storedLastChart
-		: (GlobalChartState.value = GenerateDefaultChart())
+	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
+
+	if (storedLastChart) {
+		selectedChart.value = getStoredChart(storedLastChart)!
+	}
+	if (!storedLastChart || !selectedChart.value) {
+		const newDefaultChart = GenerateDefaultChart()
+		setStoredChart(newDefaultChart.options.chartTitle, newDefaultChart)
+		selectedChart.value = newDefaultChart
+	}
+
+	setCurrentChart(selectedChart.value.options.chartTitle)
 	GlobalChartState.value = selectedChart.value
+	storedChartNames.value = getAllSavedKeys()
 	selected.value = selectedChart.value.options.chartTitle
-	storedChartNames.value = [selected.value]
-	storedChartNames.value = storedVal ? JSON.parse(storedVal) : [selected.value]
-	console.log('Logging stored chart names values:', storedChartNames.value)
-	console.log(
-		'Selection Successfully Mounted, current chart state:',
-		selectedChart.value
-	)
+
+	chartNameInput.value = selected.value
+
+	// console.log(
+	// 	'Selection Successfully Mounted, current chart state:',
+	// 	selectedChart.value.options.chartTitle
+	// )
+
 	emit('canRenderChart')
 })
 </script>
