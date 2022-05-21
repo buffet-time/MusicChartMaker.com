@@ -21,3 +21,4 @@ dist-ssr
 *.sw?
 
 ignore.json
+ignore.txt
