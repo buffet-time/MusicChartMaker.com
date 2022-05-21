@@ -78,10 +78,6 @@ onMounted(() => {
 	// Use these for when this component is complete
 	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
 
-	// selectedChart.value = storedLastChart
-	// 	? getStoredChart(storedLastChart)!
-	// 	: (GlobalChartState.value = GenerateDefaultChart())
-
 	if (storedLastChart) {
 		selectedChart.value = getStoredChart(storedLastChart)!
 	} else {
