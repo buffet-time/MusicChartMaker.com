@@ -67,6 +67,8 @@ function addChart() {
 	selectedChart.value = GenerateDefaultChart()
 	selectedChart.value.options.chartTitle = chartNameInput.value
 	emit('canRenderChart')
+	storeChartNameList()
+	setStoredChart('storedLastChart', selectedChart.value)
 }
 
 function renameChart() {
@@ -79,6 +81,7 @@ function renameChart() {
 	selected.value = chartNameInput.value
 	selectedChart.value.options.chartTitle = chartNameInput.value
 	storeChartNameList()
+	setStoredChart('storedLastChart', selectedChart.value)
 }
 
 onMounted(() => {
@@ -95,20 +98,12 @@ onMounted(() => {
 	selected.value = selectedChart.value.options.chartTitle
 	storedChartNames.value = [selected.value]
 	storedChartNames.value = storedVal ? JSON.parse(storedVal) : [selected.value]
+	console.log('Logging stored chart names values:', storedChartNames.value)
 	console.log(
 		'Selection Successfully Mounted, current chart state:',
 		selectedChart.value
 	)
 	emit('canRenderChart')
-})
-
-onUnmounted(() => {
-	localStorage.setItem(
-		'storedChartNames',
-		JSON.stringify(storedChartNames.value)
-	)
-	setStoredChart('storedLastChart', selectedChart.value)
-	console.log('Successfully Unmounted Selection component.')
 })
 </script>
 
