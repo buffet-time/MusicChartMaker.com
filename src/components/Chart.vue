@@ -11,8 +11,6 @@ const showText = ref(false)
 const albumArray: Ref<AlbumTile[]> = ref(GlobalChartState.value.chartTiles)
 
 watch(albumArray.value, () => {
-	// console.table(albumArray.value)
-	// console.log(albumArray)
 	setStoredChart(GlobalChartState.value.options.chartTitle, {
 		chartTiles: albumArray.value,
 		options: GlobalChartState.value.options
@@ -27,7 +25,6 @@ function onDragOver(dragEvent: DragEvent) {
 }
 
 function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
-	// console.log(10, albumArray.value)
 	dragEvent.preventDefault()
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
@@ -43,7 +40,6 @@ function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
 		currrentElement.src = albumDraggedIn.albumObject.image
 		currrentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 	}
-	// console.log(11, albumArray.value)
 }
 
 function onDragStart(dragEvent: DragEvent, index: number) {
