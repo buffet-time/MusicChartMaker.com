@@ -70,12 +70,8 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 			/>
 		</div>
 
-		<div v-if="showText">
-			<p
-				v-for="(album, index) in albumArray"
-				:key="index"
-				class="pl-4 pt-4 text-left"
-			>
+		<div v-if="showText" class="pl-4 text-left">
+			<p v-for="(album, index) in albumArray" :key="index" class="pt-4">
 				{{ index + 1 }}) {{ album.artist }} - {{ album.name }}
 			</p>
 		</div>

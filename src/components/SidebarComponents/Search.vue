@@ -50,7 +50,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 			<div>
 				<input
 					v-model="searchInput"
-					class="p-2 text-black"
+					class="p-2 tw-input"
 					type="search"
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"

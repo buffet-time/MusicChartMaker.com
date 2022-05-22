@@ -7,4 +7,10 @@
 	.tw-button {
 		@apply cursor-pointer rounded px-3 py-2 select-none text-white bg-neutral-500 border-neutral-500 hover:bg-neutral-600;
 	}
+	.tw-input {
+		@apply inline-block w-64 rounded-md border text-neutral-900 border-neutral-300 border-solid px-3 py-2;
+	}
+	.tw-checkbox {
+		@apply align-top bg-white border border-solid border-black border-opacity-10 rounded-md w-5 h-5;
+	}
 }
