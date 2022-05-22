@@ -26,14 +26,14 @@ async function search() {
 	// }
 
 	searchResults.value = await ProperFetch(
-		`https://musicsheet.danielturcich.com/Search?album=${searchInput.value}&limit=10`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=10`
 	)
 
 	if (!showSearchResults.value) {
 		showSearchResults.value = true
 	}
 
-	console.log(searchResults.value[5])
+	// console.log(searchResults.value[5])
 }
 
 function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {

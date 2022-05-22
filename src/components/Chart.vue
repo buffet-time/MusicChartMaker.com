@@ -62,7 +62,7 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 				:key="index"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
-				class="cursor-pointer max-w-[300px]"
+				class="cursor-pointer"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
 				@dragover="onDragOver"
