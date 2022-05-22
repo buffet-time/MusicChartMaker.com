@@ -9,8 +9,11 @@ const renderChart = ref(false)
 
 <template>
 	<div class="flex">
-		<Sidebar class="w-2/5" @can-render-chart="renderChart = true" />
-		<Chart v-if="renderChart" class="w-3/5" />
+		<Sidebar
+			class="w-1/4 max-w-[480px]"
+			@can-render-chart="renderChart = true"
+		/>
+		<Chart v-if="renderChart" />
 	</div>
 </template>
 

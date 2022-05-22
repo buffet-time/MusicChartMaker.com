@@ -7,7 +7,7 @@ import { DragSetData, GlobalChartState } from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type AlbumTile } from '../types'
 
-const showText = ref(false)
+const showText = ref(true)
 const albumArray: Ref<AlbumTile[]> = ref(GlobalChartState.value.chartTiles)
 
 watch(albumArray.value, () => {
@@ -52,17 +52,17 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 }
 </script>
 
+<!-- :class="`grid-cols-${GlobalChartState.options.chartSize.length}`" -->
+
 <template>
-	<div class="flex justify-center items-center">
-		<div class="flex flex-wrap gap-1">
+	<div class="flex h-full">
+		<div class="grid mt-4 mb-4 gap-1 grid-cols-3">
 			<img
 				v-for="(album, index) in albumArray"
 				:key="index"
-				width="150"
-				height="150"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
-				class="flex-[0_0_32%] cursor-pointer"
+				class="cursor-pointer max-w-[300px]"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
 				@dragover="onDragOver"
@@ -71,8 +71,13 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 		</div>
 
 		<div v-if="showText">
-			and the album title section would be great to be able to edit the names
-			here given how annoying seeing (remaster, explicit, etc can be)
+			<p
+				v-for="(album, index) in albumArray"
+				:key="index"
+				class="pl-4 pt-4 text-left"
+			>
+				{{ index + 1 }}) {{ album.artist }} - {{ album.name }}
+			</p>
 		</div>
 	</div>
 </template>

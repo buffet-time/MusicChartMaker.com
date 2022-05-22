@@ -14,11 +14,13 @@ export interface AlbumTile extends AlbumSearchResult {
 	timesPlayed?: string
 }
 
+export interface ChartSize {
+	columns: number
+	rows: number
+}
+
 export interface ChartOptions {
-	chartSize: {
-		length: number
-		height: number
-	}
+	chartSize: ChartSize
 	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean

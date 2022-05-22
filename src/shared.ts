@@ -1,5 +1,10 @@
 import { ref, type Ref } from 'vue'
-import { type AlbumTile, type ChartState, type DragDataTransfer } from './types'
+import {
+	ChartSize,
+	type AlbumTile,
+	type ChartState,
+	type DragDataTransfer
+} from './types'
 
 // // // // // // // //
 // Function wrappers
@@ -43,14 +48,13 @@ export const GlobalChartState = ref() as Ref<ChartState>
 // enhance this to prevent name collisions (vineet would hate this)
 export function GenerateDefaultChart(): ChartState {
 	const albumArray = [] as AlbumTile[]
-	const defaultChartSize = { length: 3, height: 3 }
+	const defaultChartSize: ChartSize = { columns: 3, rows: 3 }
 
-	for (let x = 0; x < defaultChartSize.height * defaultChartSize.length; x++) {
+	for (let x = 0; x < defaultChartSize.rows * defaultChartSize.columns; x++) {
 		albumArray.push({
 			artist: '',
 			name: '',
-			image:
-				'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Square_gray.svg/1200px-Square_gray.svg.png'
+			image: 'https://i.imgur.com/5IYcmZz.jpg'
 		})
 	}
 

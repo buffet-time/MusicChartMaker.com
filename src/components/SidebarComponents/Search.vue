@@ -55,12 +55,14 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"
 				/>
-				<button @click="search">search</button>
+				<button class="ml-1 tw-button" type="button" @click="search">
+					search
+				</button>
 			</div>
 		</div>
 		<div
 			v-if="showSearchResults"
-			class="flex flex-wrap items-center justify-center"
+			class="flex flex-wrap items-center justify-center mt-4 gap-1"
 		>
 			<img
 				v-for="(album, index) in searchResults"
