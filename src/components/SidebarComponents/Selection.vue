@@ -21,6 +21,7 @@ const chartNameInput = ref('')
 const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
+const showButtons = ref(true)
 
 // TODO - Need a Text box, an Input for names, a dropdown
 // TODO - Cleanse input text maybe?
@@ -32,15 +33,26 @@ function saveCurrentChart() {
 	throw new Error('Error: Cannot save current Chart!')
 }
 
+// function storeChartNameList() {
+// 	if (storedChartNames.value.length > 0) {
+// 		localStorage.setItem(
+// 			'storedChartNames',
+// 			JSON.stringify(storedChartNames.value)
+// 		)
+// 	}
+// }
+
 function onSelect() {
 	const loadedChart = getStoredChart(selected.value) as ChartState
 	if (!loadedChart) {
 		console.error(`Failed to load Selected Chart ${selected.value}.`)
+		// console.log(
+		// 	`Chart returned from using ${selected.value} key is ${loadedChart}`
+		// )
 		return
 	}
 	// First, store current chart
 	setCurrentChart(selectedChart.value.options.chartTitle)
-
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
@@ -53,6 +65,8 @@ function addChart() {
 	storedChartNames.value.unshift(chartNameInput.value)
 	selected.value = chartNameInput.value
 	selectedChart.value = GenerateDefaultChart()
+	selectedChart.value.options.chartTitle = chartNameInput.value
+	setCurrentChart(chartNameInput.value)
 }
 
 // TODO: need to make sure rename is working fine
@@ -72,15 +86,14 @@ function renameChart() {
 onMounted(() => {
 	// Should find a way to make this local storage item not be something the user could input on accident or on purpose.
 	// Should consider any frequently used names for local storage be on a seperate, server side file or function.
-	// const storedVal = localStorage.getItem('storedChartNames')
 	const storedLastChart = getCurrentChart()
-
 	// Use these for when this component is complete
 	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
 
 	if (storedLastChart) {
 		selectedChart.value = getStoredChart(storedLastChart)!
-	} else {
+	}
+	if (!storedLastChart || !selectedChart.value) {
 		const newDefaultChart = GenerateDefaultChart()
 		setStoredChart(newDefaultChart.options.chartTitle, newDefaultChart)
 		selectedChart.value = newDefaultChart
@@ -113,9 +126,13 @@ onMounted(() => {
 	<div class="flex-col gap-4 mt-8 mb-8">
 		<input v-model="chartNameInput" type="text" class="p-2 tw-input mr-1" />
 		<!--Lmao garbo formatting here but will fix later. Please fix this later me, I beg of thee-->
-		<button type="button" class="tw-button ml-1" @click="addChart">Add</button>
-		<button type="button" class="tw-button ml-1" @click="renameChart">
-			Rename
-		</button>
+		<template v-if="showButtons">
+			<button type="button" class="tw-button ml-1" @click="addChart">
+				Add
+			</button>
+			<button type="button" class="tw-button ml-1" @click="renameChart">
+				Rename
+			</button>
+		</template>
 	</div>
 </template>

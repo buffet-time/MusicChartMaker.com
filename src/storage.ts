@@ -4,6 +4,7 @@ import { type ChartState } from './types'
 // Other
 // // // //
 export function getAllSavedKeys(): string[] {
+	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
 		(current) => current !== 'CurrentChart'
 	)
@@ -30,12 +31,18 @@ export function getStoredChart(key: string): ChartState | undefined {
 	return item ? (JSON.parse(item) as ChartState) : undefined
 }
 
-export function setStoredChart(key: string, value: ChartState): void {
-	// TODO: handle errors
-	localStorage.setItem(key, JSON.stringify(value))
-	// console.log(
-	// 	`setStoredChart => Under name ${input}, stored chart state ${value}`
-	// )
+export function setStoredChart(input: string, value: ChartState): void {
+	// TODO - Need more Error handling
+	if (!value || value.chartTiles == null) {
+		console.error(
+			'Error: attempted to store a chart of undefined or null value'
+		)
+	} else {
+		localStorage.setItem(input, JSON.stringify(value))
+		// console.log(
+		// 	`setStoredChart => Under name ${input}, stored chart state ${value}`
+		// )
+	}
 }
 
 export function deleteStoredChart(key: string): void {
