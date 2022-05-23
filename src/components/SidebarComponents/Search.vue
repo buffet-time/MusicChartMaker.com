@@ -26,14 +26,14 @@ async function search() {
 	// }
 
 	searchResults.value = await ProperFetch(
-		`https://musicsheet.danielturcich.com/Search?album=${searchInput.value}&limit=10`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=10`
 	)
 
 	if (!showSearchResults.value) {
 		showSearchResults.value = true
 	}
 
-	console.log(searchResults.value[5])
+	// console.log(searchResults.value[5])
 }
 
 function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
@@ -50,17 +50,19 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 			<div>
 				<input
 					v-model="searchInput"
-					class="p-2 text-black"
+					class="p-2 tw-input"
 					type="search"
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"
 				/>
-				<button @click="search">search</button>
+				<button class="ml-1 tw-button" type="button" @click="search">
+					search
+				</button>
 			</div>
 		</div>
 		<div
 			v-if="showSearchResults"
-			class="flex flex-wrap items-center justify-center"
+			class="flex flex-wrap items-center justify-center mt-4 gap-1"
 		>
 			<img
 				v-for="(album, index) in searchResults"

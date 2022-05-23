@@ -122,15 +122,17 @@ onMounted(() => {
 <template>
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-	<select v-model="selected" class="text-black" @change="onSelect">
+	<select v-model="selected" class="tw-input mt-4" @change="onSelect">
 		<option v-for="(name, index) in storedChartNames" :key="index">
 			{{ name }}
 		</option>
 	</select>
 	<div class="flex-col gap-4 mt-8 mb-8">
-		<input v-model="chartNameInput" type="text" class="p-2 text-black mr-2" />
+		<input v-model="chartNameInput" type="text" class="p-2 tw-input mr-1" />
 		<!--Lmao garbo formatting here but will fix later. Please fix this later me, I beg of thee-->
-		<a class="underline mr-1" href="#" @click="addChart">Add Chart</a>
-		<a class="underline mr-1" href="#" @click="renameChart">Rename Chart</a>
+		<button type="button" class="tw-button ml-1" @click="addChart">Add</button>
+		<button type="button" class="tw-button ml-1" @click="renameChart">
+			Rename
+		</button>
 	</div>
 </template>
