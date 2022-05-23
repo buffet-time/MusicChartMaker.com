@@ -52,11 +52,11 @@ function onSelect() {
 		return
 	}
 	// First, store current chart
-	setCurrentChart(selectedChart.value.options.chartTitle)
+	setCurrentChart(selected.value)
+	// setStoredChart(selected.value, selectedChart.value)
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
-	emit('canRenderChart')
 }
 
 // TODO: need to make sure add is working fine
@@ -67,6 +67,7 @@ function addChart() {
 	selectedChart.value = GenerateDefaultChart()
 	selectedChart.value.options.chartTitle = chartNameInput.value
 	setCurrentChart(chartNameInput.value)
+	saveCurrentChart()
 }
 
 // TODO: need to make sure rename is working fine

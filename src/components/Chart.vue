@@ -2,20 +2,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { watch, ref, Ref } from 'vue'
+import { watch, ref } from 'vue'
 import { DragSetData, GlobalChartState } from '../shared'
 import { setStoredChart } from '../storage'
-import { type DragDataTransfer, type AlbumTile } from '../types'
+import { type DragDataTransfer } from '../types'
 
 const showText = ref(true)
-const albumArray: Ref<AlbumTile[]> = ref(GlobalChartState.value.chartTiles)
 
-watch(albumArray.value, () => {
-	setStoredChart(GlobalChartState.value.options.chartTitle, {
-		chartTiles: albumArray.value,
-		options: GlobalChartState.value.options
-	})
-	albumArray.value = GlobalChartState.value.chartTiles
+watch(GlobalChartState.value, () => {
+	console.log(1)
+	setStoredChart(
+		GlobalChartState.value.options.chartTitle,
+		GlobalChartState.value
+	)
 })
 
 function onDragOver(dragEvent: DragEvent) {
@@ -32,11 +31,18 @@ function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
 
 	if (albumDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragge element to the position you drop and push everything else back one
-		const blah = albumArray.value.splice(albumDraggedIn.originatingIndex!, 1)[0]
-		albumArray.value.splice(droppedElementsIndex, 0, blah)
+		const tile = GlobalChartState.value.chartTiles.splice(
+			albumDraggedIn.originatingIndex!,
+			1
+		)[0]
+		GlobalChartState.value.chartTiles.splice(droppedElementsIndex, 0, tile)
 	} else {
 		// from search replace current dropped
-		albumArray.value.splice(droppedElementsIndex, 1, albumDraggedIn.albumObject)
+		GlobalChartState.value.chartTiles.splice(
+			droppedElementsIndex,
+			1,
+			albumDraggedIn.albumObject
+		)
 		currrentElement.src = albumDraggedIn.albumObject.image
 		currrentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 	}
@@ -44,7 +50,7 @@ function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
 
 function onDragStart(dragEvent: DragEvent, index: number) {
 	DragSetData(dragEvent, {
-		albumObject: albumArray.value[index],
+		albumObject: GlobalChartState.value.chartTiles[index],
 		dragSource: 'Chart',
 		originatingIndex: index
 	})
@@ -58,7 +64,7 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 	<div class="flex h-full">
 		<div class="grid mt-4 mb-4 gap-1 grid-cols-3">
 			<img
-				v-for="(album, index) in albumArray"
+				v-for="(album, index) in GlobalChartState.chartTiles"
 				:key="index"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
@@ -71,7 +77,11 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 		</div>
 
 		<div v-if="showText" class="pl-4 text-left">
-			<p v-for="(album, index) in albumArray" :key="index" class="pt-4">
+			<p
+				v-for="(album, index) in GlobalChartState.chartTiles"
+				:key="index"
+				class="pt-4"
+			>
 				{{ index + 1 }}) {{ album.artist }} - {{ album.name }}
 			</p>
 		</div>
