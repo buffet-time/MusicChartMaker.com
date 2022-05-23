@@ -8,6 +8,8 @@ const renderChart = ref(false)
 </script>
 
 <template>
+	<!-- in case the OG site goes down a reference image -->
+	<!-- https://i.gyazo.com/9fb8f19495588fd3b31c47389d248bcb.png -->
 	<div class="flex">
 		<Sidebar
 			class="w-1/4 max-w-[480px]"
