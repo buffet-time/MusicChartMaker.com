@@ -26,6 +26,23 @@ export async function ProperFetch(url: string): Promise<any | null> {
 	}
 }
 
+// // // //
+// Other
+// // // //
+export function IsImage(input: string): Promise<boolean> {
+	// returns a Promise that'll resolve to a boolean whether or not an input is an image
+	return new Promise((resolve) => {
+		const image = new Image()
+		image.onerror = image.onabort = () => {
+			resolve(false)
+		}
+		image.onload = () => {
+			resolve(true)
+		}
+		image.src = input
+	})
+}
+
 // // // // // //
 // Drag Stuff
 // // // // // //

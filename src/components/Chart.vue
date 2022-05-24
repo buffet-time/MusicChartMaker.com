@@ -61,6 +61,16 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 }
+
+function albumArtistEdited(event: Event, index: number) {
+	// @ts-expect-error
+	GlobalChartState.value.chartTiles[index].artist = event.target.innerText
+}
+
+function albumNameEdited(event: Event, index: number) {
+	// @ts-expect-error
+	GlobalChartState.value.chartTiles[index].name = event.target.innerText
+}
 </script>
 
 <!-- :class="`grid-cols-${GlobalChartState.options.chartSize.length}`" -->
@@ -92,7 +102,20 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 				:key="index"
 				class="pt-4"
 			>
-				{{ index + 1 }}) {{ album.artist }} - {{ album.name }}
+				{{ index + 1 }})
+				<span
+					role="textbox"
+					contenteditable
+					@input="(event) => albumArtistEdited(event, index)"
+					>{{ album.artist }}
+				</span>
+				-
+				<span
+					role="textbox"
+					contenteditable
+					@input="(event) => albumNameEdited(event, index)"
+					>{{ album.name }}
+				</span>
 			</p>
 		</div>
 	</div>
