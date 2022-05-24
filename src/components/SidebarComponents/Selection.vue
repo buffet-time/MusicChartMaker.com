@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ref, type Ref, onMounted } from 'vue'
+import { ref, type Ref, onMounted, watch } from 'vue'
 import { GenerateDefaultChart, GlobalChartState } from '../../shared'
 import {
 	setStoredChart,
@@ -8,7 +8,8 @@ import {
 	deleteStoredChart,
 	setCurrentChart,
 	getCurrentChart,
-	getAllSavedKeys
+	getAllSavedKeys,
+	getFirstChart
 } from '../../storage'
 import { type ChartState } from '../../types'
 
@@ -22,6 +23,12 @@ const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
 const showButtons = ref(true)
+
+watch(chartNameInput, () => {
+	chartNameInput.value
+		? (showButtons.value = true)
+		: (showButtons.value = false)
+})
 
 // TODO - Need a Text box, an Input for names, a dropdown
 // TODO - Cleanse input text maybe?
@@ -60,7 +67,7 @@ function onSelect() {
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
-// TODO: need to make sure add is working fine
+// TODO: gracefully handle name collisions
 function addChart() {
 	storedChartNames.value.unshift(chartNameInput.value)
 	selected.value = chartNameInput.value
@@ -83,6 +90,25 @@ function renameChart() {
 
 	storedChartNames.value[index] = chartNameInput.value
 	selected.value = chartNameInput.value
+}
+
+function deleteChart() {
+	if (window.confirm('Delete the currently selected chart?')) {
+		deleteStoredChart(selected.value)
+		storedChartNames.value.splice(
+			storedChartNames.value.findIndex((chart) => chart === selected.value),
+			1
+		)
+		const firstChartReturn = getFirstChart()
+		const chartToSet = firstChartReturn
+			? firstChartReturn
+			: GenerateDefaultChart()
+		selectedChart.value = chartToSet
+		selected.value = chartToSet.options.chartTitle
+		GlobalChartState.value = chartToSet
+		setCurrentChart(selected.value)
+		chartNameInput.value = chartToSet.options.chartTitle
+	}
 }
 
 onMounted(() => {
@@ -126,15 +152,22 @@ onMounted(() => {
 		</option>
 	</select>
 	<div class="flex-col gap-4 mt-8 mb-8">
-		<input v-model="chartNameInput" type="text" class="p-2 tw-input mr-1" />
-		<!--Lmao garbo formatting here but will fix later. Please fix this later me, I beg of thee-->
-		<template v-if="showButtons">
+		<input
+			v-model="chartNameInput"
+			placeholder="Name of chart"
+			type="text"
+			class="p-2 tw-input mr-1"
+		/>
+		<div v-if="showButtons" class="mt-2">
 			<button type="button" class="tw-button ml-1" @click="addChart">
 				Add
 			</button>
 			<button type="button" class="tw-button ml-1" @click="renameChart">
 				Rename
 			</button>
-		</template>
+			<button type="button" class="tw-button ml-1" @click="deleteChart">
+				Delete
+			</button>
+		</div>
 	</div>
 </template>

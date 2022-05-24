@@ -67,7 +67,12 @@ function onDragStart(dragEvent: DragEvent, index: number) {
 
 <template>
 	<div class="flex h-full">
-		<div class="grid mt-4 mb-4 gap-1 grid-cols-3">
+		<div
+			class="grid mt-4 mb-4 gap-1 auto-rows-min"
+			:style="{
+				gridTemplateColumns: `repeat(${GlobalChartState.options.chartSize.columns}, minmax(100px, 200px))`
+			}"
+		>
 			<img
 				v-for="(album, index) in GlobalChartState.chartTiles"
 				:key="index"

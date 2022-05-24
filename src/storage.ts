@@ -10,6 +10,19 @@ export function getAllSavedKeys(): string[] {
 	)
 }
 
+// used to get the first available chart to be the new used chart when deleting a previous chart
+export function getFirstChart(): ChartState | undefined {
+	const localStorageKeys = Object.keys(localStorage)
+
+	if (localStorageKeys.length >= 2) {
+		return getStoredChart(
+			localStorageKeys.filter((key) => key !== 'CurrentChart')[0]
+		)
+	}
+
+	return undefined
+}
+
 // // // // // // // // //
 // Handling Current Chart
 // // // // // // // // //
