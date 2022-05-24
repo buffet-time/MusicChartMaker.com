@@ -9,13 +9,18 @@ import { type DragDataTransfer } from '../types'
 
 const showText = ref(true)
 
-watch(GlobalChartState.value, () => {
-	console.log(1)
-	setStoredChart(
-		GlobalChartState.value.options.chartTitle,
-		GlobalChartState.value
-	)
-})
+watch(
+	GlobalChartState,
+	() => {
+		setStoredChart(
+			GlobalChartState.value.options.chartTitle,
+			GlobalChartState.value
+		)
+	},
+	{
+		deep: true
+	}
+)
 
 function onDragOver(dragEvent: DragEvent) {
 	dragEvent.preventDefault()

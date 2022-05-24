@@ -8,6 +8,15 @@ const renderChart = ref(false)
 </script>
 
 <template>
+	<!-- the main things i need to add:
+
+		TODO:
+		1) edit the Artist name and album name on the right (wasnt in the og site)
+		2) add direct input of an image url instead of the search (for obscure shit)
+		3) implement the options stuff
+		4) remove album from chart without replacing 
+	-->
+
 	<!-- in case the OG site goes down a reference image -->
 	<!-- https://i.gyazo.com/9fb8f19495588fd3b31c47389d248bcb.png -->
 	<div class="flex">
