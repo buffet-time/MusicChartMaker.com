@@ -57,17 +57,18 @@ function onSelect() {
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
+	chartNameInput.value = loadedChart.options.chartTitle
 }
 
 // TODO: need to make sure add is working fine
 function addChart() {
-	saveCurrentChart()
 	storedChartNames.value.unshift(chartNameInput.value)
 	selected.value = chartNameInput.value
 	selectedChart.value = GenerateDefaultChart()
 	selectedChart.value.options.chartTitle = chartNameInput.value
 	setCurrentChart(chartNameInput.value)
 	saveCurrentChart()
+	GlobalChartState.value = selectedChart.value
 }
 
 // TODO: need to make sure rename is working fine
