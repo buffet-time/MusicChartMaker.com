@@ -2,12 +2,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { watch, ref } from 'vue'
+import { watch } from 'vue'
 import { DragSetData, GlobalChartState } from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer } from '../types'
-
-const showText = ref(true)
 
 watch(
 	GlobalChartState,
@@ -88,7 +86,7 @@ function albumNameEdited(event: Event, index: number) {
 				:key="index"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
-				class="cursor-pointer"
+				class="cursor-pointer select-none"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
 				@dragover="onDragOver"
@@ -96,13 +94,16 @@ function albumNameEdited(event: Event, index: number) {
 			/>
 		</div>
 
-		<div v-if="showText" class="pl-4 text-left">
+		<div v-if="GlobalChartState.options.displayTitles" class="pl-4 text-left">
 			<p
 				v-for="(album, index) in GlobalChartState.chartTiles"
 				:key="index"
 				class="pt-4"
 			>
-				{{ index + 1 }})
+				<template v-if="GlobalChartState.options.displayNumberRank">
+					{{ index + 1 }})
+				</template>
+
 				<span
 					role="textbox"
 					contenteditable

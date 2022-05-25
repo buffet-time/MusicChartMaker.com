@@ -79,8 +79,8 @@ export function GenerateDefaultChart(): ChartState {
 		options: {
 			chartSize: defaultChartSize,
 			chartTitle: 'New Album Chart',
-			displayNumberRank: false,
-			displayTitles: false,
+			displayNumberRank: true,
+			displayTitles: true,
 			displayPlaycount: false
 		},
 		chartTiles: albumArray

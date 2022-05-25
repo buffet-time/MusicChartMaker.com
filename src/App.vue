@@ -11,10 +11,9 @@ const renderChart = ref(false)
 	<!-- the main things i need to add:
 
 		TODO:
-		1) edit the Artist name and album name on the right (wasnt in the og site)
-		2) add direct input of an image url instead of the search (for obscure shit)
-		3) implement the options stuff
-		4) remove album from chart without replacing 
+		1) implement the options stuff
+		2) remove album from chart without replacing 
+		3) add a modal for tips on less obvious functionality
 	-->
 
 	<!-- in case the OG site goes down a reference image -->
