@@ -9,6 +9,10 @@ const searchResults = ref() as Ref<AlbumSearchResult[]>
 const showSearchResults = ref(false)
 
 async function search() {
+	if (searchInput.value === '') {
+		return
+	}
+
 	// handle Direct image adding
 	if (await IsImage(searchInput.value)) {
 		searchResults.value = [
@@ -38,7 +42,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 	<div class="flex-col gap-4 mt-8 mb-8">
 		<div>
 			<label class="">Search: </label>
-			<div>
+			<div class="flex flex-col justify-center items-center gap-2">
 				<input
 					v-model="searchInput"
 					class="p-2 tw-input"
@@ -46,9 +50,24 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"
 				/>
-				<button class="ml-1 tw-button" type="button" @click="search">
-					search
-				</button>
+				<div>
+					<button
+						class="ml-1 tw-button"
+						type="button"
+						:disabled="searchInput === ''"
+						@click="search"
+					>
+						search
+					</button>
+					<button
+						class="ml-1 tw-button"
+						type="button"
+						:disabled="!showSearchResults"
+						@click="showSearchResults = false"
+					>
+						clear results
+					</button>
+				</div>
 			</div>
 		</div>
 		<div

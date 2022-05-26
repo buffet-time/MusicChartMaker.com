@@ -74,7 +74,7 @@ function albumNameEdited(event: Event, index: number) {
 <!-- :class="`grid-cols-${GlobalChartState.options.chartSize.length}`" -->
 
 <template>
-	<div class="flex h-full">
+	<div class="flex h-full mr-2">
 		<div
 			class="grid mt-4 mb-4 gap-1 auto-rows-min"
 			:style="{
@@ -94,12 +94,11 @@ function albumNameEdited(event: Event, index: number) {
 			/>
 		</div>
 
-		<div v-if="GlobalChartState.options.displayTitles" class="pl-4 text-left">
-			<p
-				v-for="(album, index) in GlobalChartState.chartTiles"
-				:key="index"
-				class="pt-4"
-			>
+		<div
+			v-if="GlobalChartState.options.displayTitles"
+			class="pl-4 pt-4 text-left"
+		>
+			<p v-for="(album, index) in GlobalChartState.chartTiles" :key="index">
 				<template v-if="GlobalChartState.options.displayNumberRank">
 					{{ index + 1 }})
 				</template>

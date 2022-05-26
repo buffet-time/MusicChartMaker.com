@@ -1,8 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { GlobalChartState } from '../../shared'
+import { ref, watch } from 'vue'
+import { FillerAlbum, GlobalChartState } from '../../shared'
 
 const showOptions = ref(true)
+
+watch(
+	() => GlobalChartState.value.options.chartSize,
+	() => {
+		let difference =
+			GlobalChartState.value.options.chartSize.columns *
+				GlobalChartState.value.options.chartSize.rows -
+			GlobalChartState.value.chartTiles.length
+
+		if (difference > 0) {
+			while (difference !== 0) {
+				GlobalChartState.value.chartTiles.push(FillerAlbum)
+				difference--
+			}
+		} else {
+			while (difference !== 0) {
+				GlobalChartState.value.chartTiles.pop()
+				difference++
+			}
+		}
+	},
+	{
+		deep: true
+	}
+)
 </script>
 
 <template>
@@ -32,7 +57,7 @@ const showOptions = ref(true)
 			<input
 				v-model="GlobalChartState.options.displayTitles"
 				type="checkbox"
-				class="h-6 w-4"
+				class="tw-checkbox"
 			/>
 		</div>
 
@@ -41,7 +66,8 @@ const showOptions = ref(true)
 			<input
 				v-model="GlobalChartState.options.displayNumberRank"
 				type="checkbox"
-				class="h-6 w-4"
+				class="tw-checkbox"
+				:disabled="!GlobalChartState.options.displayTitles"
 			/>
 		</div>
 	</div>

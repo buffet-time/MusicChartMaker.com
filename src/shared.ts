@@ -6,6 +6,12 @@ import {
 	type DragDataTransfer
 } from './types'
 
+export const FillerAlbum = {
+	artist: '',
+	name: '',
+	image: 'https://i.imgur.com/5IYcmZz.jpg'
+}
+
 // // // // // // // //
 // Function wrappers
 // // // // // // // //
@@ -68,11 +74,7 @@ export function GenerateDefaultChart(): ChartState {
 	const defaultChartSize: ChartSize = { columns: 3, rows: 3 }
 
 	for (let x = 0; x < defaultChartSize.rows * defaultChartSize.columns; x++) {
-		albumArray.push({
-			artist: '',
-			name: '',
-			image: 'https://i.imgur.com/5IYcmZz.jpg'
-		})
+		albumArray.push(FillerAlbum)
 	}
 
 	return {

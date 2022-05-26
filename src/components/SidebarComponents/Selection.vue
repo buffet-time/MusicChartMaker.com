@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ref, type Ref, onMounted, watch } from 'vue'
+import { ref, type Ref, onMounted } from 'vue'
 import { GenerateDefaultChart, GlobalChartState } from '../../shared'
 import {
 	setStoredChart,
@@ -22,13 +22,6 @@ const chartNameInput = ref('')
 const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
-const showButtons = ref(true)
-
-watch(chartNameInput, () => {
-	chartNameInput.value
-		? (showButtons.value = true)
-		: (showButtons.value = false)
-})
 
 // TODO - Need a Text box, an Input for names, a dropdown
 // TODO - Cleanse input text maybe?
@@ -158,11 +151,21 @@ onMounted(() => {
 			type="text"
 			class="p-2 tw-input mr-1"
 		/>
-		<div v-if="showButtons" class="mt-2">
-			<button type="button" class="tw-button ml-1" @click="addChart">
+		<div class="mt-2">
+			<button
+				type="button"
+				class="tw-button ml-1"
+				:disabled="chartNameInput === ''"
+				@click="addChart"
+			>
 				Add
 			</button>
-			<button type="button" class="tw-button ml-1" @click="renameChart">
+			<button
+				type="button"
+				class="tw-button ml-1"
+				:disabled="chartNameInput === ''"
+				@click="renameChart"
+			>
 				Rename
 			</button>
 			<button type="button" class="tw-button ml-1" @click="deleteChart">
