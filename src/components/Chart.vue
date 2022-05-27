@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { watch } from 'vue'
-import { DragSetData, GlobalChartState } from '../shared'
+import { DragSetData, GlobalChartState, RearrangeChart } from '../shared'
 import { setStoredChart } from '../storage'
-import { type DragDataTransfer } from '../types'
+import { type DragDataTransfer, type IndicesObject } from '../types'
 
 watch(
 	GlobalChartState,
@@ -26,23 +26,22 @@ function onDragOver(dragEvent: DragEvent) {
 	dragEvent.dataTransfer!.dropEffect = 'move'
 }
 
-function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
-	dragEvent.preventDefault()
+function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
-	const currrentElement = dragEvent.currentTarget as HTMLImageElement
+	dragEvent.preventDefault()
 
 	if (albumDraggedIn.dragSource === 'Chart') {
-		// If in chart move the dragge element to the position you drop and push everything else back one
-		const tile = GlobalChartState.value.chartTiles.splice(
-			albumDraggedIn.originatingIndex!,
-			1
-		)[0]
-		GlobalChartState.value.chartTiles.splice(droppedElementsIndex, 0, tile)
+		// If in chart move the dragged element to the position you drop and push everything else back one
+		RearrangeChart({ index1, index2 }, albumDraggedIn.originatingIndices)
+		// const tile = GlobalChartState.value.chartTiles.splice(index1, 1)[0]
+		// GlobalChartState.value.chartTiles.splice(index1, 0, tile)
 	} else {
 		// from search replace current dropped
-		GlobalChartState.value.chartTiles.splice(
-			droppedElementsIndex,
+		const currrentElement = dragEvent.currentTarget as HTMLImageElement
+
+		GlobalChartState.value.chartTiles[index1].splice(
+			index2,
 			1,
 			albumDraggedIn.albumObject
 		)
@@ -51,11 +50,14 @@ function onDrop(dragEvent: DragEvent, droppedElementsIndex: number) {
 	}
 }
 
-function onDragStart(dragEvent: DragEvent, index: number) {
+function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	DragSetData(dragEvent, {
-		albumObject: GlobalChartState.value.chartTiles[index],
+		albumObject: GlobalChartState.value.chartTiles[index1][index2],
 		dragSource: 'Chart',
-		originatingIndex: index
+		originatingIndices: {
+			index1: index1,
+			index2: index2
+		}
 	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 }
@@ -78,45 +80,72 @@ function albumNameEdited(event: Event, index: number) {
 		<div
 			class="grid mt-4 mb-4 gap-1 auto-rows-min"
 			:style="{
-				gridTemplateColumns: `repeat(${GlobalChartState.options.chartSize.columns}, minmax(100px, 200px))`
+				gridTemplateColumns: `repeat(${GlobalChartState.options.chartSize.numberOfRows}, minmax(100px, 200px))`
 			}"
 		>
-			<img
-				v-for="(album, index) in GlobalChartState.chartTiles"
-				:key="index"
-				:src="`${album.image}`"
-				:alt="`${album.artist} - ${album.name}`"
-				class="cursor-pointer select-none"
-				draggable="true"
-				@dragstart="(dragEvent) => onDragStart(dragEvent, index)"
-				@dragover="onDragOver"
-				@drop="(dragEvent) => onDrop(dragEvent, index)"
-			/>
+			<template
+				v-for="(albumArray, index1) in GlobalChartState.chartTiles"
+				:key="`img-${index1}`"
+			>
+				<img
+					v-for="(album, index2) in albumArray"
+					:key="`img-${index1}-${index2}`"
+					:src="`${album.image}`"
+					:alt="`${album.artist} - ${album.name}`"
+					class="cursor-pointer select-none"
+					draggable="true"
+					@dragstart="
+						(dragEvent) =>
+							onDragStart(dragEvent, { index1: index1, index2: index2 })
+					"
+					@dragover="onDragOver"
+					@drop="
+						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
+					"
+				/>
+			</template>
 		</div>
 
 		<div
 			v-if="GlobalChartState.options.displayTitles"
 			class="pl-4 pt-4 text-left"
 		>
-			<p v-for="(album, index) in GlobalChartState.chartTiles" :key="index">
-				<template v-if="GlobalChartState.options.displayNumberRank">
-					{{ index + 1 }})
-				</template>
+			<template
+				v-for="(albumRow, index) in GlobalChartState.chartTiles"
+				:key="index"
+			>
+				<p
+					v-for="(album, index2) in albumRow"
+					:key="`${index}-${index2}`"
+					:class="{
+						'pt-3':
+							index !== 0 &&
+							GlobalChartState.options.chartSize.numberOfRows &&
+							index % GlobalChartState.options.chartSize.numberOfRows === 0
+					}"
+					class="pointer-events-none"
+				>
+					<template v-if="GlobalChartState.options.displayNumberRank">
+						{{ index + 1 }})
+					</template>
 
-				<span
-					role="textbox"
-					contenteditable
-					@input="(event) => albumArtistEdited(event, index)"
-					>{{ album.artist }}
-				</span>
-				-
-				<span
-					role="textbox"
-					contenteditable
-					@input="(event) => albumNameEdited(event, index)"
-					>{{ album.name }}
-				</span>
-			</p>
+					<span
+						role="textbox"
+						contenteditable
+						class="pointer-events-auto"
+						@input="(event) => albumArtistEdited(event, index)"
+						>{{ album.artist }}
+					</span>
+					-
+					<span
+						role="textbox"
+						contenteditable
+						class="pointer-events-auto"
+						@input="(event) => albumNameEdited(event, index)"
+						>{{ album.name }}
+					</span>
+				</p>
+			</template>
 		</div>
 	</div>
 </template>

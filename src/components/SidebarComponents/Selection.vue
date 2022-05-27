@@ -139,18 +139,25 @@ onMounted(() => {
 <template>
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-	<select v-model="selected" class="tw-input mt-4" @change="onSelect">
-		<option v-for="(name, index) in storedChartNames" :key="index">
-			{{ name }}
-		</option>
-	</select>
-	<div class="flex-col gap-4 mt-8 mb-8">
-		<input
-			v-model="chartNameInput"
-			placeholder="Name of chart"
-			type="text"
-			class="p-2 tw-input mr-1"
-		/>
+
+	<div class="flex flex-col items-center justify-center mt-2">
+		<label>Select Chart: </label>
+		<select v-model="selected" class="tw-input" @change="onSelect">
+			<option v-for="(name, index) in storedChartNames" :key="index">
+				{{ name }}
+			</option>
+		</select>
+	</div>
+	<div class="flex-col gap-4 mt-2">
+		<div class="flex flex-col justify-center items-center">
+			<label>Chart Name: </label>
+			<input
+				v-model="chartNameInput"
+				placeholder="Name of chart"
+				type="text"
+				class="p-2 tw-input mr-1"
+			/>
+		</div>
 		<div class="mt-2">
 			<button
 				type="button"

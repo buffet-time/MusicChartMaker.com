@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { GlobalSiteOptions } from './shared'
+import { GetSiteOptions } from './storage'
 
 import Chart from './components/Chart.vue'
 import Sidebar from './components/Sidebar.vue'
 
 const renderChart = ref(false)
+
+GlobalSiteOptions.value = GetSiteOptions()
 </script>
 
 <template>
 	<!-- the main things i need to add:
 
 		TODO:
-		1) implement the options stuff
+		1) King crimson returns like nothing?? (api fix)
 		2) remove album from chart without replacing 
 		3) add a modal for tips on less obvious functionality
+		4) background color option
+		5) text change options
+		6) slider for amount of results to return
+		7) options to set how many albums in a row
+		8) default options for top 10, top 25, top 50, top 100
+		9) hover over an album to get artist name and shit
+		10) Fix clicking anywhere below the titles triggereing content editable
 	-->
 
 	<!-- in case the OG site goes down a reference image -->

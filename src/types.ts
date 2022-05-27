@@ -1,7 +1,12 @@
 export interface DragDataTransfer {
 	albumObject: AlbumSearchResult
 	dragSource: 'Search' | 'Chart'
-	originatingIndex?: number
+	originatingIndices: IndicesObject
+}
+
+export interface IndicesObject {
+	index1: number
+	index2: number
 }
 
 export interface AlbumSearchResult {
@@ -15,12 +20,13 @@ export interface AlbumTile extends AlbumSearchResult {
 }
 
 export interface ChartSize {
-	columns: number
-	rows: number
+	rowSizes: number[]
+	numberOfRows: number
+	numberOfTiles: number
 }
 
 export interface ChartOptions {
-	chartSize: ChartSize
+	chartSize: ChartSize // number of tiles
 	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean
@@ -30,14 +36,12 @@ export interface ChartOptions {
 	padding?: string
 }
 
-export enum ChartSizeOptions {
-	COLLAGE = 0,
-	TOP_40 = 1,
-	TOP_42 = 2,
-	TOP_100 = 3
+export interface SiteOptions {
+	numberOfSearchResults: number
+	currentChart: string
 }
 
 export interface ChartState {
 	options: ChartOptions
-	chartTiles: AlbumTile[]
+	chartTiles: AlbumTile[][]
 }

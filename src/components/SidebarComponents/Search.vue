@@ -1,7 +1,12 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref } from 'vue'
-import { DragSetData, IsImage, ProperFetch } from '../../shared'
+import {
+	DragSetData,
+	IsImage,
+	ProperFetch,
+	GlobalSiteOptions
+} from '../../shared'
 import { type AlbumSearchResult } from '../../types'
 
 const searchInput = ref('')
@@ -23,7 +28,7 @@ async function search() {
 	}
 
 	searchResults.value = await ProperFetch(
-		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=10`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value.numberOfSearchResults}`
 	)
 
 	if (!showSearchResults.value) {
@@ -39,9 +44,9 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 </script>
 
 <template>
-	<div class="flex-col gap-4 mt-8 mb-8">
+	<div class="flex-col gap-4 mt-3">
 		<div>
-			<label class="">Search: </label>
+			<label>Search: </label>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<input
 					v-model="searchInput"
@@ -72,7 +77,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		</div>
 		<div
 			v-if="showSearchResults"
-			class="flex flex-wrap items-center justify-center mt-4 gap-1"
+			class="flex flex-wrap items-center justify-center mt-2 gap-1"
 		>
 			<img
 				v-for="(album, index) in searchResults"
