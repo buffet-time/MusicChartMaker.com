@@ -1,6 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "ES2015", // First version to support Async Await
+		// First version to have dynamic imports in Chrome, Opera, and Safari
+		// It is far more likely for FireFox & Edge users to be more up to date.
+		"target": "ES2018",
 		"module": "esnext",
 		"moduleResolution": "node",
 

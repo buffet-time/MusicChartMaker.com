@@ -16,7 +16,6 @@ import {
 	getFirstChart
 } from '../../storage'
 import { type ChartState } from '../../types'
-import HTML2Canvas from 'html2canvas'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
@@ -112,18 +111,23 @@ function deleteChart() {
 }
 
 async function saveImage() {
-	const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
-		allowTaint: true,
-		useCORS: true,
-		backgroundColor: '#303030'
-	})
-	// canvas.style.paddingLeft = '8px'
-	// canvas.style.paddingBottom = '8px'
-	const anchor = document.createElement('a')
-	anchor.href = canvas.toDataURL('image/png')
-	anchor.download = 'chart.png'
-	anchor.click()
-	// document.write('<img src="' + img + '"/>')
+	try {
+		const { default: HTML2Canvas } = await import('html2canvas')
+		const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
+			allowTaint: true,
+			useCORS: true,
+			backgroundColor: '#303030'
+		})
+		// canvas.style.paddingLeft = '8px'
+		// canvas.style.paddingBottom = '8px'
+		const anchor = document.createElement('a')
+		anchor.href = canvas.toDataURL('image/png')
+		anchor.download = 'chart.png'
+		anchor.click()
+		// document.write('<img src="' + img + '"/>')
+	} catch (error) {
+		console.error(`Error in Save Image: ${Error}`)
+	}
 }
 
 onMounted(() => {
