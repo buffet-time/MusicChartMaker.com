@@ -12,10 +12,15 @@ import { type AlbumSearchResult } from '../../types'
 const searchInput = ref('')
 const searchResults = ref() as Ref<AlbumSearchResult[]>
 const showSearchResults = ref(false)
+let previousSearch = ''
 
 async function search() {
 	if (searchInput.value === '') {
 		return
+	}
+
+	if (previousSearch === searchInput.value) {
+		showSearchResults.value = true
 	}
 
 	// handle Direct image adding
@@ -31,13 +36,20 @@ async function search() {
 		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value.numberOfSearchResults}`
 	)
 
+	previousSearch = searchInput.value
+
 	if (!showSearchResults.value) {
 		showSearchResults.value = true
 	}
 }
 
 function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
-	DragSetData(dragEvent, { albumObject: album, dragSource: 'Search' })
+	DragSetData(dragEvent, {
+		albumObject: album,
+		dragSource: 'Search',
+		// included just because im bad with ts typing and dont want it to optional in chart
+		originatingIndices: { index1: 0, index2: 0 }
+	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 	// emit('currentAlbum', album)
 }
@@ -76,7 +88,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 			</div>
 		</div>
 		<div
-			v-if="showSearchResults"
+			v-show="showSearchResults"
 			class="flex flex-wrap items-center justify-center mt-2 gap-1"
 		>
 			<img

@@ -17,7 +17,7 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
-			localStorageKeys.filter((key) => key !== 'CurrentChart')[0]
+			localStorageKeys.filter((key) => key !== 'GlobalSiteOptions')[0]
 		)
 	}
 

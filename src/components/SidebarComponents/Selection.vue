@@ -1,7 +1,11 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref, onMounted } from 'vue'
-import { GenerateDefaultChart, GlobalChartState } from '../../shared'
+import {
+	GenerateDefaultChart,
+	GlobalChartState,
+	GlobalSiteOptions
+} from '../../shared'
 import {
 	setStoredChart,
 	getStoredChart,
@@ -12,6 +16,7 @@ import {
 	getFirstChart
 } from '../../storage'
 import { type ChartState } from '../../types'
+import HTML2Canvas from 'html2canvas'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
@@ -57,6 +62,7 @@ function onSelect() {
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
+	GlobalSiteOptions.value.currentChart = selected.value
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
@@ -99,9 +105,25 @@ function deleteChart() {
 		selectedChart.value = chartToSet
 		selected.value = chartToSet.options.chartTitle
 		GlobalChartState.value = chartToSet
+		GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
 		setCurrentChart(selected.value)
 		chartNameInput.value = chartToSet.options.chartTitle
 	}
+}
+
+async function saveImage() {
+	const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
+		allowTaint: true,
+		useCORS: true,
+		backgroundColor: '#303030'
+	})
+	// canvas.style.paddingLeft = '8px'
+	// canvas.style.paddingBottom = '8px'
+	const anchor = document.createElement('a')
+	anchor.href = canvas.toDataURL('image/png')
+	anchor.download = 'chart.png'
+	anchor.click()
+	// document.write('<img src="' + img + '"/>')
 }
 
 onMounted(() => {
@@ -140,7 +162,11 @@ onMounted(() => {
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
 
-	<div class="flex flex-col items-center justify-center mt-2">
+	<button class="mt-2 tw-button py-1 px-3" @click="saveImage">
+		Save Image
+	</button>
+
+	<div class="flex flex-col items-center justify-center mt-1">
 		<label>Select Chart: </label>
 		<select v-model="selected" class="tw-input" @change="onSelect">
 			<option v-for="(name, index) in storedChartNames" :key="index">

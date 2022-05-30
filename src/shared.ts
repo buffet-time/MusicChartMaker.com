@@ -8,11 +8,9 @@ import {
 	IndicesObject
 } from './types'
 
-const placeholderText = '[placeholder]'
-
 export const FillerAlbum = {
-	artist: placeholderText,
-	name: placeholderText,
+	artist: 'Artist',
+	name: 'Album',
 	image: 'https://i.imgur.com/5IYcmZz.jpg'
 }
 
@@ -83,19 +81,36 @@ export function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
 	{ index1: originIndex1, index2: originIndex2 }: IndicesObject
 ) {
-	// they're in the same array (read row) so it's simple and 1 dimensional
+	if (targetIndex1 === originIndex1) {
+		// they're in the same array (read row) so it's simple and 1 dimensional
+		const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
+			originIndex2,
+			1
+		)[0]
+		GlobalChartState.value.chartTiles[targetIndex1].splice(
+			targetIndex2,
+			0,
+			tile
+		)
+		return
+	}
+	// have to do more complex stuff here because its moving 2 dimensionally\
 
-	const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
+	// First splice out the tile we're moving
+	const movingTile = GlobalChartState.value.chartTiles[originIndex1].splice(
 		originIndex2,
 		1
 	)[0]
-	GlobalChartState.value.chartTiles[targetIndex1].splice(targetIndex2, 0, tile)
 
-	if (targetIndex1 !== originIndex1) {
-		// have to do more complex stuff here because its moving 2 dimensionally
-
-		// First splice out the tile we're moving
+	// Moving The album up
+	if (targetIndex1 < originIndex1) {
 		// next place that in its new spot
+		GlobalChartState.value.chartTiles[targetIndex1].splice(
+			targetIndex2,
+			0,
+			movingTile
+		)
+
 		// now iteratively move through all arrays
 		// popping the last one in the array and splicing it to the front of the next array
 		// until we see that we're in the array that it was originally moved from
@@ -103,6 +118,31 @@ export function RearrangeChart(
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const poppedTile = GlobalChartState.value.chartTiles[index].pop()!
 			GlobalChartState.value.chartTiles[index + 1].splice(0, 0, poppedTile)
+		}
+	}
+
+	// Moving The album down
+	else {
+		// next place that in its new spot
+		GlobalChartState.value.chartTiles[targetIndex1].splice(
+			targetIndex2 + 1,
+			0,
+			movingTile
+		)
+
+		// now iteratively move through all arrays
+		// popping the first one in the array and splicing it to the back of the previous array
+		// until we see that we're in the array that it was originally moved from
+		for (let index = targetIndex1; index > originIndex1; index--) {
+			const poppedTile = GlobalChartState.value.chartTiles[index].splice(
+				0,
+				1
+			)[0]
+			GlobalChartState.value.chartTiles[index - 1].splice(
+				GlobalChartState.value.chartTiles[index - 1].length - 1,
+				0,
+				poppedTile
+			)
 		}
 	}
 }
