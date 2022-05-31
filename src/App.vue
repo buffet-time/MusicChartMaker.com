@@ -20,6 +20,9 @@ GlobalSiteOptions.value = GetSiteOptions()
 		4) Have ability to set background image instead of color
 		5) Padding 
 		6) gracefully handle name collisions in creating new charts and renaming charts
+		7) improve editing of artist and album name to maybe be editable all at once?
+		8) Allow for saving as JPEG, GIF, WebM -- https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL 
+		9) look more into the vite vue plugin
 
 		A) options to set how many albums in a row
 			1) default options for top 10, top 25, top 50, top 100
