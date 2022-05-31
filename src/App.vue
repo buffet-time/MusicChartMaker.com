@@ -15,15 +15,15 @@ GlobalSiteOptions.value = GetSiteOptions()
 	<!-- the main things i need to add:
 
 		TODO:
-		1) King crimson returns like nothing?? -- Determined to just be a last.fm issue.
-		2) remove album from chart without replacing 
-		3) add a modal for tips on less obvious functionality
-		4) background color option
-		5) text change options
-		7) options to set how many albums in a row
-		8) default options for top 10, top 25, top 50, top 100
-		9) hover over an album to get artist name and shit
-		10) Fix clicking anywhere below the titles triggereing content editable
+		1) remove album from chart without replacing 
+		2) add a modal for tips on less obvious functionality
+		3) background color option
+		4) text font/ size change options
+		5) hover over an album to get artist name and shit
+		6) Fix clicking anywhere below the titles triggereing content editable
+
+		A) options to set how many albums in a row
+			1) default options for top 10, top 25, top 50, top 100
 	-->
 
 	<!-- in case the OG site goes down a reference image -->

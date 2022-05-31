@@ -17,7 +17,7 @@ function onCanRender() {
 </script>
 
 <template>
-	<div class="flex-col">
+	<div class="flex-col min-w-[210px]">
 		<Selection @can-render-chart="onCanRender" />
 		<Options v-if="showOptions" />
 		<Search />

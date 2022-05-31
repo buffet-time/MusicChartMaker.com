@@ -22,7 +22,6 @@ watch(
 
 function onDragOver(dragEvent: DragEvent) {
 	dragEvent.preventDefault()
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	dragEvent.dataTransfer!.dropEffect = 'move'
 }
 
@@ -80,8 +79,6 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 }
 </script>
 
-<!-- :class="`grid-cols-${GlobalChartState.options.chartSize.length}`" -->
-
 <template>
 	<div class="flex h-full p-2">
 		<div class="flex-col mt-4 mb-4">
@@ -95,6 +92,9 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 					:key="`img-${index1}-${index2}`"
 					:src="`${album.image}`"
 					:alt="`${album.artist} - ${album.name}`"
+					:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
+						album.name
+					}`"
 					class="cursor-pointer select-none w-full min-w-[50px] min-h-[50px] max-w-[200px] max-h-[200px]"
 					draggable="true"
 					@dragstart="
@@ -111,7 +111,7 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 
 		<div
 			v-if="GlobalChartState.options.displayTitles"
-			class="pl-4 pt-4 text-left ml-auto order-2 min-w-[234px]"
+			class="pl-4 pt-4 text-left min-w-[200px]"
 		>
 			<template
 				v-for="(albumRow, index) in GlobalChartState.chartTiles"
@@ -121,7 +121,7 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 					v-for="(album, index2) in albumRow"
 					:key="`${index}-${index2}`"
 					:class="{
-						'pt-3': index2 === 0 && index !== 0
+						'pt-2': index2 === 0 && index !== 0
 					}"
 					class="pointer-events-none"
 				>

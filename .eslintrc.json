@@ -36,11 +36,5 @@
 		"@typescript-eslint/no-extra-semi": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/ban-ts-comment": "off"
-	},
-	"globals": {
-		"defineProps": "readonly",
-		"defineEmits": "readonly",
-		"defineExpose": "readonly",
-		"withDefaults": "readonly"
 	}
 }

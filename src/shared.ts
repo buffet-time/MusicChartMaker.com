@@ -22,7 +22,8 @@ export const GlobalSiteOptions = ref() as Ref<SiteOptions>
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
 		numberOfSearchResults: 10,
-		currentChart: 'New Album Chart'
+		currentChart: 'New Album Chart',
+		showOptions: true
 	}
 }
 

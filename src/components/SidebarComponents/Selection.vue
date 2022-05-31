@@ -122,7 +122,7 @@ async function saveImage() {
 		// canvas.style.paddingBottom = '8px'
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL('image/png')
-		anchor.download = 'chart.png'
+		anchor.download = `${GlobalChartState.value.options.chartTitle}.png`
 		anchor.click()
 		// document.write('<img src="' + img + '"/>')
 	} catch (error) {
@@ -188,7 +188,7 @@ onMounted(() => {
 				class="p-2 tw-input mr-1"
 			/>
 		</div>
-		<div class="mt-2">
+		<div class="mt-2 mb-2">
 			<button
 				type="button"
 				class="tw-button ml-1"
@@ -199,13 +199,13 @@ onMounted(() => {
 			</button>
 			<button
 				type="button"
-				class="tw-button ml-1"
+				class="tw-button ml-1 mb-1"
 				:disabled="chartNameInput === ''"
 				@click="renameChart"
 			>
 				Rename
 			</button>
-			<button type="button" class="tw-button ml-1" @click="deleteChart">
+			<button type="button" class="tw-button ml-1 mb-1" @click="deleteChart">
 				Delete
 			</button>
 		</div>
