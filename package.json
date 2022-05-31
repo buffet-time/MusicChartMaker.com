@@ -2,7 +2,7 @@
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
 	"private": false,
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
 		"name": "Daniel Turcich",
