@@ -140,7 +140,7 @@ export function RearrangeChart(
 				1
 			)[0]
 			GlobalChartState.value.chartTiles[index - 1].splice(
-				GlobalChartState.value.chartTiles[index - 1].length - 1,
+				GlobalChartState.value.chartTiles[index - 1].length,
 				0,
 				poppedTile
 			)
@@ -175,7 +175,9 @@ export function GenerateDefaultChart(): ChartState {
 			chartTitle: 'New Album Chart',
 			displayNumberRank: true,
 			displayTitles: true,
-			displayPlaycount: false
+			displayPlaycount: false,
+			background: '#303030',
+			textColor: '#FFFFFF'
 		},
 		chartTiles: albumArray
 	}

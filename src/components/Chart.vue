@@ -3,9 +3,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { watch } from 'vue'
-import { DragSetData, GlobalChartState, RearrangeChart } from '../shared'
+import {
+	DragSetData,
+	FillerAlbum,
+	GlobalChartState,
+	RearrangeChart
+} from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type IndicesObject } from '../types'
+import Close from '../assets/close.svg'
 
 watch(
 	GlobalChartState,
@@ -77,38 +83,60 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 
 	return returnValue + 1 + indexTwo
 }
+
+function deleteCurrent(indexOne: number, indexTwo: number) {
+	GlobalChartState.value.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
+}
 </script>
 
 <template>
-	<div class="flex h-full p-2">
+	<div
+		class="flex h-fit p-2 w-fit"
+		:style="{ backgroundColor: GlobalChartState.options.background }"
+	>
+		<!-- The actual album chart -->
 		<div class="flex-col mt-4 mb-4">
 			<div
 				v-for="(albumArray, index1) in GlobalChartState.chartTiles"
 				:key="`img-${index1}`"
 				class="flex flex-row gap-1 pb-1"
 			>
-				<img
+				<div
 					v-for="(album, index2) in albumArray"
 					:key="`img-${index1}-${index2}`"
-					:src="`${album.image}`"
-					:alt="`${album.artist} - ${album.name}`"
-					:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
-						album.name
-					}`"
-					class="cursor-pointer select-none w-full min-w-[50px] min-h-[50px] max-w-[200px] max-h-[200px]"
-					draggable="true"
-					@dragstart="
-						(dragEvent) =>
-							onDragStart(dragEvent, { index1: index1, index2: index2 })
-					"
-					@dragover="onDragOver"
-					@drop="
-						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
-					"
-				/>
+					class="group"
+				>
+					<img
+						v-if="album.image !== 'https://i.imgur.com/5IYcmZz.jpg'"
+						v-show="album"
+						title="Delete Album"
+						:src="Close"
+						class="hidden absolute group-hover:bg-white group-hover:block cursor-pointer"
+						@click="deleteCurrent(index1, index2)"
+					/>
+					<img
+						:src="`${album.image}`"
+						:alt="`${album.artist} - ${album.name}`"
+						:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
+							album.name
+						}`"
+						class="cursor-pointer select-none w-full min-w-[50px] min-h-[50px] max-w-[200px] max-h-[200px]"
+						draggable="true"
+						@dragstart="
+							(dragEvent) =>
+								onDragStart(dragEvent, { index1: index1, index2: index2 })
+						"
+						@dragover="onDragOver"
+						@drop="
+							(dragEvent) =>
+								onDrop(dragEvent, { index1: index1, index2: index2 })
+						"
+					/>
+				</div>
 			</div>
 		</div>
 
+		<!-- Album titles -->
 		<div
 			v-if="GlobalChartState.options.displayTitles"
 			class="pl-4 pt-4 text-left min-w-[200px]"
@@ -124,6 +152,7 @@ function getAlbumNumber(indexOne: number, indexTwo: number): number {
 						'pt-2': index2 === 0 && index !== 0
 					}"
 					class="pointer-events-none"
+					:style="{ color: GlobalChartState.options.textColor }"
 				>
 					<template v-if="GlobalChartState.options.displayNumberRank">
 						{{ getAlbumNumber(index, index2) }})
