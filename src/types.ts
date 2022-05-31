@@ -39,6 +39,7 @@ export interface ChartOptions {
 export interface SiteOptions {
 	numberOfSearchResults: number
 	currentChart: string
+	showOptions: boolean
 }
 
 export interface ChartState {

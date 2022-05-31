@@ -7,7 +7,7 @@ let previousColumnsNum = GlobalChartState.value.options.chartSize.rowSizes[0]
 let previousRowsNum = GlobalChartState.value.options.chartSize.rowSizes.length
 const columnsNum = ref(previousColumnsNum)
 const rowsNum = ref(previousRowsNum)
-const showOptions = ref(true)
+const showOptions = ref(GlobalSiteOptions.value.showOptions)
 
 watch(
 	() => GlobalSiteOptions.value.numberOfSearchResults,
@@ -15,6 +15,11 @@ watch(
 		SaveSiteOptions()
 	}
 )
+
+watch(showOptions, () => {
+	GlobalSiteOptions.value.showOptions = showOptions.value
+	SaveSiteOptions()
+})
 
 watch(
 	() => GlobalSiteOptions.value.currentChart,
@@ -83,7 +88,11 @@ function rowsChanged(difference: number) {
 </script>
 
 <template>
-	<div v-if="showOptions" class="flex flex-col mx-4 mt-3">
+	<div class="flex justify-center items-center gap-2">
+		<label>Show Options </label>
+		<input v-model="showOptions" type="checkbox" class="tw-checkbox" />
+	</div>
+	<div v-if="showOptions" class="flex flex-col mx-4">
 		<label> Columns: {{ columnsNum }} </label>
 		<input
 			v-model="columnsNum"

@@ -94,7 +94,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 			<img
 				v-for="(album, index) in searchResults"
 				:key="index"
-				width="150"
+				width="100"
 				class="cursor-pointer"
 				:src="`${album.image}`"
 				:alt="`${album.artist} - ${album.name}`"
