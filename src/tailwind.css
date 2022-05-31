@@ -8,7 +8,7 @@
 		@apply cursor-pointer rounded px-3 py-2 select-none text-white bg-neutral-500 border-neutral-500 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
 	.tw-input {
-		@apply inline-block max-w-[16rem] rounded-md w-10/12 text-neutral-900 border-neutral-300  px-3 py-2;
+		@apply inline-block max-w-[16rem] rounded-md w-10/12 text-neutral-900 border-neutral-300 px-3 py-2;
 	}
 	.tw-checkbox {
 		@apply align-top bg-white border border-solid border-black border-opacity-10 rounded-md w-4 h-4;

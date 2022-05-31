@@ -31,7 +31,8 @@ export interface ChartOptions {
 	displayTitles: boolean
 	displayNumberRank: boolean
 	displayPlaycount: boolean
-	background?: string
+	background: string
+	textColor: string
 	font?: string
 	padding?: string
 }

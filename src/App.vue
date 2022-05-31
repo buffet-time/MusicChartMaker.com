@@ -14,13 +14,13 @@ GlobalSiteOptions.value = GetSiteOptions()
 <template>
 	<!-- the main things i need to add:
 
-		TODO:
+		MVP: 
 		1) remove album from chart without replacing 
-		2) add a modal for tips on less obvious functionality
-		3) background color option
-		4) text font/ size change options
-		5) hover over an album to get artist name and shit
-		6) Fix clicking anywhere below the titles triggereing content editable
+
+		TODO after MVP:
+		1) add a modal for tips on less obvious functionality
+		2) Fix clicking anywhere below the titles triggereing content editable
+		3) text font/ size change options
 
 		A) options to set how many albums in a row
 			1) default options for top 10, top 25, top 50, top 100

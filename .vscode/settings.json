@@ -13,5 +13,8 @@
 		"pnpm-lock.yaml": true,
 		"LICENSE": true,
 		"README.md": true
+	},
+	"[svg]": {
+		"editor.defaultFormatter": "jock.svg"
 	}
 }

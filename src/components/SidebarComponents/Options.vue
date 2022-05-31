@@ -8,6 +8,16 @@ let previousRowsNum = GlobalChartState.value.options.chartSize.rowSizes.length
 const columnsNum = ref(previousColumnsNum)
 const rowsNum = ref(previousRowsNum)
 const showOptions = ref(GlobalSiteOptions.value.showOptions)
+const bgColor = ref(GlobalChartState.value.options.background)
+const textColor = ref(GlobalChartState.value.options.textColor)
+
+watch(bgColor, () => {
+	GlobalChartState.value.options.background = bgColor.value
+})
+
+watch(textColor, () => {
+	GlobalChartState.value.options.textColor = textColor.value
+})
 
 watch(
 	() => GlobalSiteOptions.value.numberOfSearchResults,
@@ -90,12 +100,17 @@ function rowsChanged(difference: number) {
 <template>
 	<div class="flex justify-center items-center gap-2">
 		<label>Show Options </label>
-		<input v-model="showOptions" type="checkbox" class="tw-checkbox" />
+		<input
+			v-model="showOptions"
+			type="checkbox"
+			class="tw-checkbox cursor-pointer"
+		/>
 	</div>
 	<div v-if="showOptions" class="flex flex-col mx-4">
 		<label> Columns: {{ columnsNum }} </label>
 		<input
 			v-model="columnsNum"
+			class="cursor-pointer"
 			type="range"
 			min="1"
 			max="20"
@@ -107,6 +122,7 @@ function rowsChanged(difference: number) {
 		<label class="mt-2"> Rows: {{ rowsNum }} </label>
 		<input
 			v-model="rowsNum"
+			class="cursor-pointer"
 			type="range"
 			min="1"
 			max="20"
@@ -120,6 +136,7 @@ function rowsChanged(difference: number) {
 		</label>
 		<input
 			v-model="GlobalSiteOptions.numberOfSearchResults"
+			class="cursor-pointer"
 			type="range"
 			min="10"
 			max="50"
@@ -127,11 +144,20 @@ function rowsChanged(difference: number) {
 		/>
 
 		<div class="flex justify-center items-center gap-2 mt-2">
+			<label>Background Color</label>
+			<input
+				v-model="bgColor"
+				type="color"
+				class="bg-transparent cursor-pointer"
+			/>
+		</div>
+
+		<div class="flex justify-center items-center gap-2 mt-2">
 			<label>Show Album Titles</label>
 			<input
 				v-model="GlobalChartState.options.displayTitles"
 				type="checkbox"
-				class="tw-checkbox"
+				class="tw-checkbox cursor-pointer"
 			/>
 		</div>
 
@@ -140,8 +166,17 @@ function rowsChanged(difference: number) {
 			<input
 				v-model="GlobalChartState.options.displayNumberRank"
 				type="checkbox"
-				class="tw-checkbox"
+				class="tw-checkbox cursor-pointer"
 				:disabled="!GlobalChartState.options.displayTitles"
+			/>
+		</div>
+
+		<div class="flex justify-center items-center gap-2 mt-2">
+			<label>Text Color</label>
+			<input
+				v-model="textColor"
+				type="color"
+				class="bg-transparent cursor-pointer"
 			/>
 		</div>
 	</div>
