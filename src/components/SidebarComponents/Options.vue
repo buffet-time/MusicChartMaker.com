@@ -117,7 +117,6 @@ function rowsChanged(difference: number) {
 			step="1"
 			@input="onColumnsInput"
 		/>
-		<!-- @change="(event) => columnsChanged(event as any)" -->
 
 		<label class="mt-2"> Rows: {{ rowsNum }} </label>
 		<input
@@ -129,7 +128,6 @@ function rowsChanged(difference: number) {
 			step="1"
 			@input="onRowsInput"
 		/>
-		<!-- @change="(event) => rowsChanged(event as any)" -->
 
 		<label class="mt-2">
 			# of Search Results: {{ GlobalSiteOptions.numberOfSearchResults }}

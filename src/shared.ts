@@ -8,10 +8,12 @@ import {
 	IndicesObject
 } from './types'
 
+export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
+
 export const FillerAlbum = {
 	artist: 'Artist',
 	name: 'Album',
-	image: 'https://i.imgur.com/5IYcmZz.jpg'
+	image: GrayBoxImg
 }
 
 // // // // // //

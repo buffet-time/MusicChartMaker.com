@@ -3,5 +3,18 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [vue()]
+	root: './src',
+
+	build: {
+		rollupOptions: {
+			maxParallelFileReads: 512
+		},
+
+		outDir: '../dist'
+	},
+	plugins: [
+		vue({
+			isProduction: true
+		})
+	]
 })

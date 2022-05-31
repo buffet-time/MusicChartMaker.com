@@ -29,22 +29,12 @@ const selected = ref('')
 
 // TODO - Need a Text box, an Input for names, a dropdown
 // TODO - Cleanse input text maybe?
-
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
 		return setStoredChart(selected.value, selectedChart.value)
 	}
 	throw new Error('Error: Cannot save current Chart!')
 }
-
-// function storeChartNameList() {
-// 	if (storedChartNames.value.length > 0) {
-// 		localStorage.setItem(
-// 			'storedChartNames',
-// 			JSON.stringify(storedChartNames.value)
-// 		)
-// 	}
-// }
 
 function onSelect() {
 	const loadedChart = getStoredChart(selected.value) as ChartState
@@ -57,7 +47,6 @@ function onSelect() {
 	}
 	// First, store current chart
 	setCurrentChart(selected.value)
-	// setStoredChart(selected.value, selectedChart.value)
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
@@ -76,7 +65,6 @@ function addChart() {
 	GlobalChartState.value = selectedChart.value
 }
 
-// TODO: need to make sure rename is working fine
 function renameChart() {
 	const index = storedChartNames.value.findIndex(
 		(n) => n.toLocaleLowerCase() === selected.value.toLocaleLowerCase()
@@ -131,11 +119,7 @@ async function saveImage() {
 }
 
 onMounted(() => {
-	// Should find a way to make this local storage item not be something the user could input on accident or on purpose.
-	// Should consider any frequently used names for local storage be on a seperate, server side file or function.
 	const storedLastChart = getCurrentChart()
-	// Use these for when this component is complete
-	// storedChartNames.value = storedVal ? JSON.parse(storedVal) : []
 
 	if (storedLastChart) {
 		selectedChart.value = getStoredChart(storedLastChart)!
@@ -152,11 +136,6 @@ onMounted(() => {
 	selected.value = selectedChart.value.options.chartTitle
 
 	chartNameInput.value = selected.value
-
-	// console.log(
-	// 	'Selection Successfully Mounted, current chart state:',
-	// 	selectedChart.value.options.chartTitle
-	// )
 
 	emit('canRenderChart')
 })

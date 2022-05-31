@@ -13,17 +13,17 @@ GlobalSiteOptions.value = GetSiteOptions()
 
 <template>
 	<!-- the main things i need to add:
-
-		MVP: 
-		1) remove album from chart without replacing 
-
-		TODO after MVP:
+		TODO:
 		1) add a modal for tips on less obvious functionality
 		2) Fix clicking anywhere below the titles triggereing content editable
 		3) text font/ size change options
+		4) Have ability to set background image instead of color
+		5) Padding 
+		6) gracefully handle name collisions in creating new charts and renaming charts
 
 		A) options to set how many albums in a row
 			1) default options for top 10, top 25, top 50, top 100
+			2) have some sort of ui to create these yourself
 	-->
 
 	<!-- in case the OG site goes down a reference image -->
@@ -45,6 +45,5 @@ body {
 	background-color: #303030;
 	color: white;
 	text-align: center;
-	margin-top: 60px;
 }
 </style>
