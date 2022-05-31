@@ -51,7 +51,6 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		originatingIndices: { index1: 0, index2: 0 }
 	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
-	// emit('currentAlbum', album)
 }
 </script>
 

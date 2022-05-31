@@ -7,7 +7,8 @@ import {
 	DragSetData,
 	FillerAlbum,
 	GlobalChartState,
-	RearrangeChart
+	RearrangeChart,
+	GrayBoxImg
 } from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type IndicesObject } from '../types'
@@ -107,7 +108,7 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 					class="group"
 				>
 					<img
-						v-if="album.image !== 'https://i.imgur.com/5IYcmZz.jpg'"
+						v-if="album.image !== GrayBoxImg"
 						v-show="album"
 						title="Delete Album"
 						:src="Close"
