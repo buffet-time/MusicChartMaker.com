@@ -1,16 +1,26 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref } from 'vue'
-import { DragSetData, IsImage, ProperFetch } from '../../shared'
+import {
+	DragSetData,
+	IsImage,
+	ProperFetch,
+	GlobalSiteOptions
+} from '../../shared'
 import { type AlbumSearchResult } from '../../types'
 
 const searchInput = ref('')
 const searchResults = ref() as Ref<AlbumSearchResult[]>
 const showSearchResults = ref(false)
+let previousSearch = ''
 
 async function search() {
 	if (searchInput.value === '') {
 		return
+	}
+
+	if (previousSearch === searchInput.value) {
+		showSearchResults.value = true
 	}
 
 	// handle Direct image adding
@@ -23,8 +33,10 @@ async function search() {
 	}
 
 	searchResults.value = await ProperFetch(
-		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=10`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value.numberOfSearchResults}`
 	)
+
+	previousSearch = searchInput.value
 
 	if (!showSearchResults.value) {
 		showSearchResults.value = true
@@ -32,16 +44,21 @@ async function search() {
 }
 
 function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
-	DragSetData(dragEvent, { albumObject: album, dragSource: 'Search' })
+	DragSetData(dragEvent, {
+		albumObject: album,
+		dragSource: 'Search',
+		// included just because im bad with ts typing and dont want it to optional in chart
+		originatingIndices: { index1: 0, index2: 0 }
+	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 	// emit('currentAlbum', album)
 }
 </script>
 
 <template>
-	<div class="flex-col gap-4 mt-8 mb-8">
+	<div class="flex-col gap-4 mt-3">
 		<div>
-			<label class="">Search: </label>
+			<label>Search: </label>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<input
 					v-model="searchInput"
@@ -71,8 +88,8 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 			</div>
 		</div>
 		<div
-			v-if="showSearchResults"
-			class="flex flex-wrap items-center justify-center mt-4 gap-1"
+			v-show="showSearchResults"
+			class="flex flex-wrap items-center justify-center mt-2 gap-1"
 		>
 			<img
 				v-for="(album, index) in searchResults"

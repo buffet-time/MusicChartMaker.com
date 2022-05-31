@@ -1,7 +1,11 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref, onMounted } from 'vue'
-import { GenerateDefaultChart, GlobalChartState } from '../../shared'
+import {
+	GenerateDefaultChart,
+	GlobalChartState,
+	GlobalSiteOptions
+} from '../../shared'
 import {
 	setStoredChart,
 	getStoredChart,
@@ -57,6 +61,7 @@ function onSelect() {
 	// Now, update current chart, and update latest chart to current.
 	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
+	GlobalSiteOptions.value.currentChart = selected.value
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
@@ -99,8 +104,29 @@ function deleteChart() {
 		selectedChart.value = chartToSet
 		selected.value = chartToSet.options.chartTitle
 		GlobalChartState.value = chartToSet
+		GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
 		setCurrentChart(selected.value)
 		chartNameInput.value = chartToSet.options.chartTitle
+	}
+}
+
+async function saveImage() {
+	try {
+		const { default: HTML2Canvas } = await import('html2canvas')
+		const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
+			allowTaint: true,
+			useCORS: true,
+			backgroundColor: '#303030'
+		})
+		// canvas.style.paddingLeft = '8px'
+		// canvas.style.paddingBottom = '8px'
+		const anchor = document.createElement('a')
+		anchor.href = canvas.toDataURL('image/png')
+		anchor.download = 'chart.png'
+		anchor.click()
+		// document.write('<img src="' + img + '"/>')
+	} catch (error) {
+		console.error(`Error in Save Image: ${Error}`)
 	}
 }
 
@@ -139,18 +165,29 @@ onMounted(() => {
 <template>
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-	<select v-model="selected" class="tw-input mt-4" @change="onSelect">
-		<option v-for="(name, index) in storedChartNames" :key="index">
-			{{ name }}
-		</option>
-	</select>
-	<div class="flex-col gap-4 mt-8 mb-8">
-		<input
-			v-model="chartNameInput"
-			placeholder="Name of chart"
-			type="text"
-			class="p-2 tw-input mr-1"
-		/>
+
+	<button class="mt-2 tw-button py-1 px-3" @click="saveImage">
+		Save Image
+	</button>
+
+	<div class="flex flex-col items-center justify-center mt-1">
+		<label>Select Chart: </label>
+		<select v-model="selected" class="tw-input" @change="onSelect">
+			<option v-for="(name, index) in storedChartNames" :key="index">
+				{{ name }}
+			</option>
+		</select>
+	</div>
+	<div class="flex-col gap-4 mt-2">
+		<div class="flex flex-col justify-center items-center">
+			<label>Chart Name: </label>
+			<input
+				v-model="chartNameInput"
+				placeholder="Name of chart"
+				type="text"
+				class="p-2 tw-input mr-1"
+			/>
+		</div>
 		<div class="mt-2">
 			<button
 				type="button"

@@ -1,4 +1,5 @@
-import { type ChartState } from './types'
+import { GenerateDefaultSiteOptions, GlobalSiteOptions } from './shared'
+import { type SiteOptions, type ChartState } from './types'
 
 // // // //
 // Other
@@ -6,7 +7,7 @@ import { type ChartState } from './types'
 export function getAllSavedKeys(): string[] {
 	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
-		(current) => current !== 'CurrentChart'
+		(current) => current !== 'GlobalSiteOptions'
 	)
 }
 
@@ -16,23 +17,30 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
-			localStorageKeys.filter((key) => key !== 'CurrentChart')[0]
+			localStorageKeys.filter((key) => key !== 'GlobalSiteOptions')[0]
 		)
 	}
 
 	return undefined
 }
 
-// // // // // // // // //
+// // // // // // // // // //
 // Handling Current Chart
-// // // // // // // // //
+// // // // // // // // // //
 export function getCurrentChart(): string | null {
-	return localStorage.getItem('CurrentChart')
+	const item = localStorage.getItem('GlobalSiteOptions')
+	return item ? (JSON.parse(item) as SiteOptions).currentChart : null
 }
 
 export function setCurrentChart(chartTitle: string): void {
 	// TODO: handle errors
-	localStorage.setItem('CurrentChart', chartTitle)
+	localStorage.setItem(
+		'GlobalSiteOptions',
+		JSON.stringify({
+			...GlobalSiteOptions.value,
+			currentChart: chartTitle
+		} as SiteOptions)
+	)
 }
 
 // // // // // // // // //
@@ -44,6 +52,7 @@ export function getStoredChart(key: string): ChartState | undefined {
 	return item ? (JSON.parse(item) as ChartState) : undefined
 }
 
+// TODO: disallow setting chart names to CurrentChart and GlobalSiteOptions
 export function setStoredChart(input: string, value: ChartState): void {
 	// TODO - Need more Error handling
 	if (!value || value.chartTiles == null) {
@@ -61,4 +70,24 @@ export function setStoredChart(input: string, value: ChartState): void {
 export function deleteStoredChart(key: string): void {
 	localStorage.removeItem(key)
 	// console.log(`removed chart labeled ${input}`)
+}
+
+// // // // // // // // //
+// Site Options storage
+// // // // // // // // //
+const SiteOptionsKey = 'GlobalSiteOptions'
+
+export function SaveSiteOptions() {
+	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions.value))
+}
+
+export function GetSiteOptions() {
+	const item = localStorage.getItem(SiteOptionsKey)
+	if (item) {
+		return JSON.parse(item) as SiteOptions
+	} else {
+		GlobalSiteOptions.value = GenerateDefaultSiteOptions()
+		SaveSiteOptions()
+		return GlobalSiteOptions.value
+	}
 }
