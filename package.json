@@ -11,7 +11,7 @@
 	"scripts": {
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
-		"prepare:husky": "husky install",
+		"prepare": "husky install",
 		"build": "vue-tsc --noEmit && vite build --emptyOutDir",
 		"build:preview": "vite preview",
 		"deploy": "git push -u origin `git subtree split --prefix dist main`:gh-pages --force"

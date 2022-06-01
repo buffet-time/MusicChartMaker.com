@@ -3,13 +3,14 @@ import { ref, watch } from 'vue'
 import { FillerAlbum, GlobalChartState, GlobalSiteOptions } from '../../shared'
 import { SaveSiteOptions } from '../../storage'
 
-let previousColumnsNum = GlobalChartState.value.options.chartSize.rowSizes[0]
-let previousRowsNum = GlobalChartState.value.options.chartSize.rowSizes.length
-const columnsNum = ref(previousColumnsNum)
-const rowsNum = ref(previousRowsNum)
+const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
+const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
 const showOptions = ref(GlobalSiteOptions.value.showOptions)
 const bgColor = ref(GlobalChartState.value.options.background)
 const textColor = ref(GlobalChartState.value.options.textColor)
+
+watch(colsNum, (newColNum, prevColNum) => colsChanged(newColNum - prevColNum))
+watch(rowsNum, (newRowNum, prevRowNum) => rowsChanged(newRowNum - prevRowNum))
 
 watch(bgColor, () => {
 	GlobalChartState.value.options.background = bgColor.value
@@ -34,45 +35,28 @@ watch(showOptions, () => {
 watch(
 	() => GlobalSiteOptions.value.currentChart,
 	() => {
-		columnsNum.value = previousColumnsNum =
-			GlobalChartState.value.options.chartSize.rowSizes[0]
+		colsNum.value = GlobalChartState.value.options.chartSize.rowSizes[0]
 
-		rowsNum.value = previousRowsNum =
-			GlobalChartState.value.options.chartSize.rowSizes.length
+		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
 	}
 )
 
-// cant use watchers here because of the values we're playing with
-function onColumnsInput() {
-	const difference = columnsNum.value - previousColumnsNum
-
-	columnsChanged(difference)
-
-	previousColumnsNum = columnsNum.value
-}
-
-function onRowsInput() {
-	// find the difference
-	const difference = rowsNum.value - previousRowsNum
-
-	rowsChanged(difference)
-
-	// now set the current value as the new previous value
-	previousRowsNum = rowsNum.value
-}
-
-function columnsChanged(difference: number) {
+function colsChanged(difference: number) {
 	if (difference > 0) {
 		// Add a new column
 		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			row.push(FillerAlbum)
-			GlobalChartState.value.options.chartSize.rowSizes[index]++
+			for (let x = 0; x < difference; x++) {
+				row.push(FillerAlbum)
+				GlobalChartState.value.options.chartSize.rowSizes[index]++
+			}
 		})
 	} else {
 		// Remove a column
 		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			row.pop()
-			GlobalChartState.value.options.chartSize.rowSizes[index]--
+			for (let x = 0; x < Math.abs(difference); x++) {
+				row.pop()
+				GlobalChartState.value.options.chartSize.rowSizes[index]--
+			}
 		})
 	}
 }
@@ -81,18 +65,21 @@ function rowsChanged(difference: number) {
 	// add a new row array of the same size as the last one
 	if (difference > 0) {
 		// Add a row
+		for (let x = 0; x < difference; x++) {
+			const newRow = GlobalChartState.value.chartTiles[
+				GlobalChartState.value.chartTiles.length - 1
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			].map(() => FillerAlbum)
 
-		const newRow = GlobalChartState.value.chartTiles[
-			GlobalChartState.value.chartTiles.length - 1
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		].map(() => FillerAlbum)
-
-		GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
-		GlobalChartState.value.chartTiles.push(newRow)
+			GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
+			GlobalChartState.value.chartTiles.push(newRow)
+		}
 	} else {
 		// Remove a row
-		GlobalChartState.value.options.chartSize.rowSizes.pop()
-		GlobalChartState.value.chartTiles.pop()
+		for (let x = 0; x < Math.abs(difference); x++) {
+			GlobalChartState.value.options.chartSize.rowSizes.pop()
+			GlobalChartState.value.chartTiles.pop()
+		}
 	}
 }
 </script>
@@ -107,15 +94,14 @@ function rowsChanged(difference: number) {
 		/>
 	</div>
 	<div v-if="showOptions" class="flex flex-col mx-4">
-		<label> Columns: {{ columnsNum }} </label>
+		<label> Columns: {{ colsNum }} </label>
 		<input
-			v-model="columnsNum"
+			v-model="colsNum"
 			class="cursor-pointer"
 			type="range"
 			min="1"
 			max="20"
 			step="1"
-			@input="onColumnsInput"
 		/>
 
 		<label class="mt-2"> Rows: {{ rowsNum }} </label>
@@ -126,7 +112,6 @@ function rowsChanged(difference: number) {
 			min="1"
 			max="20"
 			step="1"
-			@input="onRowsInput"
 		/>
 
 		<label class="mt-2">
