@@ -4,7 +4,8 @@ import { ref, type Ref, onMounted } from 'vue'
 import {
 	GenerateDefaultChart,
 	GlobalChartState,
-	GlobalSiteOptions
+	GlobalSiteOptions,
+	PreventNameCollision
 } from '../../shared'
 import {
 	setStoredChart,
@@ -22,13 +23,10 @@ const emit = defineEmits<{
 }>()
 
 const chartNameInput = ref('')
-// Make a text input field, tie it to rename and Add
 const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
 
-// TODO - Need a Text box, an Input for names, a dropdown
-// TODO - Cleanse input text maybe?
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
 		return setStoredChart(selected.value, selectedChart.value)
@@ -40,9 +38,6 @@ function onSelect() {
 	const loadedChart = getStoredChart(selected.value) as ChartState
 	if (!loadedChart) {
 		console.error(`Failed to load Selected Chart ${selected.value}.`)
-		// console.log(
-		// 	`Chart returned from using ${selected.value} key is ${loadedChart}`
-		// )
 		return
 	}
 	// First, store current chart
@@ -54,28 +49,31 @@ function onSelect() {
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
-// TODO: gracefully handle name collisions
 function addChart() {
-	storedChartNames.value.unshift(chartNameInput.value)
-	selected.value = chartNameInput.value
+	const chartNameToSave = PreventNameCollision(chartNameInput.value)
+	storedChartNames.value.unshift(chartNameToSave)
+	selected.value =
+		selectedChart.value.options.chartTitle =
+		chartNameInput.value =
+			chartNameToSave
 	selectedChart.value = GenerateDefaultChart()
-	selectedChart.value.options.chartTitle = chartNameInput.value
-	setCurrentChart(chartNameInput.value)
+	setCurrentChart(chartNameToSave)
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
 }
 
 function renameChart() {
 	const index = storedChartNames.value.findIndex(
-		(n) => n.toLocaleLowerCase() === selected.value.toLocaleLowerCase()
+		(name) => name === selected.value
 	)
-	selectedChart.value.options.chartTitle = chartNameInput.value
-	setStoredChart(chartNameInput.value, selectedChart.value)
+	const chartRename = PreventNameCollision(chartNameInput.value)
+	selectedChart.value.options.chartTitle = chartNameInput.value = chartRename
+	setStoredChart(chartRename, selectedChart.value)
 	deleteStoredChart(selected.value)
-	setCurrentChart(chartNameInput.value)
+	setCurrentChart(chartRename)
 
-	storedChartNames.value[index] = chartNameInput.value
-	selected.value = chartNameInput.value
+	storedChartNames.value[index] = chartRename
+	selected.value = chartRename
 }
 
 function deleteChart() {
@@ -89,8 +87,9 @@ function deleteChart() {
 		const chartToSet = firstChartReturn
 			? firstChartReturn
 			: GenerateDefaultChart()
-		selectedChart.value = chartToSet
+		storedChartNames.value.push(chartToSet.options.chartTitle)
 		selected.value = chartToSet.options.chartTitle
+		selectedChart.value = chartToSet
 		GlobalChartState.value = chartToSet
 		GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
 		setCurrentChart(selected.value)
@@ -106,13 +105,10 @@ async function saveImage() {
 			useCORS: true,
 			backgroundColor: '#303030'
 		})
-		// canvas.style.paddingLeft = '8px'
-		// canvas.style.paddingBottom = '8px'
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL('image/png')
 		anchor.download = `${GlobalChartState.value.options.chartTitle}.png`
 		anchor.click()
-		// document.write('<img src="' + img + '"/>')
 	} catch (error) {
 		console.error(`Error in Save Image: ${Error}`)
 	}
