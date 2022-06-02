@@ -1,6 +1,8 @@
 import { GenerateDefaultSiteOptions, GlobalSiteOptions } from './shared'
 import { type SiteOptions, type ChartState } from './types'
 
+const SiteOptionsKey = 'GlobalSiteOptions'
+
 // // // //
 // Other
 // // // //
@@ -47,35 +49,37 @@ export function setCurrentChart(chartTitle: string): void {
 // Handling ChartStates
 // // // // // // // // //
 export function getStoredChart(key: string): ChartState | undefined {
+	if (key === SiteOptionsKey) {
+		console.error("Can't get GlobalSiteOptions as it is not a chart.")
+	}
 	const item = localStorage.getItem(key)
-	// console.log(`getStoredChart => retrieved ${item} from storage`)
 	return item ? (JSON.parse(item) as ChartState) : undefined
 }
 
 // TODO: disallow setting chart names to CurrentChart and GlobalSiteOptions
-export function setStoredChart(input: string, value: ChartState): void {
+export function setStoredChart(key: string, value: ChartState): void {
 	// TODO - Need more Error handling
 	if (!value || value.chartTiles == null) {
 		console.error(
 			'Error: attempted to store a chart of undefined or null value'
 		)
+	} else if (key === SiteOptionsKey) {
+		console.error("Can't use GlobalSiteOptions as the name for your chart.")
 	} else {
-		localStorage.setItem(input, JSON.stringify(value))
-		// console.log(
-		// 	`setStoredChart => Under name ${input}, stored chart state ${value}`
-		// )
+		localStorage.setItem(key, JSON.stringify(value))
 	}
 }
 
 export function deleteStoredChart(key: string): void {
+	if (key === SiteOptionsKey) {
+		console.error("Can't delete GlobalSiteOptions as it is not a chart.")
+	}
 	localStorage.removeItem(key)
-	// console.log(`removed chart labeled ${input}`)
 }
 
 // // // // // // // // //
 // Site Options storage
 // // // // // // // // //
-const SiteOptionsKey = 'GlobalSiteOptions'
 
 export function SaveSiteOptions() {
 	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions.value))

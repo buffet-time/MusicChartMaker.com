@@ -1,4 +1,5 @@
 import { ref, type Ref } from 'vue'
+import { getAllSavedKeys } from './storage'
 import {
 	type ChartSize,
 	type SiteOptions,
@@ -183,4 +184,26 @@ export function GenerateDefaultChart(): ChartState {
 		},
 		chartTiles: albumArray
 	}
+}
+
+const numberInParensRegex = /\s\((\d+)\)$/
+export function PreventNameCollision(name: string): string {
+	const storedCharts = getAllSavedKeys()
+
+	function GetUnusedName(name: string): string {
+		if (storedCharts.some((storedName) => storedName === name)) {
+			const matchArray = name.match(numberInParensRegex)
+			if (matchArray) {
+				return GetUnusedName(
+					name.replace(numberInParensRegex, ` (${Number(matchArray[1]) + 1})`)
+				)
+			} else {
+				return GetUnusedName(`${name} (1)`)
+			}
+		} else {
+			return name
+		}
+	}
+
+	return GetUnusedName(name)
 }
