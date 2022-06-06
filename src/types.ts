@@ -35,12 +35,13 @@ export interface ChartOptions {
 	textColor: string
 	font?: string
 	padding?: string
+	backgroundImage?: string
+	textBorderColor?: string
 }
 
 export interface SiteOptions {
 	numberOfSearchResults: number
 	currentChart: string
-	showOptions: boolean
 }
 
 export interface ChartState {

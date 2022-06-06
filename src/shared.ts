@@ -25,8 +25,7 @@ export const GlobalSiteOptions = ref() as Ref<SiteOptions>
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
 		numberOfSearchResults: 10,
-		currentChart: 'New Album Chart',
-		showOptions: true
+		currentChart: 'New Album Chart'
 	}
 }
 
@@ -180,7 +179,8 @@ export function GenerateDefaultChart(): ChartState {
 			displayTitles: true,
 			displayPlaycount: false,
 			background: '#303030',
-			textColor: '#FFFFFF'
+			textColor: '#FFFFFF',
+			textBorderColor: '#000000'
 		},
 		chartTiles: albumArray
 	}

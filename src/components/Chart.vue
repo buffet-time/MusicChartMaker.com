@@ -12,7 +12,7 @@ import {
 } from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type IndicesObject } from '../types'
-import Close from '../assets/close.svg'
+import Close from '../assets/blackClose.svg'
 
 watch(
 	GlobalChartState,
@@ -92,8 +92,12 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 
 <template>
 	<div
+		id="Chart"
 		class="flex h-fit p-2 w-fit"
-		:style="{ backgroundColor: GlobalChartState.options.background }"
+		:style="{
+			backgroundColor: GlobalChartState.options.background,
+			backgroundImage: `url(${GlobalChartState.options.backgroundImage})`
+		}"
 	>
 		<!-- The actual album chart -->
 		<div class="flex-col mt-4 mb-4">
@@ -149,11 +153,17 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 				<p
 					v-for="(album, index2) in albumRow"
 					:key="`${index}-${index2}`"
+					class="pointer-events-none"
 					:class="{
 						'pt-2': index2 === 0 && index !== 0
 					}"
-					class="pointer-events-none"
-					:style="{ color: GlobalChartState.options.textColor }"
+					:style="{
+						color: GlobalChartState.options.textColor,
+						textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
+						1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
+						-1px 1px 0 ${GlobalChartState.options.textBorderColor}, 
+						1px 1px 0 ${GlobalChartState.options.textBorderColor}`
+					}"
 				>
 					<template v-if="GlobalChartState.options.displayNumberRank">
 						{{ getAlbumNumber(index, index2) }})

@@ -141,7 +141,7 @@ onMounted(() => {
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
 
-	<button class="mt-2 tw-button py-1 px-3" @click="saveImage">
+	<button class="mt-1 tw-button py-1 px-3" @click="saveImage">
 		Save Image
 	</button>
 

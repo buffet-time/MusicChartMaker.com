@@ -13,4 +13,22 @@
 	.tw-checkbox {
 		@apply align-top bg-white border border-solid border-black border-opacity-10 rounded-md w-4 h-4;
 	}
+	.tw-options-div {
+		@apply flex justify-center items-center gap-2 mt-2;
+	}
+	.tw-sidebar-width {
+		@apply w-1/5 max-w-[250px] min-w-[210px];
+	}
+}
+
+@layer utilities {
+	/* Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
 }
