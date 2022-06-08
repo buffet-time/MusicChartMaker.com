@@ -170,17 +170,13 @@ onMounted(() => {
 				type="text"
 				class="p-2 tw-input mr-1 invalid:text-red-500"
 				title="Any name but can't just be a number."
-				pattern="(?!\d+$|GlobalSiteOptions$).*$"
+				pattern="(?!GlobalSiteOptions$).*"
 			/>
 			<p
 				v-if="chartNameInput === '' || !chartInput.validity.valid"
 				class="pt-1"
 			>
-				<!-- 
-					Regex prevents just a number from being used or GlobalSiteOptions
-					also make sure it's not an empty string
-				-->
-				The name must not be just a number or {{ SiteOptionsKey }}
+				The name must not be empty or {{ SiteOptionsKey }}
 			</p>
 		</div>
 		<div v-if="!intializing" class="mt-2 mb-2">
