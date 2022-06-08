@@ -1,7 +1,7 @@
 import { GenerateDefaultSiteOptions, GlobalSiteOptions } from './shared'
 import { type SiteOptions, type ChartState } from './types'
 
-const SiteOptionsKey = 'GlobalSiteOptions'
+export const SiteOptionsKey = 'GlobalSiteOptions'
 
 // // // //
 // Other
@@ -9,7 +9,7 @@ const SiteOptionsKey = 'GlobalSiteOptions'
 export function getAllSavedKeys(): string[] {
 	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
-		(current) => current !== 'GlobalSiteOptions'
+		(current) => current !== SiteOptionsKey
 	)
 }
 
@@ -19,7 +19,7 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
-			localStorageKeys.filter((key) => key !== 'GlobalSiteOptions')[0]
+			localStorageKeys.filter((key) => key !== SiteOptionsKey)[0]
 		)
 	}
 
@@ -30,14 +30,14 @@ export function getFirstChart(): ChartState | undefined {
 // Handling Current Chart
 // // // // // // // // // //
 export function getCurrentChart(): string | null {
-	const item = localStorage.getItem('GlobalSiteOptions')
+	const item = localStorage.getItem(SiteOptionsKey)
 	return item ? (JSON.parse(item) as SiteOptions).currentChart : null
 }
 
 export function setCurrentChart(chartTitle: string): void {
 	// TODO: handle errors
 	localStorage.setItem(
-		'GlobalSiteOptions',
+		SiteOptionsKey,
 		JSON.stringify({
 			...GlobalSiteOptions.value,
 			currentChart: chartTitle
@@ -56,7 +56,7 @@ export function getStoredChart(key: string): ChartState | undefined {
 	return item ? (JSON.parse(item) as ChartState) : undefined
 }
 
-// TODO: disallow setting chart names to CurrentChart and GlobalSiteOptions
+// TODO: disallow setting chart names to GlobalSiteOptions
 export function setStoredChart(key: string, value: ChartState): void {
 	// TODO - Need more Error handling
 	if (!value || value.chartTiles == null) {

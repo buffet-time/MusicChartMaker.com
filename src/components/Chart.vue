@@ -14,6 +14,7 @@ import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type IndicesObject } from '../types'
 import Close from '../assets/blackClose.svg'
 
+// TODO: create option to disable auto save
 watch(
 	GlobalChartState,
 	() => {

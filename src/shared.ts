@@ -156,7 +156,7 @@ export function RearrangeChart(
 export const GlobalChartState = ref() as Ref<ChartState>
 
 // enhance this to prevent name collisions (vineet would hate this)
-export function GenerateDefaultChart(): ChartState {
+export function GenerateDefaultChart(title?: string): ChartState {
 	const albumArray = [] as AlbumTile[][]
 	const defaultChartSize: ChartSize = {
 		numberOfTiles: 9,
@@ -174,7 +174,7 @@ export function GenerateDefaultChart(): ChartState {
 	return {
 		options: {
 			chartSize: defaultChartSize,
-			chartTitle: 'New Album Chart',
+			chartTitle: title ? title : 'New Album Chart',
 			displayNumberRank: true,
 			displayTitles: true,
 			displayPlaycount: false,

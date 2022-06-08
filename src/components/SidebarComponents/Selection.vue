@@ -14,7 +14,8 @@ import {
 	setCurrentChart,
 	getCurrentChart,
 	getAllSavedKeys,
-	getFirstChart
+	getFirstChart,
+	SiteOptionsKey
 } from '../../storage'
 import { type ChartState } from '../../types'
 
@@ -26,6 +27,8 @@ const chartNameInput = ref('')
 const storedChartNames = ref([''])
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
+const chartInput = ref() as Ref<HTMLInputElement>
+const intializing = ref(true)
 
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
@@ -34,8 +37,9 @@ function saveCurrentChart() {
 	throw new Error('Error: Cannot save current Chart!')
 }
 
+// this is a bit janky :/
 function onSelect() {
-	const loadedChart = getStoredChart(selected.value) as ChartState
+	const loadedChart = getStoredChart(String(selected.value)) as ChartState
 	if (!loadedChart) {
 		console.error(`Failed to load Selected Chart ${selected.value}.`)
 		return
@@ -52,11 +56,8 @@ function onSelect() {
 function addChart() {
 	const chartNameToSave = PreventNameCollision(chartNameInput.value)
 	storedChartNames.value.unshift(chartNameToSave)
-	selected.value =
-		selectedChart.value.options.chartTitle =
-		chartNameInput.value =
-			chartNameToSave
-	selectedChart.value = GenerateDefaultChart()
+	selectedChart.value = GenerateDefaultChart(chartNameToSave)
+	selected.value = chartNameInput.value = chartNameToSave
 	setCurrentChart(chartNameToSave)
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
@@ -84,10 +85,15 @@ function deleteChart() {
 			1
 		)
 		const firstChartReturn = getFirstChart()
-		const chartToSet = firstChartReturn
-			? firstChartReturn
-			: GenerateDefaultChart()
-		storedChartNames.value.push(chartToSet.options.chartTitle)
+
+		let chartToSet: ChartState
+		if (firstChartReturn) {
+			chartToSet = firstChartReturn
+		} else {
+			chartToSet = GenerateDefaultChart()
+			storedChartNames.value.push(chartToSet.options.chartTitle)
+		}
+
 		selected.value = chartToSet.options.chartTitle
 		selectedChart.value = chartToSet
 		GlobalChartState.value = chartToSet
@@ -134,6 +140,7 @@ onMounted(() => {
 	chartNameInput.value = selected.value
 
 	emit('canRenderChart')
+	intializing.value = false
 })
 </script>
 
@@ -157,30 +164,44 @@ onMounted(() => {
 		<div class="flex flex-col justify-center items-center">
 			<label>Chart Name: </label>
 			<input
+				ref="chartInput"
 				v-model="chartNameInput"
 				placeholder="Name of chart"
 				type="text"
-				class="p-2 tw-input mr-1"
+				class="p-2 tw-input mr-1 invalid:text-red-500"
+				title="Any name but can't just be a number."
+				pattern="(?!GlobalSiteOptions$).*"
 			/>
+			<p
+				v-if="chartNameInput === '' || !chartInput.validity.valid"
+				class="pt-1"
+			>
+				The name must not be empty or {{ SiteOptionsKey }}
+			</p>
 		</div>
-		<div class="mt-2 mb-2">
+		<div v-if="!intializing" class="mt-2 mb-2">
 			<button
+				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1"
-				:disabled="chartNameInput === ''"
 				@click="addChart"
 			>
 				Add
 			</button>
 			<button
+				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1 mb-1"
-				:disabled="chartNameInput === ''"
 				@click="renameChart"
 			>
 				Rename
 			</button>
-			<button type="button" class="tw-button ml-1 mb-1" @click="deleteChart">
+			<button
+				v-show="chartNameInput !== '' && chartInput.validity.valid"
+				type="button"
+				class="tw-button ml-1 mb-1"
+				@click="deleteChart"
+			>
 				Delete
 			</button>
 		</div>
