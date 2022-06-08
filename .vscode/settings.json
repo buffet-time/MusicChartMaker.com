@@ -4,6 +4,9 @@
 	"javascript.format.semicolons": "remove",
 	"typescript.format.semicolons": "remove",
 	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
 	"eslint.validate": ["javascript", "vue"],
 	"editor.tabSize": 2,
 	"editor.insertSpaces": false,
