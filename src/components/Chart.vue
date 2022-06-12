@@ -1,7 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-
 import { watch } from 'vue'
 import {
 	DragSetData,
@@ -94,14 +93,23 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 <template>
 	<div
 		id="Chart"
-		class="flex h-fit p-2 w-fit"
+		class="flex h-fit p-2 w-fit ml-[230px]"
 		:style="{
 			backgroundColor: GlobalChartState.options.background,
 			backgroundImage: `url(${GlobalChartState.options.backgroundImage})`
 		}"
 	>
 		<!-- The actual album chart -->
-		<div class="flex-col mt-4 mb-4">
+		<div
+			class="flex-col mt-4 mb-4"
+			:style="{
+				maxWidth: `${
+					GlobalChartState.options.chartSize.rowSizes[0] * 200 +
+					(GlobalChartState.options.chartSize.rowSizes[0] - 1) * 4
+				}px`
+			}"
+		>
+			<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
 			<div
 				v-for="(albumArray, index1) in GlobalChartState.chartTiles"
 				:key="`img-${index1}`"
@@ -126,7 +134,7 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 						:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
 							album.name
 						}`"
-						class="cursor-pointer select-none w-full min-w-[50px] min-h-[50px] max-w-[200px] max-h-[200px]"
+						class="cursor-pointer select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
 						draggable="true"
 						@dragstart="
 							(dragEvent) =>
@@ -145,7 +153,7 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 		<!-- Album titles -->
 		<div
 			v-if="GlobalChartState.options.displayTitles"
-			class="pl-4 pt-4 text-left min-w-[200px]"
+			class="pl-4 pt-4 text-left min-w-[200px] text-sm"
 		>
 			<template
 				v-for="(albumRow, index) in GlobalChartState.chartTiles"

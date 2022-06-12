@@ -3,6 +3,7 @@
 import { ref, type Ref, onMounted } from 'vue'
 import {
 	GenerateDefaultChart,
+	GeneratePresetChart,
 	GlobalChartState,
 	GlobalSiteOptions,
 	PreventNameCollision
@@ -17,7 +18,7 @@ import {
 	getFirstChart,
 	SiteOptionsKey
 } from '../../storage'
-import { type ChartState } from '../../types'
+import { Preset, type ChartState } from '../../types'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
@@ -29,6 +30,8 @@ const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
 const chartInput = ref() as Ref<HTMLInputElement>
 const intializing = ref(true)
+const addModal = ref() as Ref<HTMLDialogElement>
+const presetAdd = ref(false)
 
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
@@ -53,14 +56,27 @@ function onSelect() {
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
-function addChart() {
+function openAddChart() {
+	addModal.value.showModal()
+}
+
+function addChart(type: 'Custom' | 'Preset', preset?: Preset) {
 	const chartNameToSave = PreventNameCollision(chartNameInput.value)
 	storedChartNames.value.unshift(chartNameToSave)
-	selectedChart.value = GenerateDefaultChart(chartNameToSave)
+	if (type === 'Custom') {
+		selectedChart.value = GenerateDefaultChart(chartNameToSave)
+	} else if (type === 'Preset' && preset) {
+		presetAdd.value = false
+		selectedChart.value = GeneratePresetChart(chartNameToSave, preset)
+	} else {
+		return console.error('Incorrect addChart() invocation: ', type, preset)
+	}
 	selected.value = chartNameInput.value = chartNameToSave
 	setCurrentChart(chartNameToSave)
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
+
+	addModal.value.close()
 }
 
 function renameChart() {
@@ -120,7 +136,14 @@ async function saveImage() {
 	}
 }
 
-onMounted(() => {
+onMounted(async () => {
+	// In the unlikely case someone has dynamic imports working
+	// but not dialog polyfill slightly older safari and firefox
+	if (typeof HTMLDialogElement !== 'function') {
+		const { default: dialogPolyfill } = await import('dialog-polyfill')
+		dialogPolyfill.registerDialog(addModal.value)
+	}
+
 	const storedLastChart = getCurrentChart()
 
 	if (storedLastChart) {
@@ -184,7 +207,7 @@ onMounted(() => {
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1"
-				@click="addChart"
+				@click="openAddChart"
 			>
 				Add
 			</button>
@@ -206,4 +229,31 @@ onMounted(() => {
 			</button>
 		</div>
 	</div>
+
+	<dialog ref="addModal" class="bg-transparent">
+		<div
+			id="addModal"
+			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
+		>
+			<p class="text-neutral-200">Select type of new chart.</p>
+			<div v-if="!presetAdd" class="flex gap-1 justify-center items-center">
+				<button class="tw-button" @click="addChart('Custom')">Custom</button>
+
+				<button class="tw-button" @click="presetAdd = true">Preset</button>
+			</div>
+
+			<div v-else class="flex gap-1 justify-center items-center">
+				<button class="tw-button" @click="addChart('Preset', 'Top 42')">
+					Top 42
+				</button>
+				<button class="tw-button" @click="addChart('Preset', 'Top 100')">
+					Top 100
+				</button>
+			</div>
+
+			<button class="tw-button mt-1 py-1 px-3" @click="addModal.close()">
+				Cancel
+			</button>
+		</div>
+	</dialog>
 </template>

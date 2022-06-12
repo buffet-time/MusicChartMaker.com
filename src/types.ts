@@ -37,7 +37,10 @@ export interface ChartOptions {
 	padding?: string
 	backgroundImage?: string
 	textBorderColor?: string
+	preset?: Preset
 }
+
+export type Preset = 'Top 42' | 'Top 100'
 
 export interface SiteOptions {
 	numberOfSearchResults: number

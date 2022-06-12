@@ -5,7 +5,7 @@
 @layer components {
 	/* Input */
 	.tw-button {
-		@apply cursor-pointer rounded px-3 py-2 select-none text-white bg-neutral-500 border-neutral-500 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
+		@apply cursor-pointer rounded px-3 py-2 select-none text-neutral-200 bg-neutral-500 border-neutral-500 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
 	.tw-input {
 		@apply inline-block max-w-[16rem] rounded-md w-10/12 text-neutral-900 border-neutral-300 px-3 py-2;
@@ -17,7 +17,7 @@
 		@apply flex justify-center items-center gap-2 mt-2;
 	}
 	.tw-sidebar-width {
-		@apply w-1/5 max-w-[250px] min-w-[210px];
+		@apply w-[230px];
 	}
 }
 

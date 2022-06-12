@@ -18,11 +18,14 @@ function onCanRender() {
 </script>
 
 <template>
-	<div class="flex-col">
+	<div class="flex-col tw-sidebar-width fixed">
 		<!-- This will be removed post beta -->
 		<div class="mt-1">Site Beta - {{ version }}</div>
 
 		<div class="flex mt-1 mb-1 gap-1 justify-center">
+			<!-- TODO: change this to having a button that opens a dialog of site info
+				which will contain the discord and github buttons, and other site info
+			-->
 			<a
 				class="tw-button py-1"
 				href="https://discord.gg/526et4zxBT"
