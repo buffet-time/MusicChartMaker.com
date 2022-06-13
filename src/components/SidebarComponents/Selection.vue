@@ -24,14 +24,16 @@ const emit = defineEmits<{
 	(event: 'canRenderChart'): void
 }>()
 
-const chartNameInput = ref('')
 const storedChartNames = ref([''])
+const chartNameInput = ref('')
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
-const chartInput = ref() as Ref<HTMLInputElement>
 const intializing = ref(true)
-const addModal = ref() as Ref<HTMLDialogElement>
 const presetAdd = ref(false)
+
+// Refrence to HTML elements
+const chartInput = ref() as Ref<HTMLInputElement>
+const addModal = ref() as Ref<HTMLDialogElement>
 
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
@@ -50,9 +52,9 @@ function onSelect() {
 	// First, store current chart
 	setCurrentChart(selected.value)
 	// Now, update current chart, and update latest chart to current.
-	selectedChart.value = loadedChart
 	GlobalChartState.value = loadedChart
 	GlobalSiteOptions.value.currentChart = selected.value
+	selectedChart.value = loadedChart
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 

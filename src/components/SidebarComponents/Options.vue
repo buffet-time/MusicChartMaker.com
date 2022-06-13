@@ -24,6 +24,7 @@ const textOutlineColor = ref(
 		: '#00000'
 )
 const showOptions = ref(false)
+// TODO: non reactive ???
 const isPreset = ref(GlobalChartState.value.options.preset ? true : false)
 
 watch(colsNum, (newColNum, prevColNum) => {

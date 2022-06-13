@@ -18,7 +18,7 @@ function onCanRender() {
 </script>
 
 <template>
-	<div class="flex-col tw-sidebar-width fixed">
+	<div class="flex-col tw-sidebar-width fixed bg-[#303030] h-full">
 		<!-- This will be removed post beta -->
 		<div class="mt-1">Site Beta - {{ version }}</div>
 
