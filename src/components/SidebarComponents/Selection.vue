@@ -61,19 +61,23 @@ function onSelect() {
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
+function onNewChart() {
+	tempRename.value = PreventNameCollision(chartNameInput.value)
+	newModal.value.showModal()
+}
+
 function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
-	const chartNameToSave = PreventNameCollision(chartNameInput.value)
-	storedChartNames.value.unshift(chartNameToSave)
+	storedChartNames.value.unshift(tempRename.value)
 	if (type === 'Custom') {
-		selectedChart.value = GenerateDefaultChart(chartNameToSave)
+		selectedChart.value = GenerateDefaultChart(tempRename.value)
 	} else if (type === 'Preset' && preset) {
 		presetAdd.value = false
-		selectedChart.value = GeneratePresetChart(chartNameToSave, preset)
+		selectedChart.value = GeneratePresetChart(tempRename.value, preset)
 	} else {
 		return console.error('Incorrect addChart() invocation: ', type, preset)
 	}
-	selected.value = chartNameInput.value = chartNameToSave
-	setCurrentChart(chartNameToSave)
+	selected.value = chartNameInput.value = tempRename.value
+	setCurrentChart(tempRename.value)
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
 
@@ -211,7 +215,7 @@ onMounted(async () => {
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1"
-				@click="newModal.showModal()"
+				@click="onNewChart"
 			>
 				New
 			</button>
@@ -240,9 +244,13 @@ onMounted(async () => {
 
 	<dialog ref="newModal" class="bg-transparent">
 		<div
-			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
+			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-neutral-200"
 		>
-			<p class="text-neutral-200">Select type of new chart.</p>
+			<p>
+				New chart named: "<label class="text-green-300">{{ tempRename }}</label
+				>"
+			</p>
+			<p>Select type of new chart.</p>
 			<div v-if="!presetAdd" class="flex gap-1 justify-center items-center">
 				<button class="tw-button" @click="newChart('Custom')">Custom</button>
 
