@@ -24,15 +24,37 @@ const textOutlineColor = ref(
 		: '#00000'
 )
 const showOptions = ref(false)
-// TODO: non reactive ???
 const isPreset = ref(GlobalChartState.value.options.preset ? true : false)
 
+// used to disable watchers for cols/ rows when changing charts
+let updatingRows = false
+let updatingCols = false
+
+watch(
+	() => GlobalChartState.value.options.preset,
+	() => {
+		isPreset.value = GlobalChartState.value.options.preset ? true : false
+	}
+)
+
 watch(colsNum, (newColNum, prevColNum) => {
+	if (updatingCols) {
+		// if this was triggered by currentChart being changed skip 1 iteration
+		updatingCols = false
+		return
+	}
 	if (isPreset.value) return
+
 	colsChanged(newColNum - prevColNum)
 })
 watch(rowsNum, (newRowNum, prevRowNum) => {
+	if (updatingRows) {
+		// if this was triggered by currentChart being changed skip 1 iteration
+		updatingRows = false
+		return
+	}
 	if (isPreset.value) return
+
 	rowsChanged(newRowNum - prevRowNum)
 })
 
@@ -53,13 +75,17 @@ watch(
 	() => SaveSiteOptions()
 )
 
-// TODO: conditional watchers (as to not waste cpu)
+// TODO: conditional watchers (as to not waste cpu)?
 watch(
 	() => GlobalSiteOptions.value.currentChart,
 	() => {
+		// if its a preset we dont need to touch the column and row nums
 		if (isPreset.value) return
 
+		updatingCols = true
 		colsNum.value = GlobalChartState.value.options.chartSize.rowSizes[0]
+
+		updatingRows = true
 		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
 	}
 )

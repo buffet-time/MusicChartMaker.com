@@ -30,10 +30,13 @@ const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
 const intializing = ref(true)
 const presetAdd = ref(false)
+const tempRename = ref('')
 
 // Refrence to HTML elements
 const chartInput = ref() as Ref<HTMLInputElement>
-const addModal = ref() as Ref<HTMLDialogElement>
+const newModal = ref() as Ref<HTMLDialogElement>
+const deleteModal = ref() as Ref<HTMLDialogElement>
+const renameModal = ref() as Ref<HTMLDialogElement>
 
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
@@ -58,11 +61,7 @@ function onSelect() {
 	chartNameInput.value = loadedChart.options.chartTitle
 }
 
-function openAddChart() {
-	addModal.value.showModal()
-}
-
-function addChart(type: 'Custom' | 'Preset', preset?: Preset) {
+function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
 	const chartNameToSave = PreventNameCollision(chartNameInput.value)
 	storedChartNames.value.unshift(chartNameToSave)
 	if (type === 'Custom') {
@@ -78,47 +77,52 @@ function addChart(type: 'Custom' | 'Preset', preset?: Preset) {
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
 
-	addModal.value.close()
+	newModal.value.close()
+}
+
+function onRenameChart() {
+	tempRename.value = PreventNameCollision(chartNameInput.value)
+	renameModal.value.showModal()
 }
 
 function renameChart() {
-	const index = storedChartNames.value.findIndex(
-		(name) => name === selected.value
-	)
-	const chartRename = PreventNameCollision(chartNameInput.value)
-	selectedChart.value.options.chartTitle = chartNameInput.value = chartRename
-	setStoredChart(chartRename, selectedChart.value)
+	selectedChart.value.options.chartTitle = chartNameInput.value =
+		tempRename.value
+	setStoredChart(tempRename.value, selectedChart.value)
 	deleteStoredChart(selected.value)
-	setCurrentChart(chartRename)
+	setCurrentChart(tempRename.value)
 
-	storedChartNames.value[index] = chartRename
-	selected.value = chartRename
+	storedChartNames.value[
+		storedChartNames.value.findIndex((name) => name === selected.value)
+	] = tempRename.value
+	selected.value = tempRename.value
+	renameModal.value.close()
 }
 
 function deleteChart() {
-	if (window.confirm('Delete the currently selected chart?')) {
-		deleteStoredChart(selected.value)
-		storedChartNames.value.splice(
-			storedChartNames.value.findIndex((chart) => chart === selected.value),
-			1
-		)
-		const firstChartReturn = getFirstChart()
+	deleteStoredChart(selected.value)
+	storedChartNames.value.splice(
+		storedChartNames.value.findIndex((chart) => chart === selected.value),
+		1
+	)
+	const firstChartReturn = getFirstChart()
 
-		let chartToSet: ChartState
-		if (firstChartReturn) {
-			chartToSet = firstChartReturn
-		} else {
-			chartToSet = GenerateDefaultChart()
-			storedChartNames.value.push(chartToSet.options.chartTitle)
-		}
-
-		selected.value = chartToSet.options.chartTitle
-		selectedChart.value = chartToSet
-		GlobalChartState.value = chartToSet
-		GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
-		setCurrentChart(selected.value)
-		chartNameInput.value = chartToSet.options.chartTitle
+	let chartToSet: ChartState
+	if (firstChartReturn) {
+		chartToSet = firstChartReturn
+	} else {
+		chartToSet = GenerateDefaultChart()
+		storedChartNames.value.push(chartToSet.options.chartTitle)
 	}
+
+	selected.value = chartToSet.options.chartTitle
+	selectedChart.value = chartToSet
+	GlobalChartState.value = chartToSet
+	GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
+	setCurrentChart(selected.value)
+	chartNameInput.value = chartToSet.options.chartTitle
+
+	deleteModal.value.close()
 }
 
 async function saveImage() {
@@ -143,7 +147,9 @@ onMounted(async () => {
 	// but not dialog polyfill slightly older safari and firefox
 	if (typeof HTMLDialogElement !== 'function') {
 		const { default: dialogPolyfill } = await import('dialog-polyfill')
-		dialogPolyfill.registerDialog(addModal.value)
+		dialogPolyfill.registerDialog(newModal.value)
+		dialogPolyfill.registerDialog(renameModal.value)
+		dialogPolyfill.registerDialog(deleteModal.value)
 	}
 
 	const storedLastChart = getCurrentChart()
@@ -172,10 +178,6 @@ onMounted(async () => {
 <template>
 	<!-- a section for for selecting your chart, creating new, renaming, and deleting
 	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-
-	<button class="mt-1 tw-button py-1 px-3" @click="saveImage">
-		Save Image
-	</button>
 
 	<div class="flex flex-col items-center justify-center mt-1">
 		<label>Select Chart: </label>
@@ -209,15 +211,15 @@ onMounted(async () => {
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1"
-				@click="openAddChart"
+				@click="newModal.showModal()"
 			>
-				Add
+				New
 			</button>
 			<button
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1 mb-1"
-				@click="renameChart"
+				@click="onRenameChart"
 			>
 				Rename
 			</button>
@@ -225,37 +227,70 @@ onMounted(async () => {
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"
 				class="tw-button ml-1 mb-1"
-				@click="deleteChart"
+				@click="deleteModal.showModal()"
 			>
 				Delete
 			</button>
 		</div>
 	</div>
 
-	<dialog ref="addModal" class="bg-transparent">
+	<button class="mb-3 tw-button py-1 px-3" @click="saveImage">
+		Save Image
+	</button>
+
+	<dialog ref="newModal" class="bg-transparent">
 		<div
-			id="addModal"
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
 		>
 			<p class="text-neutral-200">Select type of new chart.</p>
 			<div v-if="!presetAdd" class="flex gap-1 justify-center items-center">
-				<button class="tw-button" @click="addChart('Custom')">Custom</button>
+				<button class="tw-button" @click="newChart('Custom')">Custom</button>
 
 				<button class="tw-button" @click="presetAdd = true">Preset</button>
 			</div>
 
 			<div v-else class="flex gap-1 justify-center items-center">
-				<button class="tw-button" @click="addChart('Preset', 'Top 42')">
+				<button class="tw-button" @click="newChart('Preset', 'Top 42')">
 					Top 42
 				</button>
-				<button class="tw-button" @click="addChart('Preset', 'Top 100')">
+				<button class="tw-button" @click="newChart('Preset', 'Top 100')">
 					Top 100
 				</button>
 			</div>
 
-			<button class="tw-button mt-1 py-1 px-3" @click="addModal.close()">
+			<button class="tw-button mt-1 py-1 px-3" @click="newModal.close()">
 				Cancel
 			</button>
+		</div>
+	</dialog>
+
+	<dialog ref="renameModal" class="bg-transparent">
+		<div
+			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
+		>
+			<p class="text-neutral-200">
+				Rename current chart to "<label class="text-green-300">
+					{{ tempRename }} </label
+				>"?
+			</p>
+
+			<div class="flex gap-2">
+				<button class="tw-button" @click="renameChart">Yes</button>
+				<button class="tw-button" @click="renameModal.close()">No</button>
+			</div>
+		</div>
+	</dialog>
+
+	<dialog ref="deleteModal" class="bg-transparent">
+		<div
+			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
+		>
+			<p class="text-neutral-200">Delete current chart permanently?</p>
+
+			<div class="flex gap-2">
+				<button class="tw-button" @click="deleteChart">Yes</button>
+				<button class="tw-button" @click="deleteModal.close()">No</button>
+			</div>
 		</div>
 	</dialog>
 </template>

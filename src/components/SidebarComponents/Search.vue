@@ -86,7 +86,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 				</div>
 			</div>
 		</div>
-		<!-- TODO: have results act as a scrollable -->
+
 		<div
 			v-show="showSearchResults"
 			class="flex flex-wrap items-center justify-center mt-2 gap-1 h-[415px] overflow-auto no-scrollbar"
