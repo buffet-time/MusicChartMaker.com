@@ -1,10 +1,9 @@
 {
 	"root": true,
-	"ignorePatterns": ["/src/assets/*", "/src/dist/*", "index.html"],
+	"ignorePatterns": ["/src/assets/*", "/dist/*"],
 	"env": {
 		"browser": true,
-		"es6": true,
-		"node": true
+		"es6": true
 	},
 	"extends": [
 		"prettier",
@@ -30,6 +29,7 @@
 		"vue/html-self-closing": "off",
 		"vue/singleline-html-element-content-newline": "off",
 		"vue/multi-word-component-names": "off",
+		"vue/html-closing-bracket-newline": "off",
 		"@typescript-eslint/no-extra-semi": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/ban-ts-comment": "off"

@@ -56,7 +56,6 @@ export function getStoredChart(key: string): ChartState | undefined {
 	return item ? (JSON.parse(item) as ChartState) : undefined
 }
 
-// TODO: disallow setting chart names to GlobalSiteOptions
 export function setStoredChart(key: string, value: ChartState): void {
 	// TODO - Need more Error handling
 	if (!value || value.chartTiles == null) {

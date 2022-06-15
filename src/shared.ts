@@ -6,7 +6,8 @@ import {
 	type AlbumTile,
 	type ChartState,
 	type DragDataTransfer,
-	IndicesObject
+	type IndicesObject,
+	type Preset
 } from './types'
 
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
@@ -153,6 +154,8 @@ export function RearrangeChart(
 // // // // // //
 // Chart stuff
 // // // // // //
+
+// TODO: convert to reactive object instead of pointless ref wrap
 export const GlobalChartState = ref() as Ref<ChartState>
 
 // enhance this to prevent name collisions (vineet would hate this)
@@ -206,4 +209,47 @@ export function PreventNameCollision(name: string): string {
 	}
 
 	return GetUnusedName(name)
+}
+
+const top42: ChartSize = {
+	numberOfTiles: 42,
+	numberOfRows: 6,
+	rowSizes: [5, 5, 6, 6, 10, 10]
+}
+const top100: ChartSize = {
+	numberOfTiles: 100,
+	numberOfRows: 11,
+	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14]
+}
+export function GeneratePresetChart(title: string, preset: Preset): ChartState {
+	const albumArray = [] as AlbumTile[][]
+	let presetChartSize: ChartSize
+
+	if (preset === 'Top 100') {
+		presetChartSize = top100
+	} else {
+		presetChartSize = top42
+	}
+
+	presetChartSize.rowSizes.forEach((size, index) => {
+		albumArray.push([])
+		for (let x = 0; x < size; x++) {
+			albumArray[index].push(FillerAlbum)
+		}
+	})
+
+	return {
+		options: {
+			chartSize: presetChartSize,
+			chartTitle: title ? title : 'New Album Chart',
+			displayNumberRank: true,
+			displayTitles: true,
+			displayPlaycount: false,
+			background: '#303030',
+			textColor: '#FFFFFF',
+			textBorderColor: '#000000',
+			preset: preset
+		},
+		chartTiles: albumArray
+	}
 }

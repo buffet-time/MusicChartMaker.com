@@ -24,9 +24,39 @@ const textOutlineColor = ref(
 		: '#00000'
 )
 const showOptions = ref(false)
+const isPreset = ref(GlobalChartState.value.options.preset ? true : false)
 
-watch(colsNum, (newColNum, prevColNum) => colsChanged(newColNum - prevColNum))
-watch(rowsNum, (newRowNum, prevRowNum) => rowsChanged(newRowNum - prevRowNum))
+// used to disable watchers for cols/ rows when changing charts
+let updatingRows = false
+let updatingCols = false
+
+watch(
+	() => GlobalChartState.value.options.preset,
+	() => {
+		isPreset.value = GlobalChartState.value.options.preset ? true : false
+	}
+)
+
+watch(colsNum, (newColNum, prevColNum) => {
+	if (updatingCols) {
+		// if this was triggered by currentChart being changed skip 1 iteration
+		updatingCols = false
+		return
+	}
+	if (isPreset.value) return
+
+	colsChanged(newColNum - prevColNum)
+})
+watch(rowsNum, (newRowNum, prevRowNum) => {
+	if (updatingRows) {
+		// if this was triggered by currentChart being changed skip 1 iteration
+		updatingRows = false
+		return
+	}
+	if (isPreset.value) return
+
+	rowsChanged(newRowNum - prevRowNum)
+})
 
 watch(bgColor, () => {
 	GlobalChartState.value.options.background = bgColor.value
@@ -42,16 +72,20 @@ watch(textOutlineColor, () => {
 
 watch(
 	() => GlobalSiteOptions.value.numberOfSearchResults,
-	() => {
-		SaveSiteOptions()
-	}
+	() => SaveSiteOptions()
 )
 
+// TODO: conditional watchers (as to not waste cpu)?
 watch(
 	() => GlobalSiteOptions.value.currentChart,
 	() => {
+		// if its a preset we dont need to touch the column and row nums
+		if (isPreset.value) return
+
+		updatingCols = true
 		colsNum.value = GlobalChartState.value.options.chartSize.rowSizes[0]
 
+		updatingRows = true
 		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
 	}
 )
@@ -115,6 +149,9 @@ function clearBackground() {
 </script>
 
 <template>
+	<!-- TODO: Seperate chart options and global options into 2 sections -->
+
+	<!-- in the sidebar -->
 	<div class="flex justify-center items-center gap-2">
 		<button
 			type="button"
@@ -124,6 +161,8 @@ function clearBackground() {
 			Show Options
 		</button>
 	</div>
+
+	<!-- The options overlay -->
 	<div
 		v-if="showOptions"
 		class="flex flex-col tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
@@ -135,27 +174,29 @@ function clearBackground() {
 			@click="showOptions = false"
 		/>
 
-		<label class="pt-4"> Columns: {{ colsNum }} </label>
-		<input
-			v-model="colsNum"
-			class="cursor-pointer"
-			type="range"
-			min="1"
-			max="20"
-			step="1"
-		/>
+		<template v-if="!isPreset">
+			<label class="pt-4"> Columns: {{ colsNum }} </label>
+			<input
+				v-model="colsNum"
+				class="cursor-pointer"
+				type="range"
+				min="1"
+				max="20"
+				step="1"
+			/>
 
-		<label class="mt-2"> Rows: {{ rowsNum }} </label>
-		<input
-			v-model="rowsNum"
-			class="cursor-pointer"
-			type="range"
-			min="1"
-			max="20"
-			step="1"
-		/>
+			<label class="mt-2"> Rows: {{ rowsNum }} </label>
+			<input
+				v-model="rowsNum"
+				class="cursor-pointer"
+				type="range"
+				min="1"
+				max="20"
+				step="1"
+			/>
+		</template>
 
-		<label class="mt-2">
+		<label class="mt-2" :class="{ 'pt-7': isPreset }">
 			# of Search Results: {{ GlobalSiteOptions.numberOfSearchResults }}
 		</label>
 		<input
