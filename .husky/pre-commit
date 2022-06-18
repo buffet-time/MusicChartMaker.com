@@ -2,7 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Build the site
-pnpm run build:site
+pnpm run build
 
 # Run ESLint and Prettier on all files to ensure no bad commits
 pnpm lint-fix
