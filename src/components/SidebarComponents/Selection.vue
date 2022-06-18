@@ -7,7 +7,7 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	PreventNameCollision
-} from '../../shared'
+} from '#src/shared'
 import {
 	setStoredChart,
 	getStoredChart,
@@ -17,8 +17,12 @@ import {
 	getAllSavedKeys,
 	getFirstChart,
 	SiteOptionsKey
-} from '../../storage'
-import { Preset, type ChartState } from '../../types'
+} from '#src/storage'
+import { Preset, type ChartState } from '#types/types'
+import {
+	ClickOutsideDialog,
+	DynamicImportDialogPolyfill
+} from '#root/src/wrappers'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
@@ -129,32 +133,16 @@ function deleteChart() {
 	deleteModal.value.close()
 }
 
-async function saveImage() {
-	try {
-		const { default: HTML2Canvas } = await import('html2canvas')
-		const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
-			allowTaint: true,
-			useCORS: true,
-			backgroundColor: '#303030'
-		})
-		const anchor = document.createElement('a')
-		anchor.href = canvas.toDataURL('image/png')
-		anchor.download = `${GlobalChartState.value.options.chartTitle}.png`
-		anchor.click()
-	} catch (error) {
-		console.error(`Error in Save Image: ${Error}`)
-	}
-}
+onMounted(() => {
+	DynamicImportDialogPolyfill([
+		newModal.value,
+		renameModal.value,
+		deleteModal.value
+	])
 
-onMounted(async () => {
-	// In the unlikely case someone has dynamic imports working
-	// but not dialog polyfill slightly older safari and firefox
-	if (typeof HTMLDialogElement !== 'function') {
-		const { default: dialogPolyfill } = await import('dialog-polyfill')
-		dialogPolyfill.registerDialog(newModal.value)
-		dialogPolyfill.registerDialog(renameModal.value)
-		dialogPolyfill.registerDialog(deleteModal.value)
-	}
+	ClickOutsideDialog(newModal.value)
+	ClickOutsideDialog(renameModal.value)
+	ClickOutsideDialog(deleteModal.value)
 
 	const storedLastChart = getCurrentChart()
 
@@ -238,11 +226,11 @@ onMounted(async () => {
 		</div>
 	</div>
 
-	<button class="mb-3 tw-button py-1 px-3" @click="saveImage">
-		Save Image
-	</button>
-
-	<dialog ref="newModal" class="bg-transparent">
+	<dialog
+		ref="newModal"
+		class="bg-transparent"
+		@keypress.esc="newModal.close()"
+	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-neutral-200"
 		>
@@ -272,7 +260,11 @@ onMounted(async () => {
 		</div>
 	</dialog>
 
-	<dialog ref="renameModal" class="bg-transparent">
+	<dialog
+		ref="renameModal"
+		class="bg-transparent"
+		@keypress.esc="renameModal.close()"
+	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
 		>
@@ -289,7 +281,11 @@ onMounted(async () => {
 		</div>
 	</dialog>
 
-	<dialog ref="deleteModal" class="bg-transparent">
+	<dialog
+		ref="deleteModal"
+		class="bg-transparent"
+		@keypress.esc="deleteModal.close()"
+	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
 		>

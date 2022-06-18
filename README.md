@@ -13,7 +13,7 @@
 
 ## Dev setup
 
-- install [node 14.8.0 or higher](https://nodejs.org/en/)
+- install [node 16.15.0 or higher](https://nodejs.org/en/) as it's the current `LTS` and I am working off that.
 
 - install pnpm 7+ (Performant NPM)\
   $ `npm install -g pnpm`

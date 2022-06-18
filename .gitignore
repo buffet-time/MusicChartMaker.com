@@ -2,23 +2,9 @@
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
-
 node_modules
-dist-ssr
-*.local
-
-# Editor directories and files
-.idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
+# i sometimes use this to inspect json files :)
 ignore.json
 ignore.txt

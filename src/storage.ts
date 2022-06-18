@@ -1,5 +1,5 @@
 import { GenerateDefaultSiteOptions, GlobalSiteOptions } from './shared'
-import { type SiteOptions, type ChartState } from './types'
+import { type SiteOptions, type ChartState } from './types/types'
 
 export const SiteOptionsKey = 'GlobalSiteOptions'
 
