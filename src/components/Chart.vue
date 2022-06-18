@@ -8,10 +8,10 @@ import {
 	GlobalChartState,
 	RearrangeChart,
 	GrayBoxImg
-} from '../shared'
-import { setStoredChart } from '../storage'
-import { type DragDataTransfer, type IndicesObject } from '../types/types'
-import Close from '../assets/blackClose.svg'
+} from '#src/shared'
+import { setStoredChart } from '#src/storage'
+import { type DragDataTransfer, type IndicesObject } from '#src/types/types'
+import Close from '#assets/blackClose.svg'
 
 // TODO: create option to disable auto save
 watch(

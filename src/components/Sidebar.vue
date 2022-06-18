@@ -4,7 +4,7 @@ import Options from './SidebarComponents/Options.vue'
 import Selection from './SidebarComponents/Selection.vue'
 import SiteInfo from './SiteInfo.vue'
 import { ref } from 'vue'
-import { GlobalChartState } from '../shared'
+import { GlobalChartState } from '#src/shared'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void

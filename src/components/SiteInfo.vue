@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { version } from '../../package.json'
+import { version } from '#root/package.json'
 import { onMounted, type Ref, ref } from 'vue'
-import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '../wrappers'
+import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '#src/wrappers'
 
 const siteInfoModal = ref() as Ref<HTMLDialogElement>
 

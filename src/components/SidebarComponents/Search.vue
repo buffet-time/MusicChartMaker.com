@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref } from 'vue'
-import { DragSetData, IsImage, GlobalSiteOptions } from '../../shared'
-import { type AlbumSearchResult } from '../../types/types'
-import { ProperFetch } from '../../wrappers'
+import { DragSetData, IsImage, GlobalSiteOptions } from '#src/shared'
+import { type AlbumSearchResult } from '#types/types'
+import { ProperFetch } from '#src/wrappers'
 
 const searchInput = ref('')
 const searchResults = ref() as Ref<AlbumSearchResult[]>
