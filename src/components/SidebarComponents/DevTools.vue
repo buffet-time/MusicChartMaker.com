@@ -30,7 +30,7 @@ onMounted(() => {
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
 		>
 			<p class="text-neutral-200">
-				Dev debugging tools. Feel free to use them, but be weary :)
+				Dev debugging tools. Feel free to use them, but be wary :)
 			</p>
 
 			<div class="gap-2 flex">
