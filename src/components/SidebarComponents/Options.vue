@@ -5,9 +5,10 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	IsImage
-} from '../../shared'
-import { SaveSiteOptions } from '../../storage'
-import Close from '../../assets/whiteClose.svg'
+} from '#src/shared'
+import { SaveSiteOptions } from '#src/storage'
+import Close from '#assets/whiteClose.svg'
+import DevTools from './DevTools.vue'
 
 const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
@@ -284,5 +285,6 @@ function clearBackground() {
 				</button>
 			</div>
 		</div>
+		<DevTools />
 	</div>
 </template>

@@ -14,14 +14,8 @@ GlobalSiteOptions.value = GetSiteOptions()
 <template>
 	<!-- in case the OG site goes down a reference image -->
 	<!-- https://i.gyazo.com/9fb8f19495588fd3b31c47389d248bcb.png -->
-	<div class="flex text-white text-center font-sans antialiased">
+	<div class="flex text-white font-sans antialiased">
 		<Sidebar @can-render-chart="renderChart = true" />
 		<Chart v-if="renderChart" />
 	</div>
 </template>
-
-<style>
-body {
-	background-color: #303030;
-}
-</style>

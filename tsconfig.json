@@ -16,8 +16,17 @@
 		"useDefineForClassFields": true,
 
 		"jsx": "preserve", // Needed for Volar to work properly.
-		"lib": ["esnext", "dom"]
+		"lib": ["esnext", "dom"],
+		"paths": {
+			"#root/*": ["./*"],
+			"#src/*": ["./src/*"],
+			"#assets/*": ["./src/assets/*"],
+			"#components/*": ["./src/components/*"],
+			"#types/*": ["./src/types/*"]
+		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
+
+// TODO: add path alias to src/

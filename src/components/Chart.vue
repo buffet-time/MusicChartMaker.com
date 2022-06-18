@@ -10,7 +10,7 @@ import {
 	GrayBoxImg
 } from '../shared'
 import { setStoredChart } from '../storage'
-import { type DragDataTransfer, type IndicesObject } from '../types'
+import { type DragDataTransfer, type IndicesObject } from '../types/types'
 import Close from '../assets/blackClose.svg'
 
 // TODO: create option to disable auto save

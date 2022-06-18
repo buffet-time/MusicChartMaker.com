@@ -2,9 +2,14 @@
 
 General guidelines for contributing
 
+Heavily preferred for you to use VSCode so ESLint, Prettier, and Volar (vue 3 tool) work properly
+
 ## JS
 
 - use Array functions instead of standard `for` loops
+- The way ESLint should in general be followed
+  - usage of `!` to ensure something exists is intended to only be used with an ESLint ignore to make sure 100% you know what you're doing
+  - Explicit `any` is allowed if it can be justified. Implicit never allowed.
 
 ## CSS
 
