@@ -67,6 +67,15 @@ export function IsImage(input: string): Promise<boolean> {
 	})
 }
 
+export function getAlbumNumber(indexOne: number, indexTwo: number): number {
+	let returnValue = 0
+	for (let x = 0; x < indexOne; x++) {
+		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
+	}
+
+	return returnValue + 1 + indexTwo
+}
+
 // // // // // //
 // Drag Stuff
 // // // // // //

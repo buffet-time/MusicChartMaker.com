@@ -7,11 +7,13 @@ import {
 	FillerAlbum,
 	GlobalChartState,
 	RearrangeChart,
-	GrayBoxImg
+	GrayBoxImg,
+	getAlbumNumber
 } from '../shared'
 import { setStoredChart } from '../storage'
 import { type DragDataTransfer, type IndicesObject } from '../types'
 import Close from '../assets/blackClose.svg'
+import ChartTitles from './ChartComponents/ChartTitles.vue'
 
 // TODO: create option to disable auto save
 watch(
@@ -64,25 +66,6 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		}
 	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
-}
-
-function albumArtistEdited(event: Event, index: number) {
-	// @ts-expect-error
-	GlobalChartState.value.chartTiles[index].artist = event.target.innerText
-}
-
-function albumNameEdited(event: Event, index: number) {
-	// @ts-expect-error
-	GlobalChartState.value.chartTiles[index].name = event.target.innerText
-}
-
-function getAlbumNumber(indexOne: number, indexTwo: number): number {
-	let returnValue = 0
-	for (let x = 0; x < indexOne; x++) {
-		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
-	}
-
-	return returnValue + 1 + indexTwo
 }
 
 function deleteCurrent(indexOne: number, indexTwo: number) {
@@ -149,54 +132,6 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 				</div>
 			</div>
 		</div>
-
-		<!-- Album titles -->
-		<div
-			v-if="GlobalChartState.options.displayTitles"
-			class="pl-4 pt-4 text-left min-w-[200px] text-sm"
-		>
-			<template
-				v-for="(albumRow, index) in GlobalChartState.chartTiles"
-				:key="index"
-			>
-				<p
-					v-for="(album, index2) in albumRow"
-					:key="`${index}-${index2}`"
-					class="pointer-events-none"
-					:class="{
-						'pt-2': index2 === 0 && index !== 0
-					}"
-					:style="{
-						color: GlobalChartState.options.textColor,
-						textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
-						1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
-						-1px 1px 0 ${GlobalChartState.options.textBorderColor}, 
-						1px 1px 0 ${GlobalChartState.options.textBorderColor}`
-					}"
-				>
-					<template v-if="GlobalChartState.options.displayNumberRank">
-						{{ getAlbumNumber(index, index2) }})
-					</template>
-
-					<span
-						role="textbox"
-						contenteditable
-						class="pointer-events-auto"
-						@input="(event) => albumArtistEdited(event, index)"
-					>
-						{{ album.artist }}
-					</span>
-					-
-					<span
-						role="textbox"
-						contenteditable
-						class="pointer-events-auto"
-						@input="(event) => albumNameEdited(event, index)"
-					>
-						{{ album.name }}
-					</span>
-				</p>
-			</template>
-		</div>
+		<ChartTitles />
 	</div>
 </template>
