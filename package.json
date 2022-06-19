@@ -2,15 +2,28 @@
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
 	"private": false,
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
 		"name": "Daniel Turcich",
 		"url": "https://danielTurcich.com"
 	},
+	"engines": {
+		"node": ">=16.15.0",
+		"pnpm": ">=7.0.0"
+	},
+	"imports": {
+		"#root/*": "./*",
+		"#src/*": "./src/*",
+		"#assets/*": "./src/assets/*",
+		"#components/*": "./src/components/*",
+		"#types/*": "./src/types/*"
+	},
 	"scripts": {
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
+		"lint-fix": "eslint '**/*.{ts,vue}' --fix",
+		"format-check": "prettier --write --check '**/**'",
 		"prepare": "husky install",
 		"build": "vue-tsc --noEmit && vite build --emptyOutDir",
 		"build:preview": "vite preview",
@@ -41,6 +54,6 @@
 		"typescript": "^4.7.4",
 		"vite": "^2.9.12",
 		"vue-eslint-parser": "^9.0.2",
-		"vue-tsc": "0.38.0"
+		"vue-tsc": "^0.38.0"
 	}
 }

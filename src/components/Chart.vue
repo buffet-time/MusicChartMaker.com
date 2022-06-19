@@ -10,9 +10,9 @@ import {
 	GrayBoxImg,
 	getAlbumNumber
 } from '../shared'
-import { setStoredChart } from '../storage'
-import { type DragDataTransfer, type IndicesObject } from '../types'
-import Close from '../assets/blackClose.svg'
+import { setStoredChart } from '#src/storage'
+import { type DragDataTransfer, type IndicesObject } from '#src/types/types'
+import Close from '#assets/blackClose.svg'
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 
 // TODO: create option to disable auto save

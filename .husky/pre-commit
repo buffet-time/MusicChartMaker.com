@@ -1,6 +1,11 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+
+# Run ESLint and Prettier on all files to ensure no bad commits
+pnpm lint-fix
+pnpm format-check
+
 # Build the site
 pnpm run build
 

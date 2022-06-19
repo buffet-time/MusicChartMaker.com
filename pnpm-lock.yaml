@@ -23,7 +23,7 @@ specifiers:
   vite: ^2.9.12
   vue: ^3.2.37
   vue-eslint-parser: ^9.0.2
-  vue-tsc: 0.38.0
+  vue-tsc: ^0.38.0
 
 dependencies:
   dialog-polyfill: 0.5.6

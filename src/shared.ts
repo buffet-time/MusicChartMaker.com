@@ -8,45 +8,41 @@ import {
 	type DragDataTransfer,
 	type IndicesObject,
 	type Preset
-} from './types'
+} from './types/types'
 
+// TODO: cleanup shared.ts and storage.ts and organize them
+
+// // // // // // // // //
+// Constants and Globals
+// // // // // // // // //
+// TODO: convert to reactive object instead of pointless ref wrap
+export const GlobalChartState = ref() as Ref<ChartState>
+export const GlobalSiteOptions = ref() as Ref<SiteOptions>
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
-
 export const FillerAlbum = {
 	artist: 'Artist',
 	name: 'Album',
 	image: GrayBoxImg
 }
+const top42: ChartSize = {
+	numberOfTiles: 42,
+	numberOfRows: 6,
+	rowSizes: [5, 5, 6, 6, 10, 10]
+}
+const top100: ChartSize = {
+	numberOfTiles: 100,
+	numberOfRows: 11,
+	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14]
+}
+const numberInParensRegex = /\s\((\d+)\)$/
 
 // // // // // //
 // Site stuff
 // // // // // //
-export const GlobalSiteOptions = ref() as Ref<SiteOptions>
-
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
 		numberOfSearchResults: 10,
 		currentChart: 'New Album Chart'
-	}
-}
-
-// // // // // // // //
-// Function wrappers
-// // // // // // // //
-export async function ProperFetch(url: string): Promise<any | null> {
-	// This is a wrapper around the Fetch WebAPI to handle errors without any fuss
-	try {
-		const response = await fetch(url)
-
-		if (response.ok) {
-			return await response.json()
-		} else {
-			console.error('Responded with an error:' + (await response.json()))
-			return null
-		}
-	} catch (error) {
-		console.error(`Error in fetch call: ${error}`)
-		return null
 	}
 }
 
@@ -163,11 +159,6 @@ export function RearrangeChart(
 // // // // // //
 // Chart stuff
 // // // // // //
-
-// TODO: convert to reactive object instead of pointless ref wrap
-export const GlobalChartState = ref() as Ref<ChartState>
-
-// enhance this to prevent name collisions (vineet would hate this)
 export function GenerateDefaultChart(title?: string): ChartState {
 	const albumArray = [] as AlbumTile[][]
 	const defaultChartSize: ChartSize = {
@@ -198,7 +189,6 @@ export function GenerateDefaultChart(title?: string): ChartState {
 	}
 }
 
-const numberInParensRegex = /\s\((\d+)\)$/
 export function PreventNameCollision(name: string): string {
 	const storedCharts = getAllSavedKeys()
 
@@ -220,16 +210,6 @@ export function PreventNameCollision(name: string): string {
 	return GetUnusedName(name)
 }
 
-const top42: ChartSize = {
-	numberOfTiles: 42,
-	numberOfRows: 6,
-	rowSizes: [5, 5, 6, 6, 10, 10]
-}
-const top100: ChartSize = {
-	numberOfTiles: 100,
-	numberOfRows: 11,
-	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14]
-}
 export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 	const albumArray = [] as AlbumTile[][]
 	let presetChartSize: ChartSize
@@ -262,3 +242,5 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 		chartTiles: albumArray
 	}
 }
+
+//

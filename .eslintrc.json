@@ -1,6 +1,13 @@
 {
 	"root": true,
-	"ignorePatterns": ["/src/assets/*", "/dist/*"],
+	"ignorePatterns": [
+		"./src/assets/*",
+		"./dist/*",
+		"./.vscode/*",
+		"./.husky/*",
+		"./.github/*",
+		"./node_modules/*"
+	],
 	"env": {
 		"browser": true,
 		"es6": true

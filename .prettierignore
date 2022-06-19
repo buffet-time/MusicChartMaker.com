@@ -1,0 +1,12 @@
+pnpm-lock.yaml
+/dist
+/.vscode
+/.husky
+/.github
+/node_modules
+.npmrc
+.prettierignore
+.gitignore
+.DS_Store
+LICENSE
+/src/assets/*

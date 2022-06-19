@@ -4,6 +4,5 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"semi": false,
-	"rcVerbose": true,
 	"endOfLine": "lf"
 }

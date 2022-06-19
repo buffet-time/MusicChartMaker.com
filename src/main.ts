@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './tailwind.css'
-import { version as PackageVersion } from '../package.json'
+import { version as PackageVersion } from '#root/package.json'
 
 const meta = document.createElement('meta')
 meta.name = 'SiteVersion'

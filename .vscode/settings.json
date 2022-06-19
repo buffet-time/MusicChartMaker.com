@@ -1,8 +1,5 @@
 {
-	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"javascript.format.semicolons": "remove",
-	"typescript.format.semicolons": "remove",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
