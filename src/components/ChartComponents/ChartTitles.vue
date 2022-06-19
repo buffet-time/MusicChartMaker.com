@@ -1,67 +1,68 @@
 <script setup lang="ts">
-import { GlobalChartState, getAlbumNumber } from '#src/shared'
+import { GlobalChartState, getAlbumNumber, GrayBoxImg } from '#src/shared'
 
-function albumArtistEdited(event: Event, index: number) {
-	// @ts-expect-error
-	GlobalChartState.value.chartTiles[index].artist = event.target.innerText
+function albumArtistEdited(event: Event, index: number, index2: number) {
+	GlobalChartState.value.chartTiles[index][index2].artist = (
+		event.target as HTMLSpanElement
+	).innerText
 }
 
-function albumNameEdited(event: Event, index: number) {
-	// @ts-expect-error
-	GlobalChartState.value.chartTiles[index].name = event.target.innerText
+function albumNameEdited(event: Event, index: number, index2: number) {
+	GlobalChartState.value.chartTiles[index][index2].name = (
+		event.target as HTMLSpanElement
+	).innerText
 }
 </script>
 
 <template>
-	<!-- Album titles -->
 	<div
 		v-if="GlobalChartState.options.displayTitles"
 		class="pl-4 pt-4 text-left min-w-[200px] text-sm"
 	>
-		<template
+		<div
 			v-for="(albumRow, index) in GlobalChartState.chartTiles"
 			:key="index"
+			class="flex flex-col"
+			:class="{ 'mb-1': index !== GlobalChartState.chartTiles.length - 1 }"
 		>
-			<p
-				v-for="(album, index2) in albumRow"
-				:key="`${index}-${index2}`"
-				class="pointer-events-none"
-				:class="{
-					'pt-2': index2 === 0 && index !== 0
-				}"
-				:style="{
-					color: GlobalChartState.options.textColor,
-					textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
+			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
+				<p
+					v-if="album.image !== GrayBoxImg"
+					class="pointer-events-none"
+					:style="{
+						color: GlobalChartState.options.textColor,
+						textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
 						1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
 						-1px 1px 0 ${GlobalChartState.options.textBorderColor}, 
 						1px 1px 0 ${GlobalChartState.options.textBorderColor}`
-				}"
-			>
-				<template v-if="GlobalChartState.options.displayNumberRank">
-					{{ getAlbumNumber(index, index2) }})
-				</template>
-				<span
-					role="textbox"
-					contenteditable
-					class="pointer-events-auto"
-					@dragover.prevent="() => false"
-					@drop.prevent="() => false"
-					@input="(event) => albumArtistEdited(event, index)"
+					}"
 				>
-					{{ album.artist }}
-				</span>
-				-
-				<span
-					role="textbox"
-					contenteditable
-					class="pointer-events-auto"
-					@dragover.prevent="() => false"
-					@drop.prevent="() => false"
-					@input="(event) => albumNameEdited(event, index)"
-				>
-					{{ album.name }}
-				</span>
-			</p>
-		</template>
+					<template v-if="GlobalChartState.options.displayNumberRank">
+						{{ getAlbumNumber(index, index2) }})
+					</template>
+					<span
+						role="textbox"
+						contenteditable
+						class="pointer-events-auto"
+						@dragover.prevent="() => false"
+						@drop.prevent="() => false"
+						@input="(event) => albumArtistEdited(event, index, index2)"
+					>
+						{{ album.artist }}
+					</span>
+					-
+					<span
+						role="textbox"
+						contenteditable
+						class="pointer-events-auto"
+						@dragover.prevent="() => false"
+						@drop.prevent="() => false"
+						@input="(event) => albumNameEdited(event, index, index2)"
+					>
+						{{ album.name }}
+					</span>
+				</p>
+			</template>
+		</div>
 	</div>
 </template>
