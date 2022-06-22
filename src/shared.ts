@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue'
-import { getAllSavedKeys } from './storage'
+import { getAllSavedKeys } from '#src/storage'
 import {
 	type ChartSize,
 	type SiteOptions,
@@ -7,8 +7,9 @@ import {
 	type ChartState,
 	type DragDataTransfer,
 	type IndicesObject,
-	type Preset
-} from './types/types'
+	type Preset,
+	type AlbumSearchResult
+} from '#types/types'
 
 // TODO: cleanup shared.ts and storage.ts and organize them
 
@@ -156,6 +157,91 @@ export function RearrangeChart(
 	}
 }
 
+export function onTouchStart(
+	touchEvent: TouchEvent,
+	album: AlbumSearchResult,
+	source: 'Search' | 'Chart',
+	originatingIndices?: { index1: number; index2: number }
+) {
+	if (typeof DragEvent !== 'function') {
+		// If the HTML Drag and Drop API is supported
+		// (all desktop browsers, and some latest mobile may support)
+		return
+	}
+
+	// console.log(1, touchEvent, album)
+	const imgElemnt = touchEvent.target as HTMLImageElement
+
+	// gets where you started the drag so that we can preseve that offset
+	// and not snap the image when you start dragging
+	const startingClickOffsetX =
+		touchEvent.targetTouches[0].clientX - imgElemnt.getBoundingClientRect().left
+	const startingClickOffsetY =
+		touchEvent.targetTouches[0].clientY - imgElemnt.getBoundingClientRect().top
+
+	const movingCopy = document.body.appendChild(
+		imgElemnt.cloneNode(true)
+	) as HTMLImageElement
+
+	function moveImageToCursor(xPos: number, yPos: number) {
+		movingCopy.style.left = `${xPos - startingClickOffsetX}px`
+		movingCopy.style.top = `${yPos - startingClickOffsetY}px`
+	}
+
+	const boundingRect = imgElemnt.getBoundingClientRect()
+	movingCopy.style.height = `${boundingRect.height.toString()}px`
+	movingCopy.style.width = `${boundingRect.width.toString()}px`
+	movingCopy.style.position = 'absolute'
+	movingCopy.style.zIndex = '99'
+	moveImageToCursor(
+		touchEvent.targetTouches[0].clientX,
+		touchEvent.targetTouches[0].clientY
+	)
+
+	function onTouchMove(touchEvent: TouchEvent) {
+		moveImageToCursor(
+			touchEvent.targetTouches[0].clientX,
+			touchEvent.targetTouches[0].clientY
+		)
+	}
+
+	function onTouchEnd(touchEvent: TouchEvent) {
+		movingCopy.remove()
+
+		const elemBelow = document.elementFromPoint(
+			touchEvent.changedTouches[0].clientX,
+			touchEvent.changedTouches[0].clientY
+		) as HTMLImageElement | null
+
+		if (!elemBelow) return
+
+		const index1 = Number(elemBelow.getAttribute('firstindex'))
+		const index2 = Number(elemBelow.getAttribute('secondindex'))
+
+		// if the attribute doesn't exist/ isn't a number it'll be NaN
+		if (isNaN(index1) || isNaN(index2)) return
+
+		if (source === 'Search') {
+			GlobalChartState.value.chartTiles[Number(index1)].splice(
+				Number(index2),
+				1,
+				album
+			)
+			elemBelow.src = album.image
+			elemBelow.alt = `${album.artist} - ${album.name}`
+		} else if (source === 'Chart' && originatingIndices) {
+			// If in chart move the dragged element to the position you drop and push everything else back one
+			RearrangeChart({ index1, index2 }, originatingIndices)
+		}
+
+		document.removeEventListener('touchmove', onTouchMove)
+		document.removeEventListener('touchend', onTouchEnd)
+	}
+
+	document.addEventListener('touchmove', onTouchMove)
+	document.addEventListener('touchend', onTouchEnd)
+}
+
 // // // // // //
 // Chart stuff
 // // // // // //
@@ -242,5 +328,3 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 		chartTiles: albumArray
 	}
 }
-
-//

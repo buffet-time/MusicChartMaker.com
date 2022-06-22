@@ -1,7 +1,12 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, type Ref } from 'vue'
-import { DragSetData, IsImage, GlobalSiteOptions } from '#src/shared'
+import {
+	DragSetData,
+	IsImage,
+	GlobalSiteOptions,
+	onTouchStart
+} from '#src/shared'
 import { type AlbumSearchResult } from '#types/types'
 import { ProperFetch } from '#src/wrappers'
 
@@ -96,6 +101,9 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 				:alt="`${album.artist} - ${album.name}`"
 				draggable="true"
 				@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
+				@touchstart.prevent="
+					(touchEvent) => onTouchStart(touchEvent, album, 'Search')
+				"
 			/>
 		</div>
 	</div>
