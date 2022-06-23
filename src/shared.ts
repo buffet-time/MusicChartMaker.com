@@ -207,6 +207,8 @@ export function onTouchStart(
 
 	function onTouchEnd(touchEvent: TouchEvent) {
 		movingCopy.remove()
+		document.removeEventListener('touchmove', onTouchMove)
+		document.removeEventListener('touchend', onTouchEnd)
 
 		const elemBelow = document.elementFromPoint(
 			touchEvent.changedTouches[0].clientX,
@@ -215,15 +217,15 @@ export function onTouchStart(
 
 		if (!elemBelow) return
 
-		const index1 = Number(elemBelow.getAttribute('firstindex'))
-		const index2 = Number(elemBelow.getAttribute('secondindex'))
+		const firstIndex = elemBelow.getAttribute('firstindex')
+		const secondIndex = elemBelow.getAttribute('secondindex')
 
 		// if the attribute doesn't exist/ isn't a number it'll be NaN
-		if (isNaN(index1) || isNaN(index2)) return
+		if (!firstIndex || !secondIndex) return
 
 		if (source === 'Search') {
-			GlobalChartState.value.chartTiles[Number(index1)].splice(
-				Number(index2),
+			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
+				Number(secondIndex),
 				1,
 				album
 			)
@@ -231,11 +233,11 @@ export function onTouchStart(
 			elemBelow.alt = `${album.artist} - ${album.name}`
 		} else if (source === 'Chart' && originatingIndices) {
 			// If in chart move the dragged element to the position you drop and push everything else back one
-			RearrangeChart({ index1, index2 }, originatingIndices)
+			RearrangeChart(
+				{ index1: Number(firstIndex), index2: Number(secondIndex) },
+				originatingIndices
+			)
 		}
-
-		document.removeEventListener('touchmove', onTouchMove)
-		document.removeEventListener('touchend', onTouchEnd)
 	}
 
 	document.addEventListener('touchmove', onTouchMove)
