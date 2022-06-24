@@ -1,20 +1,58 @@
-# This script deploys your website automatically
-name: CI
+name: Deploy to github pages
 
-# Only trigger this script when you push to the master branch
 on:
   push:
     branches: [main]
 
-# Specify the tasks to run when this script gets triggered
 jobs:
-  build:
+  Check_and_Publish:
     runs-on: ubuntu-latest
 
-    # Download our master branch
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Run our deployment command
-      - name: Deploying the static website to gh-pages
-        run: npm run deploy
+      # Read the pnpm version from the `.pnpmrc` file
+      - name: Read .pnpmrc
+        id: pnpm_version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.pnpmrc
+
+      - name: Cache PNPM modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: '${{ steps.pnpm_version.outputs.content }}'
+
+      # Read node version from `.nvmrc` file
+      - id: nvmrc
+        uses: browniebroke/read-nvmrc-action@v1
+
+      - uses: actions/setup-node@v3
+        with:
+          # use the output from the action
+          node-version: '${{ steps.nvmrc.outputs.node_version }}'
+
+      - name: Install `node_modules`
+        run: pnpm install
+
+      - name: Lint Check
+        run: pnpm lint-check
+
+      - name: Format Check
+        run: pnpm format-check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: dist

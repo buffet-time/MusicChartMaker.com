@@ -23,11 +23,13 @@
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
 		"lint-fix": "eslint '**/*.{ts,vue}' --fix",
-		"format-check": "prettier --write --check '**/**'",
+		"lint-check": "eslint '**/*.{ts,vue}'",
+		"format-fix": "prettier --write --check '**/**'",
+		"format-check": "prettier --check '**/**'",
 		"prepare": "husky install",
-		"build": "vue-tsc --noEmit && vite build --emptyOutDir",
-		"build:preview": "vite preview",
-		"deploy": "git push -u origin `git subtree split --prefix dist main`:gh-pages --force"
+		"build": "vue-tsc --noEmit && vite build --emptyOutDir && pnpm add:cname",
+		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME",
+		"build:preview": "vite preview"
 	},
 	"dependencies": {
 		"dialog-polyfill": "^0.5.6",

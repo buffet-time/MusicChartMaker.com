@@ -4,15 +4,6 @@
 
 # Run ESLint and Prettier on all files to ensure no bad commits
 pnpm lint-fix
-pnpm format-check
-
-# Build the site
-pnpm run build
-
-# navigate into the build output directory & Add a cname file
-# to ensure Github picks up and sets it to the right domain on deploy
-cd dist
-echo 'musicchartmaker.com' > CNAME
-
+pnpm format-fix
 # add any changed files from the build
 git add -A
