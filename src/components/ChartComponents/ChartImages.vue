@@ -7,20 +7,19 @@ import {
 	GlobalChartState,
 	RearrangeChart,
 	GrayBoxImg,
-	getAlbumNumber
+	getAlbumNumber,
+	onTouchStart
 } from '#src/shared'
-import { type DragDataTransfer, type IndicesObject } from '#src/types/types'
+import { type DragDataTransfer, type IndicesObject } from '#types/types'
 import Close from '#assets/blackClose.svg'
 
 function onDragOver(dragEvent: DragEvent) {
-	dragEvent.preventDefault()
 	dragEvent.dataTransfer!.dropEffect = 'move'
 }
 
 function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
-	dragEvent.preventDefault()
 
 	if (albumDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
@@ -86,6 +85,8 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 					@click="deleteCurrent(index1, index2)"
 				/>
 				<img
+					:firstIndex="index1"
+					:secondIndex="index2"
 					:src="`${album.image}`"
 					:alt="`${album.artist} - ${album.name}`"
 					:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
@@ -97,9 +98,13 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 						(dragEvent) =>
 							onDragStart(dragEvent, { index1: index1, index2: index2 })
 					"
-					@dragover="onDragOver"
-					@drop="
+					@dragover.prevent="onDragOver"
+					@drop.prevent="
 						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
+					"
+					@touchstart.prevent="
+						(touchEvent) =>
+							onTouchStart(touchEvent, album, 'Chart', { index1, index2 })
 					"
 				/>
 			</div>
