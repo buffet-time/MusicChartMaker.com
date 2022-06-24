@@ -26,15 +26,15 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		RearrangeChart({ index1, index2 }, albumDraggedIn.originatingIndices)
 	} else {
 		// from search replace current dropped
-		const currrentElement = dragEvent.currentTarget as HTMLImageElement
+		const currentElement = dragEvent.currentTarget as HTMLImageElement
 
 		GlobalChartState.value.chartTiles[index1].splice(
 			index2,
 			1,
 			albumDraggedIn.albumObject
 		)
-		currrentElement.src = albumDraggedIn.albumObject.image
-		currrentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
+		currentElement.src = albumDraggedIn.albumObject.image
+		currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 	}
 }
 

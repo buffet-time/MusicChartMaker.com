@@ -32,11 +32,11 @@ const storedChartNames = ref([''])
 const chartNameInput = ref('')
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
-const intializing = ref(true)
+const initializing = ref(true)
 const presetAdd = ref(false)
 const tempRename = ref('')
 
-// Refrence to HTML elements
+// Reference to HTML elements
 const chartInput = ref() as Ref<HTMLInputElement>
 const newModal = ref() as Ref<HTMLDialogElement>
 const deleteModal = ref() as Ref<HTMLDialogElement>
@@ -163,7 +163,7 @@ onMounted(() => {
 	chartNameInput.value = selected.value
 
 	emit('canRenderChart')
-	intializing.value = false
+	initializing.value = false
 })
 </script>
 
@@ -198,7 +198,7 @@ onMounted(() => {
 				The name must not be empty or {{ SiteOptionsKey }}
 			</p>
 		</div>
-		<div v-if="!intializing" class="mt-2 mb-2">
+		<div v-if="!initializing" class="mt-2 mb-2">
 			<button
 				v-show="chartNameInput !== '' && chartInput.validity.valid"
 				type="button"

@@ -150,7 +150,7 @@ function clearBackground() {
 </script>
 
 <template>
-	<!-- TODO: Seperate chart options and global options into 2 sections -->
+	<!-- TODO: Separate chart options and global options into 2 sections -->
 
 	<!-- in the sidebar -->
 	<div class="flex justify-center items-center gap-2">

@@ -170,17 +170,18 @@ export function onTouchStart(
 	}
 
 	// console.log(1, touchEvent, album)
-	const imgElemnt = touchEvent.target as HTMLImageElement
+	const imgElement = touchEvent.target as HTMLImageElement
 
-	// gets where you started the drag so that we can preseve that offset
+	// gets where you started the drag so that we can preserve that offset
 	// and not snap the image when you start dragging
 	const startingClickOffsetX =
-		touchEvent.targetTouches[0].clientX - imgElemnt.getBoundingClientRect().left
+		touchEvent.targetTouches[0].clientX -
+		imgElement.getBoundingClientRect().left
 	const startingClickOffsetY =
-		touchEvent.targetTouches[0].clientY - imgElemnt.getBoundingClientRect().top
+		touchEvent.targetTouches[0].clientY - imgElement.getBoundingClientRect().top
 
 	const movingCopy = document.body.appendChild(
-		imgElemnt.cloneNode(true)
+		imgElement.cloneNode(true)
 	) as HTMLImageElement
 
 	function moveImageToCursor(xPos: number, yPos: number) {
@@ -188,7 +189,7 @@ export function onTouchStart(
 		movingCopy.style.top = `${yPos - startingClickOffsetY}px`
 	}
 
-	const boundingRect = imgElemnt.getBoundingClientRect()
+	const boundingRect = imgElement.getBoundingClientRect()
 	movingCopy.style.height = `${boundingRect.height.toString()}px`
 	movingCopy.style.width = `${boundingRect.width.toString()}px`
 	movingCopy.style.position = 'absolute'

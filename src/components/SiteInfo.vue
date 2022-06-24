@@ -35,7 +35,7 @@ onMounted(() => {
 
 			<p>This site will NEVER have Ads or any form of tracking</p>
 			<p>
-				Disocrd is the preferred platform for discussion and bug reports of the
+				Discord is the preferred platform for discussion and bug reports of the
 				site.
 			</p>
 			<!-- Links -->
@@ -69,7 +69,7 @@ onMounted(() => {
 			<!-- the main things i need to add:
 					TODO:
 					1) add a modal for tips on less obvious functionality
-					2) Fix clicking anywhere below the titles triggereing content editable
+					2) Fix clicking anywhere below the titles triggering content editable
 					3) text font/ size change options
 					4) Padding 
 					5) improve editing of artist and album name to maybe be editable all at once?
