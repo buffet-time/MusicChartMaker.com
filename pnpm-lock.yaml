@@ -22,7 +22,7 @@ specifiers:
   typescript: ^4.7.4
   vite: ^2.9.12
   vue: ^3.2.37
-  vue-eslint-parser: ^9.0.2
+  vue-eslint-parser: ^9.0.3
   vue-tsc: ^0.38.1
 
 dependencies:
@@ -49,7 +49,7 @@ devDependencies:
   tailwindcss: 3.1.4
   typescript: 4.7.4
   vite: 2.9.12
-  vue-eslint-parser: 9.0.2_eslint@8.18.0
+  vue-eslint-parser: 9.0.3_eslint@8.18.0
   vue-tsc: 0.38.1_typescript@4.7.4
 
 packages:
@@ -373,7 +373,7 @@ packages:
       eslint: 8.18.0
       eslint-plugin-vue: 9.1.1_eslint@8.18.0
       typescript: 4.7.4
-      vue-eslint-parser: 9.0.2_eslint@8.18.0
+      vue-eslint-parser: 9.0.3_eslint@8.18.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -546,9 +546,9 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001358
-      electron-to-chromium: 1.4.165
+      electron-to-chromium: 1.4.168
       node-releases: 2.0.5
-      update-browserslist-db: 1.0.3_browserslist@4.21.0
+      update-browserslist-db: 1.0.4_browserslist@4.21.0
     dev: true
 
   /callsites/3.1.0:
@@ -683,8 +683,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /electron-to-chromium/1.4.165:
-    resolution: {integrity: sha512-DKQW1lqUSAYQvn9dnpK7mWaDpWbNOXQLXhfCi7Iwx0BKxdZOxkKcCyKw1l3ihWWW5iWSxKKbhEUoNRoHvl/hbA==}
+  /electron-to-chromium/1.4.168:
+    resolution: {integrity: sha512-yz247hclRBaP8ABB1hf9kL7AMfa+yC2hB9F3XF8Y87VWMnYgq4QYvV6acRACcDkTDxfGQ4GYK/aZPQiuFMGbaA==}
     dev: true
 
   /esbuild-android-64/0.14.47:
@@ -943,7 +943,7 @@ packages:
       nth-check: 2.1.1
       postcss-selector-parser: 6.0.10
       semver: 7.3.7
-      vue-eslint-parser: 9.0.2_eslint@8.18.0
+      vue-eslint-parser: 9.0.3_eslint@8.18.0
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -1764,8 +1764,8 @@ packages:
     hasBin: true
     dev: true
 
-  /update-browserslist-db/1.0.3_browserslist@4.21.0:
-    resolution: {integrity: sha512-ufSazemeh9Gty0qiWtoRpJ9F5Q5W3xdIPm1UZQqYQv/q0Nyb9EMHUB2lu+O9x1re9WsorpMAUu4Y6Lxcs5n+XQ==}
+  /update-browserslist-db/1.0.4_browserslist@4.21.0:
+    resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -1819,8 +1819,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vue-eslint-parser/9.0.2_eslint@8.18.0:
-    resolution: {integrity: sha512-uCPQwTGjOtAYrwnU+76pYxalhjsh7iFBsHwBqDHiOPTxtICDaraO4Szw54WFTNZTAEsgHHzqFOu1mmnBOBRzDA==}
+  /vue-eslint-parser/9.0.3_eslint@8.18.0:
+    resolution: {integrity: sha512-yL+ZDb+9T0ELG4VIFo/2anAOz8SvBdlqEnQnvJ3M7Scq56DvtjY0VY88bByRZB0D4J0u8olBcfrXTVONXsh4og==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'

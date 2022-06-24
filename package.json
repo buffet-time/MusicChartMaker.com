@@ -2,7 +2,7 @@
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
 	"private": false,
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
 		"name": "Daniel Turcich",
@@ -22,10 +22,10 @@
 	"scripts": {
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
-		"lint-fix": "eslint '**/*.{ts,vue}' --fix",
-		"lint-check": "eslint '**/*.{ts,vue}'",
-		"format-fix": "prettier --write --check '**/**'",
-		"format-check": "prettier --check '**/**'",
+		"lint-fix": "pnpm run lint-check --fix",
+		"lint-check": "eslint \"**/*.{ts,vue}\"",
+		"format-fix": "pnpm run format-check --write",
+		"format-check": "prettier --check \"**/**\"",
 		"prepare": "husky install",
 		"build": "vue-tsc --noEmit && vite build --emptyOutDir && pnpm add:cname",
 		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME",
