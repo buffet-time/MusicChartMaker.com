@@ -4,6 +4,7 @@ import {
 	FillerAlbum,
 	GlobalChartState,
 	GlobalSiteOptions,
+	ExportChartsAndOptions,
 	IsImage
 } from '#src/shared'
 import { SaveSiteOptions } from '#src/storage'
@@ -282,6 +283,13 @@ function clearBackground() {
 					@click="clearBackground"
 				>
 					Clear BG
+				</button>
+				<button
+					type="button"
+					class="tw-button cursor-pointer"
+					@click="ExportChartsAndOptions(GlobalChartState, GlobalSiteOptions)"
+				>
+					Morbin' time
 				</button>
 			</div>
 		</div>

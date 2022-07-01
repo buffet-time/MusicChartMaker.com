@@ -1,15 +1,15 @@
-import { ref, type Ref } from 'vue'
 import { getAllSavedKeys } from '#src/storage'
 import {
-	type ChartSize,
-	type SiteOptions,
+	type AlbumSearchResult,
 	type AlbumTile,
+	type ChartSize,
 	type ChartState,
 	type DragDataTransfer,
 	type IndicesObject,
 	type Preset,
-	type AlbumSearchResult
+	type SiteOptions
 } from '#types/types'
+import { ref, type Ref } from 'vue'
 
 // TODO: cleanup shared.ts and storage.ts and organize them
 
@@ -329,5 +329,25 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 			preset: preset
 		},
 		chartTiles: albumArray
+	}
+}
+
+export function ExportChartsAndOptions(
+	chartState: ChartState,
+	siteState: SiteOptions
+) {
+	try {
+		// Node does not work here, have to use WebAPI
+		const exportdata = { chartData: chartState, siteData: siteState }
+		// fs.writeFile('exportdata.json', JSON.stringify(exportdata))
+		const a = document.createElement('a')
+		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
+		a.href = URL.createObjectURL(file)
+		a.download = 'export_data.json'
+		// document.body.appendChild(a)
+		a.click()
+		// document.body.removeChild(a)
+	} catch (error) {
+		console.error('Error attempting to export chart data!', error)
 	}
 }
