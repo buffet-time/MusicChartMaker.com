@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  Check_and_Publish:
+  PR Check:
     runs-on: ubuntu-latest
 
     steps:
