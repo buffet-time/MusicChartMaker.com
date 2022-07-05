@@ -1,4 +1,4 @@
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 import { getAllSavedKeys } from '#src/storage'
 import {
 	type ChartSize,
@@ -17,8 +17,8 @@ import {
 // Constants and Globals
 // // // // // // // // //
 // TODO: convert to reactive object instead of pointless ref wrap
-export const GlobalChartState = ref() as Ref<ChartState>
-export const GlobalSiteOptions = ref() as Ref<SiteOptions>
+export const GlobalChartState = ref<ChartState>()
+export const GlobalSiteOptions = ref<SiteOptions>()
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
 export const FillerAlbum = {
 	artist: 'Artist',
@@ -54,18 +54,22 @@ export function IsImage(input: string): Promise<boolean> {
 	// returns a Promise that'll resolve to a boolean whether or not an input is an image
 	return new Promise((resolve) => {
 		const image = new Image()
-		image.onerror = image.onabort = () => {
-			resolve(false)
-		}
-		image.onload = () => {
-			resolve(true)
-		}
+		image.onerror = image.onabort = () => resolve(false)
+		image.onload = () => resolve(true)
 		image.src = input
 	})
 }
 
 export function getAlbumNumber(indexOne: number, indexTwo: number): number {
+	if (!GlobalChartState.value) {
+		console.error(
+			'Error getting GlobalChartState in getAlbumNumber()',
+			GlobalChartState
+		)
+		return 0
+	}
 	let returnValue = 0
+
 	for (let x = 0; x < indexOne; x++) {
 		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
 	}
@@ -91,6 +95,13 @@ export function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
 	{ index1: originIndex1, index2: originIndex2 }: IndicesObject
 ) {
+	if (!GlobalChartState.value) {
+		return console.error(
+			'Error getting GlobalChartState in RearrangeChart()',
+			GlobalChartState
+		)
+	}
+
 	if (targetIndex1 === originIndex1) {
 		// they're in the same array (read row) so it's simple and 1 dimensional
 		const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
@@ -225,6 +236,13 @@ export function onTouchStart(
 		if (!firstIndex || !secondIndex) return
 
 		if (source === 'Search') {
+			if (!GlobalChartState.value) {
+				return console.error(
+					'Error getting GlobalChartState in onTouchEnd() type Search',
+					GlobalChartState
+				)
+			}
+
 			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
 				Number(secondIndex),
 				1,

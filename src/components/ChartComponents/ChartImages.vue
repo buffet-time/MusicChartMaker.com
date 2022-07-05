@@ -10,7 +10,11 @@ import {
 	getAlbumNumber,
 	onTouchStart
 } from '#src/shared'
-import { type DragDataTransfer, type IndicesObject } from '#types/types'
+import {
+	AlbumTile,
+	type DragDataTransfer,
+	type IndicesObject
+} from '#types/types'
 import Close from '#assets/blackClose.svg'
 
 function onDragOver(dragEvent: DragEvent) {
@@ -28,7 +32,7 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		// from search replace current dropped
 		const currentElement = dragEvent.currentTarget as HTMLImageElement
 
-		GlobalChartState.value.chartTiles[index1].splice(
+		GlobalChartState.value?.chartTiles[index1].splice(
 			index2,
 			1,
 			albumDraggedIn.albumObject
@@ -39,6 +43,13 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 }
 
 function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
+	if (!GlobalChartState.value) {
+		return console.error(
+			'Error getting GlobalChartState in onDragStart()',
+			GlobalChartState
+		)
+	}
+
 	DragSetData(dragEvent, {
 		albumObject: GlobalChartState.value.chartTiles[index1][index2],
 		dragSource: 'Chart',
@@ -51,7 +62,18 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 }
 
 function deleteCurrent(indexOne: number, indexTwo: number) {
-	GlobalChartState.value.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
+	GlobalChartState.value?.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
+}
+
+// Returns the title for the given tile, if it's a placeholder it returns undefined
+function chartTitle(
+	index1: number,
+	index2: number,
+	album: AlbumTile
+): string | undefined {
+	return album.artist === 'Artist' && album.name === 'Album'
+		? undefined
+		: `${getAlbumNumber(index1, index2)}: ${album.artist} - ${album.name}`
 }
 </script>
 
@@ -60,14 +82,14 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 		class="flex-col mt-4 mb-4"
 		:style="{
 			maxWidth: `${
-				GlobalChartState.options.chartSize.rowSizes[0] * 200 +
-				(GlobalChartState.options.chartSize.rowSizes[0] - 1) * 4
+				GlobalChartState!.options.chartSize.rowSizes[0] * 200 +
+				(GlobalChartState!.options.chartSize.rowSizes[0] - 1) * 4
 			}px`
 		}"
 	>
 		<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
 		<div
-			v-for="(albumArray, index1) in GlobalChartState.chartTiles"
+			v-for="(albumArray, index1) in GlobalChartState?.chartTiles"
 			:key="`img-${index1}`"
 			class="flex flex-row gap-1 pb-1"
 		>
@@ -89,9 +111,7 @@ function deleteCurrent(indexOne: number, indexTwo: number) {
 					:secondIndex="index2"
 					:src="`${album.image}`"
 					:alt="`${album.artist} - ${album.name}`"
-					:title="`${getAlbumNumber(index1, index2)}: ${album.artist} - ${
-						album.name
-					}`"
+					:title="chartTitle(index1, index2, album)"
 					class="cursor-pointer select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
 					draggable="true"
 					@dragstart="

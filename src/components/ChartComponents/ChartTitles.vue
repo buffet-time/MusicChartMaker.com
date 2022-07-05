@@ -2,13 +2,15 @@
 import { GlobalChartState, getAlbumNumber, GrayBoxImg } from '#src/shared'
 
 function albumArtistEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value.chartTiles[index][index2].artist = (
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	GlobalChartState.value!.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
 	).innerText
 }
 
 function albumNameEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value.chartTiles[index][index2].name = (
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	GlobalChartState.value!.chartTiles[index][index2].name = (
 		event.target as HTMLSpanElement
 	).innerText
 }
@@ -16,7 +18,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 
 <template>
 	<div
-		v-if="GlobalChartState.options.displayTitles"
+		v-if="GlobalChartState?.options.displayTitles"
 		class="pl-4 pt-4 text-left min-w-[200px] text-sm"
 	>
 		<div

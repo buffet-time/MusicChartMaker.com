@@ -28,7 +28,7 @@ async function saveImage() {
 		})
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL('image/png')
-		anchor.download = `${GlobalChartState.value.options.chartTitle}.png`
+		anchor.download = `${GlobalChartState.value?.options.chartTitle}.png`
 		anchor.click()
 	} catch (error) {
 		console.error(`Error in Save Image: ${Error}`)
