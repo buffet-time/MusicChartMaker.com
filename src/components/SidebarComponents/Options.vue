@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { type Ref, ref, watch } from 'vue'
 import {
 	FillerAlbum,
 	GlobalChartState,
 	GlobalSiteOptions,
 	ExportChartsAndOptions,
-	IsImage
+	IsImage,
+	ImportChartsAndOptions
 } from '#src/shared'
 import { SaveSiteOptions } from '#src/storage'
 import Close from '#assets/whiteClose.svg'
@@ -14,6 +15,7 @@ import DevTools from './DevTools.vue'
 const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
 const bgColor = ref(GlobalChartState.value.options.background)
+const filePicker = ref() as Ref<HTMLInputElement>
 const textColor = ref(GlobalChartState.value.options.textColor)
 const bgImage = ref(
 	GlobalChartState.value.options.backgroundImage
@@ -142,6 +144,13 @@ async function onBgImageInput() {
 	}
 
 	bgImage.value = 'Not a valid Image URL'
+}
+
+function importFromJson() {
+	const input = filePicker.value.files
+	if (input) {
+		ImportChartsAndOptions(input.item(0))
+	}
 }
 
 function clearBackground() {
@@ -287,10 +296,17 @@ function clearBackground() {
 				<button
 					type="button"
 					class="tw-button cursor-pointer"
-					@click="ExportChartsAndOptions(GlobalChartState, GlobalSiteOptions)"
+					@click="ExportChartsAndOptions()"
 				>
 					Morbin' time
 				</button>
+				<input
+					ref="filePicker"
+					type="file"
+					class="tw-button cursor-pointer"
+					@change="importFromJson"
+				/>
+				<!-- Need and Input type:file here. Or Close to the original Export as Image and Export as JSON buttons-->
 			</div>
 		</div>
 		<DevTools />

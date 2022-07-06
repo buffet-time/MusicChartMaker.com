@@ -1,4 +1,11 @@
-import { getAllSavedKeys } from '#src/storage'
+import {
+	getAllSavedKeys,
+	getFirstChart,
+	GetSiteOptions,
+	getStoredChart,
+	setCurrentChart,
+	setStoredChart
+} from '#src/storage'
 import {
 	type AlbumSearchResult,
 	type AlbumTile,
@@ -332,14 +339,13 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 	}
 }
 
-export function ExportChartsAndOptions(
-	chartState: ChartState,
-	siteState: SiteOptions
-) {
+export function ExportChartsAndOptions() {
 	try {
 		// Node does not work here, have to use WebAPI
-		const exportdata = { chartData: chartState, siteData: siteState }
-		// fs.writeFile('exportdata.json', JSON.stringify(exportdata))
+		const exportdata = {
+			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
+			siteData: GetSiteOptions()
+		}
 		const a = document.createElement('a')
 		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
 		a.href = URL.createObjectURL(file)
@@ -349,5 +355,45 @@ export function ExportChartsAndOptions(
 		// document.body.removeChild(a)
 	} catch (error) {
 		console.error('Error attempting to export chart data!', error)
+	}
+}
+
+export function ImportChartsAndOptions(importFile: File | null) {
+	// Handle Importing logic here
+	// Should also do mass storage here as well, no returns
+	console.log(importFile)
+	try {
+		if (!importFile) {
+			throw new Error('No File Submitted')
+		}
+		let options: SiteOptions | undefined
+		let data: ChartState[] | undefined
+		const reader = new FileReader()
+		reader.readAsText(importFile, 'UTF-8')
+		reader.onload = (fileEvent) => {
+			console.log(fileEvent)
+			const parsed = JSON.parse(String(fileEvent.target?.result))
+			console.log(parsed)
+			if (parsed) {
+				options = parsed.siteData as SiteOptions
+				GlobalSiteOptions.value = options
+				setCurrentChart(options.currentChart)
+				data = parsed.chartData as ChartState[]
+				data.forEach((state) => {
+					setStoredChart(state.options.chartTitle, state)
+				})
+				const chart = getFirstChart()
+				if (chart) {
+					GlobalChartState.value = chart
+				}
+			} else {
+				throw new Error('Unsupported File/Unexpected Contents')
+			}
+		}
+		reader.onerror = (errorEvt) => {
+			throw errorEvt.target?.error
+		}
+	} catch (error) {
+		console.error('Failed to import selected file => Error:', error)
 	}
 }
