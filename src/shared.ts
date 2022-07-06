@@ -359,9 +359,6 @@ export function ExportChartsAndOptions() {
 }
 
 export function ImportChartsAndOptions(importFile: File | null) {
-	// Handle Importing logic here
-	// Should also do mass storage here as well, no returns
-	console.log(importFile)
 	try {
 		if (!importFile) {
 			throw new Error('No File Submitted')
@@ -369,30 +366,35 @@ export function ImportChartsAndOptions(importFile: File | null) {
 		let options: SiteOptions | undefined
 		let data: ChartState[] | undefined
 		const reader = new FileReader()
-		reader.readAsText(importFile, 'UTF-8')
-		reader.onload = (fileEvent) => {
-			console.log(fileEvent)
-			const parsed = JSON.parse(String(fileEvent.target?.result))
-			console.log(parsed)
-			if (parsed) {
-				options = parsed.siteData as SiteOptions
-				GlobalSiteOptions.value = options
-				setCurrentChart(options.currentChart)
-				data = parsed.chartData as ChartState[]
-				data.forEach((state) => {
-					setStoredChart(state.options.chartTitle, state)
-				})
-				const chart = getFirstChart()
-				if (chart) {
-					GlobalChartState.value = chart
-				}
-			} else {
-				throw new Error('Unsupported File/Unexpected Contents')
-			}
-		}
 		reader.onerror = (errorEvt) => {
 			throw errorEvt.target?.error
 		}
+		reader.onload = (fileEvent) => {
+			console.log(fileEvent)
+			// Add logic here to check filename and see if it is a JSON file.
+			try {
+				const parsed = JSON.parse(String(fileEvent.target?.result))
+				// Add a typecheck here, assert if it has the siteData and chartData properties
+				if (parsed) {
+					options = parsed.siteData as SiteOptions
+					GlobalSiteOptions.value = options
+					setCurrentChart(options.currentChart)
+					data = parsed.chartData as ChartState[]
+					data.forEach((state) => {
+						!!state && setStoredChart(state.options.chartTitle, state)
+					})
+					const chart = getFirstChart()
+					if (chart) {
+						GlobalChartState.value = chart
+					}
+				} else {
+					throw new Error('Unsupported File/Unexpected Contents')
+				}
+			} catch (error) {
+				console.error('Failed to import selected file => Error:', error)
+			}
+		}
+		reader.readAsText(importFile, 'UTF-8')
 	} catch (error) {
 		console.error('Failed to import selected file => Error:', error)
 	}

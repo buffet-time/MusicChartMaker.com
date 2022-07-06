@@ -303,6 +303,7 @@ function clearBackground() {
 				<input
 					ref="filePicker"
 					type="file"
+					accept=".json"
 					class="tw-button cursor-pointer"
 					@change="importFromJson"
 				/>
