@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ref, type Ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
 	GenerateDefaultChart,
 	GeneratePresetChart,
@@ -30,17 +30,17 @@ const emit = defineEmits<{
 }>()
 
 const chartNameInput = ref('')
-const selectedChart = ref() as Ref<ChartState>
+const selectedChart = ref<ChartState>()
 const selected = ref('')
 const initializing = ref(true)
 const presetAdd = ref(false)
 const tempRename = ref('')
 
 // Reference to HTML elements
-const chartInput = ref() as Ref<HTMLInputElement>
-const newModal = ref() as Ref<HTMLDialogElement>
-const deleteModal = ref() as Ref<HTMLDialogElement>
-const renameModal = ref() as Ref<HTMLDialogElement>
+const chartInput = ref<HTMLInputElement>()
+const newModal = ref<HTMLDialogElement>()
+const deleteModal = ref<HTMLDialogElement>()
+const renameModal = ref<HTMLDialogElement>()
 
 function saveCurrentChart() {
 	if (selected.value && selectedChart.value) {
@@ -51,10 +51,17 @@ function saveCurrentChart() {
 
 // this is a bit janky :/
 function onSelect() {
+	if (!GlobalChartState.value || !GlobalSiteOptions.value) {
+		return console.error(
+			'Error getting either GlobalChartState or Options in onSelect()',
+			GlobalChartState,
+			GlobalSiteOptions
+		)
+	}
+
 	const loadedChart = getStoredChart(String(selected.value)) as ChartState
 	if (!loadedChart) {
-		console.error(`Failed to load Selected Chart ${selected.value}.`)
-		return
+		return console.error(`Failed to load Selected Chart ${selected.value}.`)
 	}
 	// First, store current chart
 	setCurrentChart(selected.value)
@@ -67,7 +74,7 @@ function onSelect() {
 
 function onNewChart() {
 	tempRename.value = PreventNameCollision(chartNameInput.value)
-	newModal.value.showModal()
+	newModal.value?.showModal()
 }
 
 function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
@@ -85,15 +92,19 @@ function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
 	saveCurrentChart()
 	GlobalChartState.value = selectedChart.value
 
-	newModal.value.close()
+	newModal.value?.close()
 }
 
 function onRenameChart() {
 	tempRename.value = PreventNameCollision(chartNameInput.value)
-	renameModal.value.showModal()
+	renameModal.value?.showModal()
 }
 
 function renameChart() {
+	if (!selectedChart.value) {
+		return console.error('Selected Chart is not defined', selectedChart)
+	}
+
 	selectedChart.value.options.chartTitle = chartNameInput.value =
 		tempRename.value
 	setStoredChart(tempRename.value, selectedChart.value)
@@ -104,7 +115,7 @@ function renameChart() {
 		StoredChartNames.value.findIndex((name) => name === selected.value)
 	] = tempRename.value
 	selected.value = tempRename.value
-	renameModal.value.close()
+	renameModal.value?.close()
 }
 
 function deleteChart() {
@@ -126,14 +137,23 @@ function deleteChart() {
 	selected.value = chartToSet.options.chartTitle
 	selectedChart.value = chartToSet
 	GlobalChartState.value = chartToSet
-	GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
+	GlobalSiteOptions.value!.currentChart = chartToSet.options.chartTitle
 	setCurrentChart(selected.value)
 	chartNameInput.value = chartToSet.options.chartTitle
 
-	deleteModal.value.close()
+	deleteModal.value?.close()
 }
 
 onMounted(() => {
+	if (!newModal.value || !renameModal.value || !deleteModal.value) {
+		return console.error(
+			'Error intializing modals in selection.vue',
+			newModal,
+			renameModal,
+			deleteModal
+		)
+	}
+
 	DynamicImportDialogPolyfill([
 		newModal.value,
 		renameModal.value,
@@ -192,7 +212,7 @@ onMounted(() => {
 				pattern="(?!GlobalSiteOptions$).*"
 			/>
 			<p
-				v-if="chartNameInput === '' || !chartInput.validity.valid"
+				v-if="chartNameInput === '' || !chartInput?.validity.valid"
 				class="pt-1"
 			>
 				The name must not be empty or {{ SiteOptionsKey }}
@@ -200,7 +220,7 @@ onMounted(() => {
 		</div>
 		<div v-if="!initializing" class="mt-2 mb-2">
 			<button
-				v-show="chartNameInput !== '' && chartInput.validity.valid"
+				v-show="chartNameInput !== '' && chartInput?.validity.valid"
 				type="button"
 				class="tw-button ml-1"
 				@click="onNewChart"
@@ -208,7 +228,7 @@ onMounted(() => {
 				New
 			</button>
 			<button
-				v-show="chartNameInput !== '' && chartInput.validity.valid"
+				v-show="chartNameInput !== '' && chartInput?.validity.valid"
 				type="button"
 				class="tw-button ml-1 mb-1"
 				@click="onRenameChart"
@@ -216,10 +236,10 @@ onMounted(() => {
 				Rename
 			</button>
 			<button
-				v-show="chartNameInput !== '' && chartInput.validity.valid"
+				v-show="chartNameInput !== '' && chartInput?.validity.valid"
 				type="button"
 				class="tw-button ml-1 mb-1"
-				@click="deleteModal.showModal()"
+				@click="deleteModal?.showModal()"
 			>
 				Delete
 			</button>
@@ -229,7 +249,7 @@ onMounted(() => {
 	<dialog
 		ref="newModal"
 		class="bg-transparent"
-		@keypress.esc="newModal.close()"
+		@keypress.esc="newModal?.close()"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-neutral-200"
@@ -254,7 +274,7 @@ onMounted(() => {
 				</button>
 			</div>
 
-			<button class="tw-button mt-1 py-1 px-3" @click="newModal.close()">
+			<button class="tw-button mt-1 py-1 px-3" @click="newModal?.close()">
 				Cancel
 			</button>
 		</div>
@@ -263,7 +283,7 @@ onMounted(() => {
 	<dialog
 		ref="renameModal"
 		class="bg-transparent"
-		@keypress.esc="renameModal.close()"
+		@keypress.esc="renameModal?.close()"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
@@ -276,7 +296,7 @@ onMounted(() => {
 
 			<div class="flex gap-2">
 				<button class="tw-button" @click="renameChart">Yes</button>
-				<button class="tw-button" @click="renameModal.close()">No</button>
+				<button class="tw-button" @click="renameModal?.close()">No</button>
 			</div>
 		</div>
 	</dialog>
@@ -284,7 +304,7 @@ onMounted(() => {
 	<dialog
 		ref="deleteModal"
 		class="bg-transparent"
-		@keypress.esc="deleteModal.close()"
+		@keypress.esc="deleteModal?.close()"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
@@ -293,7 +313,7 @@ onMounted(() => {
 
 			<div class="flex gap-2">
 				<button class="tw-button" @click="deleteChart">Yes</button>
-				<button class="tw-button" @click="deleteModal.close()">No</button>
+				<button class="tw-button" @click="deleteModal?.close()">No</button>
 			</div>
 		</div>
 	</dialog>
