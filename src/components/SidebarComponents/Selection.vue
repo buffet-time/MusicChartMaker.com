@@ -6,7 +6,8 @@ import {
 	GeneratePresetChart,
 	GlobalChartState,
 	GlobalSiteOptions,
-	PreventNameCollision
+	PreventNameCollision,
+	StoredChartNames
 } from '#src/shared'
 import {
 	setStoredChart,
@@ -28,7 +29,6 @@ const emit = defineEmits<{
 	(event: 'canRenderChart'): void
 }>()
 
-const storedChartNames = ref([''])
 const chartNameInput = ref('')
 const selectedChart = ref() as Ref<ChartState>
 const selected = ref('')
@@ -71,7 +71,7 @@ function onNewChart() {
 }
 
 function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
-	storedChartNames.value.unshift(tempRename.value)
+	StoredChartNames.value.unshift(tempRename.value)
 	if (type === 'Custom') {
 		selectedChart.value = GenerateDefaultChart(tempRename.value)
 	} else if (type === 'Preset' && preset) {
@@ -100,8 +100,8 @@ function renameChart() {
 	deleteStoredChart(selected.value)
 	setCurrentChart(tempRename.value)
 
-	storedChartNames.value[
-		storedChartNames.value.findIndex((name) => name === selected.value)
+	StoredChartNames.value[
+		StoredChartNames.value.findIndex((name) => name === selected.value)
 	] = tempRename.value
 	selected.value = tempRename.value
 	renameModal.value.close()
@@ -109,8 +109,8 @@ function renameChart() {
 
 function deleteChart() {
 	deleteStoredChart(selected.value)
-	storedChartNames.value.splice(
-		storedChartNames.value.findIndex((chart) => chart === selected.value),
+	StoredChartNames.value.splice(
+		StoredChartNames.value.findIndex((chart) => chart === selected.value),
 		1
 	)
 	const firstChartReturn = getFirstChart()
@@ -120,7 +120,7 @@ function deleteChart() {
 		chartToSet = firstChartReturn
 	} else {
 		chartToSet = GenerateDefaultChart()
-		storedChartNames.value.push(chartToSet.options.chartTitle)
+		StoredChartNames.value.push(chartToSet.options.chartTitle)
 	}
 
 	selected.value = chartToSet.options.chartTitle
@@ -157,7 +157,7 @@ onMounted(() => {
 
 	setCurrentChart(selectedChart.value.options.chartTitle)
 	GlobalChartState.value = selectedChart.value
-	storedChartNames.value = getAllSavedKeys()
+	StoredChartNames.value = getAllSavedKeys()
 	selected.value = selectedChart.value.options.chartTitle
 
 	chartNameInput.value = selected.value
@@ -174,7 +174,7 @@ onMounted(() => {
 	<div class="flex flex-col items-center justify-center mt-1">
 		<label>Select Chart: </label>
 		<select v-model="selected" class="tw-input" @change="onSelect">
-			<option v-for="(name, index) in storedChartNames" :key="index">
+			<option v-for="(name, index) in StoredChartNames" :key="index">
 				{{ name }}
 			</option>
 		</select>

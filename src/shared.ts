@@ -26,6 +26,7 @@ import { ref, type Ref } from 'vue'
 // TODO: convert to reactive object instead of pointless ref wrap
 export const GlobalChartState = ref() as Ref<ChartState>
 export const GlobalSiteOptions = ref() as Ref<SiteOptions>
+export const StoredChartNames = ref([''])
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
 export const FillerAlbum = {
 	artist: 'Artist',
@@ -349,7 +350,7 @@ export function ExportChartsAndOptions() {
 		const a = document.createElement('a')
 		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
 		a.href = URL.createObjectURL(file)
-		a.download = 'export_data.json'
+		a.download = 'exported_charts.json'
 		// document.body.appendChild(a)
 		a.click()
 		// document.body.removeChild(a)
@@ -383,10 +384,11 @@ export function ImportChartsAndOptions(importFile: File | null) {
 					data.forEach((state) => {
 						!!state && setStoredChart(state.options.chartTitle, state)
 					})
-					const chart = getFirstChart()
+					const chart = getStoredChart(options.currentChart) || getFirstChart()
 					if (chart) {
 						GlobalChartState.value = chart
 					}
+					StoredChartNames.value = getAllSavedKeys()
 				} else {
 					throw new Error('Unsupported File/Unexpected Contents')
 				}

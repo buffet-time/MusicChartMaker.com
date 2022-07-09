@@ -4,13 +4,18 @@ import Options from './SidebarComponents/Options.vue'
 import Selection from './SidebarComponents/Selection.vue'
 import SiteInfo from './SiteInfo.vue'
 import { ref } from 'vue'
-import { GlobalChartState } from '#src/shared'
+import {
+	GlobalChartState,
+	ImportChartsAndOptions,
+	ExportChartsAndOptions
+} from '#src/shared'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
 }>()
 
 const showOptions = ref(false)
+const filePicker = ref<HTMLInputElement>()
 
 function onCanRender() {
 	emit('canRenderChart')
@@ -34,6 +39,17 @@ async function saveImage() {
 		console.error(`Error in Save Image: ${Error}`)
 	}
 }
+
+function importFromJson() {
+	if (!filePicker.value) {
+		console.error('Error! Could not import file.')
+		return
+	}
+	const input = filePicker.value.files
+	if (input) {
+		ImportChartsAndOptions(input.item(0))
+	}
+}
 </script>
 
 <template>
@@ -43,6 +59,20 @@ async function saveImage() {
 		<button class="mb-3 tw-button py-1 px-3" @click="saveImage">
 			Save Image
 		</button>
+		<button
+			type="button"
+			class="mb-3 tw-button py-1 px-3 ml-1"
+			@click="ExportChartsAndOptions()"
+		>
+			Export Charts
+		</button>
+		<input
+			ref="filePicker"
+			type="file"
+			accept=".json"
+			class="mb-3 ml-1 tw-button py-1 px-3 tw-sidebar-width"
+			@change="importFromJson"
+		/>
 		<Options v-if="showOptions" />
 		<Search />
 	</div>
