@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { version } from '#root/package.json'
-import { onMounted, type Ref, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '#src/wrappers'
 
-const siteInfoModal = ref() as Ref<HTMLDialogElement>
+const siteInfoModal = ref<HTMLDialogElement>()
 
 onMounted(() => {
+	if (!siteInfoModal.value) {
+		return console.error('Site info modal doesnt exist', siteInfoModal)
+	}
+
 	DynamicImportDialogPolyfill([siteInfoModal.value])
 	ClickOutsideDialog(siteInfoModal.value)
 })
@@ -16,7 +20,7 @@ onMounted(() => {
 		<button
 			type="button"
 			class="tw-button mt-2 mb-1 py-1 px-3"
-			@click="siteInfoModal.showModal()"
+			@click="siteInfoModal?.showModal()"
 		>
 			Site Info
 		</button>
@@ -25,7 +29,7 @@ onMounted(() => {
 	<dialog
 		ref="siteInfoModal"
 		class="bg-transparent"
-		@keypress.esc="siteInfoModal.close()"
+		@keypress.esc="siteInfoModal?.close()"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-white"
@@ -89,13 +93,12 @@ onMounted(() => {
 					<li>Text: Font, Size, and Spacing options</li>
 					<li>Add ability to adjust padding in chart</li>
 					<li>Allow for saving the chart as JPG, GIF, WebP, WebM, etc</li>
-					<li>Close modals on click away</li>
 				</ol>
 			</div>
 
 			<!-- Footer -->
 			<div class="flex gap-2">
-				<button class="tw-button" @click="siteInfoModal.close()">Close</button>
+				<button class="tw-button" @click="siteInfoModal?.close()">Close</button>
 			</div>
 		</div>
 	</dialog>

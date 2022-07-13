@@ -1,15 +1,22 @@
-import { ref, type Ref } from 'vue'
-import { getAllSavedKeys } from '#src/storage'
 import {
-	type ChartSize,
-	type SiteOptions,
+	getAllSavedKeys,
+	getFirstChart,
+	GetSiteOptions,
+	getStoredChart,
+	setCurrentChart,
+	setStoredChart
+} from '#src/storage'
+import {
+	type AlbumSearchResult,
 	type AlbumTile,
+	type ChartSize,
 	type ChartState,
 	type DragDataTransfer,
 	type IndicesObject,
 	type Preset,
-	type AlbumSearchResult
+	type SiteOptions
 } from '#types/types'
+import { ref } from 'vue'
 
 // TODO: cleanup shared.ts and storage.ts and organize them
 
@@ -17,8 +24,9 @@ import {
 // Constants and Globals
 // // // // // // // // //
 // TODO: convert to reactive object instead of pointless ref wrap
-export const GlobalChartState = ref() as Ref<ChartState>
-export const GlobalSiteOptions = ref() as Ref<SiteOptions>
+export const GlobalChartState = ref<ChartState>()
+export const GlobalSiteOptions = ref<SiteOptions>()
+export const StoredChartNames = ref([''])
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
 export const FillerAlbum = {
 	artist: 'Artist',
@@ -54,18 +62,22 @@ export function IsImage(input: string): Promise<boolean> {
 	// returns a Promise that'll resolve to a boolean whether or not an input is an image
 	return new Promise((resolve) => {
 		const image = new Image()
-		image.onerror = image.onabort = () => {
-			resolve(false)
-		}
-		image.onload = () => {
-			resolve(true)
-		}
+		image.onerror = image.onabort = () => resolve(false)
+		image.onload = () => resolve(true)
 		image.src = input
 	})
 }
 
 export function getAlbumNumber(indexOne: number, indexTwo: number): number {
+	if (!GlobalChartState.value) {
+		console.error(
+			'Error getting GlobalChartState in getAlbumNumber()',
+			GlobalChartState
+		)
+		return 0
+	}
 	let returnValue = 0
+
 	for (let x = 0; x < indexOne; x++) {
 		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
 	}
@@ -91,6 +103,13 @@ export function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
 	{ index1: originIndex1, index2: originIndex2 }: IndicesObject
 ) {
+	if (!GlobalChartState.value) {
+		return console.error(
+			'Error getting GlobalChartState in RearrangeChart()',
+			GlobalChartState
+		)
+	}
+
 	if (targetIndex1 === originIndex1) {
 		// they're in the same array (read row) so it's simple and 1 dimensional
 		const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
@@ -225,6 +244,13 @@ export function onTouchStart(
 		if (!firstIndex || !secondIndex) return
 
 		if (source === 'Search') {
+			if (!GlobalChartState.value) {
+				return console.error(
+					'Error getting GlobalChartState in onTouchEnd() type Search',
+					GlobalChartState
+				)
+			}
+
 			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
 				Number(secondIndex),
 				1,
@@ -329,5 +355,67 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 			preset: preset
 		},
 		chartTiles: albumArray
+	}
+}
+
+export function ExportChartsAndOptions() {
+	try {
+		// Node does not work here, have to use WebAPI
+		const exportdata = {
+			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
+			siteData: GetSiteOptions()
+		}
+		const a = document.createElement('a')
+		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
+		a.href = URL.createObjectURL(file)
+		a.download = 'exported_charts.json'
+		// document.body.appendChild(a)
+		a.click()
+		// document.body.removeChild(a)
+	} catch (error) {
+		console.error('Error attempting to export chart data!', error)
+	}
+}
+
+export function ImportChartsAndOptions(importFile: File | null) {
+	try {
+		if (!importFile) {
+			throw new Error('No File Submitted')
+		}
+		let options: SiteOptions | undefined
+		let data: ChartState[] | undefined
+		const reader = new FileReader()
+		reader.onerror = (errorEvt) => {
+			throw errorEvt.target?.error
+		}
+		reader.onload = (fileEvent) => {
+			console.log(fileEvent)
+			// Add logic here to check filename and see if it is a JSON file.
+			try {
+				const parsed = JSON.parse(String(fileEvent.target?.result))
+				// Add a typecheck here, assert if it has the siteData and chartData properties
+				if (parsed) {
+					options = parsed.siteData as SiteOptions
+					GlobalSiteOptions.value = options
+					setCurrentChart(options.currentChart)
+					data = parsed.chartData as ChartState[]
+					data.forEach((state) => {
+						!!state && setStoredChart(state.options.chartTitle, state)
+					})
+					const chart = getStoredChart(options.currentChart) || getFirstChart()
+					if (chart) {
+						GlobalChartState.value = chart
+					}
+					StoredChartNames.value = getAllSavedKeys()
+				} else {
+					throw new Error('Unsupported File/Unexpected Contents')
+				}
+			} catch (error) {
+				console.error('Failed to import selected file => Error:', error)
+			}
+		}
+		reader.readAsText(importFile, 'UTF-8')
+	} catch (error) {
+		console.error('Failed to import selected file => Error:', error)
 	}
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '#src/wrappers'
 
-const devToolsModal = ref() as Ref<HTMLDialogElement>
+const devToolsModal = ref<HTMLDialogElement>()
 
 function clearLocalStore() {
 	if (window.confirm('This deletes all charts and site options')) {
@@ -11,20 +11,24 @@ function clearLocalStore() {
 }
 
 onMounted(() => {
+	if (!devToolsModal.value) {
+		console.error('DevtoolsModal doesnt exist...', devToolsModal)
+		return
+	}
 	DynamicImportDialogPolyfill([devToolsModal.value])
 	ClickOutsideDialog(devToolsModal.value)
 })
 </script>
 
 <template>
-	<button class="tw-button mt-2 mx-14" @click="devToolsModal.showModal()">
+	<button class="tw-button mt-2 mx-14" @click="devToolsModal?.showModal()">
 		Dev Tools
 	</button>
 
 	<dialog
 		ref="devToolsModal"
 		class="bg-transparent"
-		@keypress.esc="devToolsModal.close()"
+		@keypress.esc="devToolsModal?.close()"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
@@ -42,7 +46,7 @@ onMounted(() => {
 			</div>
 
 			<div class="flex gap-2">
-				<button class="tw-button" @click="devToolsModal.close()">Close</button>
+				<button class="tw-button" @click="devToolsModal?.close()">Close</button>
 			</div>
 		</div>
 	</dialog>

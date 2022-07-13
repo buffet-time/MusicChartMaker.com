@@ -1,14 +1,20 @@
-pnpm-lock.yaml
+# directories
 /dist
 /.vscode
 /.husky
 /.github
+/src/assets/*
 /node_modules
-.npmrc
-.nvmrc
-.pnpmrc
+
+# singular files
+pnpm-lock.yaml
 .prettierignore
 .gitignore
 .DS_Store
 LICENSE
-/src/assets/*
+.npmrc
+.nvmrc
+.pnpmrc
+
+# file types
+*.log
