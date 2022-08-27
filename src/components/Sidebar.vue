@@ -5,6 +5,7 @@ import Selection from './SidebarComponents/Selection.vue'
 import SiteInfo from './SiteInfo.vue'
 import { ref } from 'vue'
 import { GlobalChartState } from '#src/shared'
+import Export from './SidebarComponents/Export.vue'
 
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
@@ -28,7 +29,7 @@ async function saveImage() {
 		})
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL('image/png')
-		anchor.download = `${GlobalChartState.value.options.chartTitle}.png`
+		anchor.download = `${GlobalChartState.value?.options.chartTitle}.png`
 		anchor.click()
 	} catch (error) {
 		console.error(`Error in Save Image: ${Error}`)
@@ -40,6 +41,7 @@ async function saveImage() {
 	<div class="flex-col tw-sidebar-width fixed bg-[#303030] h-full">
 		<SiteInfo />
 		<Selection @can-render-chart="onCanRender" />
+		<Export />
 		<button class="mb-3 tw-button py-1 px-3" @click="saveImage">
 			Save Image
 		</button>

@@ -1,15 +1,14 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"private": false,
-	"version": "0.4.1",
+	"version": "0.5.0",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
 		"name": "Daniel Turcich",
 		"url": "https://danielTurcich.com"
 	},
 	"engines": {
-		"node": ">=16.15.0",
+		"node": ">=18.4.0",
 		"pnpm": ">=7.0.0"
 	},
 	"imports": {
@@ -20,15 +19,17 @@
 		"#types/*": "./src/types/*"
 	},
 	"scripts": {
+		"prepare": "husky install",
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
-		"lint-fix": "pnpm run lint-check --fix",
+		"lint-fix": "eslint \"**/*.{ts,vue}\" --fix",
 		"lint-check": "eslint \"**/*.{ts,vue}\"",
-		"format-fix": "pnpm run format-check --write",
+		"format-fix": "prettier --write \"**/**\"",
 		"format-check": "prettier --check \"**/**\"",
-		"prepare": "husky install",
-		"build": "vue-tsc --noEmit && vite build --emptyOutDir && pnpm add:cname",
-		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME",
+		"type-check": "vue-tsc --noEmit && echo type-check done",
+		"vite-build": "vite build --emptyOutDir && echo vite-build done",
+		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME && echo add:cname done",
+		"build": "pnpm type-check && pnpm vite-build && pnpm add:cname",
 		"build:preview": "vite preview"
 	},
 	"dependencies": {
@@ -37,25 +38,25 @@
 		"vue": "^3.2.37"
 	},
 	"devDependencies": {
-		"@nabla/vite-plugin-eslint": "^1.4.0",
-		"@types/node": "18.0.0",
-		"@typescript-eslint/eslint-plugin": "^5.29.0",
-		"@typescript-eslint/parser": "^5.29.0",
-		"@vitejs/plugin-vue": "^2.3.3",
+		"@nabla/vite-plugin-eslint": "^1.4.1",
+		"@types/node": "18.7.13",
+		"@typescript-eslint/eslint-plugin": "^5.35.1",
+		"@typescript-eslint/parser": "^5.35.1",
+		"@vitejs/plugin-vue": "^3.0.3",
 		"@vue/eslint-config-typescript": "^11.0.0",
-		"autoprefixer": "^10.4.7",
-		"eslint": "^8.18.0",
+		"autoprefixer": "^10.4.8",
+		"eslint": "^8.23.0",
 		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-vue": "^9.1.1",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-vue": "^9.4.0",
 		"husky": "^8.0.1",
-		"postcss": "^8.4.14",
+		"postcss": "^8.4.16",
 		"prettier": "^2.7.1",
-		"prettier-plugin-tailwindcss": "^0.1.11",
-		"tailwindcss": "^3.1.4",
-		"typescript": "^4.7.4",
-		"vite": "^2.9.12",
+		"prettier-plugin-tailwindcss": "^0.1.13",
+		"tailwindcss": "^3.1.8",
+		"typescript": "^4.8.2",
+		"vite": "^3.0.9",
 		"vue-eslint-parser": "^9.0.3",
-		"vue-tsc": "^0.38.1"
+		"vue-tsc": "^0.40.1"
 	}
 }

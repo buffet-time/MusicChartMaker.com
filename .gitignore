@@ -3,9 +3,11 @@ logs
 *.log
 npm-debug.log*
 pnpm-debug.log*
+.DS_Store
+
+# other
 node_modules
 dist
-.DS_Store
-# i sometimes use this to inspect json files :)
-ignore.json
-ignore.txt
+
+# i sometimes use this to inspect files :)
+ignore.*
