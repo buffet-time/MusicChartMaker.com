@@ -1,11 +1,4 @@
-import {
-	getAllSavedKeys,
-	getFirstChart,
-	GetSiteOptions,
-	getStoredChart,
-	setCurrentChart,
-	setStoredChart
-} from '#src/storage'
+import { getAllSavedKeys } from '#src/storage'
 import {
 	type AlbumSearchResult,
 	type AlbumTile,
@@ -355,67 +348,5 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 			preset: preset
 		},
 		chartTiles: albumArray
-	}
-}
-
-export function ExportChartsAndOptions() {
-	try {
-		// Node does not work here, have to use WebAPI
-		const exportdata = {
-			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
-			siteData: GetSiteOptions()
-		}
-		const a = document.createElement('a')
-		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
-		a.href = URL.createObjectURL(file)
-		a.download = 'exported_charts.json'
-		// document.body.appendChild(a)
-		a.click()
-		// document.body.removeChild(a)
-	} catch (error) {
-		console.error('Error attempting to export chart data!', error)
-	}
-}
-
-export function ImportChartsAndOptions(importFile: File | null) {
-	try {
-		if (!importFile) {
-			throw new Error('No File Submitted')
-		}
-		let options: SiteOptions | undefined
-		let data: ChartState[] | undefined
-		const reader = new FileReader()
-		reader.onerror = (errorEvt) => {
-			throw errorEvt.target?.error
-		}
-		reader.onload = (fileEvent) => {
-			console.log(fileEvent)
-			// Add logic here to check filename and see if it is a JSON file.
-			try {
-				const parsed = JSON.parse(String(fileEvent.target?.result))
-				// Add a typecheck here, assert if it has the siteData and chartData properties
-				if (parsed) {
-					options = parsed.siteData as SiteOptions
-					GlobalSiteOptions.value = options
-					setCurrentChart(options.currentChart)
-					data = parsed.chartData as ChartState[]
-					data.forEach((state) => {
-						!!state && setStoredChart(state.options.chartTitle, state)
-					})
-					const chart = getStoredChart(options.currentChart) || getFirstChart()
-					if (chart) {
-						GlobalChartState.value = chart
-					}
-					StoredChartNames.value = getAllSavedKeys()
-				} else {
-					throw new Error('Unsupported File/Unexpected Contents')
-				}
-			} catch (error) {
-				console.error('Failed to import selected file => Error:', error)
-			}
-		}
-		reader.readAsText(importFile, 'UTF-8')
-	} catch (error) {
-		console.error('Failed to import selected file => Error:', error)
 	}
 }
