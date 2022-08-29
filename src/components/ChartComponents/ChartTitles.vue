@@ -66,5 +66,8 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 				</p>
 			</template>
 		</div>
+
+		<!-- To prevent erroneous edits to the bottom album/ artist -->
+		‎
 	</div>
 </template>
