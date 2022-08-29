@@ -92,7 +92,7 @@ function importFromJson() {
 </script>
 
 <template>
-	<div class="flex flex-col justify-center items-center px-2">
+	<div class="flex flex-col justify-center items-center px-2 mb-2">
 		<button
 			type="button"
 			class="mb-3 tw-button py-1 px-3"
@@ -100,12 +100,17 @@ function importFromJson() {
 		>
 			Export Charts
 		</button>
-		<input
-			ref="filePicker"
-			type="file"
-			accept=".json"
-			class="mb-3 tw-button py-1 px-3 tw-sidebar-width"
-			@change="importFromJson"
-		/>
+
+		<label for="file-picker" class="tw-button py-1">
+			Import Charts
+			<input
+				id="file-picker"
+				ref="filePicker"
+				type="file"
+				accept=".json"
+				class="hidden"
+				@change="importFromJson"
+			/>
+		</label>
 	</div>
 </template>

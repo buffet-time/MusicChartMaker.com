@@ -69,30 +69,20 @@ onMounted(() => {
 			</div>
 
 			<!-- Text info -->
-
-			<!-- the main things i need to add:
-					TODO:
-					1) add a modal for tips on less obvious functionality
-					2) Fix clicking anywhere below the titles triggering content editable
-					3) text font/ size change options
-					4) Padding 
-					5) improve editing of artist and album name to maybe be editable all at once?
-					6) Allow for saving as JPEG, GIF, WebM -- https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL 
-					7) look more into the vite vue plugin - i think this is regarding performance (slightly younger me being a bit obtuse)
-					8) extract Dialog into its a /HelperComponents/ file
-
-					A) options to set how many albums in a row
-						1) have some sort of ui to create these yourself
-				-->
 			<div class="pb-2">
 				<h2 class="font-bold">Planned Features/ Enhancements</h2>
 				<ol class="list-disc list-inside pt-1">
 					<li>Support for Mobile</li>
+					<li>Improve site UI/UX responsiveness</li>
 					<li>Add a section in this box for explaining features of the site</li>
 					<li>Fix the jankiness of renaming the artist/ album title</li>
 					<li>Text: Font, Size, and Spacing options</li>
 					<li>Add ability to adjust padding in chart</li>
-					<li>Allow for saving the chart as JPG, GIF, WebP, WebM, etc</li>
+					<li>Add ability to create custom presets</li>
+					<li>
+						Enhance Dialogs by making them a custom component to reduce code
+						duplication
+					</li>
 				</ol>
 			</div>
 
