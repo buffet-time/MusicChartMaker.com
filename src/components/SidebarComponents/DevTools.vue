@@ -1,53 +1,36 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '#src/wrappers'
+import Dialog from '../CoreComponents/Dialog.vue'
 
-const devToolsModal = ref<HTMLDialogElement>()
+const devToolsId = 'devtools'
+
+function openDevToolsModal() {
+	// prettier-ignore
+	(document.getElementById(devToolsId) as HTMLDialogElement).showModal()
+}
 
 function clearLocalStore() {
 	if (window.confirm('This deletes all charts and site options')) {
 		localStorage.clear()
 	}
 }
-
-onMounted(() => {
-	if (!devToolsModal.value) {
-		console.error('DevtoolsModal doesnt exist...', devToolsModal)
-		return
-	}
-	DynamicImportDialogPolyfill([devToolsModal.value])
-	ClickOutsideDialog(devToolsModal.value)
-})
 </script>
 
 <template>
-	<button class="tw-button mt-2 mx-14" @click="devToolsModal?.showModal()">
+	<button class="tw-button mt-2 mx-14" @click="openDevToolsModal">
 		Dev Tools
 	</button>
 
-	<dialog
-		ref="devToolsModal"
-		class="bg-transparent"
-		@keypress.esc="devToolsModal?.close()"
-	>
-		<div
-			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center"
-		>
-			<p class="text-neutral-200">
-				Dev debugging tools. Feel free to use them, but be wary :)
-			</p>
+	<Dialog :dialog-id="devToolsId" :close-button="true">
+		<p class="text-neutral-200">
+			Dev debugging tools. Feel free to use them, but be wary :)
+		</p>
 
-			<div class="gap-2 flex">
-				<div class="flex gap-2">
-					<button class="tw-button" @click="clearLocalStore">
-						Clear LocalStorage
-					</button>
-				</div>
-			</div>
-
+		<div class="gap-2 flex">
 			<div class="flex gap-2">
-				<button class="tw-button" @click="devToolsModal?.close()">Close</button>
+				<button class="tw-button" @click="clearLocalStore">
+					Clear LocalStorage
+				</button>
 			</div>
 		</div>
-	</dialog>
+	</Dialog>
 </template>
