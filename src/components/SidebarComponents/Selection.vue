@@ -3,7 +3,6 @@
 import { ref, onMounted } from 'vue'
 import {
 	GenerateDefaultChart,
-	GeneratePresetChart,
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames
@@ -13,10 +12,9 @@ import {
 	getStoredChart,
 	setCurrentChart,
 	getCurrentChart,
-	getAllSavedKeys,
-	SiteOptionsKey
+	getAllSavedKeys
 } from '#src/storage'
-import { type Preset, type ChartState } from '#types/types'
+import { type ChartState } from '#types/types'
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
@@ -25,14 +23,9 @@ const emit = defineEmits<{
 	(event: 'canRenderChart'): void
 }>()
 
-const chartNameInput = ref('')
+const selectedChartTitle = ref('')
 const selectedChart = ref<ChartState>()
-const selected = ref('')
 const initializing = ref(true)
-const tempRename = ref('')
-
-// Reference to HTML elements
-const chartInput = ref<HTMLInputElement>()
 
 // this is a bit janky :/
 function onSelect() {
@@ -44,39 +37,20 @@ function onSelect() {
 		)
 	}
 
-	const loadedChart = getStoredChart(String(selected.value)) as ChartState
+	const loadedChart = getStoredChart(
+		String(selectedChartTitle.value)
+	) as ChartState
 	if (!loadedChart) {
-		return console.error(`Failed to load Selected Chart ${selected.value}.`)
+		return console.error(
+			`Failed to load Selected Chart ${selectedChartTitle.value}.`
+		)
 	}
 	// First, store current chart
-	setCurrentChart(selected.value)
+	setCurrentChart(selectedChartTitle.value)
 	// Now, update current chart, and update latest chart to current.
 	GlobalChartState.value = loadedChart
-	GlobalSiteOptions.value.currentChart = selected.value
+	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
 	selectedChart.value = loadedChart
-	chartNameInput.value = loadedChart.options.chartTitle
-}
-
-function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
-	StoredChartNames.value.unshift(tempRename.value)
-	if (type === 'Custom') {
-		selectedChart.value = GenerateDefaultChart(tempRename.value)
-	} else if (type === 'Preset' && preset) {
-		selectedChart.value = GeneratePresetChart(tempRename.value, preset)
-	} else {
-		return console.error('Incorrect addChart() invocation: ', type, preset)
-	}
-	selected.value = chartNameInput.value = tempRename.value
-	setCurrentChart(tempRename.value)
-	saveCurrentChart()
-	GlobalChartState.value = selectedChart.value
-}
-
-function saveCurrentChart() {
-	if (selected.value && selectedChart) {
-		return setStoredChart(selected.value, selectedChart.value!)
-	}
-	throw new Error('Error: Cannot save current Chart!')
 }
 
 onMounted(() => {
@@ -94,9 +68,7 @@ onMounted(() => {
 	setCurrentChart(selectedChart.value.options.chartTitle)
 	GlobalChartState.value = selectedChart.value
 	StoredChartNames.value = getAllSavedKeys()
-	selected.value = selectedChart.value.options.chartTitle
-
-	chartNameInput.value = selected.value
+	selectedChartTitle.value = selectedChart.value.options.chartTitle
 
 	emit('canRenderChart')
 	initializing.value = false
@@ -109,62 +81,41 @@ onMounted(() => {
 
 	<div class="flex flex-col items-center justify-center mt-1">
 		<label>Select Chart: </label>
-		<select v-model="selected" class="tw-input" @change="onSelect">
+		<select v-model="selectedChartTitle" class="tw-input" @change="onSelect">
 			<option v-for="(name, index) in StoredChartNames" :key="index">
 				{{ name }}
 			</option>
 		</select>
 	</div>
 	<div class="flex-col gap-4 mt-2">
-		<div class="flex flex-col justify-center items-center">
-			<label>Chart Name: </label>
-			<input
-				ref="chartInput"
-				v-model="chartNameInput"
-				placeholder="Name of chart"
-				type="text"
-				class="p-2 tw-input mr-1 invalid:text-red-500"
-				title="Any name but can't just be a number."
-				pattern="(?!GlobalSiteOptions$).*"
-			/>
-			<p
-				v-if="chartNameInput === '' || !chartInput?.validity.valid"
-				class="pt-1"
-			>
-				The name must not be empty or {{ SiteOptionsKey }}
-			</p>
-		</div>
-		<div v-if="!initializing" class="mt-2 mb-2">
+		<div v-if="!initializing" class="mt-2 mb-3">
+			<!-- make sure new and rename completely properly prevent name collision -->
 			<New
-				:chart-name-input="chartNameInput"
-				:temp-rename="tempRename"
-				:chart-validity="chartInput?.validity.valid"
-				@update-temp-rename="(value) => (tempRename = value)"
-				@new-chart="newChart"
+				:selected-chart-title="selectedChartTitle"
+				:selected-chart="selectedChart!"
+				@update-selected-chart-title="(value) => (selectedChartTitle = value)"
 			/>
+			<!-- may need to update selected too? -->
 
 			<Rename
-				:chart-name-input="chartNameInput"
 				:selected-chart="selectedChart!"
-				:selected="selected"
-				:temp-rename="tempRename"
-				:chart-validity="chartInput?.validity.valid"
-				@update-temp-rename="(value) => (tempRename = value)"
-				@update-selected="(value) => (selected = value)"
+				:selected-chart-title="selectedChartTitle"
 				@update-chart-title="
-					(value) => (selectedChart!.options.chartTitle = value)
+					(value) => { 
+						selectedChart!.options.chartTitle = value
+						selectedChartTitle = value 
+					} 
 				"
-				@update-chart-name-input="(value) => (chartNameInput = value)"
 			/>
 
 			<Delete
-				:chart-name-input="chartNameInput"
-				:selected-chart="selectedChart!"
-				:selected="selected"
-				:chart-validity="chartInput?.validity.valid"
-				@update-selected="(value) => (selected = value)"
-				@update-selected-chart="(value) => (selectedChart = value)"
-				@update-chart-name-input="(value) => (chartNameInput = value)"
+				:selected-chart-title="selectedChartTitle"
+				@delete-chart="
+					(value) => {
+						selectedChartTitle = value.options.chartTitle
+						selectedChart = value
+					}
+				"
 			/>
 		</div>
 	</div>

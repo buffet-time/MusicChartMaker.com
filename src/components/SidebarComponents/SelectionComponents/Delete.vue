@@ -1,25 +1,24 @@
 <script setup lang="ts">
+import Dialog from '#components/CoreComponents/Dialog.vue'
 import {
+	StoredChartNames,
 	GenerateDefaultChart,
 	GlobalChartState,
-	GlobalSiteOptions,
-	StoredChartNames
-} from '#src/shared'
-import { deleteStoredChart, setCurrentChart, getFirstChart } from '#src/storage'
-import { type ChartState } from '#types/types'
-import Dialog from '#components/CoreComponents/Dialog.vue'
+	GlobalSiteOptions
+} from '#root/src/shared'
+import {
+	deleteStoredChart,
+	getFirstChart,
+	setCurrentChart
+} from '#root/src/storage'
+import { ChartState } from '#root/src/types/types'
 
 const props = defineProps<{
-	chartNameInput: string
-	selectedChart: ChartState
-	selected: string
-	chartValidity: boolean | undefined
+	selectedChartTitle: string
 }>()
 
 const emit = defineEmits<{
-	(event: 'updateSelected', value: string): void
-	(event: 'updateSelectedChart', value: ChartState): void
-	(event: 'updateChartNameInput', value: string): void
+	(event: 'deleteChart', value: ChartState): void
 }>()
 
 const deleteDialogId = 'deleteDialog'
@@ -35,9 +34,11 @@ function closeDeleteModal() {
 }
 
 function deleteChart() {
-	deleteStoredChart(props.selected)
+	deleteStoredChart(props.selectedChartTitle)
 	StoredChartNames.value.splice(
-		StoredChartNames.value.findIndex((chart) => chart === props.selected),
+		StoredChartNames.value.findIndex(
+			(chart) => chart === props.selectedChartTitle
+		),
 		1
 	)
 	const firstChartReturn = getFirstChart()
@@ -50,31 +51,19 @@ function deleteChart() {
 		StoredChartNames.value.push(chartToSet.options.chartTitle)
 	}
 
-	// props.selected = chartToSet.options.chartTitle
-	emit('updateSelected', chartToSet.options.chartTitle)
-
-	// props.selectedChart = chartToSet
-	emit('updateSelectedChart', chartToSet)
-
 	GlobalChartState.value = chartToSet
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	GlobalSiteOptions.value!.currentChart = chartToSet.options.chartTitle
-	setCurrentChart(props.selected)
+	setCurrentChart(chartToSet.options.chartTitle)
 
-	// props.chartNameInput = chartToSet.options.chartTitle
-	emit('updateChartNameInput', chartToSet.options.chartTitle)
+	emit('deleteChart', chartToSet)
 
 	closeDeleteModal()
 }
 </script>
 
 <template>
-	<button
-		v-show="chartNameInput !== '' && props.chartValidity"
-		type="button"
-		class="tw-button ml-1 mb-1"
-		@click="openDeleteModal"
-	>
+	<button type="button" class="tw-button ml-1 mb-1" @click="openDeleteModal">
 		Delete
 	</button>
 

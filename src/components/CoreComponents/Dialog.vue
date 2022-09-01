@@ -8,6 +8,10 @@ const props = defineProps<{
 
 const currentDialog = ref<HTMLDialogElement>()
 
+function closeDialog() {
+	currentDialog.value?.close()
+}
+
 onMounted(async () => {
 	if (!currentDialog.value) {
 		return console.error('The passed modal doesnt exist', currentDialog.value)
@@ -19,11 +23,14 @@ onMounted(async () => {
 		dialogPolyfill.registerDialog(currentDialog.value)
 	}
 
-	// adds listener to close the dialog when you click outside
-	currentDialog.value.addEventListener('click', (event) => {
+	// adds listener to close the dialog when you start a click outside
+	// mousedown in case you are click dragging and end up just outside
+	// it then would feel like a bug
+	currentDialog.value.addEventListener('mousedown', (event) => {
 		if (currentDialog.value?.open && event.target === currentDialog.value) {
-			currentDialog.value.close()
-			// TODO: cleanup this eventlistener
+			// TODO: maybe look into cleaning up listeners on dialogs
+			// there's only a few so it shouldn't be too big of a cpu or ram hit.
+			closeDialog()
 		}
 	})
 })
@@ -34,7 +41,7 @@ onMounted(async () => {
 		:id="props.dialogId"
 		ref="currentDialog"
 		class="bg-transparent"
-		@keypress.esc="currentDialog!.close()"
+		@keypress.esc="closeDialog"
 	>
 		<div
 			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-white"
@@ -43,9 +50,13 @@ onMounted(async () => {
 			<slot></slot>
 
 			<!-- Footer -->
-			<div v-if="props.closeButton" class="flex gap-2">
-				<button class="tw-button" @click="currentDialog!.close()">Close</button>
-			</div>
+			<button
+				v-if="props.closeButton"
+				class="tw-button mt-1"
+				@click="closeDialog"
+			>
+				Close
+			</button>
 		</div>
 	</dialog>
 </template>

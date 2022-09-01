@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { PreventNameCollision, StoredChartNames } from '#src/shared'
+import { StoredChartNames } from '#src/shared'
 import {
 	setStoredChart,
 	deleteStoredChart,
+	SiteOptionsKey,
 	setCurrentChart
 } from '#src/storage'
 import { type ChartState } from '#types/types'
@@ -10,25 +11,20 @@ import Dialog from '#components/CoreComponents/Dialog.vue'
 import { ref } from 'vue'
 
 const props = defineProps<{
-	chartNameInput: string
 	selectedChart: ChartState
-	selected: string
-	tempRename: string
-	chartValidity: boolean | undefined
+	selectedChartTitle: string
 }>()
 
 const emits = defineEmits<{
-	(event: 'updateTempRename', value: string): void
-	(event: 'updateSelected', value: string): void
 	(event: 'updateChartTitle', value: string): void
-	(event: 'updateChartNameInput', value: string): void
 }>()
 
 const renameDialogId = 'renameDialog'
-const tempRenameLocal = ref(props.chartNameInput)
+const chartInput = ref('')
+const renameChartInput = ref<HTMLInputElement>()
 
 function onRenameChart() {
-	emits('updateTempRename', PreventNameCollision(props.chartNameInput))
+	chartInput.value = props.selectedChartTitle
 	const renameDialog = document.getElementById(
 		renameDialogId
 	) as HTMLDialogElement
@@ -41,34 +37,30 @@ function closeRenameModal() {
 }
 
 function renameChart() {
+	// TODO: add a preventNameCollision here!
+
 	if (!props.selectedChart) {
 		return console.error('Selected Chart is not defined', props.selectedChart)
 	}
 
-	emits('updateChartTitle', tempRenameLocal.value)
-	emits('updateChartNameInput', tempRenameLocal.value)
-
-	setStoredChart(tempRenameLocal.value, props.selectedChart)
-	deleteStoredChart(props.selected)
-	setCurrentChart(tempRenameLocal.value)
+	setStoredChart(chartInput.value, props.selectedChart)
+	deleteStoredChart(props.selectedChartTitle)
+	setCurrentChart(chartInput.value)
 
 	StoredChartNames.value[
-		StoredChartNames.value.findIndex((name) => name === props.selected)
-	] = tempRenameLocal.value
+		StoredChartNames.value.findIndex(
+			(name) => name === props.selectedChartTitle
+		)
+	] = chartInput.value
 
-	emits('updateSelected', tempRenameLocal.value)
+	emits('updateChartTitle', chartInput.value)
 
 	closeRenameModal()
 }
 </script>
 
 <template>
-	<button
-		v-show="chartNameInput !== '' && chartValidity"
-		type="button"
-		class="tw-button ml-1 mb-1"
-		@click="onRenameChart"
-	>
+	<button type="button" class="tw-button ml-1 mb-1" @click="onRenameChart">
 		Rename
 	</button>
 
@@ -76,16 +68,21 @@ function renameChart() {
 		<p class="text-neutral-200">Rename current chart to:</p>
 
 		<input
-			ref="chartInput"
-			v-model="tempRenameLocal"
+			ref="renameChartInput"
+			v-model="chartInput"
 			placeholder="Name of chart"
 			type="text"
 			class="p-2 tw-input mr-1 invalid:text-red-500"
 			title="Any name but can't just be a number."
 			pattern="(?!GlobalSiteOptions$).*"
 		/>
+		<template v-if="chartInput === '' || !renameChartInput?.validity.valid">
+			<p class="pt-1">The name can't be empty</p>
+			<p>or {{ SiteOptionsKey }}</p>
+			<button class="tw-button" @click="closeRenameModal">Cancel</button>
+		</template>
 
-		<div class="flex gap-2">
+		<div v-else class="flex gap-2">
 			<button class="tw-button" @click="renameChart">Yes</button>
 			<button class="tw-button" @click="closeRenameModal">No</button>
 		</div>
