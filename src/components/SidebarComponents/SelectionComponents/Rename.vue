@@ -7,7 +7,7 @@ import {
 	setCurrentChart
 } from '#src/storage'
 import { type ChartState } from '#types/types'
-import Dialog from '#components/CoreComponents/Dialog.vue'
+import Dialog from '#core/Dialog.vue'
 import { ref } from 'vue'
 
 const props = defineProps<{
@@ -60,7 +60,7 @@ function renameChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button ml-1 mb-1" @click="onRenameChart">
+	<button type="button" class="tw-button ml-1" @click="onRenameChart">
 		Rename
 	</button>
 

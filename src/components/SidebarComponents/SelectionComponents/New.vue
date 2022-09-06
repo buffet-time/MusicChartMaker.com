@@ -9,8 +9,8 @@ import {
 	StoredChartNames
 } from '#src/shared'
 import { setCurrentChart, setStoredChart, SiteOptionsKey } from '#src/storage'
-import { ChartState, type Preset } from '#types/types'
-import Dialog from '#components/CoreComponents/Dialog.vue'
+import { type ChartState, type Preset } from '#types/types'
+import Dialog from '#core/Dialog.vue'
 
 const props = defineProps<{
 	selectedChartTitle: string

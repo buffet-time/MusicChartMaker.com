@@ -56,7 +56,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 </script>
 
 <template>
-	<div class="flex-col gap-4 mt-3">
+	<div class="flex-col gap-4">
 		<div>
 			<label>Search: </label>
 			<div class="flex flex-col justify-center items-center gap-2">

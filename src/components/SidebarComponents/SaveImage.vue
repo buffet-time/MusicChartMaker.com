@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { GlobalChartState } from '#src/shared'
 import { onMounted, ref } from 'vue'
-import Dialog from '../CoreComponents/Dialog.vue'
+import Dialog from '#core/Dialog.vue'
 
 const saveImageId = 'saveImage'
 
@@ -56,21 +56,27 @@ onMounted(() => {
 </script>
 
 <template>
-	<button class="mb-3 mt-1 tw-button py-1 px-3" @click="openSaveImage()">
-		Save Image
-	</button>
-
-	<Dialog :dialog-id="saveImageId" :close-button="true">
-		Save chart as image
-
-		<select v-if="renderImageSelect" v-model="selectedFormat" class="tw-input">
-			<option v-for="(imageType, index) in validFormats" :key="index">
-				{{ imageType }}
-			</option>
-		</select>
-
-		<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
+	<div>
+		<button class="tw-button py-1 px-3" @click="openSaveImage()">
 			Save Image
 		</button>
-	</Dialog>
+
+		<Dialog :dialog-id="saveImageId" :close-button="true">
+			Save chart as image
+
+			<select
+				v-if="renderImageSelect"
+				v-model="selectedFormat"
+				class="tw-input"
+			>
+				<option v-for="(imageType, index) in validFormats" :key="index">
+					{{ imageType }}
+				</option>
+			</select>
+
+			<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
+				Save Image
+			</button>
+		</Dialog>
+	</div>
 </template>

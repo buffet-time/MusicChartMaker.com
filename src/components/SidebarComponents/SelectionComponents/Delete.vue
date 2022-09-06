@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Dialog from '#components/CoreComponents/Dialog.vue'
+import Dialog from '#core/Dialog.vue'
 import {
 	StoredChartNames,
 	GenerateDefaultChart,
@@ -11,7 +11,7 @@ import {
 	getFirstChart,
 	setCurrentChart
 } from '#root/src/storage'
-import { ChartState } from '#root/src/types/types'
+import { type ChartState } from '#types/types'
 
 const props = defineProps<{
 	selectedChartTitle: string
@@ -63,7 +63,7 @@ function deleteChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button ml-1 mb-1" @click="openDeleteModal">
+	<button type="button" class="tw-button ml-1" @click="openDeleteModal">
 		Delete
 	</button>
 

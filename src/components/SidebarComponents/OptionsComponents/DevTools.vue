@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Dialog from '../CoreComponents/Dialog.vue'
+import Dialog from '#core/Dialog.vue'
 
 const devToolsId = 'devtools'
 
@@ -16,9 +16,7 @@ function clearLocalStore() {
 </script>
 
 <template>
-	<button class="tw-button mt-2 mx-14" @click="openDevToolsModal">
-		Dev Tools
-	</button>
+	<button class="tw-button mx-14" @click="openDevToolsModal">Dev Tools</button>
 
 	<Dialog :dialog-id="devToolsId" :close-button="true">
 		<p class="text-neutral-200">
