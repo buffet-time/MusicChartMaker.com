@@ -18,21 +18,3 @@ export async function ProperFetch(url: string): Promise<any | null> {
 		return null
 	}
 }
-
-// Imports the dialog polyfill dynamically if its needed
-export async function DynamicImportDialogPolyfill(
-	dialogArray: HTMLDialogElement[]
-): Promise<void> {
-	if (typeof HTMLDialogElement !== 'function') {
-		const { default: dialogPolyfill } = await import('dialog-polyfill')
-		dialogArray.forEach((dialog) => dialogPolyfill.registerDialog(dialog))
-	}
-}
-
-export function ClickOutsideDialog(modal: HTMLDialogElement) {
-	modal.addEventListener('click', (event) => {
-		if (modal.open && event.target === modal) {
-			modal.close()
-		}
-	})
-}

@@ -11,7 +11,7 @@ import {
 	onTouchStart
 } from '#src/shared'
 import {
-	AlbumTile,
+	type AlbumTile,
 	type DragDataTransfer,
 	type IndicesObject
 } from '#types/types'

@@ -8,7 +8,7 @@ import {
 } from '#src/shared'
 import { SaveSiteOptions } from '#src/storage'
 import Close from '#assets/whiteClose.svg'
-import DevTools from './DevTools.vue'
+import DevTools from './OptionsComponents/DevTools.vue'
 
 const colsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes.length)
@@ -208,141 +208,145 @@ function clearBackground() {
 </script>
 
 <template>
-	<!-- TODO: Separate chart options and global options into 2 sections -->
+	<div>
+		<!-- TODO: Separate chart options and global options into 2 sections -->
 
-	<!-- in the sidebar -->
-	<div class="flex justify-center items-center gap-2">
-		<button
-			type="button"
-			class="tw-button cursor-pointer"
-			@click="showOptions = true"
+		<!-- in the sidebar -->
+		<div class="flex justify-center items-center gap-2">
+			<button
+				type="button"
+				class="tw-button cursor-pointer"
+				@click="showOptions = true"
+			>
+				Show Options
+			</button>
+		</div>
+
+		<!-- The options overlay -->
+		<div
+			v-if="showOptions"
+			class="flex flex-col tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
 		>
-			Show Options
-		</button>
-	</div>
+			<img
+				title="Close Options"
+				:src="Close"
+				class="cursor-pointer w-7 absolute right-0 mt-1 mr-1 bg-neutral-500 fill-white p-1"
+				@click="showOptions = false"
+			/>
 
-	<!-- The options overlay -->
-	<div
-		v-if="showOptions"
-		class="flex flex-col tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
-	>
-		<img
-			title="Close Options"
-			:src="Close"
-			class="cursor-pointer w-7 absolute right-0 mt-1 mr-1 bg-neutral-500 fill-white p-1"
-			@click="showOptions = false"
-		/>
+			<template v-if="!isPreset">
+				<label class="pt-4"> Columns: {{ colsNum }} </label>
+				<input
+					v-model="colsNum"
+					class="cursor-pointer"
+					type="range"
+					min="1"
+					max="20"
+					step="1"
+				/>
 
-		<template v-if="!isPreset">
-			<label class="pt-4"> Columns: {{ colsNum }} </label>
+				<label class="mt-2"> Rows: {{ rowsNum }} </label>
+				<input
+					v-model="rowsNum"
+					class="cursor-pointer"
+					type="range"
+					min="1"
+					max="20"
+					step="1"
+				/>
+			</template>
+
+			<label class="mt-2" :class="{ 'pt-7': isPreset }">
+				# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
+			</label>
 			<input
-				v-model="colsNum"
+				v-model="GlobalSiteOptions!.numberOfSearchResults"
 				class="cursor-pointer"
 				type="range"
-				min="1"
-				max="20"
+				min="10"
+				max="50"
 				step="1"
 			/>
 
-			<label class="mt-2"> Rows: {{ rowsNum }} </label>
-			<input
-				v-model="rowsNum"
-				class="cursor-pointer"
-				type="range"
-				min="1"
-				max="20"
-				step="1"
-			/>
-		</template>
+			<div class="tw-options-div">
+				<label>Show Album Titles</label>
+				<input
+					v-model="GlobalChartState!.options.displayTitles"
+					type="checkbox"
+					class="tw-checkbox cursor-pointer"
+				/>
+			</div>
 
-		<label class="mt-2" :class="{ 'pt-7': isPreset }">
-			# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
-		</label>
-		<input
-			v-model="GlobalSiteOptions!.numberOfSearchResults"
-			class="cursor-pointer"
-			type="range"
-			min="10"
-			max="50"
-			step="1"
-		/>
+			<div class="tw-options-div">
+				<label>Show Numbers</label>
+				<input
+					v-model="GlobalChartState!.options.displayNumberRank"
+					type="checkbox"
+					class="tw-checkbox cursor-pointer"
+					:disabled="!GlobalChartState?.options.displayTitles"
+				/>
+			</div>
 
-		<div class="tw-options-div">
-			<label>Show Album Titles</label>
-			<input
-				v-model="GlobalChartState!.options.displayTitles"
-				type="checkbox"
-				class="tw-checkbox cursor-pointer"
-			/>
-		</div>
+			<div class="tw-options-div">
+				<label>Text Color</label>
+				<input
+					v-model="textColor"
+					type="color"
+					class="bg-transparent cursor-pointer"
+				/>
+			</div>
 
-		<div class="tw-options-div">
-			<label>Show Numbers</label>
-			<input
-				v-model="GlobalChartState!.options.displayNumberRank"
-				type="checkbox"
-				class="tw-checkbox cursor-pointer"
-				:disabled="!GlobalChartState?.options.displayTitles"
-			/>
-		</div>
+			<div class="tw-options-div">
+				<label>Text Outline Color</label>
+				<input
+					v-model="textOutlineColor"
+					type="color"
+					class="bg-transparent cursor-pointer"
+				/>
+			</div>
 
-		<div class="tw-options-div">
-			<label>Text Color</label>
-			<input
-				v-model="textColor"
-				type="color"
-				class="bg-transparent cursor-pointer"
-			/>
-		</div>
+			<div class="tw-options-div">
+				<label>Background Color</label>
+				<input
+					v-model="bgColor"
+					type="color"
+					class="bg-transparent cursor-pointer"
+				/>
+			</div>
 
-		<div class="tw-options-div">
-			<label>Text Outline Color</label>
-			<input
-				v-model="textOutlineColor"
-				type="color"
-				class="bg-transparent cursor-pointer"
-			/>
-		</div>
-
-		<div class="tw-options-div">
-			<label>Background Color</label>
-			<input
-				v-model="bgColor"
-				type="color"
-				class="bg-transparent cursor-pointer"
-			/>
-		</div>
-
-		<div class="tw-options-div flex-col gap-1">
-			<label>Background Image:</label>
-			<!-- 
+			<div class="tw-options-div flex-col gap-1">
+				<label>Background Image:</label>
+				<!-- 
 				TODO: better form validation with regex
 				and red border for incorrect input etc
 			-->
-			<input
-				v-model="bgImage"
-				placeholder="Background Image URL"
-				type="url"
-				class="tw-input cursor-pointer"
-				@keyup.enter="onBgImageInput"
-			/>
-			<div class="flex gap-1">
-				<button
-					type="button"
-					class="tw-button cursor-pointer"
-					@click="onBgImageInput"
-				>
-					Set BG
-				</button>
-				<button
-					type="button"
-					class="tw-button cursor-pointer"
-					@click="clearBackground"
-				>
-					Clear BG
-				</button>
+				<input
+					v-model="bgImage"
+					placeholder="Background Image URL"
+					type="url"
+					class="tw-input cursor-pointer"
+					@keyup.enter="onBgImageInput"
+				/>
+				<div class="flex gap-1">
+					<button
+						type="button"
+						class="tw-button cursor-pointer"
+						@click="onBgImageInput"
+					>
+						Set BG
+					</button>
+					<button
+						type="button"
+						class="tw-button cursor-pointer"
+						@click="clearBackground"
+					>
+						Clear BG
+					</button>
+				</div>
+			</div>
+			<div class="pt-2">
+				<DevTools />
 			</div>
 		</div>
-		<DevTools />
 	</div>
 </template>

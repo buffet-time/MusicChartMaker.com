@@ -1,39 +1,22 @@
 <script setup lang="ts">
 import { version } from '#root/package.json'
-import { onMounted, ref } from 'vue'
-import { ClickOutsideDialog, DynamicImportDialogPolyfill } from '#src/wrappers'
+import Dialog from '#core/Dialog.vue'
 
-const siteInfoModal = ref<HTMLDialogElement>()
+const dialogId = 'siteInfoModal'
 
-onMounted(() => {
-	if (!siteInfoModal.value) {
-		return console.error('Site info modal doesnt exist', siteInfoModal)
-	}
-
-	DynamicImportDialogPolyfill([siteInfoModal.value])
-	ClickOutsideDialog(siteInfoModal.value)
-})
+function showModal() {
+	// prettier-ignore
+	(document.getElementById(dialogId) as HTMLDialogElement).showModal()
+}
 </script>
 
 <template>
 	<div>
-		<button
-			type="button"
-			class="tw-button mt-2 mb-1 py-1 px-3"
-			@click="siteInfoModal?.showModal()"
-		>
+		<button type="button" class="tw-button py-1 px-3" @click="showModal()">
 			Site Info
 		</button>
-	</div>
 
-	<dialog
-		ref="siteInfoModal"
-		class="bg-transparent"
-		@keypress.esc="siteInfoModal?.close()"
-	>
-		<div
-			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-white"
-		>
+		<Dialog :dialog-id="dialogId" :close-button="true">
 			<!-- Header -->
 			<p class="text-neutral-200">Site Beta-{{ version }}</p>
 
@@ -85,11 +68,6 @@ onMounted(() => {
 					</li>
 				</ol>
 			</div>
-
-			<!-- Footer -->
-			<div class="flex gap-2">
-				<button class="tw-button" @click="siteInfoModal?.close()">Close</button>
-			</div>
-		</div>
-	</dialog>
+		</Dialog>
+	</div>
 </template>

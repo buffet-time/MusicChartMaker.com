@@ -24,11 +24,11 @@ function ExportChartsAndOptions() {
 			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
 			siteData: GetSiteOptions()
 		}
-		const a = document.createElement('a')
+		const anchor = document.createElement('a')
 		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
-		a.href = URL.createObjectURL(file)
-		a.download = 'exported_charts.json'
-		a.click()
+		anchor.href = URL.createObjectURL(file)
+		anchor.download = 'exported_charts.json'
+		anchor.click()
 	} catch (error) {
 		console.error('Error attempting to export chart data!', error)
 	}
@@ -47,7 +47,7 @@ function ImportChartsAndOptions(importFile: File | null) {
 		}
 
 		reader.onload = (fileEvent) => {
-			console.log(fileEvent)
+			// console.log(fileEvent)
 			// Add logic here to check filename and see if it is a JSON file.
 			try {
 				const parsed = JSON.parse(String(fileEvent.target?.result))
@@ -92,10 +92,10 @@ function importFromJson() {
 </script>
 
 <template>
-	<div class="flex flex-col justify-center items-center px-2 mb-2">
+	<div class="flex flex-col gap-[6px] justify-center items-center px-2">
 		<button
 			type="button"
-			class="mb-3 tw-button py-1 px-3"
+			class="tw-button py-1 px-3"
 			@click="ExportChartsAndOptions()"
 		>
 			Export Charts

@@ -22,7 +22,8 @@
 			"#src/*": ["./src/*"],
 			"#assets/*": ["./src/assets/*"],
 			"#components/*": ["./src/components/*"],
-			"#types/*": ["./src/types/*"]
+			"#types/*": ["./src/types/*"],
+			"#core/*": ["./src/components/CoreComponents/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
