@@ -25,8 +25,9 @@ function showModal() {
 				Discord is the preferred platform for discussion and bug reports of the
 				site.
 			</p>
+
 			<!-- Links -->
-			<div class="flex mt-1 mb-1 gap-1 justify-center">
+			<div class="tw-flex-center mt-1 mb-1 gap-1">
 				<a
 					class="tw-button py-1"
 					href="https://discord.gg/526et4zxBT"
@@ -57,15 +58,7 @@ function showModal() {
 				<ol class="list-disc list-inside pt-1">
 					<li>Support for Mobile</li>
 					<li>Improve site UI/UX responsiveness</li>
-					<li>Add a section in this box for explaining features of the site</li>
-					<li>Fix the jankiness of renaming the artist/ album title</li>
-					<li>Text: Font, Size, and Spacing options</li>
-					<li>Add ability to adjust padding in chart</li>
 					<li>Add ability to create custom presets</li>
-					<li>
-						Enhance Dialogs by making them a custom component to reduce code
-						duplication
-					</li>
 				</ol>
 			</div>
 		</Dialog>

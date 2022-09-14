@@ -4,6 +4,9 @@
 
 @layer components {
 	/* Input */
+	.tw-flex-center {
+		@apply flex justify-center items-center;
+	}
 	.tw-button {
 		@apply cursor-pointer rounded px-3 py-2 select-none text-neutral-200 bg-neutral-500 border-neutral-500 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
@@ -14,7 +17,7 @@
 		@apply align-top bg-white border border-solid border-black border-opacity-10 rounded-md w-4 h-4;
 	}
 	.tw-options-div {
-		@apply flex justify-center items-center gap-2 mt-2;
+		@apply tw-flex-center gap-2 mt-2;
 	}
 	.tw-sidebar-width {
 		@apply w-[230px];
@@ -23,11 +26,11 @@
 
 @layer utilities {
 	/* Chrome, Safari and Opera */
-	.no-scrollbar::-webkit-scrollbar {
+	.tw-no-scrollbar::-webkit-scrollbar {
 		display: none;
 	}
 
-	.no-scrollbar {
+	.tw-no-scrollbar {
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 	}

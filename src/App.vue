@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { GlobalSiteOptions } from './shared'
 import { GetSiteOptions } from './storage'
 
-import Chart from './components/Chart.vue'
-import Sidebar from './components/Sidebar.vue'
+import Chart from '#components/Chart.vue'
+import Sidebar from '#components/Sidebar.vue'
 
 const renderChart = ref(false)
 

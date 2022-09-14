@@ -9,8 +9,13 @@ export default defineConfig({
 
 	build: {
 		rollupOptions: {
-			maxParallelFileReads: 512
+			maxParallelFileReads: 512,
+			output: {
+				compact: true,
+				generatedCode: 'es2015'
+			}
 		},
+		target: 'es2018',
 
 		outDir: '../dist'
 	},

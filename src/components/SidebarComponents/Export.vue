@@ -92,7 +92,7 @@ function importFromJson() {
 </script>
 
 <template>
-	<div class="flex flex-col gap-[6px] justify-center items-center px-2">
+	<div class="tw-flex-center flex-col gap-[6px] px-2">
 		<button
 			type="button"
 			class="tw-button py-1 px-3"
