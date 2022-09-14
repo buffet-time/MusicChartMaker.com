@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import { GlobalChartState, IsImage } from '#root/src/shared'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
-const bgColor = ref(GlobalChartState.value?.options.background)
 const bgImage = ref(
 	GlobalChartState.value?.options.backgroundImage
 		? GlobalChartState.value.options.backgroundImage
 		: ''
 )
-
-watch(bgColor, () => {
-	if (!bgColor.value || !GlobalChartState.value) {
-		return console.error('Error in watch(bgColor)', bgColor, GlobalChartState)
-	}
-	GlobalChartState.value.options.background = bgColor.value
-})
 
 async function onBgImageInput() {
 	bgImage.value.trim()
@@ -50,7 +42,7 @@ function clearBackground() {
 	<div class="tw-options-div">
 		<label>Background Color</label>
 		<input
-			v-model="bgColor"
+			v-model="GlobalChartState!.options.background"
 			type="color"
 			class="bg-transparent cursor-pointer"
 		/>
@@ -64,12 +56,12 @@ function clearBackground() {
 			-->
 		<input
 			v-model="bgImage"
-			placeholder="Background Image URL"
+			placeholder="BG Image URL"
 			type="url"
 			class="tw-input cursor-pointer"
 			@keyup.enter="onBgImageInput"
 		/>
-		<div class="flex gap-1">
+		<div class="flex gap-1 mt-1">
 			<button
 				type="button"
 				class="tw-button cursor-pointer"

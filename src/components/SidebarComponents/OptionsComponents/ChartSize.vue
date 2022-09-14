@@ -4,27 +4,14 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions
 } from '#root/src/shared'
-import { SaveSiteOptions } from '#src/storage'
 import { ref, watch } from 'vue'
 
 const colsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes.length)
-const isPreset = ref(GlobalChartState.value?.options.preset ? true : false)
 
 // used to disable watchers for cols/ rows when changing charts
 let updatingRows = false
 let updatingCols = false
-
-watch(
-	() => GlobalSiteOptions.value?.numberOfSearchResults,
-	() => SaveSiteOptions()
-)
-watch(
-	() => GlobalChartState.value?.options.preset,
-	() => {
-		isPreset.value = GlobalChartState.value?.options.preset ? true : false
-	}
-)
 
 watch(colsNum, (newColNum, prevColNum) => {
 	if (updatingCols) {
@@ -32,7 +19,7 @@ watch(colsNum, (newColNum, prevColNum) => {
 		updatingCols = false
 		return
 	}
-	if (isPreset.value) return
+	if (GlobalChartState.value?.options.preset) return
 
 	if (!newColNum || !prevColNum) {
 		return console.error(
@@ -51,7 +38,7 @@ watch(rowsNum, (newRowNum, prevRowNum) => {
 		return
 	}
 
-	if (isPreset.value) return
+	if (GlobalChartState.value?.options.preset) return
 
 	if (!newRowNum || !prevRowNum) {
 		return console.error(
@@ -69,7 +56,7 @@ watch(
 	() => GlobalSiteOptions.value?.currentChart,
 	() => {
 		// if its a preset we dont need to touch the column and row nums
-		if (isPreset.value) return
+		if (GlobalChartState.value?.options.preset) return
 
 		updatingCols = true
 		colsNum.value = GlobalChartState.value?.options.chartSize.rowSizes[0]
@@ -133,7 +120,7 @@ function rowsChanged(difference: number) {
 </script>
 
 <template>
-	<template v-if="!isPreset">
+	<template v-if="!GlobalChartState!.options.preset">
 		<label class="pt-4"> Columns: {{ colsNum }} </label>
 		<input
 			v-model="colsNum"
@@ -155,7 +142,19 @@ function rowsChanged(difference: number) {
 		/>
 	</template>
 
-	<label class="mt-2" :class="{ 'pt-7': isPreset }">
+	<label class="mt-2" :class="{ 'pt-7': GlobalChartState!.options.preset }">
+		Chart Spacing: {{ GlobalChartState!.options.padding }}
+	</label>
+	<input
+		v-model="GlobalChartState!.options.padding"
+		class="cursor-pointer"
+		type="range"
+		min="0"
+		max="3"
+		step="0.1"
+	/>
+
+	<label class="mt-2">
 		# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
 	</label>
 	<input

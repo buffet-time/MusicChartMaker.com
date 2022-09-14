@@ -291,7 +291,10 @@ export function GenerateDefaultChart(title?: string): ChartState {
 			displayPlaycount: false,
 			background: '#303030',
 			textColor: '#FFFFFF',
-			textBorderColor: '#000000'
+			textBorderColor: '#000000',
+			fontSize: 14,
+			textSpacing: 0,
+			font: 'Arial'
 		},
 		chartTiles: albumArray
 	}
@@ -345,7 +348,10 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 			background: '#303030',
 			textColor: '#FFFFFF',
 			textBorderColor: '#000000',
-			preset: preset
+			preset: preset,
+			fontSize: 14,
+			textSpacing: 0,
+			font: 'Arial'
 		},
 		chartTiles: albumArray
 	}

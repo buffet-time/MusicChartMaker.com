@@ -79,19 +79,23 @@ function chartTitle(
 
 <template>
 	<div
-		class="flex-col mt-4 mb-4"
+		class="flex flex-col"
 		:style="{
 			maxWidth: `${
 				GlobalChartState!.options.chartSize.rowSizes[0] * 200 +
 				(GlobalChartState!.options.chartSize.rowSizes[0] - 1) * 4
-			}px`
+			}px`,
+			gap: `${GlobalChartState?.options.padding}rem`
 		}"
 	>
 		<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
 		<div
 			v-for="(albumArray, index1) in GlobalChartState?.chartTiles"
 			:key="`img-${index1}`"
-			class="flex flex-row gap-1 pb-1"
+			class="flex flex-row"
+			:style="{
+				gap: `${GlobalChartState?.options.padding}rem`
+			}"
 		>
 			<div
 				v-for="(album, index2) in albumArray"

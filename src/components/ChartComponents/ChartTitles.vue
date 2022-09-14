@@ -1,15 +1,14 @@
+<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { GlobalChartState, getAlbumNumber, GrayBoxImg } from '#src/shared'
 
 function albumArtistEdited(event: Event, index: number, index2: number) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	GlobalChartState.value!.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
 	).innerText
 }
 
 function albumNameEdited(event: Event, index: number, index2: number) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	GlobalChartState.value!.chartTiles[index][index2].name = (
 		event.target as HTMLSpanElement
 	).innerText
@@ -19,7 +18,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 <template>
 	<div
 		v-if="GlobalChartState?.options.displayTitles"
-		class="pl-4 pt-4 text-left min-w-[200px] text-sm"
+		class="pl-3 text-left min-w-[200px] text-sm"
 	>
 		<div
 			v-for="(albumRow, index) in GlobalChartState.chartTiles"
@@ -36,7 +35,10 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 						textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
 						1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
 						-1px 1px 0 ${GlobalChartState.options.textBorderColor}, 
-						1px 1px 0 ${GlobalChartState.options.textBorderColor}`
+						1px 1px 0 ${GlobalChartState.options.textBorderColor}`,
+						fontSize: `${GlobalChartState.options.fontSize}px`,
+						letterSpacing: `${GlobalChartState.options.textSpacing}px`,
+						fontFamily: GlobalChartState.options.font
 					}"
 				>
 					<template v-if="GlobalChartState.options.displayNumberRank">

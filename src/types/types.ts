@@ -34,10 +34,12 @@ export interface ChartOptions {
 	background: string
 	textColor: string
 	font?: string
-	padding?: string
+	padding?: number
 	backgroundImage?: string
 	textBorderColor?: string
 	preset?: Preset
+	fontSize?: number
+	textSpacing?: number
 }
 
 export type Preset = 'Top 42' | 'Top 100'
