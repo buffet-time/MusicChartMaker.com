@@ -8,7 +8,7 @@ import {
 	onTouchStart
 } from '#src/shared'
 import { type AlbumSearchResult } from '#types/types'
-import { ProperFetch } from '#root/src/core'
+import { ProperFetch } from '#src/core'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
