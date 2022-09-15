@@ -90,7 +90,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center flex-wrap r mt-2 gap-1 h-[415px] overflow-auto tw-no-scrollbar"
+			class="tw-flex-center flex-wrap mt-2 gap-1 h-[415px] overflow-auto tw-no-scrollbar"
 		>
 			<img
 				v-for="(album, index) in searchResults"

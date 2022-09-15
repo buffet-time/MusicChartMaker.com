@@ -6,7 +6,7 @@ import {
 	GenerateDefaultChart,
 	GlobalChartState,
 	GlobalSiteOptions
-} from '#root/src/shared'
+} from '#src/shared'
 
 import Dialog from '#core/Dialog.vue'
 import DevTools from './OptionsComponents/DevTools.vue'

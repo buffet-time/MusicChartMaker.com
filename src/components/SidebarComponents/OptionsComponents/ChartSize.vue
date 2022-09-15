@@ -1,9 +1,6 @@
+<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
-import {
-	FillerAlbum,
-	GlobalChartState,
-	GlobalSiteOptions
-} from '#root/src/shared'
+import { FillerAlbum, GlobalChartState, GlobalSiteOptions } from '#src/shared'
 import { ref, watch } from 'vue'
 
 const colsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes[0])
@@ -14,12 +11,11 @@ let updatingRows = false
 let updatingCols = false
 
 watch(colsNum, (newColNum, prevColNum) => {
-	if (updatingCols) {
+	if (updatingCols || GlobalChartState.value?.options.preset) {
 		// if this was triggered by currentChart being changed skip 1 iteration
 		updatingCols = false
 		return
 	}
-	if (GlobalChartState.value?.options.preset) return
 
 	if (!newColNum || !prevColNum) {
 		return console.error(
@@ -32,13 +28,11 @@ watch(colsNum, (newColNum, prevColNum) => {
 	colsChanged(newColNum - prevColNum)
 })
 watch(rowsNum, (newRowNum, prevRowNum) => {
-	if (updatingRows) {
+	if (updatingRows || GlobalChartState.value?.options.preset) {
 		// if this was triggered by currentChart being changed skip 1 iteration
 		updatingRows = false
 		return
 	}
-
-	if (GlobalChartState.value?.options.preset) return
 
 	if (!newRowNum || !prevRowNum) {
 		return console.error(
@@ -56,7 +50,9 @@ watch(
 	() => GlobalSiteOptions.value?.currentChart,
 	() => {
 		// if its a preset we dont need to touch the column and row nums
-		if (GlobalChartState.value?.options.preset) return
+		if (GlobalChartState.value?.options.preset) {
+			return
+		}
 
 		updatingCols = true
 		colsNum.value = GlobalChartState.value?.options.chartSize.rowSizes[0]
@@ -76,20 +72,19 @@ function colsChanged(difference: number) {
 		GlobalChartState.value.chartTiles.forEach((row, index) => {
 			for (let x = 0; x < difference; x++) {
 				row.push(FillerAlbum)
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				GlobalChartState.value!.options.chartSize.rowSizes[index]++
 			}
 		})
-	} else {
-		// Remove a column
-		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			for (let x = 0; x < Math.abs(difference); x++) {
-				row.pop()
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				GlobalChartState.value!.options.chartSize.rowSizes[index]--
-			}
-		})
+		return
 	}
+
+	// Remove a column
+	GlobalChartState.value.chartTiles.forEach((row, index) => {
+		for (let x = 0; x < Math.abs(difference); x++) {
+			row.pop()
+			GlobalChartState.value!.options.chartSize.rowSizes[index]--
+		}
+	})
 }
 
 function rowsChanged(difference: number) {
@@ -103,18 +98,18 @@ function rowsChanged(difference: number) {
 		for (let x = 0; x < difference; x++) {
 			const newRow = GlobalChartState.value.chartTiles[
 				GlobalChartState.value.chartTiles.length - 1
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			].map(() => FillerAlbum)
 
 			GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
 			GlobalChartState.value.chartTiles.push(newRow)
 		}
-	} else {
-		// Remove a row
-		for (let x = 0; x < Math.abs(difference); x++) {
-			GlobalChartState.value.options.chartSize.rowSizes.pop()
-			GlobalChartState.value.chartTiles.pop()
-		}
+		return
+	}
+
+	// Remove a row
+	for (let x = 0; x < Math.abs(difference); x++) {
+		GlobalChartState.value.options.chartSize.rowSizes.pop()
+		GlobalChartState.value.chartTiles.pop()
 	}
 }
 </script>
@@ -143,7 +138,7 @@ function rowsChanged(difference: number) {
 	</template>
 
 	<label class="mt-2" :class="{ 'pt-7': GlobalChartState!.options.preset }">
-		Chart Spacing: {{ GlobalChartState!.options.padding }}
+		Chart Spacing: {{ GlobalChartState!.options.padding }}rem
 	</label>
 	<input
 		v-model="GlobalChartState!.options.padding"
@@ -153,7 +148,6 @@ function rowsChanged(difference: number) {
 		max="3"
 		step="0.1"
 	/>
-
 	<label class="mt-2">
 		# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
 	</label>

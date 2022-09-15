@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GlobalChartState, IsImage } from '#root/src/shared'
+import { GlobalChartState, IsImage } from '#src/shared'
 import { ref } from 'vue'
 
 const bgImage = ref(

@@ -5,12 +5,8 @@ import {
 	GenerateDefaultChart,
 	GlobalChartState,
 	GlobalSiteOptions
-} from '#root/src/shared'
-import {
-	deleteStoredChart,
-	getFirstChart,
-	setCurrentChart
-} from '#root/src/storage'
+} from '#src/shared'
+import { deleteStoredChart, getFirstChart, setCurrentChart } from '#src/storage'
 import { type ChartState } from '#types/types'
 
 const props = defineProps<{

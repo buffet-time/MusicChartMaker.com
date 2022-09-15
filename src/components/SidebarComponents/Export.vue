@@ -3,7 +3,7 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames
-} from '#root/src/shared'
+} from '#src/shared'
 import {
 	getAllSavedKeys,
 	getFirstChart,
@@ -11,8 +11,8 @@ import {
 	getStoredChart,
 	setCurrentChart,
 	setStoredChart
-} from '#root/src/storage'
-import { type ChartState, type SiteOptions } from '#root/src/types/types'
+} from '#src/storage'
+import { type ChartState, type SiteOptions } from '#src/types/types'
 import { ref } from 'vue'
 
 const filePicker = ref<HTMLInputElement>()
