@@ -12,7 +12,7 @@ import {
 	setCurrentChart,
 	setStoredChart
 } from '#src/storage'
-import { type ChartState, type SiteOptions } from '#src/types/types'
+import { type ChartState, type SiteOptions } from '#types/types'
 import { ref } from 'vue'
 
 const filePicker = ref<HTMLInputElement>()
