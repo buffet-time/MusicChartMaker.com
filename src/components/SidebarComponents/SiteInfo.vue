@@ -32,23 +32,27 @@ function showModal() {
 					class="tw-button py-1"
 					href="https://discord.gg/526et4zxBT"
 					target="_blank"
+					title="Discord Server"
 				>
-					Discord
+					<img src="../../assets/discord.png" alt="Discord Logo" />
 				</a>
+
 				<a
+					title="Source code for the site"
 					class="tw-button py-1"
 					href="https://github.com/buffet-time/MusicChartMaker.com"
 					target="_blank"
 				>
-					GitHub
+					<img src="../../assets/github.png" alt="Github Logo" />
 				</a>
+
 				<a
-					title="Helps pay for server and domain cost / childcare"
+					title="Helps pay for server and domain cost"
 					class="tw-button py-1"
 					href="https://www.paypal.com/paypalme/BuffetTime"
 					target="_blank"
 				>
-					Donate
+					<img src="../../assets/paypal.png" alt="Paypal Logo" />
 				</a>
 			</div>
 

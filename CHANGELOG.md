@@ -10,7 +10,6 @@
 
 ### Dev Specific
 
-- Updated PR Check to ensure Changelog is updated and package version is updated
 - Enhanced fetch() wrapper
 - Condense Tailwind to have more custom classes to K.I.S.S
 - Major refactor of Options component to not be a monolith

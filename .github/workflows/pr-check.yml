@@ -1,9 +1,6 @@
 # Runs Type, Format, and Lint checks on all PRs
 name: PR Check
 
-# TODO: CHECK FOR UPDATED PACKAGE.JSON VERSION
-# TODO: CHECK FOR UPDATED CHANGELOG.MD
-
 on:
   pull_request:
 

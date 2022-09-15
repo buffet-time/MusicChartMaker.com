@@ -2,6 +2,7 @@
 import { watch } from 'vue'
 import { GlobalChartState } from '#src/shared'
 import { setStoredChart } from '#src/storage'
+
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
 
