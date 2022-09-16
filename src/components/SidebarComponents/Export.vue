@@ -3,7 +3,7 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames
-} from '#root/src/shared'
+} from '#src/shared'
 import {
 	getAllSavedKeys,
 	getFirstChart,
@@ -11,8 +11,8 @@ import {
 	getStoredChart,
 	setCurrentChart,
 	setStoredChart
-} from '#root/src/storage'
-import { type ChartState, type SiteOptions } from '#root/src/types/types'
+} from '#src/storage'
+import { type ChartState, type SiteOptions } from '#types/types'
 import { ref } from 'vue'
 
 const filePicker = ref<HTMLInputElement>()
@@ -92,7 +92,7 @@ function importFromJson() {
 </script>
 
 <template>
-	<div class="flex flex-col gap-[6px] justify-center items-center px-2">
+	<div class="tw-flex-center flex-col gap-[6px] px-2">
 		<button
 			type="button"
 			class="tw-button py-1 px-3"

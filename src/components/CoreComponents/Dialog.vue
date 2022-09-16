@@ -43,9 +43,7 @@ onMounted(async () => {
 		class="bg-transparent"
 		@keypress.esc="closeDialog"
 	>
-		<div
-			class="bg-neutral-700 p-5 flex flex-col gap-2 justify-center items-center text-white"
-		>
+		<div class="bg-neutral-700 p-5 tw-flex-center flex-col gap-2 text-white">
 			<!-- Where the override template goes -->
 			<slot></slot>
 

@@ -76,7 +76,7 @@ function saveCurrentChart() {
 			v-model="chartNameInput"
 			placeholder="Name of chart"
 			type="text"
-			class="p-2 tw-input mr-1 invalid:text-red-500"
+			class="tw-input"
 			title="Any name but can't just be a number."
 			pattern="(?!GlobalSiteOptions$).*"
 		/>
@@ -86,13 +86,13 @@ function saveCurrentChart() {
 
 		<template v-else>
 			<p>Select type of new chart.</p>
-			<div v-if="!presetAdd" class="flex gap-1 justify-center items-center">
+			<div v-if="!presetAdd" class="tw-flex-center gap-1">
 				<button class="tw-button" @click="newChart('Custom')">Custom</button>
 
 				<button class="tw-button" @click="presetAdd = true">Preset</button>
 			</div>
 
-			<div v-else class="flex gap-1 justify-center items-center">
+			<div v-else class="tw-flex-center gap-1">
 				<button class="tw-button" @click="newChart('Preset', 'Top 42')">
 					Top 42
 				</button>

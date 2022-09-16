@@ -1,218 +1,67 @@
+<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import {
-	FillerAlbum,
-	GlobalChartState,
-	GlobalSiteOptions,
-	IsImage
-} from '#src/shared'
-import { SaveSiteOptions } from '#src/storage'
+import { ref } from 'vue'
 import Close from '#assets/whiteClose.svg'
+import {
+	GenerateDefaultChart,
+	GlobalChartState,
+	GlobalSiteOptions
+} from '#src/shared'
+
+import Dialog from '#core/Dialog.vue'
 import DevTools from './OptionsComponents/DevTools.vue'
+import Background from './OptionsComponents/Background.vue'
+import ChartSize from './OptionsComponents/ChartSize.vue'
+import TextOptions from './OptionsComponents/TextOptions.vue'
+import Font from './OptionsComponents/Font.vue'
 
-const colsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes[0])
-const rowsNum = ref(GlobalChartState.value?.options.chartSize.rowSizes.length)
-const bgColor = ref(GlobalChartState.value?.options.background)
-const textColor = ref(GlobalChartState.value?.options.textColor)
-const bgImage = ref(
-	GlobalChartState.value?.options.backgroundImage
-		? GlobalChartState.value.options.backgroundImage
-		: ''
-)
-const textOutlineColor = ref(
-	GlobalChartState.value?.options.textBorderColor
-		? GlobalChartState.value.options.textBorderColor
-		: '#00000'
-)
+const resetOptionsId = 'resetoptions'
+
 const showOptions = ref(false)
-const isPreset = ref(GlobalChartState.value?.options.preset ? true : false)
 
-// used to disable watchers for cols/ rows when changing charts
-let updatingRows = false
-let updatingCols = false
-
-watch(
-	() => GlobalChartState.value?.options.preset,
-	() => {
-		isPreset.value = GlobalChartState.value?.options.preset ? true : false
-	}
-)
-
-watch(colsNum, (newColNum, prevColNum) => {
-	if (updatingCols) {
-		// if this was triggered by currentChart being changed skip 1 iteration
-		updatingCols = false
-		return
-	}
-	if (isPreset.value) return
-
-	if (!newColNum || !prevColNum) {
-		return console.error(
-			'NewColNum or PrevColNum in watch(colNum doesnt exist)',
-			newColNum,
-			prevColNum
-		)
-	}
-
-	colsChanged(newColNum - prevColNum)
-})
-watch(rowsNum, (newRowNum, prevRowNum) => {
-	if (updatingRows) {
-		// if this was triggered by currentChart being changed skip 1 iteration
-		updatingRows = false
-		return
-	}
-
-	if (isPreset.value) return
-
-	if (!newRowNum || !prevRowNum) {
-		return console.error(
-			'newRowNum or prevRowNum in watch(rowsNum doesnt exist)',
-			newRowNum,
-			prevRowNum
-		)
-	}
-
-	rowsChanged(newRowNum - prevRowNum)
-})
-
-watch(bgColor, () => {
-	if (!bgColor.value || !GlobalChartState.value) {
-		return console.error('Error in watch(bgColor)', bgColor, GlobalChartState)
-	}
-	GlobalChartState.value.options.background = bgColor.value
-})
-
-watch(textColor, () => {
-	if (!textColor.value || !GlobalChartState.value) {
-		return console.error(
-			'Error in watch(textColor)',
-			textColor,
-			GlobalChartState
-		)
-	}
-	GlobalChartState.value.options.textColor = textColor.value
-})
-
-watch(textOutlineColor, () => {
-	if (!textOutlineColor.value || !GlobalChartState.value) {
-		return console.error(
-			'Error in watch(textOutlineColor)',
-			textOutlineColor,
-			GlobalChartState
-		)
-	}
-	GlobalChartState.value.options.textBorderColor = textOutlineColor.value
-})
-
-watch(
-	() => GlobalSiteOptions.value?.numberOfSearchResults,
-	() => SaveSiteOptions()
-)
-
-// TODO: conditional watchers (as to not waste cpu)?
-watch(
-	() => GlobalSiteOptions.value?.currentChart,
-	() => {
-		// if its a preset we dont need to touch the column and row nums
-		if (isPreset.value) return
-
-		updatingCols = true
-		colsNum.value = GlobalChartState.value?.options.chartSize.rowSizes[0]
-
-		updatingRows = true
-		rowsNum.value = GlobalChartState.value?.options.chartSize.rowSizes.length
-	}
-)
-
-function colsChanged(difference: number) {
-	if (!GlobalChartState.value) {
-		return console.error('error in colsChanged', GlobalChartState)
-	}
-
-	if (difference > 0) {
-		// Add a new column
-		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			for (let x = 0; x < difference; x++) {
-				row.push(FillerAlbum)
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				GlobalChartState.value!.options.chartSize.rowSizes[index]++
-			}
-		})
-	} else {
-		// Remove a column
-		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			for (let x = 0; x < Math.abs(difference); x++) {
-				row.pop()
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				GlobalChartState.value!.options.chartSize.rowSizes[index]--
-			}
-		})
-	}
+function openResetOptionsModal() {
+	// prettier-ignore
+	(document.getElementById(resetOptionsId) as HTMLDialogElement).showModal()
 }
 
-function rowsChanged(difference: number) {
-	if (!GlobalChartState.value) {
-		return console.error('error in rowsChanged', GlobalChartState)
-	}
-
-	// add a new row array of the same size as the last one
-	if (difference > 0) {
-		// Add a row
-		for (let x = 0; x < difference; x++) {
-			const newRow = GlobalChartState.value.chartTiles[
-				GlobalChartState.value.chartTiles.length - 1
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			].map(() => FillerAlbum)
-
-			GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
-			GlobalChartState.value.chartTiles.push(newRow)
-		}
-	} else {
-		// Remove a row
-		for (let x = 0; x < Math.abs(difference); x++) {
-			GlobalChartState.value.options.chartSize.rowSizes.pop()
-			GlobalChartState.value.chartTiles.pop()
-		}
-	}
+function closeResetOptionModal() {
+	// prettier-ignore
+	(document.getElementById(resetOptionsId) as HTMLDialogElement).close()
 }
 
-async function onBgImageInput() {
-	bgImage.value.trim()
-	if (await IsImage(bgImage.value)) {
-		if (
-			!GlobalChartState.value ||
-			!GlobalChartState.value.options.backgroundImage
-		) {
-			return console.error('ERror in onBgImageInput()', GlobalChartState)
-		}
+function resetOptionsToDefault() {
+	const defaultOptions = GenerateDefaultChart().options
 
-		GlobalChartState.value.options.backgroundImage = bgImage.value
-		return
+	GlobalChartState.value!.options = {
+		chartSize: GlobalChartState.value!.options.chartSize,
+		chartTitle: GlobalChartState.value!.options.chartTitle,
+		preset: GlobalChartState.value!.options.preset,
+		displayNumberRank: defaultOptions.displayNumberRank,
+		displayTitles: defaultOptions.displayTitles,
+		displayPlaycount: defaultOptions.displayPlaycount,
+		background: defaultOptions.background,
+		textColor: defaultOptions.textColor,
+		textBorderColor: defaultOptions.textBorderColor,
+		fontSize: defaultOptions.fontSize,
+		textSpacing: defaultOptions.textSpacing,
+		font: defaultOptions.font,
+		backgroundImage: undefined,
+		padding: 0.2
 	}
 
-	bgImage.value = 'Not a valid Image URL'
-}
-
-function clearBackground() {
-	if (
-		!GlobalChartState.value ||
-		!GlobalChartState.value.options.backgroundImage
-	) {
-		return console.error('ERror in clearBackground()', GlobalChartState)
+	GlobalSiteOptions.value! = {
+		currentChart: GlobalSiteOptions.value!.currentChart,
+		numberOfSearchResults: 10
 	}
 
-	GlobalChartState.value.options.backgroundImage = undefined
-	bgImage.value = ''
+	closeResetOptionModal()
 }
 </script>
 
 <template>
 	<div>
-		<!-- TODO: Separate chart options and global options into 2 sections -->
-
 		<!-- in the sidebar -->
-		<div class="flex justify-center items-center gap-2">
+		<div class="tw-flex-center gap-2">
 			<button
 				type="button"
 				class="tw-button cursor-pointer"
@@ -234,116 +83,38 @@ function clearBackground() {
 				@click="showOptions = false"
 			/>
 
-			<template v-if="!isPreset">
-				<label class="pt-4"> Columns: {{ colsNum }} </label>
-				<input
-					v-model="colsNum"
-					class="cursor-pointer"
-					type="range"
-					min="1"
-					max="20"
-					step="1"
-				/>
+			<ChartSize />
 
-				<label class="mt-2"> Rows: {{ rowsNum }} </label>
-				<input
-					v-model="rowsNum"
-					class="cursor-pointer"
-					type="range"
-					min="1"
-					max="20"
-					step="1"
-				/>
-			</template>
-
-			<label class="mt-2" :class="{ 'pt-7': isPreset }">
-				# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
-			</label>
-			<input
-				v-model="GlobalSiteOptions!.numberOfSearchResults"
-				class="cursor-pointer"
-				type="range"
-				min="10"
-				max="50"
-				step="1"
-			/>
-
-			<div class="tw-options-div">
-				<label>Show Album Titles</label>
-				<input
-					v-model="GlobalChartState!.options.displayTitles"
-					type="checkbox"
-					class="tw-checkbox cursor-pointer"
-				/>
+			<div class="mt-4">
+				<Font />
 			</div>
 
-			<div class="tw-options-div">
-				<label>Show Numbers</label>
-				<input
-					v-model="GlobalChartState!.options.displayNumberRank"
-					type="checkbox"
-					class="tw-checkbox cursor-pointer"
-					:disabled="!GlobalChartState?.options.displayTitles"
-				/>
+			<div>
+				<TextOptions />
 			</div>
 
-			<div class="tw-options-div">
-				<label>Text Color</label>
-				<input
-					v-model="textColor"
-					type="color"
-					class="bg-transparent cursor-pointer"
-				/>
+			<Background />
+
+			<div class="pt-2">
+				<button class="tw-button" @click="openResetOptionsModal">
+					Reset to Default
+				</button>
+
+				<Dialog :dialog-id="resetOptionsId" :close-button="true">
+					<p class="text-neutral-200">
+						This will not reset Chart Size or any albums that are in the chart.
+					</p>
+					<p class="text-neutral-200">Reset all options to their defaults?</p>
+
+					<div class="flex gap-2">
+						<button class="tw-button" @click="resetOptionsToDefault">
+							Yes
+						</button>
+						<button class="tw-button" @click="closeResetOptionModal">No</button>
+					</div>
+				</Dialog>
 			</div>
 
-			<div class="tw-options-div">
-				<label>Text Outline Color</label>
-				<input
-					v-model="textOutlineColor"
-					type="color"
-					class="bg-transparent cursor-pointer"
-				/>
-			</div>
-
-			<div class="tw-options-div">
-				<label>Background Color</label>
-				<input
-					v-model="bgColor"
-					type="color"
-					class="bg-transparent cursor-pointer"
-				/>
-			</div>
-
-			<div class="tw-options-div flex-col gap-1">
-				<label>Background Image:</label>
-				<!-- 
-				TODO: better form validation with regex
-				and red border for incorrect input etc
-			-->
-				<input
-					v-model="bgImage"
-					placeholder="Background Image URL"
-					type="url"
-					class="tw-input cursor-pointer"
-					@keyup.enter="onBgImageInput"
-				/>
-				<div class="flex gap-1">
-					<button
-						type="button"
-						class="tw-button cursor-pointer"
-						@click="onBgImageInput"
-					>
-						Set BG
-					</button>
-					<button
-						type="button"
-						class="tw-button cursor-pointer"
-						@click="clearBackground"
-					>
-						Clear BG
-					</button>
-				</div>
-			</div>
 			<div class="pt-2">
 				<DevTools />
 			</div>

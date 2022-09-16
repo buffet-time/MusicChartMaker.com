@@ -8,7 +8,7 @@ import {
 	onTouchStart
 } from '#src/shared'
 import { type AlbumSearchResult } from '#types/types'
-import { ProperFetch } from '#src/wrappers'
+import { ProperFetch } from '#src/core'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
@@ -59,7 +59,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 	<div class="flex-col gap-4">
 		<div>
 			<label>Search: </label>
-			<div class="flex flex-col justify-center items-center gap-2">
+			<div class="tw-flex-center flex-col gap-2">
 				<input
 					v-model="searchInput"
 					class="p-2 tw-input"
@@ -90,7 +90,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 
 		<div
 			v-show="showSearchResults"
-			class="flex flex-wrap items-center justify-center mt-2 gap-1 h-[415px] overflow-auto no-scrollbar"
+			class="tw-flex-center flex-wrap mt-2 gap-1 h-[415px] overflow-auto tw-no-scrollbar"
 		>
 			<img
 				v-for="(album, index) in searchResults"

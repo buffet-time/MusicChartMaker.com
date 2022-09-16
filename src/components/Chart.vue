@@ -1,13 +1,13 @@
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { watch } from 'vue'
 import { GlobalChartState } from '#src/shared'
 import { setStoredChart } from '#src/storage'
+
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
 
-// TODO: create option to disable auto save and also make it not a watcher...
+// TODO: create option to disable auto save maybe
+// TODO: look into feasibility of debouncing this as to reduce ops
 watch(
 	GlobalChartState,
 	() => {
