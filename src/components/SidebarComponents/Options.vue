@@ -1,13 +1,10 @@
 <!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { ref } from 'vue'
-import Close from '#assets/whiteClose.svg'
-import {
-	GenerateDefaultChart,
-	GlobalChartState,
-	GlobalSiteOptions
-} from '#src/shared'
+import { GenerateDefaultChart } from '#shared/chart'
+import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
 
+import Close from '#assets/whiteClose.svg'
 import Dialog from '#core/Dialog.vue'
 import DevTools from './OptionsComponents/DevTools.vue'
 import Background from './OptionsComponents/Background.vue'
@@ -32,10 +29,10 @@ function closeResetOptionModal() {
 function resetOptionsToDefault() {
 	const defaultOptions = GenerateDefaultChart().options
 
-	GlobalChartState.value!.options = {
-		chartSize: GlobalChartState.value!.options.chartSize,
-		chartTitle: GlobalChartState.value!.options.chartTitle,
-		preset: GlobalChartState.value!.options.preset,
+	GlobalChartState.options = {
+		chartSize: GlobalChartState.options.chartSize,
+		chartTitle: GlobalChartState.options.chartTitle,
+		preset: GlobalChartState.options.preset,
 		displayNumberRank: defaultOptions.displayNumberRank,
 		displayTitles: defaultOptions.displayTitles,
 		displayPlaycount: defaultOptions.displayPlaycount,
@@ -49,11 +46,10 @@ function resetOptionsToDefault() {
 		padding: 0.2
 	}
 
-	GlobalSiteOptions.value! = {
-		currentChart: GlobalSiteOptions.value!.currentChart,
+	Object.assign(GlobalSiteOptions, {
+		currentChart: GlobalSiteOptions.currentChart,
 		numberOfSearchResults: 10
-	}
-
+	})
 	closeResetOptionModal()
 }
 </script>

@@ -47,6 +47,7 @@ export type Preset = 'Top 42' | 'Top 100'
 export interface SiteOptions {
 	numberOfSearchResults: number
 	currentChart: string
+	fontCache?: string[]
 }
 
 export interface ChartState {

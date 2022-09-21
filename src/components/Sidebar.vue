@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import Search from './SidebarComponents/Search.vue'
 import Options from './SidebarComponents/Options.vue'
 import Selection from './SidebarComponents/Selection.vue'
 import SiteInfo from './SidebarComponents/SiteInfo.vue'
 import SaveImage from './SidebarComponents/SaveImage.vue'
-import { ref } from 'vue'
 import Export from './SidebarComponents/Export.vue'
 
 const emit = defineEmits<{

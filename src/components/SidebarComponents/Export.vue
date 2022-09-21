@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { type ChartState, type SiteOptions } from '#types'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames
-} from '#src/shared'
+} from '#shared/globals'
 import {
 	getAllSavedKeys,
 	getFirstChart,
@@ -11,9 +13,7 @@ import {
 	getStoredChart,
 	setCurrentChart,
 	setStoredChart
-} from '#src/storage'
-import { type ChartState, type SiteOptions } from '#types/types'
-import { ref } from 'vue'
+} from '#shared/storage'
 
 const filePicker = ref<HTMLInputElement>()
 
@@ -54,7 +54,8 @@ function ImportChartsAndOptions(importFile: File | null) {
 				// Add a typecheck here, assert if it has the siteData and chartData properties
 				if (parsed) {
 					const options: SiteOptions = parsed.siteData
-					GlobalSiteOptions.value = options
+
+					Object.assign(GlobalSiteOptions, options)
 					setCurrentChart(options.currentChart)
 					const data: ChartState[] = parsed.chartData
 					data.forEach((state) => {
@@ -63,12 +64,13 @@ function ImportChartsAndOptions(importFile: File | null) {
 					})
 					const chart = getStoredChart(options.currentChart) || getFirstChart()
 					if (chart) {
-						GlobalChartState.value = chart
+						Object.assign(GlobalChartState, chart)
 					}
 					StoredChartNames.value = getAllSavedKeys()
-				} else {
-					throw new Error('Unsupported File/Unexpected Contents')
+					return
 				}
+
+				throw new Error('Unsupported File/Unexpected Contents')
 			} catch (error) {
 				console.error('Failed to import selected file => Error:', error)
 			}

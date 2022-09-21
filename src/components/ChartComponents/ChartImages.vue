@@ -1,20 +1,14 @@
+<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-import {
-	DragSetData,
-	FillerAlbum,
-	GlobalChartState,
-	RearrangeChart,
-	GrayBoxImg,
-	getAlbumNumber,
-	onTouchStart
-} from '#src/shared'
 import {
 	type AlbumTile,
 	type DragDataTransfer,
 	type IndicesObject
-} from '#types/types'
+} from '#types'
+import { GlobalChartState } from '#shared/globals'
+import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
+import { FillerAlbum, GrayBoxImg, getAlbumNumber } from '#shared/misc'
+
 import Close from '#assets/blackClose.svg'
 
 function onDragOver(dragEvent: DragEvent) {
@@ -22,28 +16,30 @@ function onDragOver(dragEvent: DragEvent) {
 }
 
 function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
 	const data = dragEvent.dataTransfer?.getData('text/plain')!
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
 
 	if (albumDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
 		RearrangeChart({ index1, index2 }, albumDraggedIn.originatingIndices)
-	} else {
-		// from search replace current dropped
-		const currentElement = dragEvent.currentTarget as HTMLImageElement
-
-		GlobalChartState.value?.chartTiles[index1].splice(
-			index2,
-			1,
-			albumDraggedIn.albumObject
-		)
-		currentElement.src = albumDraggedIn.albumObject.image
-		currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
+		return
 	}
+
+	// from search replace current dropped
+	const currentElement = dragEvent.currentTarget as HTMLImageElement
+
+	GlobalChartState.chartTiles[index1].splice(
+		index2,
+		1,
+		albumDraggedIn.albumObject
+	)
+	currentElement.src = albumDraggedIn.albumObject.image
+	currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
 }
 
 function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
-	if (!GlobalChartState.value) {
+	if (!GlobalChartState) {
 		return console.error(
 			'Error getting GlobalChartState in onDragStart()',
 			GlobalChartState
@@ -51,7 +47,7 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	}
 
 	DragSetData(dragEvent, {
-		albumObject: GlobalChartState.value.chartTiles[index1][index2],
+		albumObject: GlobalChartState.chartTiles[index1][index2],
 		dragSource: 'Chart',
 		originatingIndices: {
 			index1: index1,
@@ -62,7 +58,7 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 }
 
 function deleteCurrent(indexOne: number, indexTwo: number) {
-	GlobalChartState.value?.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
+	GlobalChartState.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
 }
 
 // Returns the title for the given tile, if it's a placeholder it returns undefined

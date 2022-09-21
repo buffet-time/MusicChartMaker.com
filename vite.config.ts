@@ -30,8 +30,9 @@ export default defineConfig({
 			'#src': path.resolve(__dirname, './src'),
 			'#assets': path.resolve(__dirname, './src/assets'),
 			'#components': path.resolve(__dirname, './src/components'),
-			'#types': path.resolve(__dirname, './src/types'),
-			'#core': path.resolve(__dirname, './src/components/CoreComponents')
+			'#types': path.resolve(__dirname, './src/types/types.ts'),
+			'#core': path.resolve(__dirname, './src/components/CoreComponents'),
+			'#shared': path.resolve(__dirname, './src/shared')
 		}
 	}
 })

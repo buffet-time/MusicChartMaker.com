@@ -1,20 +1,21 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, onMounted } from 'vue'
+import { type ChartState } from '#types'
+import { GenerateDefaultChart } from '#shared/chart'
 import {
-	GenerateDefaultChart,
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames
-} from '#src/shared'
+} from '#shared/globals'
 import {
 	setStoredChart,
 	getStoredChart,
 	setCurrentChart,
 	getCurrentChart,
 	getAllSavedKeys
-} from '#src/storage'
-import { type ChartState } from '#types/types'
+} from '#shared/storage'
+
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
@@ -29,7 +30,7 @@ const initializing = ref(true)
 
 // this is a bit janky :/
 function onSelect() {
-	if (!GlobalChartState.value || !GlobalSiteOptions.value) {
+	if (!GlobalChartState || !GlobalSiteOptions) {
 		return console.error(
 			'Error getting either GlobalChartState or Options in onSelect()',
 			GlobalChartState,
@@ -48,8 +49,8 @@ function onSelect() {
 	// First, store current chart
 	setCurrentChart(selectedChartTitle.value)
 	// Now, update current chart, and update latest chart to current.
-	GlobalChartState.value = loadedChart
-	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
+	Object.assign(GlobalChartState, loadedChart)
+	GlobalSiteOptions.currentChart = selectedChartTitle.value
 	selectedChart.value = loadedChart
 }
 
@@ -66,7 +67,6 @@ onMounted(() => {
 	}
 
 	setCurrentChart(selectedChart.value.options.chartTitle)
-	GlobalChartState.value = selectedChart.value
 	StoredChartNames.value = getAllSavedKeys()
 	selectedChartTitle.value = selectedChart.value.options.chartTitle
 

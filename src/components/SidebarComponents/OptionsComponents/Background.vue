@@ -1,24 +1,22 @@
 <script setup lang="ts">
-import { GlobalChartState, IsImage } from '#src/shared'
 import { ref } from 'vue'
+import { GlobalChartState } from '#shared/globals'
+import { IsImage } from '#shared/misc'
 
 const bgImage = ref(
-	GlobalChartState.value?.options.backgroundImage
-		? GlobalChartState.value.options.backgroundImage
+	GlobalChartState.options.backgroundImage
+		? GlobalChartState.options.backgroundImage
 		: ''
 )
 
 async function onBgImageInput() {
 	bgImage.value.trim()
 	if (await IsImage(bgImage.value)) {
-		if (
-			!GlobalChartState.value ||
-			!GlobalChartState.value.options.backgroundImage
-		) {
+		if (!GlobalChartState || !GlobalChartState.options.backgroundImage) {
 			return console.error('ERror in onBgImageInput()', GlobalChartState)
 		}
 
-		GlobalChartState.value.options.backgroundImage = bgImage.value
+		GlobalChartState.options.backgroundImage = bgImage.value
 		return
 	}
 
@@ -26,14 +24,11 @@ async function onBgImageInput() {
 }
 
 function clearBackground() {
-	if (
-		!GlobalChartState.value ||
-		!GlobalChartState.value.options.backgroundImage
-	) {
+	if (!GlobalChartState || !GlobalChartState.options.backgroundImage) {
 		return console.error('ERror in clearBackground()', GlobalChartState)
 	}
 
-	GlobalChartState.value.options.backgroundImage = undefined
+	GlobalChartState.options.backgroundImage = undefined
 	bgImage.value = ''
 }
 </script>

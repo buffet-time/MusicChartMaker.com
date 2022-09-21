@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { version } from '#root/package.json'
+
 import Dialog from '#core/Dialog.vue'
 
 const dialogId = 'siteInfoModal'

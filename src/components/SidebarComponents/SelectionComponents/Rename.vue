@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { StoredChartNames } from '#src/shared'
+import { ref } from 'vue'
+import { type ChartState } from '#types'
+import { StoredChartNames } from '#shared/globals'
 import {
 	setStoredChart,
 	deleteStoredChart,
 	SiteOptionsKey,
 	setCurrentChart
-} from '#src/storage'
-import { type ChartState } from '#types/types'
+} from '#shared/storage'
+import { PreventNameCollision } from '#shared/chart'
+
 import Dialog from '#core/Dialog.vue'
-import { ref } from 'vue'
 
 const props = defineProps<{
 	selectedChart: ChartState
@@ -37,23 +39,23 @@ function closeRenameModal() {
 }
 
 function renameChart() {
-	// TODO: add a preventNameCollision here!
+	const chartNameToSave = PreventNameCollision(chartInput.value)
 
 	if (!props.selectedChart) {
 		return console.error('Selected Chart is not defined', props.selectedChart)
 	}
 
-	setStoredChart(chartInput.value, props.selectedChart)
+	setStoredChart(chartNameToSave, props.selectedChart)
 	deleteStoredChart(props.selectedChartTitle)
-	setCurrentChart(chartInput.value)
+	setCurrentChart(chartNameToSave)
 
 	StoredChartNames.value[
 		StoredChartNames.value.findIndex(
 			(name) => name === props.selectedChartTitle
 		)
-	] = chartInput.value
+	] = chartNameToSave
 
-	emits('updateChartTitle', chartInput.value)
+	emits('updateChartTitle', chartNameToSave)
 
 	closeRenameModal()
 }

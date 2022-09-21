@@ -1,14 +1,11 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
-import {
-	DragSetData,
-	IsImage,
-	GlobalSiteOptions,
-	onTouchStart
-} from '#src/shared'
-import { type AlbumSearchResult } from '#types/types'
-import { ProperFetch } from '#src/core'
+import { type AlbumSearchResult } from '#types'
+import { GlobalSiteOptions } from '#shared/globals'
+import { DragSetData, onTouchStart } from '#shared/drag'
+import { IsImage } from '#shared/misc'
+import { ProperFetch } from '#shared/misc'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
@@ -34,7 +31,7 @@ async function search() {
 	}
 
 	searchResults.value = await ProperFetch(
-		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value?.numberOfSearchResults}`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.numberOfSearchResults}`
 	)
 
 	previousSearch = searchInput.value
