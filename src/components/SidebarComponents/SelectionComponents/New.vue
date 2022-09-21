@@ -1,15 +1,19 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
+import { type ChartState, type Preset } from '#types'
 import {
 	GenerateDefaultChart,
 	GeneratePresetChart,
-	GlobalChartState,
-	PreventNameCollision,
-	StoredChartNames
-} from '#src/shared'
-import { setCurrentChart, setStoredChart, SiteOptionsKey } from '#src/storage'
-import { type ChartState, type Preset } from '#types/types'
+	PreventNameCollision
+} from '#shared/chart'
+import { GlobalChartState, StoredChartNames } from '#shared/globals'
+import {
+	setCurrentChart,
+	setStoredChart,
+	SiteOptionsKey
+} from '#shared/storage'
+
 import Dialog from '#core/Dialog.vue'
 
 const props = defineProps<{
@@ -50,7 +54,7 @@ function newChart(type: 'Custom' | 'Preset', preset?: Preset) {
 	emit('updateSelectedChartTitle', chartNameInput.value)
 	setCurrentChart(chartNameInput.value)
 	saveCurrentChart()
-	GlobalChartState.value = tempChart
+	Object.assign(GlobalChartState, tempChart)
 
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.close()

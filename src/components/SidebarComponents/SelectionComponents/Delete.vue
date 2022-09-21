@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import Dialog from '#core/Dialog.vue'
+import { type ChartState } from '#types'
+import { GenerateDefaultChart } from '#shared/chart'
 import {
 	StoredChartNames,
-	GenerateDefaultChart,
 	GlobalChartState,
 	GlobalSiteOptions
-} from '#src/shared'
-import { deleteStoredChart, getFirstChart, setCurrentChart } from '#src/storage'
-import { type ChartState } from '#types/types'
+} from '#shared/globals'
+import {
+	deleteStoredChart,
+	getFirstChart,
+	setCurrentChart
+} from '#shared/storage'
+
+import Dialog from '#core/Dialog.vue'
 
 const props = defineProps<{
 	selectedChartTitle: string
@@ -47,9 +52,9 @@ function deleteChart() {
 		StoredChartNames.value.push(chartToSet.options.chartTitle)
 	}
 
-	GlobalChartState.value = chartToSet
+	Object.assign(GlobalChartState, chartToSet)
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	GlobalSiteOptions.value!.currentChart = chartToSet.options.chartTitle
+	GlobalSiteOptions.currentChart = chartToSet.options.chartTitle
 	setCurrentChart(chartToSet.options.chartTitle)
 
 	emit('deleteChart', chartToSet)

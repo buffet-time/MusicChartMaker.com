@@ -1,15 +1,16 @@
 <!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
-import { GlobalChartState, getAlbumNumber, GrayBoxImg } from '#src/shared'
+import { GlobalChartState } from '#shared/globals'
+import { getAlbumNumber, GrayBoxImg } from '#shared/misc'
 
 function albumArtistEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value!.chartTiles[index][index2].artist = (
+	GlobalChartState.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
 	).innerText
 }
 
 function albumNameEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value!.chartTiles[index][index2].name = (
+	GlobalChartState.chartTiles[index][index2].name = (
 		event.target as HTMLSpanElement
 	).innerText
 }

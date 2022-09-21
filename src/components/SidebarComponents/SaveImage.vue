@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { GlobalChartState } from '#src/shared'
 import { onMounted, ref } from 'vue'
+import { GlobalChartState } from '#shared/globals'
+
 import Dialog from '#core/Dialog.vue'
 
 const saveImageId = 'saveImage'
@@ -42,7 +43,7 @@ async function saveImage() {
 		})
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL(`image/${selectedFormat.value}`)
-		anchor.download = `${GlobalChartState.value?.options.chartTitle}.${selectedFormat.value}`
+		anchor.download = `${GlobalChartState.options.chartTitle}.${selectedFormat.value}`
 		anchor.click()
 	} catch (error) {
 		console.error(`Error in Save Image: ${Error}`)

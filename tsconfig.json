@@ -22,8 +22,9 @@
 			"#src/*": ["./src/*"],
 			"#assets/*": ["./src/assets/*"],
 			"#components/*": ["./src/components/*"],
-			"#types/*": ["./src/types/*"],
-			"#core/*": ["./src/components/CoreComponents/*"]
+			"#types": ["./src/types/types.ts"],
+			"#core/*": ["./src/components/CoreComponents/*"],
+			"#shared/*": ["./src/shared/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],

@@ -1,11 +1,8 @@
-import { GenerateDefaultSiteOptions, GlobalSiteOptions } from '#src/shared'
-import { type SiteOptions, type ChartState } from '#types/types'
+import { type SiteOptions, type ChartState } from '#types'
+import { GlobalSiteOptions } from '#shared/globals'
 
 export const SiteOptionsKey = 'GlobalSiteOptions'
 
-// // // //
-// Other
-// // // //
 export function getAllSavedKeys(): string[] {
 	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
@@ -26,9 +23,6 @@ export function getFirstChart(): ChartState | undefined {
 	return undefined
 }
 
-// // // // // // // // // //
-// Handling Current Chart
-// // // // // // // // // //
 export function getCurrentChart(): string | null {
 	const item = localStorage.getItem(SiteOptionsKey)
 	return item ? (JSON.parse(item) as SiteOptions).currentChart : null
@@ -39,15 +33,12 @@ export function setCurrentChart(chartTitle: string): void {
 	localStorage.setItem(
 		SiteOptionsKey,
 		JSON.stringify({
-			...GlobalSiteOptions.value,
+			...GlobalSiteOptions,
 			currentChart: chartTitle
 		} as SiteOptions)
 	)
 }
 
-// // // // // // // // //
-// Handling ChartStates
-// // // // // // // // //
 export function getStoredChart(key: string): ChartState | undefined {
 	if (key === SiteOptionsKey) {
 		console.error("Can't get GlobalSiteOptions as it is not a chart.")
@@ -76,21 +67,15 @@ export function deleteStoredChart(key: string): void {
 	localStorage.removeItem(key)
 }
 
-// // // // // // // // //
-// Site Options storage
-// // // // // // // // //
-
 export function SaveSiteOptions() {
-	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions.value))
+	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions))
 }
 
 export function GetSiteOptions() {
 	const item = localStorage.getItem(SiteOptionsKey)
 	if (item) {
 		return JSON.parse(item) as SiteOptions
-	} else {
-		GlobalSiteOptions.value = GenerateDefaultSiteOptions()
-		SaveSiteOptions()
-		return GlobalSiteOptions.value
 	}
+
+	return null
 }

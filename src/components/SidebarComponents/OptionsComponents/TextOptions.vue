@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GlobalChartState } from '#src/shared'
+import { GlobalChartState } from '#shared/globals'
 </script>
 
 <template>
