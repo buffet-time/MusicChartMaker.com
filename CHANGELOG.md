@@ -2,8 +2,6 @@
 
 ## Version Beta-0.6.1
 
-### User facing
-
 - Perf - Cache valid fonts
 - Fix - Chart adding not being set on creation of new chart.
 - Fix - Removed ability to rename a chart to the name of a previously stored chart name
