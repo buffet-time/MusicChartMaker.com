@@ -1,4 +1,4 @@
-import { type SiteOptions } from '#types'
+import type { SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
 
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'

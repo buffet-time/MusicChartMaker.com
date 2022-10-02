@@ -5,6 +5,7 @@ import { setStoredChart } from '#shared/storage'
 
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
+import Search from './SidebarComponents/Search.vue'
 
 // TODO: look into feasibility of debouncing this as to reduce ops
 watch(
@@ -28,13 +29,18 @@ watch(
 <template>
 	<div
 		id="Chart"
-		class="flex h-fit p-2 w-fit ml-[230px]"
+		class="flex flex-col gap-1 h-fit p-2 w-fit mt-7 md:mt-0"
 		:style="{
 			backgroundColor: GlobalChartState?.options.background,
 			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
 		}"
 	>
-		<ChartImages />
-		<ChartTitles />
+		<div class="flex">
+			<ChartImages />
+			<ChartTitles />
+		</div>
+		<div class="block md:hidden">
+			<Search />
+		</div>
 	</div>
 </template>

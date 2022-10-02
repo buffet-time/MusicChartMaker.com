@@ -1,7 +1,8 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.6.1",
+	"version": "0.7.0",
+	"type": "module",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
 		"name": "Daniel Turcich",
@@ -19,9 +20,10 @@
 		"#types/*": "./src/types/*"
 	},
 	"scripts": {
-		"prepare": "husky install",
 		"serve": "vite",
 		"serve:phone": "vite --host 8086",
+		"build": "pnpm type-check && pnpm vite-build && pnpm add:cname",
+		"build:preview": "vite preview",
 		"lint-fix": "eslint \"**/*.{ts,vue}\" --fix",
 		"lint-check": "eslint \"**/*.{ts,vue}\"",
 		"format-fix": "prettier --write \"**/**\"",
@@ -29,23 +31,22 @@
 		"type-check": "vue-tsc --noEmit && echo type-check done",
 		"vite-build": "vite build --emptyOutDir && echo vite-build done",
 		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME && echo add:cname done",
-		"build": "pnpm type-check && pnpm vite-build && pnpm add:cname",
-		"build:preview": "vite preview"
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
-		"vue": "^3.2.39"
+		"vue": "^3.2.40"
 	},
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^1.4.1",
-		"@types/node": "^18.7.18",
-		"@typescript-eslint/eslint-plugin": "^5.38.0",
-		"@typescript-eslint/parser": "^5.38.0",
+		"@types/node": "^18.7.23",
+		"@typescript-eslint/eslint-plugin": "^5.38.1",
+		"@typescript-eslint/parser": "^5.38.1",
 		"@vitejs/plugin-vue": "^3.1.0",
-		"@vue/eslint-config-typescript": "^11.0.1",
+		"@vue/eslint-config-typescript": "^11.0.2",
 		"autoprefixer": "^10.4.12",
-		"eslint": "^8.23.1",
+		"eslint": "^8.24.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-vue": "^9.5.1",
@@ -54,8 +55,8 @@
 		"prettier": "^2.7.1",
 		"prettier-plugin-tailwindcss": "^0.1.13",
 		"tailwindcss": "^3.1.8",
-		"typescript": "^4.8.3",
-		"vite": "^3.1.3",
+		"typescript": "^4.8.4",
+		"vite": "^3.1.4",
 		"vue-eslint-parser": "^9.1.0",
 		"vue-tsc": "^0.40.13"
 	}

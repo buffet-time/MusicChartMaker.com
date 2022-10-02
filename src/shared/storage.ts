@@ -1,4 +1,4 @@
-import { type SiteOptions, type ChartState } from '#types'
+import type { SiteOptions, ChartState } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
 
 export const SiteOptionsKey = 'GlobalSiteOptions'

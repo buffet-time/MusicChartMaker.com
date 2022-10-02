@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type ChartState } from '#types'
+import type { ChartState } from '#types'
 import { GenerateDefaultChart } from '#shared/chart'
 import {
 	StoredChartNames,

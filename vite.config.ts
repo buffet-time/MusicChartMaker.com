@@ -1,12 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import * as path from 'path'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	root: './src',
-	base: './',
-
 	build: {
 		rollupOptions: {
 			maxParallelFileReads: 512,
@@ -15,15 +12,9 @@ export default defineConfig({
 				generatedCode: 'es2015'
 			}
 		},
-		target: 'es2018',
-
-		outDir: '../dist'
+		target: 'es2018'
 	},
-	plugins: [
-		vue({
-			isProduction: true
-		})
-	],
+	plugins: [vue()],
 	resolve: {
 		alias: {
 			'#root': path.resolve(__dirname),

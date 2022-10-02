@@ -61,8 +61,8 @@ function showModal() {
 			<div class="pb-2">
 				<h2 class="font-bold">Planned Features/ Enhancements</h2>
 				<ol class="list-disc list-inside pt-1">
-					<li>Support for Mobile</li>
-					<li>Improve site UI/UX responsiveness</li>
+					<li>Last.fm functionality</li>
+					<li>RYM functionality (dependent on if their API is free/ works)</li>
 					<li>Add ability to create custom presets</li>
 					<li>Embedding chartdata into exported images</li>
 				</ol>

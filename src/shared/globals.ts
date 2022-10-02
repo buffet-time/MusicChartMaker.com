@@ -1,5 +1,5 @@
 import { reactive, ref } from 'vue'
-import { type ChartState, type SiteOptions } from '#types'
+import type { ChartState, SiteOptions } from '#types'
 import { GetSiteOptions, getStoredChart } from '#shared/storage'
 import { GenerateDefaultChart } from '#shared/chart'
 import { GenerateDefaultSiteOptions } from '#shared/misc'

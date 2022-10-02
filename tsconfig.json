@@ -1,22 +1,20 @@
 {
 	"compilerOptions": {
-		// First version to have dynamic imports in Chrome, Opera, and Safari
-		// It is far more likely for FireFox & Edge users to be more up to date.
-		"target": "ES2018",
-		"module": "esnext",
-		"moduleResolution": "node",
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Node",
 
 		"strict": true,
 		"sourceMap": true,
 		"skipLibCheck": true,
 		"removeComments": true,
-		"isolatedModules": true,
 		"esModuleInterop": true,
+		"isolatedModules": true,
 		"resolveJsonModule": true,
 		"useDefineForClassFields": true,
 
 		"jsx": "preserve", // Needed for Volar to work properly.
-		"lib": ["esnext", "dom"],
+		"lib": ["ESNext", "DOM"],
 		"paths": {
 			"#root/*": ["./*"],
 			"#src/*": ["./src/*"],
@@ -27,6 +25,6 @@
 			"#shared/*": ["./src/shared/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

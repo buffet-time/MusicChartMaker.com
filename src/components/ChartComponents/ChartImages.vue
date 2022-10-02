@@ -1,10 +1,6 @@
 <!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
-import {
-	type AlbumTile,
-	type DragDataTransfer,
-	type IndicesObject
-} from '#types'
+import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
 import { FillerAlbum, GrayBoxImg, getAlbumNumber } from '#shared/misc'

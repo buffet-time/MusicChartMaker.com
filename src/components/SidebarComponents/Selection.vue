@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, onMounted } from 'vue'
-import { type ChartState } from '#types'
+import type { ChartState } from '#types'
 import { GenerateDefaultChart } from '#shared/chart'
 import {
 	GlobalChartState,

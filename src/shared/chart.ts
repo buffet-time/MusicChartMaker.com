@@ -1,9 +1,4 @@
-import {
-	type ChartSize,
-	type ChartState,
-	type AlbumTile,
-	type Preset
-} from '#types'
+import type { ChartSize, ChartState, AlbumTile, Preset } from '#types'
 import { FillerAlbum } from '#shared/misc'
 import { getAllSavedKeys } from '#shared/storage'
 

@@ -1,5 +1,12 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.0
+
+- Feat - Many changes to make the site work better on mobile!
+- Dev - Fixed vite failing to serve properly via config changes and module bumping
+
+---
+
 ## Version Beta-0.6.1
 
 - Perf - Cache valid fonts

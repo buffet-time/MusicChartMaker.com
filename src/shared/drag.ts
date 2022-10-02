@@ -1,8 +1,4 @@
-import {
-	type DragDataTransfer,
-	type IndicesObject,
-	type AlbumSearchResult
-} from '#types'
+import type { DragDataTransfer, IndicesObject, AlbumSearchResult } from '#types'
 import { GlobalChartState } from '#shared/globals'
 
 export function DragSetData(
