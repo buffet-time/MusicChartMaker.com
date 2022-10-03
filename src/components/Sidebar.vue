@@ -46,7 +46,7 @@ function hideMenu() {
 
 	<div
 		ref="sidebarMenu"
-		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden absolute pt-2 md:relative md:flex"
+		class="flex fixed flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden pt-2 md:relative md:flex"
 	>
 		<img
 			title="Close Menu"

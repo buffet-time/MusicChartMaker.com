@@ -70,7 +70,7 @@ function resetOptionsToDefault() {
 		<!-- The options overlay -->
 		<div
 			v-if="showOptions"
-			class="flex flex-col tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
+			class="flex flex-col overflow-auto tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
 		>
 			<img
 				title="Close Options"

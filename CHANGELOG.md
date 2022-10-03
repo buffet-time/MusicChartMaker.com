@@ -1,5 +1,12 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.2
+
+- Feat - Even more changes to make the site be more responsive on mobile
+- Dev - reverted postcss and tailwind configs to be `.cjs` as they still dont support ESM...
+
+---
+
 ## Version Beta-0.7.1
 
 - Feat - Title's are now hidden by default for better mobile support and I see it far less, of course you can always still enable it per chart

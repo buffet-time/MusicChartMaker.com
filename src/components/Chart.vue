@@ -32,13 +32,13 @@ watch(
 	</div>
 	<div
 		id="Chart"
-		class="flex flex-col gap-1 h-fit p-2 w-fit mt-7 md:mt-0"
+		class="flex flex-col gap-1 h-full w-full md:mt-0"
 		:style="{
 			backgroundColor: GlobalChartState?.options.background,
 			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
 		}"
 	>
-		<div class="flex">
+		<div class="flex flex-col gap-1 justify-center items-center md:flex-row">
 			<ChartImages />
 			<ChartTitles />
 		</div>
