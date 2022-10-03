@@ -10,7 +10,7 @@ export const FillerAlbum = {
 
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
-		numberOfSearchResults: 10,
+		numberOfSearchResults: 12,
 		currentChart: 'New Album Chart'
 	}
 }

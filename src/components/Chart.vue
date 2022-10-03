@@ -27,6 +27,9 @@ watch(
 </script>
 
 <template>
+	<div class="flex justify-center w-full md:hidden">
+		<Search />
+	</div>
 	<div
 		id="Chart"
 		class="flex flex-col gap-1 h-fit p-2 w-fit mt-7 md:mt-0"
@@ -38,9 +41,6 @@ watch(
 		<div class="flex">
 			<ChartImages />
 			<ChartTitles />
-		</div>
-		<div class="block md:hidden">
-			<Search />
 		</div>
 	</div>
 </template>

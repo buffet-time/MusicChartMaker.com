@@ -1,5 +1,12 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.1
+
+- Feat - Title's are now hidden by default for better mobile support and I see it far less, of course you can always still enable it per chart
+- Feat - More changes to make the site work better on mobile!
+
+---
+
 ## Version Beta-0.7.0
 
 - Feat - Many changes to make the site work better on mobile!
