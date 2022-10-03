@@ -1,5 +1,11 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.3
+
+- Feat - Even more changes to make the site be more responsive on mobile
+
+---
+
 ## Version Beta-0.7.2
 
 - Feat - Even more changes to make the site be more responsive on mobile

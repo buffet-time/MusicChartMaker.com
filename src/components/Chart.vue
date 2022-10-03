@@ -38,7 +38,9 @@ watch(
 			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
 		}"
 	>
-		<div class="flex flex-col gap-1 justify-center items-center md:flex-row">
+		<div
+			class="flex flex-col gap-1 justify-center items-center md:justify-start md:items-start md:flex-row md:ml-[231px]"
+		>
 			<ChartImages />
 			<ChartTitles />
 		</div>
