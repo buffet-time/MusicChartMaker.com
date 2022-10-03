@@ -26,6 +26,10 @@ function showModal() {
 				Discord is the preferred platform for discussion and bug reports of the
 				site.
 			</p>
+			<p>
+				This site uses a lot of newer web features, please use the latest
+				version of your browser!
+			</p>
 
 			<!-- Links -->
 			<div class="tw-flex-center mt-1 mb-1 gap-1">

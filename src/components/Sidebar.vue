@@ -72,12 +72,3 @@ function hideMenu() {
 		</div>
 	</div>
 </template>
-
-<style>
-.show-menu {
-	visibility: visible;
-}
-.hide-menu-button {
-	visibility: hidden;
-}
-</style>
