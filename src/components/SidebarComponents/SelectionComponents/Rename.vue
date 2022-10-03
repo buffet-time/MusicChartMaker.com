@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { type ChartState } from '#types'
+import type { ChartState } from '#types'
 import { StoredChartNames } from '#shared/globals'
 import {
 	setStoredChart,

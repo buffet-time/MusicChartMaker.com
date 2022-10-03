@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
-import { type ChartState, type Preset } from '#types'
+import type { ChartState, Preset } from '#types'
 import {
 	GenerateDefaultChart,
 	GeneratePresetChart,

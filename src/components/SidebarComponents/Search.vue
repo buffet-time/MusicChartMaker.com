@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
-import { type AlbumSearchResult } from '#types'
+import type { AlbumSearchResult } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
 import { DragSetData, onTouchStart } from '#shared/drag'
 import { IsImage } from '#shared/misc'
@@ -87,7 +87,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center flex-wrap mt-2 gap-1 h-[415px] overflow-auto tw-no-scrollbar"
+			class="tw-flex-center flex-wrap mt-2 gap-1 h-[204px] overflow-auto md:tw-no-scrollbar md:h-[415px]"
 		>
 			<img
 				v-for="(album, index) in searchResults"

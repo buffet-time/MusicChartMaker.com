@@ -18,3 +18,5 @@ LICENSE
 
 # file types
 *.log
+*.svg
+*.min.svg

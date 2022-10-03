@@ -26,6 +26,10 @@ function showModal() {
 				Discord is the preferred platform for discussion and bug reports of the
 				site.
 			</p>
+			<p>
+				This site uses a lot of newer web features, please use the latest
+				version of your browser!
+			</p>
 
 			<!-- Links -->
 			<div class="tw-flex-center mt-1 mb-1 gap-1">
@@ -61,8 +65,8 @@ function showModal() {
 			<div class="pb-2">
 				<h2 class="font-bold">Planned Features/ Enhancements</h2>
 				<ol class="list-disc list-inside pt-1">
-					<li>Support for Mobile</li>
-					<li>Improve site UI/UX responsiveness</li>
+					<li>Last.fm functionality</li>
+					<li>RYM functionality (dependent on if their API is free/ works)</li>
 					<li>Add ability to create custom presets</li>
 					<li>Embedding chartdata into exported images</li>
 				</ol>
