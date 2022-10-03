@@ -14,6 +14,21 @@ const top100: ChartSize = {
 }
 const numberInParensRegex = /\s\((\d+)\)$/
 
+const defaultChartName = 'New Album Chart'
+const baseOptionsDefault = {
+	displayNumberRank: true,
+	displayTitles: false,
+	displayPlaycount: false,
+	background: '#303030',
+	textColor: '#FFFFFF',
+	textBorderColor: '#000000',
+	fontSize: 14,
+	textSpacing: 0,
+	font: 'Arial',
+	padding: 0.2,
+	backgroundImage: undefined
+}
+
 export function GenerateDefaultChart(title?: string): ChartState {
 	const albumArray = [] as AlbumTile[][]
 	const defaultChartSize: ChartSize = {
@@ -31,19 +46,9 @@ export function GenerateDefaultChart(title?: string): ChartState {
 
 	return {
 		options: {
+			...baseOptionsDefault,
 			chartSize: defaultChartSize,
-			chartTitle: title ? title : 'New Album Chart',
-			displayNumberRank: true,
-			displayTitles: true,
-			displayPlaycount: false,
-			background: '#303030',
-			textColor: '#FFFFFF',
-			textBorderColor: '#000000',
-			fontSize: 14,
-			textSpacing: 0,
-			font: 'Arial',
-			padding: 0.2,
-			backgroundImage: undefined,
+			chartTitle: title ? title : defaultChartName,
 			preset: undefined
 		},
 		chartTiles: albumArray
@@ -88,20 +93,10 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 
 	return {
 		options: {
+			...baseOptionsDefault,
 			chartSize: presetChartSize,
-			chartTitle: title ? title : 'New Album Chart',
-			displayNumberRank: true,
-			displayTitles: true,
-			displayPlaycount: false,
-			background: '#303030',
-			textColor: '#FFFFFF',
-			textBorderColor: '#000000',
-			preset: preset,
-			fontSize: 14,
-			textSpacing: 0,
-			font: 'Arial',
-			backgroundImage: undefined,
-			padding: 0.2
+			chartTitle: title ? title : defaultChartName,
+			preset: preset
 		},
 		chartTiles: albumArray
 	}
