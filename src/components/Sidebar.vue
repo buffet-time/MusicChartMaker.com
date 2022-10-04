@@ -44,6 +44,7 @@ function hideMenu() {
 		@click="showMenu()"
 	/>
 
+	<!-- TODO: figure out how to disable this warning -->
 	<div
 		ref="sidebarMenu"
 		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
@@ -51,7 +52,7 @@ function hideMenu() {
 		<img
 			title="Close Menu"
 			:src="BlackClose"
-			class="tw-button fixed ml-2 h-7 p-0 md:hidden"
+			class="tw-button fixed ml-2 h-6 p-0 md:hidden"
 			@click="hideMenu()"
 		/>
 

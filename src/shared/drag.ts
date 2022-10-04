@@ -1,5 +1,6 @@
 import type { DragDataTransfer, IndicesObject, AlbumSearchResult } from '#types'
 import { GlobalChartState } from '#shared/globals'
+import { GrayBoxImg } from './misc'
 
 export function DragSetData(
 	dragEvent: DragEvent,
@@ -14,13 +15,23 @@ export function DragSetData(
 
 export function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
-	{ index1: originIndex1, index2: originIndex2 }: IndicesObject
+	{ index1: originIndex1, index2: originIndex2 }: IndicesObject,
+	swap?: boolean
 ) {
 	if (!GlobalChartState) {
 		return console.error(
 			'Error getting GlobalChartState in RearrangeChart()',
 			GlobalChartState
 		)
+	}
+
+	// Swap the 2 elements
+	if (swap) {
+		const targetTile = GlobalChartState.chartTiles[targetIndex1][targetIndex2]
+		GlobalChartState.chartTiles[targetIndex1][targetIndex2] =
+			GlobalChartState.chartTiles[originIndex1][originIndex2]
+		GlobalChartState.chartTiles[originIndex1][originIndex2] = targetTile
+		return
 	}
 
 	if (targetIndex1 === originIndex1) {
@@ -82,17 +93,30 @@ export function RearrangeChart(
 	}
 }
 
+let timer: ReturnType<typeof setTimeout>
+const longPressTime = 500
+
 export function onTouchStart(
 	touchEvent: TouchEvent,
 	album: AlbumSearchResult,
 	source: 'Search' | 'Chart',
-	originatingIndices?: { index1: number; index2: number }
+	originatingIndices?: IndicesObject,
+	openDialog?: (indices?: IndicesObject) => void
 ) {
 	if (typeof DragEvent !== 'function') {
 		// If the HTML Drag and Drop API is supported
 		// (all desktop browsers, and some latest mobile may support)
 		return
 	}
+
+	function onHoldTouch() {
+		// For hold touch to delete
+		if (openDialog && originatingIndices && album.image !== GrayBoxImg) {
+			openDialog(originatingIndices)
+		}
+	}
+
+	timer = setTimeout(onHoldTouch, longPressTime)
 
 	// console.log(1, touchEvent, album)
 	const imgElement = touchEvent.target as HTMLImageElement
@@ -125,6 +149,10 @@ export function onTouchStart(
 	)
 
 	function onTouchMove(touchEvent: TouchEvent) {
+		if (timer) {
+			clearTimeout(timer)
+		}
+
 		moveImageToCursor(
 			touchEvent.targetTouches[0].clientX,
 			touchEvent.targetTouches[0].clientY
@@ -132,6 +160,12 @@ export function onTouchStart(
 	}
 
 	function onTouchEnd(touchEvent: TouchEvent) {
+		// TODO:
+		// do a swap instead of splice in if the drop target is a placeholder
+		if (timer) {
+			clearTimeout(timer)
+		}
+
 		movingCopy.remove()
 		document.removeEventListener('touchmove', onTouchMove)
 		document.removeEventListener('touchend', onTouchEnd)
@@ -141,13 +175,17 @@ export function onTouchStart(
 			touchEvent.changedTouches[0].clientY
 		) as HTMLImageElement | null
 
-		if (!elemBelow) return
+		if (!elemBelow) {
+			return
+		}
 
 		const firstIndex = elemBelow.getAttribute('firstindex')
 		const secondIndex = elemBelow.getAttribute('secondindex')
 
 		// if the attribute doesn't exist/ isn't a number it'll be NaN
-		if (!firstIndex || !secondIndex) return
+		if (!firstIndex || !secondIndex) {
+			return
+		}
 
 		if (source === 'Search') {
 			if (!GlobalChartState) {
@@ -165,10 +203,18 @@ export function onTouchStart(
 			elemBelow.src = album.image
 			elemBelow.alt = `${album.artist} - ${album.name}`
 		} else if (source === 'Chart' && originatingIndices) {
+			const targetIndices = {
+				index1: Number(firstIndex),
+				index2: Number(secondIndex)
+			}
 			// If in chart move the dragged element to the position you drop and push everything else back one
 			RearrangeChart(
-				{ index1: Number(firstIndex), index2: Number(secondIndex) },
-				originatingIndices
+				targetIndices,
+				originatingIndices,
+				GlobalChartState.chartTiles[targetIndices.index1][targetIndices.index2]
+					.image === GrayBoxImg
+					? true
+					: false
 			)
 		}
 	}

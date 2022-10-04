@@ -6,6 +6,27 @@ import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
 import { FillerAlbum, GrayBoxImg, getAlbumNumber } from '#shared/misc'
 
 import Close from '#assets/blackClose.svg'
+import Dialog from '../CoreComponents/Dialog.vue'
+
+const dialogId = 'DragLongHoldId'
+let selectedAlbumIndices: IndicesObject
+
+function openDialog(indices?: IndicesObject) {
+	// prettier-ignore
+	(document.getElementById(dialogId) as HTMLDialogElement).showModal()
+
+	selectedAlbumIndices = indices!
+}
+
+function closeDialog() {
+	// prettier-ignore
+	(document.getElementById(dialogId) as HTMLDialogElement).close()
+}
+
+function deleteSelectedAlbum() {
+	deleteCurrent(selectedAlbumIndices)
+	closeDialog()
+}
 
 function onDragOver(dragEvent: DragEvent) {
 	dragEvent.dataTransfer!.dropEffect = 'move'
@@ -18,7 +39,13 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 
 	if (albumDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
-		RearrangeChart({ index1, index2 }, albumDraggedIn.originatingIndices)
+		RearrangeChart(
+			{ index1, index2 },
+			albumDraggedIn.originatingIndices,
+			GlobalChartState.chartTiles[index1][index2].image === GrayBoxImg
+				? true
+				: false
+		)
 		return
 	}
 
@@ -53,8 +80,12 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 }
 
-function deleteCurrent(indexOne: number, indexTwo: number) {
-	GlobalChartState.chartTiles[indexOne].splice(indexTwo, 1, FillerAlbum)
+function deleteCurrent(indices: IndicesObject) {
+	GlobalChartState.chartTiles[indices.index1].splice(
+		indices.index2,
+		1,
+		FillerAlbum
+	)
 }
 
 // Returns the title for the given tile, if it's a placeholder it returns undefined
@@ -100,7 +131,7 @@ function chartTitle(
 					title="Delete Album"
 					:src="Close"
 					class="hidden absolute group-hover:bg-white group-hover:block cursor-pointer"
-					@click="deleteCurrent(index1, index2)"
+					@click="deleteCurrent({ index1, index2 })"
 				/>
 				<img
 					:firstIndex="index1"
@@ -108,8 +139,9 @@ function chartTitle(
 					:src="`${album.image}`"
 					:alt="`${album.artist} - ${album.name}`"
 					:title="chartTitle(index1, index2, album)"
-					class="cursor-pointer select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
-					draggable="true"
+					class="select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
+					:class="{ 'cursor-pointer': album.image !== GrayBoxImg }"
+					:draggable="album.image === GrayBoxImg ? false : true"
 					@dragstart="
 						(dragEvent) =>
 							onDragStart(dragEvent, { index1: index1, index2: index2 })
@@ -119,11 +151,28 @@ function chartTitle(
 						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
 					"
 					@touchstart.prevent="
-						(touchEvent) =>
-							onTouchStart(touchEvent, album, 'Chart', { index1, index2 })
+						(touchEvent) => {
+							if (album.image === GrayBoxImg) {
+								return
+							}
+							onTouchStart(
+								touchEvent,
+								album,
+								'Chart',
+								{ index1, index2 },
+								openDialog
+							)
+						}
 					"
 				/>
 			</div>
 		</div>
+		<Dialog :dialog-id="dialogId" :close-button="false">
+			Delete the selected album?
+			<div class="flex gap-2">
+				<button class="tw-button" @click="deleteSelectedAlbum">Yes</button>
+				<button class="tw-button" @click="closeDialog">No</button>
+			</div>
+		</Dialog>
 	</div>
 </template>
