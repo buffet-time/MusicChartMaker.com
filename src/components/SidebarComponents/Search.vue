@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import type { AlbumSearchResult } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
 import { DragSetData, onTouchStart } from '#shared/drag'
-import { GrayBoxImg, IsImage } from '#shared/misc'
+import { IsImage } from '#shared/misc'
 import { ProperFetch } from '#shared/misc'
 
 const searchInput = ref('')
