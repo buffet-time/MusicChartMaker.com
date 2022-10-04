@@ -1,5 +1,15 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.4
+
+- Feat - Added hold to delete for touch devices
+- Feat - various other small changes to CSS for touch
+- Feat - finally disabled drag of the placeholder squares
+- Feat - added swap if the drop target is the placeholder image
+- Feat - lots of other small things to make charts be easier to work with on touch and desktop
+
+---
+
 ## Version Beta-0.7.3
 
 - Feat - Even more changes to make the site be more responsive on mobile

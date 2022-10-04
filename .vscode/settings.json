@@ -17,5 +17,8 @@
 	},
 	"[svg]": {
 		"editor.defaultFormatter": "jock.svg"
+	},
+	"files.associations": {
+		"*.css": "tailwindcss"
 	}
 }
