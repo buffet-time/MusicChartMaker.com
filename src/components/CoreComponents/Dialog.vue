@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const props = defineProps<{
+defineProps<{
 	dialogId: string
 	closeButton: boolean
 }>()
@@ -38,21 +38,17 @@ onMounted(async () => {
 
 <template>
 	<dialog
-		:id="props.dialogId"
+		:id="dialogId"
 		ref="currentDialog"
 		class="bg-transparent"
 		@keypress.esc="closeDialog"
 	>
 		<div class="bg-neutral-700 p-5 tw-flex-center flex-col gap-2 text-white">
 			<!-- Where the override template goes -->
-			<slot></slot>
+			<slot name="content"></slot>
 
 			<!-- Footer -->
-			<button
-				v-if="props.closeButton"
-				class="tw-button mt-1"
-				@click="closeDialog"
-			>
+			<button v-if="closeButton" class="tw-button mt-1" @click="closeDialog">
 				Close
 			</button>
 		</div>

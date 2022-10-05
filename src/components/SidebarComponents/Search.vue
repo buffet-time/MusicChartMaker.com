@@ -7,6 +7,8 @@ import { DragSetData, onTouchStart } from '#shared/drag'
 import { IsImage } from '#shared/misc'
 import { ProperFetch } from '#shared/misc'
 
+import Tooltip from '../CoreComponents/Tooltip.vue'
+
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
 const showSearchResults = ref(false)
@@ -19,7 +21,10 @@ async function search() {
 
 	if (previousSearch === searchInput.value) {
 		showSearchResults.value = true
+		return
 	}
+
+	previousSearch = searchInput.value
 
 	// handle Direct image adding
 	if (await IsImage(searchInput.value)) {
@@ -34,8 +39,6 @@ async function search() {
 		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.numberOfSearchResults}`
 	)
 
-	previousSearch = searchInput.value
-
 	if (!showSearchResults.value) {
 		showSearchResults.value = true
 	}
@@ -49,6 +52,10 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		originatingIndices: { index1: 0, index2: 0 }
 	})
 	dragEvent.dataTransfer!.dropEffect = 'copy'
+}
+
+function getSearchResultsLength() {
+	return searchResults.value ? searchResults.value.length : 0
 }
 </script>
 
@@ -84,24 +91,39 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 				</div>
 			</div>
 		</div>
-
+		<!-- TODO: add a blur to the bottom to show it can be scrolled -->
 		<div
 			v-show="showSearchResults"
 			class="tw-flex-center flex-wrap mt-2 gap-1 h-[102px] overflow-auto md:tw-no-scrollbar md:h-[415px]"
+			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
-			<img
+			<div v-if="getSearchResultsLength() < 1" class="flex">
+				No valid results.
+			</div>
+			<Tooltip
 				v-for="(album, index) in searchResults"
+				v-else
 				:key="index"
-				width="100"
-				class="cursor-pointer"
-				:src="`${album.image}`"
-				:alt="`${album.artist} - ${album.name}`"
-				draggable="true"
-				@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
-				@touchstart.prevent="
-					(touchEvent) => onTouchStart(touchEvent, album, 'Search')
-				"
-			/>
+				:tooltip-name="`search-tooltip-${index}`"
+				:offset="[0, 8]"
+				:delay="500"
+				:placement="'top-start'"
+			>
+				<template #content>
+					<img
+						width="100"
+						class="cursor-grab"
+						:src="`${album.image}`"
+						:alt="`${album.artist} - ${album.name}`"
+						draggable="true"
+						@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
+						@touchstart.prevent="
+							(touchEvent) => onTouchStart(touchEvent, album, 'Search')
+						"
+					/>
+				</template>
+				<template #tooltip>{{ album.artist }} - {{ album.name }}</template>
+			</Tooltip>
 		</div>
 	</div>
 </template>

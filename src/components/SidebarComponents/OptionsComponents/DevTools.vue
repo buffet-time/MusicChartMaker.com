@@ -22,17 +22,19 @@ function clearLocalStore() {
 		</button>
 
 		<Dialog :dialog-id="devToolsId" :close-button="true">
-			<p class="text-neutral-200">
-				Dev debugging tools. Feel free to use them, but be wary :)
-			</p>
+			<template #content>
+				<p class="text-neutral-200">
+					Dev debugging tools. Feel free to use them, but be wary :)
+				</p>
 
-			<div class="gap-2 flex">
-				<div class="flex gap-2">
-					<button class="tw-button" @click="clearLocalStore">
-						Clear LocalStorage
-					</button>
+				<div class="gap-2 flex">
+					<div class="flex gap-2">
+						<button class="tw-button" @click="clearLocalStore">
+							Clear LocalStorage
+						</button>
+					</div>
 				</div>
-			</div>
+			</template>
 		</Dialog>
 	</div>
 </template>

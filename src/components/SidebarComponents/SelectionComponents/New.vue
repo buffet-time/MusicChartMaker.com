@@ -73,37 +73,42 @@ function saveCurrentChart() {
 
 	<!-- TODO: Move rename functionality to be inside the dialog too. -->
 	<Dialog :dialog-id="newDialogId" :close-button="true">
-		<p>New chart named:</p>
+		<template #content>
+			<p>New chart named:</p>
 
-		<input
-			ref="chartInput"
-			v-model="chartNameInput"
-			placeholder="Name of chart"
-			type="text"
-			class="tw-input"
-			title="Any name but can't just be a number."
-			pattern="(?!GlobalSiteOptions$).*"
-		/>
-		<p v-if="chartNameInput === '' || !chartInput?.validity.valid" class="pt-1">
-			The name must not be empty or {{ SiteOptionsKey }}
-		</p>
+			<input
+				ref="chartInput"
+				v-model="chartNameInput"
+				placeholder="Name of chart"
+				type="text"
+				class="tw-input"
+				title="Any name but can't just be a number."
+				pattern="(?!GlobalSiteOptions$).*"
+			/>
+			<p
+				v-if="chartNameInput === '' || !chartInput?.validity.valid"
+				class="pt-1"
+			>
+				The name must not be empty or {{ SiteOptionsKey }}
+			</p>
 
-		<template v-else>
-			<p>Select type of new chart.</p>
-			<div v-if="!presetAdd" class="tw-flex-center gap-1">
-				<button class="tw-button" @click="newChart('Custom')">Custom</button>
+			<template v-else>
+				<p>Select type of new chart.</p>
+				<div v-if="!presetAdd" class="tw-flex-center gap-1">
+					<button class="tw-button" @click="newChart('Custom')">Custom</button>
 
-				<button class="tw-button" @click="presetAdd = true">Preset</button>
-			</div>
+					<button class="tw-button" @click="presetAdd = true">Preset</button>
+				</div>
 
-			<div v-else class="tw-flex-center gap-1">
-				<button class="tw-button" @click="newChart('Preset', 'Top 42')">
-					Top 42
-				</button>
-				<button class="tw-button" @click="newChart('Preset', 'Top 100')">
-					Top 100
-				</button>
-			</div>
+				<div v-else class="tw-flex-center gap-1">
+					<button class="tw-button" @click="newChart('Preset', 'Top 42')">
+						Top 42
+					</button>
+					<button class="tw-button" @click="newChart('Preset', 'Top 100')">
+						Top 100
+					</button>
+				</div>
+			</template>
 		</template>
 	</Dialog>
 </template>

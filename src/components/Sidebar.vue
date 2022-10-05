@@ -38,7 +38,6 @@ function hideMenu() {
 <template>
 	<img
 		ref="hamburgerMenu"
-		title="Menu"
 		:src="HamburgerMenu"
 		class="tw-button fixed h-6 p-1 mt-2 ml-2 md:hidden"
 		@click="showMenu()"
@@ -50,7 +49,6 @@ function hideMenu() {
 		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
 	>
 		<img
-			title="Close Menu"
 			:src="BlackClose"
 			class="tw-button fixed ml-2 h-6 p-0 md:hidden"
 			@click="hideMenu()"

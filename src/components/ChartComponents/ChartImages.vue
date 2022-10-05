@@ -7,6 +7,7 @@ import { FillerAlbum, GrayBoxImg, getAlbumNumber } from '#shared/misc'
 
 import Close from '#assets/blackClose.svg'
 import Dialog from '../CoreComponents/Dialog.vue'
+import Tooltip from '../CoreComponents/Tooltip.vue'
 
 const dialogId = 'DragLongHoldId'
 let selectedAlbumIndices: IndicesObject
@@ -126,53 +127,77 @@ function chartTitle(
 				class="group"
 			>
 				<img
-					v-if="album.image !== GrayBoxImg"
-					v-show="album"
-					title="Delete Album"
-					:src="Close"
-					class="hidden absolute group-hover:bg-white group-hover:block cursor-pointer"
-					@click="deleteCurrent({ index1, index2 })"
-				/>
-				<img
+					v-if="album.image === GrayBoxImg"
 					:firstIndex="index1"
 					:secondIndex="index2"
 					:src="`${album.image}`"
 					:alt="`${album.artist} - ${album.name}`"
-					:title="chartTitle(index1, index2, album)"
+					draggable="false"
 					class="select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
-					:class="{ 'cursor-pointer': album.image !== GrayBoxImg }"
-					:draggable="album.image === GrayBoxImg ? false : true"
-					@dragstart="
-						(dragEvent) =>
-							onDragStart(dragEvent, { index1: index1, index2: index2 })
-					"
-					@dragover.prevent="onDragOver"
+					@dragstart="() => undefined"
+					@dragover.prevent="() => undefined"
 					@drop.prevent="
 						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
 					"
-					@touchstart.prevent="
-						(touchEvent) => {
-							if (album.image === GrayBoxImg) {
-								return
-							}
-							onTouchStart(
-								touchEvent,
-								album,
-								'Chart',
-								{ index1, index2 },
-								openDialog
-							)
-						}
-					"
 				/>
+
+				<Tooltip
+					v-else
+					:tooltip-name="`tooltip-${index1}-${index2}`"
+					:offset="[0, 8]"
+					:delay="500"
+					:placement="'bottom-start'"
+				>
+					<template #content>
+						<img
+							v-show="album"
+							:src="Close"
+							class="hidden absolute m-1 group-hover:bg-white group-hover:block cursor-pointer"
+							@click="deleteCurrent({ index1, index2 })"
+						/>
+
+						<img
+							:firstIndex="index1"
+							:secondIndex="index2"
+							:src="`${album.image}`"
+							:alt="`${album.artist} - ${album.name}`"
+							class="select-none cursor-grab w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
+							draggable="true"
+							@dragstart="
+								(dragEvent) =>
+									onDragStart(dragEvent, { index1: index1, index2: index2 })
+							"
+							@dragover.prevent="onDragOver"
+							@drop.prevent="
+								(dragEvent) =>
+									onDrop(dragEvent, { index1: index1, index2: index2 })
+							"
+							@touchstart.prevent="
+								(touchEvent) =>
+									onTouchStart(
+										touchEvent,
+										album,
+										'Chart',
+										{ index1, index2 },
+										openDialog
+									)
+							"
+						/>
+					</template>
+					<template #tooltip>
+						{{ chartTitle(index1, index2, album) }}
+					</template>
+				</Tooltip>
 			</div>
 		</div>
 		<Dialog :dialog-id="dialogId" :close-button="false">
-			Delete the selected album?
-			<div class="flex gap-2">
-				<button class="tw-button" @click="deleteSelectedAlbum">Yes</button>
-				<button class="tw-button" @click="closeDialog">No</button>
-			</div>
+			<template #content>
+				Delete the selected album?
+				<div class="flex gap-2">
+					<button class="tw-button" @click="deleteSelectedAlbum">Yes</button>
+					<button class="tw-button" @click="closeDialog">No</button>
+				</div>
+			</template>
 		</Dialog>
 	</div>
 </template>
