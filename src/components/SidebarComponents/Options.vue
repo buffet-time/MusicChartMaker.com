@@ -97,17 +97,22 @@ function resetOptionsToDefault() {
 				</button>
 
 				<Dialog :dialog-id="resetOptionsId" :close-button="true">
-					<p class="text-neutral-200">
-						This will not reset Chart Size or any albums that are in the chart.
-					</p>
-					<p class="text-neutral-200">Reset all options to their defaults?</p>
+					<template #content>
+						<p class="text-neutral-200">
+							This will not reset Chart Size or any albums that are in the
+							chart.
+						</p>
+						<p class="text-neutral-200">Reset all options to their defaults?</p>
 
-					<div class="flex gap-2">
-						<button class="tw-button" @click="resetOptionsToDefault">
-							Yes
-						</button>
-						<button class="tw-button" @click="closeResetOptionModal">No</button>
-					</div>
+						<div class="flex gap-2">
+							<button class="tw-button" @click="resetOptionsToDefault">
+								Yes
+							</button>
+							<button class="tw-button" @click="closeResetOptionModal">
+								No
+							</button>
+						</div>
+					</template>
 				</Dialog>
 			</div>
 

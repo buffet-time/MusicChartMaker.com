@@ -67,26 +67,28 @@ function renameChart() {
 	</button>
 
 	<Dialog :dialog-id="renameDialogId" :close-button="false">
-		<p class="text-neutral-200">Rename current chart to:</p>
+		<template #content>
+			<p class="text-neutral-200">Rename current chart to:</p>
 
-		<input
-			ref="renameChartInput"
-			v-model="chartInput"
-			placeholder="Name of chart"
-			type="text"
-			class="tw-input"
-			title="Any name but can't just be a number."
-			pattern="(?!GlobalSiteOptions$).*"
-		/>
-		<template v-if="chartInput === '' || !renameChartInput?.validity.valid">
-			<p class="pt-1">The name can't be empty</p>
-			<p>or {{ SiteOptionsKey }}</p>
-			<button class="tw-button" @click="closeRenameModal">Cancel</button>
+			<input
+				ref="renameChartInput"
+				v-model="chartInput"
+				placeholder="Name of chart"
+				type="text"
+				class="tw-input"
+				title="Any name but can't just be a number."
+				pattern="(?!GlobalSiteOptions$).*"
+			/>
+			<template v-if="chartInput === '' || !renameChartInput?.validity.valid">
+				<p class="pt-1">The name can't be empty</p>
+				<p>or {{ SiteOptionsKey }}</p>
+				<button class="tw-button" @click="closeRenameModal">Cancel</button>
+			</template>
+
+			<div v-else class="flex gap-2">
+				<button class="tw-button" @click="renameChart">Yes</button>
+				<button class="tw-button" @click="closeRenameModal">No</button>
+			</div>
 		</template>
-
-		<div v-else class="flex gap-2">
-			<button class="tw-button" @click="renameChart">Yes</button>
-			<button class="tw-button" @click="closeRenameModal">No</button>
-		</div>
 	</Dialog>
 </template>

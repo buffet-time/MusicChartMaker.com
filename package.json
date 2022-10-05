@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.7.4",
+	"version": "0.7.5",
 	"type": "module",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
@@ -34,13 +34,14 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
+		"@popperjs/core": "^2.11.6",
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
 		"vue": "^3.2.40"
 	},
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^1.4.1",
-		"@types/node": "^18.8.1",
+		"@types/node": "^18.8.2",
 		"@typescript-eslint/eslint-plugin": "^5.39.0",
 		"@typescript-eslint/parser": "^5.39.0",
 		"@vitejs/plugin-vue": "^3.1.2",

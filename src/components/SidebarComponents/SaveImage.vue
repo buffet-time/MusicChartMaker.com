@@ -63,21 +63,23 @@ onMounted(() => {
 		</button>
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
-			Save chart as image
+			<template #content>
+				Save chart as image
 
-			<select
-				v-if="renderImageSelect"
-				v-model="selectedFormat"
-				class="tw-input"
-			>
-				<option v-for="(imageType, index) in validFormats" :key="index">
-					{{ imageType }}
-				</option>
-			</select>
+				<select
+					v-if="renderImageSelect"
+					v-model="selectedFormat"
+					class="tw-input"
+				>
+					<option v-for="(imageType, index) in validFormats" :key="index">
+						{{ imageType }}
+					</option>
+				</select>
 
-			<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
-				Save Image
-			</button>
+				<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
+					Save Image
+				</button>
+			</template>
 		</Dialog>
 	</div>
 </template>

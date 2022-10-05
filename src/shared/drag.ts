@@ -111,7 +111,7 @@ export function onTouchStart(
 
 	function onHoldTouch() {
 		// For hold touch to delete
-		if (openDialog && originatingIndices && album.image !== GrayBoxImg) {
+		if (openDialog && originatingIndices) {
 			openDialog(originatingIndices)
 		}
 	}

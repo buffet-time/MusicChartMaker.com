@@ -1,5 +1,13 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.5
+
+- Feat - Greatly enhanced tooltips w/ a new Tooltip component
+- Feat - Yet more small css and other changes for better UI/UX
+- Perf - Created more conditionals to reduce listeners and etc on the placeholder boxes
+
+---
+
 ## Version Beta-0.7.4
 
 - Feat - Added hold to delete for touch devices

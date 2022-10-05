@@ -69,11 +69,13 @@ function deleteChart() {
 	</button>
 
 	<Dialog :dialog-id="deleteDialogId" :close-button="false">
-		<p class="text-neutral-200">Delete current chart permanently?</p>
+		<template #content>
+			<p class="text-neutral-200">Delete current chart permanently?</p>
 
-		<div class="flex gap-2">
-			<button class="tw-button" @click="deleteChart">Yes</button>
-			<button class="tw-button" @click="closeDeleteModal">No</button>
-		</div>
+			<div class="flex gap-2">
+				<button class="tw-button" @click="deleteChart">Yes</button>
+				<button class="tw-button" @click="closeDeleteModal">No</button>
+			</div>
+		</template>
 	</Dialog>
 </template>
