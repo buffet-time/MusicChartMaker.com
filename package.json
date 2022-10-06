@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.7.5",
+	"version": "0.7.6",
 	"type": "module",
 	"author": {
 		"email": "musicChart@danielTurcich.com",
