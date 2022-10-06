@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
 import type { AlbumSearchResult } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
@@ -51,6 +50,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		// included just because im bad with ts typing and dont want it to optional in chart
 		originatingIndices: { index1: 0, index2: 0 }
 	})
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	dragEvent.dataTransfer!.dropEffect = 'copy'
 }
 
@@ -91,7 +91,6 @@ function getSearchResultsLength() {
 				</div>
 			</div>
 		</div>
-		<!-- TODO: add a blur to the bottom to show it can be scrolled -->
 		<div
 			v-show="showSearchResults"
 			class="tw-flex-center flex-wrap mt-2 gap-1 h-[102px] overflow-auto md:tw-no-scrollbar md:h-[415px]"
@@ -125,5 +124,27 @@ function getSearchResultsLength() {
 				<template #tooltip>{{ album.artist }} - {{ album.name }}</template>
 			</Tooltip>
 		</div>
+		<div
+			v-show="showSearchResults"
+			class="search-results hidden md:block"
+		></div>
 	</div>
 </template>
+
+<style>
+.search-results:before {
+	content: '';
+	position: absolute;
+	/* z-index: 1; */
+	left: 0;
+	pointer-events: none;
+	background-image: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, 0),
+		rgba(50, 50, 50, 1) 99%
+	);
+	width: 100%;
+	height: 2rem;
+	margin-top: -2rem;
+}
+</style>

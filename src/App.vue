@@ -32,7 +32,7 @@ watch(
 	<!-- https://i.gyazo.com/9fb8f19495588fd3b31c47389d248bcb.png -->
 	<div class="flex text-white font-sans antialiased h-screen">
 		<Sidebar @can-render-chart="renderChart = true" />
-		<div class="flex flex-col gap-2 w-full h-full">
+		<div class="flex flex-col gap-2">
 			<Chart v-if="renderChart" />
 		</div>
 	</div>

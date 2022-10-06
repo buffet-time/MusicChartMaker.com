@@ -39,14 +39,14 @@ async function saveImage() {
 		const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
 			allowTaint: true,
 			useCORS: true,
-			backgroundColor: '#303030'
+			backgroundColor: GlobalChartState.options.background
 		})
 		const anchor = document.createElement('a')
 		anchor.href = canvas.toDataURL(`image/${selectedFormat.value}`)
 		anchor.download = `${GlobalChartState.options.chartTitle}.${selectedFormat.value}`
 		anchor.click()
 	} catch (error) {
-		console.error(`Error in Save Image: ${Error}`)
+		console.error(`Error in Save Image: ${error}`)
 	}
 }
 
