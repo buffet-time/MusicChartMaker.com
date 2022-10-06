@@ -19,7 +19,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 <template>
 	<div
 		v-if="GlobalChartState?.options.displayTitles"
-		class="pl-3 text-left min-w-[200px] text-sm"
+		class="text-left min-w-[200px] text-sm"
 	>
 		<div
 			v-for="(albumRow, index) in GlobalChartState.chartTiles"

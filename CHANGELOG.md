@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.6
+
+- Bug - Fixed Save Image button capturing too much of the screen.
+- Feat - Added blur to search results to indicate that it's scrollable without sacrificing width by having a scrollbar
+
 ## Version Beta-0.7.5
 
 - Feat - Greatly enhanced tooltips w/ a new Tooltip component

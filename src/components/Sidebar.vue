@@ -43,7 +43,6 @@ function hideMenu() {
 		@click="showMenu()"
 	/>
 
-	<!-- TODO: figure out how to disable this warning -->
 	<div
 		ref="sidebarMenu"
 		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
