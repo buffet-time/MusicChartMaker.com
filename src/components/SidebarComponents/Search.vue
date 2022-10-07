@@ -93,7 +93,7 @@ function getSearchResultsLength() {
 		</div>
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center flex-wrap mt-2 gap-1 h-[102px] overflow-auto md:tw-no-scrollbar md:h-[415px]"
+			class="tw-flex-center flex-wrap mt-2 mx-4 gap-1 h-[102px] overflow-y-scroll md:tw-no-scrollbar md:mx-0 md:h-[415px]"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">
@@ -125,26 +125,19 @@ function getSearchResultsLength() {
 			</Tooltip>
 		</div>
 		<div
-			v-show="showSearchResults"
-			class="search-results hidden md:block"
+			v-show="showSearchResults && getSearchResultsLength() > 1"
+			class="rectangle-blur hidden before:absolute before:left-0 before:pointer-events-none before:mt-[-2rem] before:h-8 before:w-full content md:block"
 		></div>
 	</div>
 </template>
 
 <style>
-.search-results:before {
+.rectangle-blur:before {
 	content: '';
-	position: absolute;
-	/* z-index: 1; */
-	left: 0;
-	pointer-events: none;
 	background-image: linear-gradient(
 		to bottom,
 		rgba(255, 255, 255, 0),
 		rgba(50, 50, 50, 1) 99%
 	);
-	width: 100%;
-	height: 2rem;
-	margin-top: -2rem;
 }
 </style>
