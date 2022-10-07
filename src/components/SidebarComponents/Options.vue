@@ -11,6 +11,7 @@ import Background from './OptionsComponents/Background.vue'
 import ChartSize from './OptionsComponents/ChartSize.vue'
 import TextOptions from './OptionsComponents/TextOptions.vue'
 import Font from './OptionsComponents/Font.vue'
+import { GenerateDefaultSiteOptions } from '#root/src/shared/misc'
 
 const resetOptionsId = 'resetoptions'
 
@@ -27,28 +28,30 @@ function closeResetOptionModal() {
 }
 
 function resetOptionsToDefault() {
-	const defaultOptions = GenerateDefaultChart().options
+	const defaultChartOptions = GenerateDefaultChart().options
+	const defaultSearchResults =
+		GenerateDefaultSiteOptions().numberOfSearchResults
 
 	GlobalChartState.options = {
 		chartSize: GlobalChartState.options.chartSize,
 		chartTitle: GlobalChartState.options.chartTitle,
 		preset: GlobalChartState.options.preset,
-		displayNumberRank: defaultOptions.displayNumberRank,
-		displayTitles: defaultOptions.displayTitles,
-		displayPlaycount: defaultOptions.displayPlaycount,
-		background: defaultOptions.background,
-		textColor: defaultOptions.textColor,
-		textBorderColor: defaultOptions.textBorderColor,
-		fontSize: defaultOptions.fontSize,
-		textSpacing: defaultOptions.textSpacing,
-		font: defaultOptions.font,
+		displayNumberRank: defaultChartOptions.displayNumberRank,
+		displayTitles: defaultChartOptions.displayTitles,
+		displayPlaycount: defaultChartOptions.displayPlaycount,
+		background: defaultChartOptions.background,
+		textColor: defaultChartOptions.textColor,
+		textBorderColor: defaultChartOptions.textBorderColor,
+		fontSize: defaultChartOptions.fontSize,
+		textSpacing: defaultChartOptions.textSpacing,
+		font: defaultChartOptions.font,
 		backgroundImage: undefined,
 		padding: 0.2
 	}
 
 	Object.assign(GlobalSiteOptions, {
 		currentChart: GlobalSiteOptions.currentChart,
-		numberOfSearchResults: 10
+		numberOfSearchResults: defaultSearchResults
 	})
 	closeResetOptionModal()
 }

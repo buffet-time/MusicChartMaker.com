@@ -131,7 +131,7 @@ function chartTitle(
 					:firstIndex="index1"
 					:secondIndex="index2"
 					:src="`${album.image}`"
-					:alt="`${album.artist} - ${album.name}`"
+					:alt="'placeholder square'"
 					draggable="false"
 					class="select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
 					@dragstart="() => undefined"

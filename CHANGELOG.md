@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.7.7
+
+- Bug - Fixed blur appearing when no results are shown
+- Feat - Changed how scroll is indicated to user on mobile devices/ small screens
+
 ## Version Beta-0.7.6
 
 - Bug - Fixed Save Image button capturing too much of the screen.
