@@ -22,6 +22,9 @@
 	.tw-sidebar-width {
 		@apply w-[230px];
 	}
+	.tw-close-button {
+		@apply p-1 absolute left-6 top-6;
+	}
 }
 
 @layer utilities {

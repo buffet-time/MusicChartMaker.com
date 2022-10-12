@@ -1,15 +1,15 @@
-import type { ChartSize, ChartState, AlbumTile, Preset } from '#types'
+import type { ChartPreset, ChartState, AlbumTile } from '#types'
 import { FillerAlbum } from '#shared/misc'
 import { getAllSavedKeys } from '#shared/storage'
 
-const top42: ChartSize = {
-	numberOfTiles: 42,
-	numberOfRows: 6,
+export const top42: ChartPreset = {
+	default: true,
+	presetName: 'Top 42',
 	rowSizes: [5, 5, 6, 6, 10, 10]
 }
-const top100: ChartSize = {
-	numberOfTiles: 100,
-	numberOfRows: 11,
+export const top100: ChartPreset = {
+	default: true,
+	presetName: 'Top 100',
 	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14]
 }
 const numberInParensRegex = /\s\((\d+)\)$/
@@ -31,10 +31,10 @@ const baseOptionsDefault = {
 
 export function GenerateDefaultChart(title?: string): ChartState {
 	const albumArray = [] as AlbumTile[][]
-	const defaultChartSize: ChartSize = {
-		numberOfTiles: 9,
-		rowSizes: [3, 3, 3],
-		numberOfRows: 3
+	const defaultChartSize: ChartPreset = {
+		default: true,
+		presetName: 'Dynamic',
+		rowSizes: [3, 3, 3]
 	}
 
 	defaultChartSize.rowSizes.forEach((size, index) => {
@@ -74,17 +74,13 @@ export function PreventNameCollision(name: string): string {
 	return GetUnusedName(name)
 }
 
-export function GeneratePresetChart(title: string, preset: Preset): ChartState {
-	const albumArray = [] as AlbumTile[][]
-	let presetChartSize: ChartSize
+export function GeneratePresetChart(
+	title: string,
+	preset: ChartPreset
+): ChartState {
+	const albumArray: AlbumTile[][] = []
 
-	if (preset === 'Top 100') {
-		presetChartSize = top100
-	} else {
-		presetChartSize = top42
-	}
-
-	presetChartSize.rowSizes.forEach((size, index) => {
+	preset.rowSizes.forEach((size, index) => {
 		albumArray.push([])
 		for (let x = 0; x < size; x++) {
 			albumArray[index].push(FillerAlbum)
@@ -94,9 +90,9 @@ export function GeneratePresetChart(title: string, preset: Preset): ChartState {
 	return {
 		options: {
 			...baseOptionsDefault,
-			chartSize: presetChartSize,
+			chartSize: preset,
 			chartTitle: title ? title : defaultChartName,
-			preset: preset
+			preset: true
 		},
 		chartTiles: albumArray
 	}

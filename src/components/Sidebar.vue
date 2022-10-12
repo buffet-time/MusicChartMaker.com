@@ -38,8 +38,11 @@ function hideMenu() {
 <template>
 	<img
 		ref="hamburgerMenu"
+		alt="hamburger-menu"
+		height="25"
+		width="25"
 		:src="HamburgerMenu"
-		class="tw-button fixed h-6 p-1 mt-2 ml-2 md:hidden"
+		class="tw-button fixed p-1 mt-2 ml-2 md:hidden"
 		@click="showMenu()"
 	/>
 
@@ -49,7 +52,10 @@ function hideMenu() {
 	>
 		<img
 			:src="BlackClose"
-			class="tw-button fixed ml-2 h-6 p-0 md:hidden"
+			alt="close-button"
+			height="25"
+			width="25"
+			class="tw-button fixed ml-2 p-0 md:hidden"
 			@click="hideMenu()"
 		/>
 

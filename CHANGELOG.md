@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.8.0
+
+- Feat - Added Last.fm importing
+- Fix - A few small accessiblity changes.
+
 ## Version Beta-0.7.7
 
 - Bug - Fixed blur appearing when no results are shown

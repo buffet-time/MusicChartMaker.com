@@ -19,14 +19,17 @@ export interface AlbumTile extends AlbumSearchResult {
 	timesPlayed?: string
 }
 
-export interface ChartSize {
+export interface ChartPreset {
+	presetName?: string
+	default: boolean
 	rowSizes: number[]
-	numberOfRows: number
-	numberOfTiles: number
 }
 
 export interface ChartOptions {
-	chartSize: ChartSize // number of tiles
+	// not changing property name for backwards compat
+	// but the name was naive on my part
+	chartSize: ChartPreset
+
 	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean
@@ -37,17 +40,16 @@ export interface ChartOptions {
 	padding?: number
 	backgroundImage?: string
 	textBorderColor?: string
-	preset?: Preset
+	preset?: boolean
 	fontSize?: number
 	textSpacing?: number
 }
-
-export type Preset = 'Top 42' | 'Top 100'
 
 export interface SiteOptions {
 	numberOfSearchResults: number
 	currentChart: string
 	fontCache?: string[]
+	presets?: ChartPreset[]
 }
 
 export interface ChartState {
