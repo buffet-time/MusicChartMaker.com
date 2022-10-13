@@ -1,5 +1,6 @@
 import type { SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
+import { top42, top100 } from '#shared/chart'
 
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
 export const FillerAlbum = {
@@ -11,7 +12,8 @@ export const FillerAlbum = {
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
 		numberOfSearchResults: 12,
-		currentChart: 'New Album Chart'
+		currentChart: 'New Album Chart',
+		presets: [top42, top100]
 	}
 }
 

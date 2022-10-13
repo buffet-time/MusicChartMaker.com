@@ -4,14 +4,14 @@ import { ref } from 'vue'
 import { GenerateDefaultChart } from '#shared/chart'
 import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
 
-import Close from '#assets/whiteClose.svg'
+import Back from '#assets/back.svg'
 import Dialog from '#core/Dialog.vue'
 import DevTools from './OptionsComponents/DevTools.vue'
 import Background from './OptionsComponents/Background.vue'
 import ChartSize from './OptionsComponents/ChartSize.vue'
 import TextOptions from './OptionsComponents/TextOptions.vue'
 import Font from './OptionsComponents/Font.vue'
-import { GenerateDefaultSiteOptions } from '#root/src/shared/misc'
+import { GenerateDefaultSiteOptions } from '#shared/misc'
 
 const resetOptionsId = 'resetoptions'
 
@@ -77,8 +77,11 @@ function resetOptionsToDefault() {
 		>
 			<img
 				title="Close Options"
-				:src="Close"
-				class="cursor-pointer w-7 absolute right-0 mt-1 mr-1 bg-neutral-500 fill-white p-1"
+				alt="close-button"
+				:src="Back"
+				width="25"
+				height="25"
+				class="cursor-pointer absolute left-0 mt-[6px] m-[6px] bg-neutral-500"
 				@click="showOptions = false"
 			/>
 

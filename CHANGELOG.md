@@ -1,5 +1,12 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.8.0
+
+- Feat - Added Custom Presets!
+- Feat - Custom presets can be created, edited, and deleted
+- UI - many small changes and added back buttons to replace close buttons
+- Fix - A few small accessiblity changes.
+
 ## Version Beta-0.7.7
 
 - Bug - Fixed blur appearing when no results are shown
