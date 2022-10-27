@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.8.1
+
+- Fix - Changed touch and hold to be doubletap so it works properly.
+- Dev - Refactor of `New.vue`to make it easier to maintain
+
 ## Version Beta-0.8.0
 
 - Feat - Added Custom Presets!

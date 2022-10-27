@@ -93,9 +93,8 @@ export function RearrangeChart(
 	}
 }
 
-let timer: ReturnType<typeof setTimeout>
-const longPressTime = 500
-
+const doubleTapTime = 300
+let myLatestTap = 0
 export function onTouchStart(
 	touchEvent: TouchEvent,
 	album: AlbumSearchResult,
@@ -109,16 +108,20 @@ export function onTouchStart(
 		return
 	}
 
-	function onHoldTouch() {
-		// For hold touch to delete
-		if (openDialog && originatingIndices) {
-			openDialog(originatingIndices)
-		}
+	// Used for detecting doubletap
+	const now = new Date().getTime()
+	const timeSince = now - myLatestTap
+	if (
+		timeSince < doubleTapTime &&
+		timeSince > 0 &&
+		openDialog &&
+		originatingIndices
+	) {
+		openDialog(originatingIndices)
+		return
 	}
+	myLatestTap = new Date().getTime()
 
-	timer = setTimeout(onHoldTouch, longPressTime)
-
-	// console.log(1, touchEvent, album)
 	const imgElement = touchEvent.target as HTMLImageElement
 
 	// gets where you started the drag so that we can preserve that offset
@@ -149,10 +152,6 @@ export function onTouchStart(
 	)
 
 	function onTouchMove(touchEvent: TouchEvent) {
-		if (timer) {
-			clearTimeout(timer)
-		}
-
 		moveImageToCursor(
 			touchEvent.targetTouches[0].clientX,
 			touchEvent.targetTouches[0].clientY
@@ -162,10 +161,6 @@ export function onTouchStart(
 	function onTouchEnd(touchEvent: TouchEvent) {
 		// TODO:
 		// do a swap instead of splice in if the drop target is a placeholder
-		if (timer) {
-			clearTimeout(timer)
-		}
-
 		movingCopy.remove()
 		document.removeEventListener('touchmove', onTouchMove)
 		document.removeEventListener('touchend', onTouchEnd)

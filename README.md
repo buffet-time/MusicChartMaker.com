@@ -21,7 +21,7 @@
 - install dependencies & setup husky\
   $ `pnpm install`
 
-- serve with hot reload at `localhost:3000`\
+- serve with hot reload at `localhost:5173`\
   $ `pnpm serve`
 
 ## Contact/ Discord
