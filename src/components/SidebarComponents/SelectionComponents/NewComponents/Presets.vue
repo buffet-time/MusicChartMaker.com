@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
-import { ChartPreset } from '#types'
+import { ChartPreset, ChartType } from '#types'
 
 import Back from '#assets/back.svg'
 
@@ -15,7 +15,7 @@ const emit = defineEmits<{
 	(event: 'updateCreatePreset', value: boolean): void
 	(event: 'updateEditPresets', value: boolean): void
 	(event: 'updatePresetAdd', value: boolean): void
-	(event: 'newChart', type: 'Dynamic' | 'Preset', preset: ChartPreset): void
+	(event: 'newChart', val: { type: ChartType; preset: ChartPreset }): void
 }>()
 
 const newPresetName = ref<string>()
@@ -53,7 +53,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 				v-for="(preset, index) in GlobalSiteOptions.presets"
 				:key="`preset-${index}`"
 				class="tw-button"
-				@click="emit('newChart', 'Preset', preset)"
+				@click="emit('newChart', { type: 'Preset', preset: preset })"
 			>
 				{{ preset.presetName }}
 			</button>

@@ -97,3 +97,25 @@ export function GeneratePresetChart(
 		chartTiles: albumArray
 	}
 }
+
+export function GenerateChartWithValues(
+	title: string,
+	chartValues: AlbumTile[][],
+	preset?: ChartPreset
+): ChartState {
+	return {
+		options: {
+			...baseOptionsDefault,
+			chartSize: preset
+				? preset
+				: {
+						default: false,
+						presetName: 'Dynamic',
+						rowSizes: chartValues.map((chart) => chart.length)
+				  },
+			chartTitle: title ? title : defaultChartName,
+			preset: preset ? true : undefined
+		},
+		chartTiles: chartValues
+	}
+}

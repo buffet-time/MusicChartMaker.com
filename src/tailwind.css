@@ -25,6 +25,9 @@
 	.tw-close-button {
 		@apply p-1 absolute left-6 top-6;
 	}
+	.tw-chart-image-size {
+		@apply w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px];
+	}
 }
 
 @layer utilities {
