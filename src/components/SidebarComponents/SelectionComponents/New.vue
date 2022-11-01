@@ -104,7 +104,6 @@ onMounted(() => {
 })
 </script>
 
-<!-- TODO:  -->
 <template>
 	<button type="button" class="tw-button ml-1" @click="onNewChart">New</button>
 

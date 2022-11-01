@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
-// import { ProperFetch } from '#shared/misc'
-
 import Back from '#assets/back.svg'
 import type { AlbumTile, ChartPreset, ChartType, LastfmPeriod } from '#types'
 import { ProperFetch } from '#shared/misc'
@@ -42,8 +40,6 @@ const rows = ref(3)
 const columns = ref(3)
 
 async function createChart({ type, lastfm, preset }: CreateChartParams) {
-	// `https://api.musicchartmaker.com/TopAlbums?user=buffet_time&period=3month&limit=30`
-
 	const response: AlbumTile[] = await ProperFetch(
 		`https://api.musicchartmaker.com/TopAlbums?user=${username.value}&period=${
 			selectedPeriod.value
@@ -65,6 +61,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		}
 	}
 
+	emit('updateLastfmAdd', false)
 	emit('newChart', {
 		type: type,
 		lastfm: lastfm,
