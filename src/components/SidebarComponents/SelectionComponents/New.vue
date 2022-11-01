@@ -25,6 +25,13 @@ import Dialog from '#core/Dialog.vue'
 import Presets from './NewComponents/Presets.vue'
 import Lastfm from './NewComponents/Lastfm.vue'
 
+interface NewChartParams {
+	type: ChartType
+	lastfm?: boolean
+	chartValues?: AlbumTile[][]
+	preset?: ChartPreset
+}
+
 const props = defineProps<{
 	selectedChartTitle: string
 	selectedChart: ChartState
@@ -51,40 +58,27 @@ function onNewChart() {
 	newDialog.showModal()
 }
 
-function newChart(val: {
-	type: ChartType
-	lastfm?: boolean
-	chartValues?: AlbumTile[][]
-	preset?: ChartPreset
-}) {
+function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 	StoredChartNames.value.unshift(chartNameInput.value)
 
 	let tempChart: ChartState
 
-	switch (val.type) {
+	switch (type) {
 		case 'Dynamic':
-			tempChart = val.lastfm
-				? GenerateChartWithValues(chartNameInput.value, val.chartValues!)
+			tempChart = lastfm
+				? GenerateChartWithValues(chartNameInput.value, chartValues!)
 				: GenerateDefaultChart(chartNameInput.value)
 
 			break
 
 		case 'Preset':
-			tempChart = val.lastfm
-				? GenerateChartWithValues(
-						chartNameInput.value,
-						val.chartValues!,
-						val.preset
-				  )
-				: GeneratePresetChart(chartNameInput.value, val.preset!)
+			tempChart = lastfm
+				? GenerateChartWithValues(chartNameInput.value, chartValues!, preset)
+				: GeneratePresetChart(chartNameInput.value, preset!)
 			break
 
 		default:
-			return console.error(
-				'Incorrect addChart() invocation: ',
-				val.type,
-				val.preset
-			)
+			return console.error('Incorrect addChart() invocation: ', type, preset)
 	}
 
 	emit('updateSelectedChartTitle', chartNameInput.value)
