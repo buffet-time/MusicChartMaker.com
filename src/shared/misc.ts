@@ -2,7 +2,13 @@ import type { SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { top42, top100 } from '#shared/chart'
 
+// IMGUR w/ JPEG comes from /TopAlbums
+// IMGUR w/ JPG is a real placeholder
+// src="https://i.imgur.com/5IYcmZz.jpg"
+// src="https://i.imgur.com/5IYcmZz.jpeg"
 export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
+export const GrayBoxImgFromTopAlbums = 'https://i.imgur.com/5IYcmZz.jpeg'
+
 export const FillerAlbum = {
 	artist: 'Artist',
 	name: 'Album',

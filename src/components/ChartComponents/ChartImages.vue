@@ -3,7 +3,12 @@
 import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
-import { FillerAlbum, GrayBoxImg, getAlbumNumber } from '#shared/misc'
+import {
+	FillerAlbum,
+	GrayBoxImg,
+	GrayBoxImgFromTopAlbums,
+	getAlbumNumber
+} from '#shared/misc'
 
 import Close from '#assets/blackClose.svg'
 import Dialog from '../CoreComponents/Dialog.vue'
@@ -133,7 +138,7 @@ function chartTitle(
 					:src="`${album.image}`"
 					:alt="'placeholder square'"
 					draggable="false"
-					class="select-none w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
+					class="select-none tw-chart-image-size"
 					@dragstart="() => undefined"
 					@dragover.prevent="() => undefined"
 					@drop.prevent="
@@ -149,40 +154,48 @@ function chartTitle(
 					:placement="'bottom-start'"
 				>
 					<template #content>
-						<img
-							v-show="album"
-							:src="Close"
-							class="hidden absolute m-1 group-hover:bg-white group-hover:block cursor-pointer"
-							@click="deleteCurrent({ index1, index2 })"
-						/>
+						<div class="flex items-center justify-center relative">
+							<img
+								v-show="album"
+								:src="Close"
+								class="hidden absolute m-1 left-0 top-0 group-hover:bg-white group-hover:block cursor-pointer"
+								@click="deleteCurrent({ index1, index2 })"
+							/>
 
-						<img
-							:firstIndex="index1"
-							:secondIndex="index2"
-							:src="`${album.image}`"
-							:alt="`${album.artist} - ${album.name}`"
-							class="select-none cursor-grab w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px]"
-							draggable="true"
-							@dragstart="
-								(dragEvent) =>
-									onDragStart(dragEvent, { index1: index1, index2: index2 })
-							"
-							@dragover.prevent="onDragOver"
-							@drop.prevent="
-								(dragEvent) =>
-									onDrop(dragEvent, { index1: index1, index2: index2 })
-							"
-							@touchstart.prevent="
-								(touchEvent) =>
-									onTouchStart(
-										touchEvent,
-										album,
-										'Chart',
-										{ index1, index2 },
-										openDialog
-									)
-							"
-						/>
+							<img
+								:firstIndex="index1"
+								:secondIndex="index2"
+								:src="`${album.image}`"
+								:alt="`${album.artist} - ${album.name}`"
+								class="select-none cursor-grab tw-chart-image-size"
+								draggable="true"
+								@dragstart="
+									(dragEvent) =>
+										onDragStart(dragEvent, { index1: index1, index2: index2 })
+								"
+								@dragover.prevent="onDragOver"
+								@drop.prevent="
+									(dragEvent) =>
+										onDrop(dragEvent, { index1: index1, index2: index2 })
+								"
+								@touchstart.prevent="
+									(touchEvent) =>
+										onTouchStart(
+											touchEvent,
+											album,
+											'Chart',
+											{ index1, index2 },
+											openDialog
+										)
+								"
+							/>
+							<div
+								v-if="album.image === GrayBoxImgFromTopAlbums"
+								class="absolute tw-flex-center p-[2px] pointer-events-none h-full overflow-hidden"
+							>
+								{{ album.artist }} - {{ album.name }}
+							</div>
+						</div>
 					</template>
 					<template #tooltip>
 						{{ chartTitle(index1, index2, album) }}

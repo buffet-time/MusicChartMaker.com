@@ -56,3 +56,13 @@ export interface ChartState {
 	options: ChartOptions
 	chartTiles: AlbumTile[][]
 }
+
+export type LastfmPeriod =
+	| 'overall'
+	| '7day'
+	| '1month'
+	| '3month'
+	| '6month'
+	| '12month'
+
+export type ChartType = 'Dynamic' | 'Preset'

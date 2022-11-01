@@ -97,7 +97,8 @@ function getSearchResultsLength() {
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">
-				No valid results.
+				No valid results or the API is down. Try again in a few seconds or
+				change the input.
 			</div>
 			<Tooltip
 				v-for="(album, index) in searchResults"

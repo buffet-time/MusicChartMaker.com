@@ -1,8 +1,9 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { onMounted, ref } from 'vue'
-import type { ChartPreset, ChartState } from '#types'
+import type { AlbumTile, ChartPreset, ChartState, ChartType } from '#types'
 import {
+	GenerateChartWithValues,
 	GenerateDefaultChart,
 	GeneratePresetChart,
 	PreventNameCollision,
@@ -22,6 +23,14 @@ import {
 
 import Dialog from '#core/Dialog.vue'
 import Presets from './NewComponents/Presets.vue'
+import Lastfm from './NewComponents/Lastfm.vue'
+
+interface NewChartParams {
+	type: ChartType
+	lastfm?: boolean
+	chartValues?: AlbumTile[][]
+	preset?: ChartPreset
+}
 
 const props = defineProps<{
 	selectedChartTitle: string
@@ -39,6 +48,7 @@ const chartNameInput = ref(props.selectedChartTitle)
 const chartInput = ref<HTMLInputElement>()
 const createPreset = ref(false)
 const editPresets = ref(false)
+const lastfmAdd = ref(false)
 
 function onNewChart() {
 	presetAdd.value = false
@@ -48,18 +58,23 @@ function onNewChart() {
 	newDialog.showModal()
 }
 
-function newChart(type: 'Dynamic' | 'Preset', preset?: ChartPreset) {
+function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 	StoredChartNames.value.unshift(chartNameInput.value)
 
 	let tempChart: ChartState
 
 	switch (type) {
 		case 'Dynamic':
-			tempChart = GenerateDefaultChart(chartNameInput.value)
+			tempChart = lastfm
+				? GenerateChartWithValues(chartNameInput.value, chartValues!)
+				: GenerateDefaultChart(chartNameInput.value)
+
 			break
 
 		case 'Preset':
-			tempChart = GeneratePresetChart(chartNameInput.value, preset!)
+			tempChart = lastfm
+				? GenerateChartWithValues(chartNameInput.value, chartValues!, preset)
+				: GeneratePresetChart(chartNameInput.value, preset!)
 			break
 
 		default:
@@ -89,7 +104,6 @@ onMounted(() => {
 })
 </script>
 
-<!-- TODO:  -->
 <template>
 	<button type="button" class="tw-button ml-1" @click="onNewChart">New</button>
 
@@ -115,24 +129,33 @@ onMounted(() => {
 			</p>
 
 			<template v-else>
-				<p v-show="!createPreset && !editPresets">
+				<p v-show="!createPreset && !editPresets && !lastfmAdd">
 					Select the preset for the new chart.
 				</p>
-				<div v-if="!presetAdd" class="tw-flex-center gap-1">
-					<button class="tw-button" @click="newChart('Dynamic')">
+				<div v-if="!presetAdd && !lastfmAdd" class="tw-flex-center gap-1">
+					<button class="tw-button" @click="newChart({ type: 'Dynamic' })">
 						Dynamic
 					</button>
 
 					<button class="tw-button" @click="presetAdd = true">Preset</button>
+
+					<button class="tw-button" @click="lastfmAdd = true">Last.fm</button>
 				</div>
 
-				<template v-else>
+				<template v-if="presetAdd">
 					<Presets
 						:create-preset="createPreset"
 						:edit-presets="editPresets"
 						@update-create-preset="(value) => (createPreset = value)"
 						@update-edit-presets="(value) => (editPresets = value)"
 						@update-preset-add="(value) => (presetAdd = value)"
+						@new-chart="newChart"
+					/>
+				</template>
+
+				<template v-if="lastfmAdd">
+					<Lastfm
+						@update-lastfm-add="(value) => (lastfmAdd = value)"
 						@new-chart="newChart"
 					/>
 				</template>

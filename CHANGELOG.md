@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.0
+
+- Feat - Last.FM import functionality!
+- Fix - delete not always working properly for some reason?
+
 ## Version Beta-0.8.1
 
 - Fix - Changed touch and hold to be doubletap so it works properly.
