@@ -6,7 +6,7 @@ const fonts = ref<string[]>()
 const fontsLoaded = ref(false)
 
 onMounted(async () => {
-	if (!GlobalSiteOptions.fontCache) {
+	if (!GlobalSiteOptions.value.fontCache) {
 		await document.fonts.ready
 
 		// prettier-ignore
@@ -18,12 +18,12 @@ onMounted(async () => {
 ]
 
 		// checks all the fonts above to see if they're supported on the persons given browser
-		GlobalSiteOptions.fontCache = fontCheck
+		GlobalSiteOptions.value.fontCache = fontCheck
 			.sort()
 			.filter((font) => document.fonts.check(`12px "${font}"`))
 	}
 
-	fonts.value = GlobalSiteOptions.fontCache
+	fonts.value = GlobalSiteOptions.value.fontCache
 	fontsLoaded.value = true
 })
 </script>

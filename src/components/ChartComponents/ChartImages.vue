@@ -5,8 +5,8 @@ import { GlobalChartState } from '#shared/globals'
 import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
 import {
 	FillerAlbum,
-	GrayBoxImg,
-	GrayBoxImgFromTopAlbums,
+	GrayBoxImgForPlaceholder,
+	GrayBoxImgFromApi,
 	getAlbumNumber
 } from '#shared/misc'
 
@@ -48,7 +48,8 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		RearrangeChart(
 			{ index1, index2 },
 			albumDraggedIn.originatingIndices,
-			GlobalChartState.chartTiles[index1][index2].image === GrayBoxImg
+			GlobalChartState.value.chartTiles[index1][index2].image ===
+				GrayBoxImgForPlaceholder
 				? true
 				: false
 		)
@@ -58,7 +59,7 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	// from search replace current dropped
 	const currentElement = dragEvent.currentTarget as HTMLImageElement
 
-	GlobalChartState.chartTiles[index1].splice(
+	GlobalChartState.value.chartTiles[index1].splice(
 		index2,
 		1,
 		albumDraggedIn.albumObject
@@ -76,7 +77,7 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	}
 
 	DragSetData(dragEvent, {
-		albumObject: GlobalChartState.chartTiles[index1][index2],
+		albumObject: GlobalChartState.value.chartTiles[index1][index2],
 		dragSource: 'Chart',
 		originatingIndices: {
 			index1: index1,
@@ -87,7 +88,7 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 }
 
 function deleteCurrent(indices: IndicesObject) {
-	GlobalChartState.chartTiles[indices.index1].splice(
+	GlobalChartState.value.chartTiles[indices.index1].splice(
 		indices.index2,
 		1,
 		FillerAlbum
@@ -132,7 +133,7 @@ function chartTitle(
 				class="group"
 			>
 				<img
-					v-if="album.image === GrayBoxImg"
+					v-if="album.image === GrayBoxImgForPlaceholder"
 					:firstIndex="index1"
 					:secondIndex="index2"
 					:src="`${album.image}`"
@@ -154,7 +155,7 @@ function chartTitle(
 					:placement="'bottom-start'"
 				>
 					<template #content>
-						<div class="flex items-center justify-center relative">
+						<div class="tw-album-image-div-wrapper">
 							<img
 								v-show="album"
 								:src="Close"
@@ -190,8 +191,8 @@ function chartTitle(
 								"
 							/>
 							<div
-								v-if="album.image === GrayBoxImgFromTopAlbums"
-								class="absolute tw-flex-center p-[2px] pointer-events-none h-full overflow-hidden"
+								v-if="album.image === GrayBoxImgFromApi"
+								class="tw-album-image-text-overlay"
 							>
 								{{ album.artist }} - {{ album.name }}
 							</div>

@@ -4,15 +4,15 @@ import { ref, watch } from 'vue'
 import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
 import { FillerAlbum } from '#shared/misc'
 
-const colsNum = ref(GlobalChartState.options.chartSize.rowSizes[0])
-const rowsNum = ref(GlobalChartState.options.chartSize.rowSizes.length)
+const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
+const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
 
 // used to disable watchers for cols/ rows when changing charts
 let updatingRows = false
 let updatingCols = false
 
 watch(colsNum, (newColNum, prevColNum) => {
-	if (updatingCols || GlobalChartState.options.preset) {
+	if (updatingCols || GlobalChartState.value.options.preset) {
 		// if this was triggered by currentChart being changed skip 1 iteration
 		updatingCols = false
 		return
@@ -29,7 +29,7 @@ watch(colsNum, (newColNum, prevColNum) => {
 	colsChanged(newColNum - prevColNum)
 })
 watch(rowsNum, (newRowNum, prevRowNum) => {
-	if (updatingRows || GlobalChartState.options.preset) {
+	if (updatingRows || GlobalChartState.value.options.preset) {
 		// if this was triggered by currentChart being changed skip 1 iteration
 		updatingRows = false
 		return
@@ -47,18 +47,18 @@ watch(rowsNum, (newRowNum, prevRowNum) => {
 })
 
 watch(
-	() => GlobalSiteOptions.currentChart,
+	() => GlobalSiteOptions.value.currentChart,
 	() => {
 		// if its a preset we dont need to touch the column and row nums
-		if (GlobalChartState.options.preset) {
+		if (GlobalChartState.value.options.preset) {
 			return
 		}
 
 		updatingCols = true
-		colsNum.value = GlobalChartState.options.chartSize.rowSizes[0]
+		colsNum.value = GlobalChartState.value.options.chartSize.rowSizes[0]
 
 		updatingRows = true
-		rowsNum.value = GlobalChartState.options.chartSize.rowSizes.length
+		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
 	}
 )
 
@@ -69,20 +69,20 @@ function colsChanged(difference: number) {
 
 	if (difference > 0) {
 		// Add a new column
-		GlobalChartState.chartTiles.forEach((row, index) => {
+		GlobalChartState.value.chartTiles.forEach((row, index) => {
 			for (let x = 0; x < difference; x++) {
 				row.push(FillerAlbum)
-				GlobalChartState.options.chartSize.rowSizes[index]++
+				GlobalChartState.value.options.chartSize.rowSizes[index]++
 			}
 		})
 		return
 	}
 
 	// Remove a column
-	GlobalChartState.chartTiles.forEach((row, index) => {
+	GlobalChartState.value.chartTiles.forEach((row, index) => {
 		for (let x = 0; x < Math.abs(difference); x++) {
 			row.pop()
-			GlobalChartState.options.chartSize.rowSizes[index]--
+			GlobalChartState.value.options.chartSize.rowSizes[index]--
 		}
 	})
 }
@@ -96,20 +96,20 @@ function rowsChanged(difference: number) {
 	if (difference > 0) {
 		// Add a row
 		for (let x = 0; x < difference; x++) {
-			const newRow = GlobalChartState.chartTiles[
-				GlobalChartState.chartTiles.length - 1
+			const newRow = GlobalChartState.value.chartTiles[
+				GlobalChartState.value.chartTiles.length - 1
 			].map(() => FillerAlbum)
 
-			GlobalChartState.options.chartSize.rowSizes.push(newRow.length)
-			GlobalChartState.chartTiles.push(newRow)
+			GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
+			GlobalChartState.value.chartTiles.push(newRow)
 		}
 		return
 	}
 
 	// Remove a row
 	for (let x = 0; x < Math.abs(difference); x++) {
-		GlobalChartState.options.chartSize.rowSizes.pop()
-		GlobalChartState.chartTiles.pop()
+		GlobalChartState.value.options.chartSize.rowSizes.pop()
+		GlobalChartState.value.chartTiles.pop()
 	}
 }
 </script>

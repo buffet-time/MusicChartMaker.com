@@ -61,7 +61,6 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		}
 	}
 
-	emit('updateLastfmAdd', false)
 	emit('newChart', {
 		type: type,
 		lastfm: lastfm,

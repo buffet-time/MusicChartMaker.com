@@ -52,9 +52,9 @@ function deleteChart() {
 		StoredChartNames.value.push(chartToSet.options.chartTitle)
 	}
 
-	Object.assign(GlobalChartState, chartToSet)
+	GlobalChartState.value = chartToSet
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	GlobalSiteOptions.currentChart = chartToSet.options.chartTitle
+	GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
 	setCurrentChart(chartToSet.options.chartTitle)
 
 	emit('deleteChart', chartToSet)

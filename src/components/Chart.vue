@@ -18,7 +18,10 @@ watch(
 			)
 		}
 
-		setStoredChart(GlobalChartState.options.chartTitle, GlobalChartState)
+		setStoredChart(
+			GlobalChartState.value.options.chartTitle,
+			GlobalChartState.value
+		)
 	},
 	{
 		deep: true

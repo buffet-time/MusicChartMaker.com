@@ -1,6 +1,6 @@
 import type { DragDataTransfer, IndicesObject, AlbumSearchResult } from '#types'
 import { GlobalChartState } from '#shared/globals'
-import { GrayBoxImg } from './misc'
+import { GrayBoxImgForPlaceholder } from './misc'
 
 export function DragSetData(
 	dragEvent: DragEvent,
@@ -27,26 +27,31 @@ export function RearrangeChart(
 
 	// Swap the 2 elements
 	if (swap) {
-		const targetTile = GlobalChartState.chartTiles[targetIndex1][targetIndex2]
-		GlobalChartState.chartTiles[targetIndex1][targetIndex2] =
-			GlobalChartState.chartTiles[originIndex1][originIndex2]
-		GlobalChartState.chartTiles[originIndex1][originIndex2] = targetTile
+		const targetTile =
+			GlobalChartState.value.chartTiles[targetIndex1][targetIndex2]
+		GlobalChartState.value.chartTiles[targetIndex1][targetIndex2] =
+			GlobalChartState.value.chartTiles[originIndex1][originIndex2]
+		GlobalChartState.value.chartTiles[originIndex1][originIndex2] = targetTile
 		return
 	}
 
 	if (targetIndex1 === originIndex1) {
 		// they're in the same array (read row) so it's simple and 1 dimensional
-		const tile = GlobalChartState.chartTiles[originIndex1].splice(
+		const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
 			originIndex2,
 			1
 		)[0]
-		GlobalChartState.chartTiles[targetIndex1].splice(targetIndex2, 0, tile)
+		GlobalChartState.value.chartTiles[targetIndex1].splice(
+			targetIndex2,
+			0,
+			tile
+		)
 		return
 	}
 	// have to do more complex stuff here because its moving 2 dimensionally\
 
 	// First splice out the tile we're moving
-	const movingTile = GlobalChartState.chartTiles[originIndex1].splice(
+	const movingTile = GlobalChartState.value.chartTiles[originIndex1].splice(
 		originIndex2,
 		1
 	)[0]
@@ -54,7 +59,7 @@ export function RearrangeChart(
 	// Moving The album up
 	if (targetIndex1 < originIndex1) {
 		// next place that in its new spot
-		GlobalChartState.chartTiles[targetIndex1].splice(
+		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
 			movingTile
@@ -65,8 +70,8 @@ export function RearrangeChart(
 		// until we see that we're in the array that it was originally moved from
 		for (let index = targetIndex1; index < originIndex1; index++) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const poppedTile = GlobalChartState.chartTiles[index].pop()!
-			GlobalChartState.chartTiles[index + 1].splice(0, 0, poppedTile)
+			const poppedTile = GlobalChartState.value.chartTiles[index].pop()!
+			GlobalChartState.value.chartTiles[index + 1].splice(0, 0, poppedTile)
 		}
 		return
 	}
@@ -74,7 +79,7 @@ export function RearrangeChart(
 	// Moving The album down
 
 	// next place that in its new spot
-	GlobalChartState.chartTiles[targetIndex1].splice(
+	GlobalChartState.value.chartTiles[targetIndex1].splice(
 		targetIndex2 + 1,
 		0,
 		movingTile
@@ -84,9 +89,9 @@ export function RearrangeChart(
 	// popping the first one in the array and splicing it to the back of the previous array
 	// until we see that we're in the array that it was originally moved from
 	for (let index = targetIndex1; index > originIndex1; index--) {
-		const poppedTile = GlobalChartState.chartTiles[index].splice(0, 1)[0]
-		GlobalChartState.chartTiles[index - 1].splice(
-			GlobalChartState.chartTiles[index - 1].length,
+		const poppedTile = GlobalChartState.value.chartTiles[index].splice(0, 1)[0]
+		GlobalChartState.value.chartTiles[index - 1].splice(
+			GlobalChartState.value.chartTiles[index - 1].length,
 			0,
 			poppedTile
 		)
@@ -190,7 +195,7 @@ export function onTouchStart(
 				)
 			}
 
-			GlobalChartState.chartTiles[Number(firstIndex)].splice(
+			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
 				Number(secondIndex),
 				1,
 				album
@@ -206,8 +211,9 @@ export function onTouchStart(
 			RearrangeChart(
 				targetIndices,
 				originatingIndices,
-				GlobalChartState.chartTiles[targetIndices.index1][targetIndices.index2]
-					.image === GrayBoxImg
+				GlobalChartState.value.chartTiles[targetIndices.index1][
+					targetIndices.index2
+				].image === GrayBoxImgForPlaceholder
 					? true
 					: false
 			)

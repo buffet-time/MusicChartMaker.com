@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import type { ChartState, SiteOptions } from '#types'
 import { GetSiteOptions, getStoredChart } from '#shared/storage'
 import { GenerateDefaultChart } from '#shared/chart'
@@ -11,6 +11,7 @@ const loadOptions = storedOptions ? storedOptions : GenerateDefaultSiteOptions()
 const storedChart = getStoredChart(loadOptions.currentChart)
 const loadChartState = storedChart ? storedChart : GenerateDefaultChart()
 
-export const GlobalSiteOptions: SiteOptions = reactive(loadOptions)
-export const GlobalChartState: ChartState = reactive(loadChartState)
+// Changed back to ref() from reactive() for more proper value changing
+export const GlobalSiteOptions: Ref<SiteOptions> = ref(loadOptions)
+export const GlobalChartState: Ref<ChartState> = ref(loadChartState)
 export const StoredChartNames = ref([''])

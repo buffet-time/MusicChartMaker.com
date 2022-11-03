@@ -4,19 +4,19 @@ import { GlobalChartState } from '#shared/globals'
 import { IsImage } from '#shared/misc'
 
 const bgImage = ref(
-	GlobalChartState.options.backgroundImage
-		? GlobalChartState.options.backgroundImage
+	GlobalChartState.value.options.backgroundImage
+		? GlobalChartState.value.options.backgroundImage
 		: ''
 )
 
 async function onBgImageInput() {
 	bgImage.value.trim()
 	if (await IsImage(bgImage.value)) {
-		if (!GlobalChartState || !GlobalChartState.options.backgroundImage) {
+		if (!GlobalChartState || !GlobalChartState.value.options.backgroundImage) {
 			return console.error('ERror in onBgImageInput()', GlobalChartState)
 		}
 
-		GlobalChartState.options.backgroundImage = bgImage.value
+		GlobalChartState.value.options.backgroundImage = bgImage.value
 		return
 	}
 
@@ -24,11 +24,11 @@ async function onBgImageInput() {
 }
 
 function clearBackground() {
-	if (!GlobalChartState || !GlobalChartState.options.backgroundImage) {
+	if (!GlobalChartState || !GlobalChartState.value.options.backgroundImage) {
 		return console.error('ERror in clearBackground()', GlobalChartState)
 	}
 
-	GlobalChartState.options.backgroundImage = undefined
+	GlobalChartState.value.options.backgroundImage = undefined
 	bgImage.value = ''
 }
 </script>

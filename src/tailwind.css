@@ -28,6 +28,12 @@
 	.tw-chart-image-size {
 		@apply w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px];
 	}
+	.tw-album-image-div-wrapper {
+		@apply flex items-center justify-center relative;
+	}
+	.tw-album-image-text-overlay {
+		@apply absolute tw-flex-center p-[2px] pointer-events-none h-full overflow-hidden;
+	}
 }
 
 @layer utilities {
@@ -39,5 +45,9 @@
 	.tw-no-scrollbar {
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
+	}
+
+	.tw-album-image-text-overlay {
+		overflow-wrap: anywhere;
 	}
 }

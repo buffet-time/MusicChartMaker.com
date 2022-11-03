@@ -1,9 +1,14 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.1
+
+- Fix - delete not always working properly for some reason?
+- Fix - Search results coming back with gray image but not overlaying the name on top
+- CSS - Fixed overflow on text overlay of image sometimes overflowing
+
 ## Version Beta-0.9.0
 
 - Feat - Last.FM import functionality!
-- Fix - delete not always working properly for some reason?
 
 ## Version Beta-0.8.1
 

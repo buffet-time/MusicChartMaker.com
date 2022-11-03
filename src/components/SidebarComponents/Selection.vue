@@ -30,11 +30,11 @@ const initializing = ref(true)
 
 // this is a bit janky :/
 function onSelect() {
-	if (!GlobalChartState || !GlobalSiteOptions) {
+	if (!GlobalChartState.value || !GlobalSiteOptions.value) {
 		return console.error(
 			'Error getting either GlobalChartState or Options in onSelect()',
-			GlobalChartState,
-			GlobalSiteOptions
+			GlobalChartState.value,
+			GlobalSiteOptions.value
 		)
 	}
 
@@ -49,8 +49,8 @@ function onSelect() {
 	// First, store current chart
 	setCurrentChart(selectedChartTitle.value)
 	// Now, update current chart, and update latest chart to current.
-	Object.assign(GlobalChartState, loadedChart)
-	GlobalSiteOptions.currentChart = selectedChartTitle.value
+	GlobalChartState.value = loadedChart
+	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
 	selectedChart.value = loadedChart
 }
 

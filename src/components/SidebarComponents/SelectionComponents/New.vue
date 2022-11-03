@@ -53,12 +53,14 @@ const lastfmAdd = ref(false)
 function onNewChart() {
 	presetAdd.value = false
 	createPreset.value = false
+	lastfmAdd.value = false
 	chartNameInput.value = PreventNameCollision(props.selectedChartTitle)
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.showModal()
 }
 
 function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
+	console.log(1, chartNameInput.value)
 	StoredChartNames.value.unshift(chartNameInput.value)
 
 	let tempChart: ChartState
@@ -81,10 +83,12 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 			return console.error('Incorrect addChart() invocation: ', type, preset)
 	}
 
+	console.log(10, tempChart)
+
 	emit('updateSelectedChartTitle', chartNameInput.value)
 	setCurrentChart(chartNameInput.value)
 	saveCurrentChart()
-	Object.assign(GlobalChartState, tempChart)
+	GlobalChartState.value = tempChart
 
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.close()
@@ -98,8 +102,8 @@ function saveCurrentChart() {
 }
 
 onMounted(() => {
-	if (!GlobalSiteOptions.presets) {
-		GlobalSiteOptions.presets = [top42, top100]
+	if (!GlobalSiteOptions.value.presets) {
+		GlobalSiteOptions.value.presets = [top42, top100]
 	}
 })
 </script>
