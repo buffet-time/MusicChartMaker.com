@@ -35,7 +35,6 @@ function ExportChartsAndOptions() {
 }
 
 function ImportChartsAndOptions(importFile: File | null) {
-	// TODO - Maybe remove file from the input ref once finished?
 	try {
 		if (!importFile) {
 			throw new Error('No File Submitted')
@@ -90,6 +89,7 @@ function importFromJson() {
 
 	if (filePicker.value.files) {
 		ImportChartsAndOptions(filePicker.value.files.item(0))
+		filePicker.value.value = ''
 	}
 }
 </script>
@@ -112,7 +112,7 @@ function importFromJson() {
 				type="file"
 				accept=".json"
 				class="hidden"
-				@change="importFromJson"
+				@input="importFromJson"
 			/>
 		</label>
 	</div>
