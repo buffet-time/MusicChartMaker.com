@@ -40,7 +40,7 @@ function closeRenameModal() {
 
 function renameChart() {
 	const chartNameToSave = PreventNameCollision(chartInput.value)
-
+	console.log(chartNameToSave)
 	if (!props.selectedChart) {
 		return console.error('Selected Chart is not defined', props.selectedChart)
 	}

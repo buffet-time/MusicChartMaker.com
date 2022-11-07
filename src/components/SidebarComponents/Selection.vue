@@ -25,9 +25,10 @@ const emit = defineEmits<{
 }>()
 
 const selectedChartTitle = ref('')
-const selectedChart = ref<ChartState>()
+// const selectedChart = ref<ChartState>()
 const initializing = ref(true)
 
+// While this works, it may be better to just globalize selectedChartTitle performance wise. May be too many cases of feedback looping watches.
 watch(
 	() => GlobalSiteOptions.value.currentChart,
 	async (newTitle: string, oldTitle: string) => {
@@ -61,24 +62,23 @@ function onSelect() {
 	// Now, update current chart, and update latest chart to current.
 	GlobalChartState.value = loadedChart
 	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
-	selectedChart.value = loadedChart
 }
 
 onMounted(() => {
 	const storedLastChart = getCurrentChart()
 
 	if (storedLastChart) {
-		selectedChart.value = getStoredChart(storedLastChart)!
+		GlobalChartState.value = getStoredChart(storedLastChart)!
 	}
-	if (!storedLastChart || !selectedChart.value) {
+	if (!storedLastChart || !GlobalChartState.value) {
 		const newDefaultChart = GenerateDefaultChart()
 		setStoredChart(newDefaultChart.options.chartTitle, newDefaultChart)
-		selectedChart.value = newDefaultChart
+		GlobalChartState.value = newDefaultChart
 	}
 
-	setCurrentChart(selectedChart.value.options.chartTitle)
+	setCurrentChart(GlobalChartState.value.options.chartTitle)
 	StoredChartNames.value = getAllSavedKeys()
-	selectedChartTitle.value = selectedChart.value.options.chartTitle
+	selectedChartTitle.value = GlobalChartState.value.options.chartTitle
 
 	emit('canRenderChart')
 	initializing.value = false
@@ -102,17 +102,17 @@ onMounted(() => {
 			<!-- make sure new and rename completely properly prevent name collision -->
 			<New
 				:selected-chart-title="selectedChartTitle"
-				:selected-chart="selectedChart!"
+				:selected-chart="GlobalChartState!"
 				@update-selected-chart-title="(value) => (selectedChartTitle = value)"
 			/>
 			<!-- may need to update selected too? -->
 
 			<Rename
-				:selected-chart="selectedChart!"
+				:selected-chart="GlobalChartState!"
 				:selected-chart-title="selectedChartTitle"
 				@update-chart-title="
 					(value) => { 
-						selectedChart!.options.chartTitle = value
+						GlobalChartState!.options.chartTitle = value
 						selectedChartTitle = value 
 					} 
 				"
@@ -123,7 +123,7 @@ onMounted(() => {
 				@delete-chart="
 					(value) => {
 						selectedChartTitle = value.options.chartTitle
-						selectedChart = value
+						GlobalChartState = value
 					}
 				"
 			/>
