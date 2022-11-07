@@ -25,7 +25,6 @@ const emit = defineEmits<{
 }>()
 
 const selectedChartTitle = ref('')
-// const selectedChart = ref<ChartState>()
 const initializing = ref(true)
 
 // While this works, it may be better to just globalize selectedChartTitle performance wise. May be too many cases of feedback looping watches.
