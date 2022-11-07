@@ -35,6 +35,7 @@ function ExportChartsAndOptions() {
 }
 
 function ImportChartsAndOptions(importFile: File | null) {
+	// TODO - Maybe remove file from the input ref once finished?
 	try {
 		if (!importFile) {
 			throw new Error('No File Submitted')
@@ -66,6 +67,7 @@ function ImportChartsAndOptions(importFile: File | null) {
 					if (chart) {
 						GlobalChartState.value = chart
 					}
+					// Set selected chart here
 					StoredChartNames.value = getAllSavedKeys()
 					return
 				}

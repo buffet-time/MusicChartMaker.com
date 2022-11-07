@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import type { ChartState } from '#types'
 import { GenerateDefaultChart } from '#shared/chart'
 import {
@@ -27,6 +27,16 @@ const emit = defineEmits<{
 const selectedChartTitle = ref('')
 const selectedChart = ref<ChartState>()
 const initializing = ref(true)
+
+watch(
+	() => GlobalSiteOptions.value.currentChart,
+	async (newTitle: string, oldTitle: string) => {
+		if (newTitle === oldTitle) {
+			return
+		}
+		selectedChartTitle.value = newTitle
+	}
+)
 
 // this is a bit janky :/
 function onSelect() {

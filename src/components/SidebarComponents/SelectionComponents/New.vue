@@ -87,6 +87,7 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 
 	emit('updateSelectedChartTitle', chartNameInput.value)
 	setCurrentChart(chartNameInput.value)
+	// update this to be passed values
 	saveCurrentChart()
 	GlobalChartState.value = tempChart
 
