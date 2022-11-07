@@ -67,7 +67,6 @@ function ImportChartsAndOptions(importFile: File | null) {
 					if (chart) {
 						GlobalChartState.value = chart
 					}
-					
 					StoredChartNames.value = getAllSavedKeys()
 					return
 				}
