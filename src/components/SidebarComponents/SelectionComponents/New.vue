@@ -60,23 +60,24 @@ function onNewChart() {
 }
 
 function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
-	console.log(1, chartNameInput.value)
-	StoredChartNames.value.unshift(chartNameInput.value)
+	const nameToSave = PreventNameCollision(chartNameInput.value)
+	console.log(1, nameToSave)
+	StoredChartNames.value.unshift(nameToSave)
 
 	let tempChart: ChartState
 
 	switch (type) {
 		case 'Dynamic':
 			tempChart = lastfm
-				? GenerateChartWithValues(chartNameInput.value, chartValues!)
-				: GenerateDefaultChart(chartNameInput.value)
+				? GenerateChartWithValues(nameToSave, chartValues!)
+				: GenerateDefaultChart(nameToSave)
 
 			break
 
 		case 'Preset':
 			tempChart = lastfm
-				? GenerateChartWithValues(chartNameInput.value, chartValues!, preset)
-				: GeneratePresetChart(chartNameInput.value, preset!)
+				? GenerateChartWithValues(nameToSave, chartValues!, preset)
+				: GeneratePresetChart(nameToSave, preset!)
 			break
 
 		default:
@@ -85,8 +86,8 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 
 	console.log(10, tempChart)
 
-	emit('updateSelectedChartTitle', chartNameInput.value)
-	setCurrentChart(chartNameInput.value)
+	emit('updateSelectedChartTitle', nameToSave)
+	setCurrentChart(nameToSave)
 	saveCurrentChart()
 	GlobalChartState.value = tempChart
 
