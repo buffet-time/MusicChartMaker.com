@@ -1,16 +1,16 @@
 <!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { GlobalChartState } from '#shared/globals'
-import { getAlbumNumber, GrayBoxImg } from '#shared/misc'
+import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#shared/misc'
 
 function albumArtistEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.chartTiles[index][index2].artist = (
+	GlobalChartState.value.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
 	).innerText
 }
 
 function albumNameEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.chartTiles[index][index2].name = (
+	GlobalChartState.value.chartTiles[index][index2].name = (
 		event.target as HTMLSpanElement
 	).innerText
 }
@@ -29,7 +29,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 		>
 			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
 				<p
-					v-if="album.image !== GrayBoxImg"
+					v-if="album.image !== GrayBoxImgForPlaceholder"
 					class="pointer-events-none"
 					:style="{
 						color: GlobalChartState.options.textColor,

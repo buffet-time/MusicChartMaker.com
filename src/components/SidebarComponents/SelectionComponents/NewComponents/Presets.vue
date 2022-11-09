@@ -31,7 +31,7 @@ function closeCreatePreset() {
 function newPreset() {
 	const massagedPresetList = newPresetList.value!.split(',').map(Number)
 
-	GlobalSiteOptions.presets?.push({
+	GlobalSiteOptions.value.presets?.push({
 		default: false,
 		rowSizes: massagedPresetList,
 		presetName: newPresetName.value
@@ -41,7 +41,7 @@ function newPreset() {
 
 function deletePreset(preset: ChartPreset, index: number) {
 	if (window.confirm(`Delete preset '${preset.presetName}'?'`)) {
-		GlobalSiteOptions.presets?.splice(index, 1)
+		GlobalSiteOptions.value.presets?.splice(index, 1)
 	}
 }
 </script>

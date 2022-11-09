@@ -12,10 +12,10 @@ const renderChart = ref(false)
 watch(
 	GlobalSiteOptions,
 	() => {
-		if (!GlobalSiteOptions) {
+		if (!GlobalSiteOptions.value) {
 			return console.error(
 				'Error getting GlobalChartState in watch(GlobalChartState)',
-				GlobalSiteOptions
+				GlobalSiteOptions.value
 			)
 		}
 

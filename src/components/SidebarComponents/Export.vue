@@ -55,7 +55,7 @@ function ImportChartsAndOptions(importFile: File | null) {
 				if (parsed) {
 					const options: SiteOptions = parsed.siteData
 
-					Object.assign(GlobalSiteOptions, options)
+					GlobalSiteOptions.value = options
 					setCurrentChart(options.currentChart)
 					const data: ChartState[] = parsed.chartData
 					data.forEach((state) => {
@@ -64,7 +64,7 @@ function ImportChartsAndOptions(importFile: File | null) {
 					})
 					const chart = getStoredChart(options.currentChart) || getFirstChart()
 					if (chart) {
-						Object.assign(GlobalChartState, chart)
+						GlobalChartState.value = chart
 					}
 					StoredChartNames.value = getAllSavedKeys()
 					return
@@ -89,6 +89,7 @@ function importFromJson() {
 
 	if (filePicker.value.files) {
 		ImportChartsAndOptions(filePicker.value.files.item(0))
+		filePicker.value.value = ''
 	}
 }
 </script>
@@ -111,7 +112,7 @@ function importFromJson() {
 				type="file"
 				accept=".json"
 				class="hidden"
-				@change="importFromJson"
+				@input="importFromJson"
 			/>
 		</label>
 	</div>

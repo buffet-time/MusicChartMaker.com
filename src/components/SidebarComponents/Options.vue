@@ -32,10 +32,10 @@ function resetOptionsToDefault() {
 	const defaultSearchResults =
 		GenerateDefaultSiteOptions().numberOfSearchResults
 
-	GlobalChartState.options = {
-		chartSize: GlobalChartState.options.chartSize,
-		chartTitle: GlobalChartState.options.chartTitle,
-		preset: GlobalChartState.options.preset,
+	GlobalChartState.value.options = {
+		chartSize: GlobalChartState.value.options.chartSize,
+		chartTitle: GlobalChartState.value.options.chartTitle,
+		preset: GlobalChartState.value.options.preset,
 		displayNumberRank: defaultChartOptions.displayNumberRank,
 		displayTitles: defaultChartOptions.displayTitles,
 		displayPlaycount: defaultChartOptions.displayPlaycount,
@@ -49,10 +49,10 @@ function resetOptionsToDefault() {
 		padding: 0.2
 	}
 
-	Object.assign(GlobalSiteOptions, {
-		currentChart: GlobalSiteOptions.currentChart,
+	GlobalSiteOptions.value = {
+		currentChart: GlobalSiteOptions.value.currentChart,
 		numberOfSearchResults: defaultSearchResults
-	})
+	}
 	closeResetOptionModal()
 }
 </script>

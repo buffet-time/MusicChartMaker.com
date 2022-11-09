@@ -33,7 +33,7 @@ export function setCurrentChart(chartTitle: string): void {
 	localStorage.setItem(
 		SiteOptionsKey,
 		JSON.stringify({
-			...GlobalSiteOptions,
+			...GlobalSiteOptions.value,
 			currentChart: chartTitle
 		} as SiteOptions)
 	)
@@ -68,7 +68,7 @@ export function deleteStoredChart(key: string): void {
 }
 
 export function SaveSiteOptions() {
-	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions))
+	localStorage.setItem(SiteOptionsKey, JSON.stringify(GlobalSiteOptions.value))
 }
 
 export function GetSiteOptions() {

@@ -53,38 +53,40 @@ const lastfmAdd = ref(false)
 function onNewChart() {
 	presetAdd.value = false
 	createPreset.value = false
+	lastfmAdd.value = false
 	chartNameInput.value = PreventNameCollision(props.selectedChartTitle)
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.showModal()
 }
 
 function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
-	StoredChartNames.value.unshift(chartNameInput.value)
+	const nameToSave = PreventNameCollision(chartNameInput.value)
+	StoredChartNames.value.unshift(nameToSave)
 
 	let tempChart: ChartState
 
 	switch (type) {
 		case 'Dynamic':
 			tempChart = lastfm
-				? GenerateChartWithValues(chartNameInput.value, chartValues!)
-				: GenerateDefaultChart(chartNameInput.value)
+				? GenerateChartWithValues(nameToSave, chartValues!)
+				: GenerateDefaultChart(nameToSave)
 
 			break
 
 		case 'Preset':
 			tempChart = lastfm
-				? GenerateChartWithValues(chartNameInput.value, chartValues!, preset)
-				: GeneratePresetChart(chartNameInput.value, preset!)
+				? GenerateChartWithValues(nameToSave, chartValues!, preset)
+				: GeneratePresetChart(nameToSave, preset!)
 			break
 
 		default:
 			return console.error('Incorrect addChart() invocation: ', type, preset)
 	}
 
-	emit('updateSelectedChartTitle', chartNameInput.value)
-	setCurrentChart(chartNameInput.value)
+	emit('updateSelectedChartTitle', nameToSave)
+	setCurrentChart(nameToSave)
 	saveCurrentChart()
-	Object.assign(GlobalChartState, tempChart)
+	GlobalChartState.value = tempChart
 
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.close()
@@ -98,8 +100,8 @@ function saveCurrentChart() {
 }
 
 onMounted(() => {
-	if (!GlobalSiteOptions.presets) {
-		GlobalSiteOptions.presets = [top42, top100]
+	if (!GlobalSiteOptions.value.presets) {
+		GlobalSiteOptions.value.presets = [top42, top100]
 	}
 })
 </script>

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { AlbumSearchResult } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
 import { DragSetData, onTouchStart } from '#shared/drag'
-import { IsImage } from '#shared/misc'
+import { IsImage, GrayBoxImgFromApi } from '#shared/misc'
 import { ProperFetch } from '#shared/misc'
 
 import Tooltip from '../CoreComponents/Tooltip.vue'
@@ -35,7 +35,7 @@ async function search() {
 	}
 
 	searchResults.value = await ProperFetch(
-		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.numberOfSearchResults}`
+		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value.numberOfSearchResults}`
 	)
 
 	if (!showSearchResults.value) {
@@ -110,17 +110,26 @@ function getSearchResultsLength() {
 				:placement="'top-start'"
 			>
 				<template #content>
-					<img
-						width="100"
-						class="cursor-grab"
-						:src="`${album.image}`"
-						:alt="`${album.artist} - ${album.name}`"
-						draggable="true"
-						@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
-						@touchstart.prevent="
-							(touchEvent) => onTouchStart(touchEvent, album, 'Search')
-						"
-					/>
+					<div class="tw-album-image-div-wrapper">
+						<img
+							width="100"
+							class="cursor-grab"
+							:src="`${album.image}`"
+							:alt="`${album.artist} - ${album.name}`"
+							draggable="true"
+							@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
+							@touchstart.prevent="
+								(touchEvent) => onTouchStart(touchEvent, album, 'Search')
+							"
+						/>
+
+						<div
+							v-if="album.image === GrayBoxImgFromApi"
+							class="tw-album-image-text-overlay"
+						>
+							{{ album.artist }} - {{ album.name }}
+						</div>
+					</div>
 				</template>
 				<template #tooltip>{{ album.artist }} - {{ album.name }}</template>
 			</Tooltip>

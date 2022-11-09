@@ -2,17 +2,17 @@ import type { SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { top42, top100 } from '#shared/chart'
 
-// IMGUR w/ JPEG comes from /TopAlbums
-// IMGUR w/ JPG is a real placeholder
-// src="https://i.imgur.com/5IYcmZz.jpg"
-// src="https://i.imgur.com/5IYcmZz.jpeg"
-export const GrayBoxImg = 'https://i.imgur.com/5IYcmZz.jpg'
-export const GrayBoxImgFromTopAlbums = 'https://i.imgur.com/5IYcmZz.jpeg'
+// This is weird looking but streamlines functionality tbh
+const grayBoxImgur = 'https://i.imgur.com/5IYcmZz'
+// for usage as the placeholder boxes
+export const GrayBoxImgForPlaceholder = `${grayBoxImgur}.jpg`
+// Comes back from the API
+export const GrayBoxImgFromApi = `${grayBoxImgur}.jpeg`
 
 export const FillerAlbum = {
 	artist: 'Artist',
 	name: 'Album',
-	image: GrayBoxImg
+	image: GrayBoxImgForPlaceholder
 }
 
 export function GenerateDefaultSiteOptions(): SiteOptions {
@@ -23,13 +23,13 @@ export function GenerateDefaultSiteOptions(): SiteOptions {
 	}
 }
 
-export function IsImage(input: string): Promise<boolean> {
-	// returns a Promise that'll resolve to a boolean whether or not an input is an image
+export function IsImage(url: string): Promise<boolean> {
+	// returns a Promise that'll resolve to a boolean whether or not a url is an image
 	return new Promise((resolve) => {
 		const image = new Image()
 		image.onerror = image.onabort = () => resolve(false)
 		image.onload = () => resolve(true)
-		image.src = input
+		image.src = url
 	})
 }
 
@@ -44,7 +44,7 @@ export function getAlbumNumber(indexOne: number, indexTwo: number): number {
 	let returnValue = 0
 
 	for (let x = 0; x < indexOne; x++) {
-		returnValue += GlobalChartState.options.chartSize.rowSizes[x]
+		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
 	}
 
 	return returnValue + 1 + indexTwo
