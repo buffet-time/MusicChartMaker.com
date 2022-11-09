@@ -61,7 +61,6 @@ function onNewChart() {
 
 function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 	const nameToSave = PreventNameCollision(chartNameInput.value)
-	console.log(1, nameToSave)
 	StoredChartNames.value.unshift(nameToSave)
 
 	let tempChart: ChartState
@@ -83,8 +82,6 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 		default:
 			return console.error('Incorrect addChart() invocation: ', type, preset)
 	}
-
-	console.log(10, tempChart)
 
 	emit('updateSelectedChartTitle', nameToSave)
 	setCurrentChart(nameToSave)

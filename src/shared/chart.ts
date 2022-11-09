@@ -30,7 +30,6 @@ const baseOptionsDefault = {
 }
 
 export function GenerateDefaultChart(title?: string): ChartState {
-	console.log(4, title)
 	const albumArray = [] as AlbumTile[][]
 	const defaultChartSize: ChartPreset = {
 		default: true,
