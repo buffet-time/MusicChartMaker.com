@@ -39,7 +39,7 @@ function showModal() {
 						href="https://discord.gg/526et4zxBT"
 						target="_blank"
 					>
-						<img src="../../assets/discord.png" alt="Discord Logo" />
+						<img src="/discord.png" alt="Discord Logo" />
 					</a>
 
 					<a
@@ -47,7 +47,7 @@ function showModal() {
 						href="https://github.com/buffet-time/MusicChartMaker.com"
 						target="_blank"
 					>
-						<img src="../../assets/github.png" alt="Github Logo" />
+						<img src="/github.png" alt="Github Logo" />
 					</a>
 
 					<a
@@ -55,7 +55,7 @@ function showModal() {
 						href="https://www.paypal.com/paypalme/BuffetTime"
 						target="_blank"
 					>
-						<img src="../../assets/paypal.png" alt="Paypal Logo" />
+						<img src="/paypal.png" alt="Paypal Logo" />
 					</a>
 				</div>
 

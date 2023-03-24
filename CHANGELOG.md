@@ -1,5 +1,11 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.2
+
+- Fix - various small css changes & fixes
+- Dev - Many package updates and changes
+- Optimization - Moved assets to static public folder
+
 ## Version Beta-0.9.1
 
 - Fix - delete not always working properly for some reason?

@@ -43,11 +43,8 @@ jobs:
       - name: Install `node_modules`
         run: pnpm install
 
-      - name: Lint Check
-        run: pnpm lint-check
-
-      - name: Format Check
-        run: pnpm format-check
+      - name: Checks
+        run: pnpm checks
 
       - name: Build
         run: pnpm build

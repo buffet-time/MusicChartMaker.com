@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
-import Back from '#assets/back.svg'
 import type { AlbumTile, ChartPreset, ChartType, LastfmPeriod } from '#types'
 import { ProperFetch } from '#shared/misc'
 
@@ -126,6 +125,6 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		class="tw-button tw-close-button"
 		@click="emit('updateLastfmAdd', false)"
 	>
-		<img :src="Back" width="25" height="25" />
+		<img src="/back.svg" width="25" height="25" />
 	</button>
 </template>
