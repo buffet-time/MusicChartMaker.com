@@ -8,9 +8,6 @@ import SiteInfo from './SidebarComponents/SiteInfo.vue'
 import SaveImage from './SidebarComponents/SaveImage.vue'
 import Export from './SidebarComponents/Export.vue'
 
-import HamburgerMenu from '#assets/hamburgerMenu.svg'
-import BlackClose from '#assets/blackClose.svg'
-
 const emit = defineEmits<{
 	(event: 'canRenderChart'): void
 }>()
@@ -41,7 +38,7 @@ function hideMenu() {
 		alt="hamburger-menu"
 		height="25"
 		width="25"
-		:src="HamburgerMenu"
+		src="/hamburgerMenu.svg"
 		class="tw-button fixed p-1 mt-2 ml-2 md:hidden"
 		@click="showMenu()"
 	/>
@@ -51,7 +48,7 @@ function hideMenu() {
 		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
 	>
 		<img
-			:src="BlackClose"
+			src="/blackClose.svg"
 			alt="close-button"
 			height="25"
 			width="25"

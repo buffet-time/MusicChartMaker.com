@@ -10,7 +10,6 @@ import {
 	getAlbumNumber
 } from '#shared/misc'
 
-import Close from '#assets/blackClose.svg'
 import Dialog from '../CoreComponents/Dialog.vue'
 import Tooltip from '../CoreComponents/Tooltip.vue'
 
@@ -158,7 +157,7 @@ function chartTitle(
 						<div class="tw-album-image-div-wrapper">
 							<img
 								v-show="album"
-								:src="Close"
+								src="/blackClose.svg"
 								class="hidden absolute m-1 left-0 top-0 group-hover:bg-white group-hover:block cursor-pointer"
 								@click="deleteCurrent({ index1, index2 })"
 							/>

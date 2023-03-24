@@ -4,7 +4,6 @@ import { ref } from 'vue'
 import { GenerateDefaultChart } from '#shared/chart'
 import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
 
-import Back from '#assets/back.svg'
 import Dialog from '#core/Dialog.vue'
 import DevTools from './OptionsComponents/DevTools.vue'
 import Background from './OptionsComponents/Background.vue'
@@ -71,14 +70,11 @@ function resetOptionsToDefault() {
 		</div>
 
 		<!-- The options overlay -->
-		<div
-			v-if="showOptions"
-			class="flex flex-col overflow-auto tw-sidebar-width h-full z-0 top-0 left-0 fixed bg-[#404040] px-2 pb-2"
-		>
+		<div v-if="showOptions" class="options-div">
 			<img
 				title="Close Options"
 				alt="close-button"
-				:src="Back"
+				src="/back.svg"
 				width="25"
 				height="25"
 				class="cursor-pointer absolute left-0 mt-[6px] m-[6px] bg-neutral-500"
@@ -128,3 +124,9 @@ function resetOptionsToDefault() {
 		</div>
 	</div>
 </template>
+
+<style lang="postcss">
+.options-div {
+	@apply flex flex-col overflow-auto tw-sidebar-width h-full top-0 left-0 fixed bg-[#404040] px-2 pb-2 z-10;
+}
+</style>

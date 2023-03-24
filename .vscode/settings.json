@@ -20,5 +20,6 @@
 	},
 	"files.associations": {
 		"*.css": "tailwindcss"
-	}
+	},
+	"volar.inlayHints.eventArgumentInInlineHandlers": false
 }

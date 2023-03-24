@@ -18,7 +18,6 @@ export default defineConfig({
 		alias: {
 			'#root': resolve(__dirname),
 			'#src': resolve(__dirname, './src'),
-			'#assets': resolve(__dirname, './src/assets'),
 			'#components': resolve(__dirname, './src/components'),
 			'#types': resolve(__dirname, './src/types/types.ts'),
 			'#core': resolve(__dirname, './src/components/CoreComponents'),

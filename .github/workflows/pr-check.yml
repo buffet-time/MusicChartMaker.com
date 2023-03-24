@@ -42,11 +42,5 @@ jobs:
       - name: Install `node_modules`
         run: pnpm install
 
-      - name: Type Check
-        run: pnpm type-check
-
-      - name: Lint Check
-        run: pnpm lint-check
-
-      - name: Format Check
-        run: pnpm format-check
+      - name: Checks
+        run: pnpm checks

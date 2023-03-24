@@ -1,9 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-
-# Run ESLint and Prettier on all files to ensure no bad commits
-pnpm lint-fix
-pnpm format-fix
+# Run Lint, Format, and Type checks on all files to help reduce bad commits
+pnpm checks
 # add any changed files from the build
 git add -A

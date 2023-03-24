@@ -90,7 +90,11 @@ onMounted(() => {
 
 	<div class="tw-flex-center flex-col">
 		<label>Select Chart: </label>
-		<select v-model="selectedChartTitle" class="tw-input" @change="onSelect">
+		<select
+			v-model="selectedChartTitle"
+			class="tw-input pr-1 pl-2"
+			@change="onSelect"
+		>
 			<option v-for="(name, index) in StoredChartNames" :key="index">
 				{{ name }}
 			</option>

@@ -1,4 +1,5 @@
 # directories
+/public
 /dist
 /.vscode
 /.husky
@@ -7,7 +8,6 @@
 /node_modules
 
 # singular files
-pnpm-lock.yaml
 .prettierignore
 .gitignore
 .DS_Store
@@ -20,3 +20,6 @@ LICENSE
 *.log
 *.svg
 *.min.svg
+*.yaml
+*.txt
+*.md

@@ -18,7 +18,7 @@
 		"paths": {
 			"#root/*": ["./*"],
 			"#src/*": ["./src/*"],
-			"#assets/*": ["./src/assets/*"],
+			"public/*": ["./src/assets/*"],
 			"#components/*": ["./src/components/*"],
 			"#types": ["./src/types/types.ts"],
 			"#core/*": ["./src/components/CoreComponents/*"],

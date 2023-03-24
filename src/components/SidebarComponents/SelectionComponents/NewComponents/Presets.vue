@@ -2,9 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
-import { ChartPreset, ChartType } from '#types'
-
-import Back from '#assets/back.svg'
+import type { ChartPreset, ChartType } from '#types'
 
 defineProps<{
 	createPreset: boolean
@@ -40,7 +38,7 @@ function newPreset() {
 }
 
 function deletePreset(preset: ChartPreset, index: number) {
-	if (window.confirm(`Delete preset '${preset.presetName}'?'`)) {
+	if (window.confirm(`Delete preset "${preset.presetName}"?`)) {
 		GlobalSiteOptions.value.presets?.splice(index, 1)
 	}
 }
@@ -75,7 +73,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			class="tw-button tw-close-button"
 			@click="emit('updatePresetAdd', false)"
 		>
-			<img :src="Back" width="25" height="25" />
+			<img src="/back.svg" width="25" height="25" />
 		</button>
 	</template>
 
@@ -108,7 +106,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 		<div class="flex gap-1">
 			<button class="tw-button" @click="newPreset">Create preset</button>
 			<button class="tw-button tw-close-button" @click="closeCreatePreset">
-				<img :src="Back" width="25" height="25" />
+				<img src="/back.svg" width="25" height="25" />
 			</button>
 		</div>
 	</template>
@@ -134,7 +132,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			class="tw-button tw-close-button"
 			@click="emit('updateEditPresets', false)"
 		>
-			<img :src="Back" width="25" height="25" />
+			<img src="/back.svg" width="25" height="25" />
 		</button>
 	</template>
 </template>
