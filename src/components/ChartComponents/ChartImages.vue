@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#shared/globals'
@@ -10,22 +9,26 @@ import {
 	getAlbumNumber
 } from '#shared/misc'
 
-import Dialog from '../CoreComponents/Dialog.vue'
-import Tooltip from '../CoreComponents/Tooltip.vue'
+import Dialog from '#core/Dialog.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const dialogId = 'DragLongHoldId'
 let selectedAlbumIndices: IndicesObject
 
 function openDialog(indices?: IndicesObject) {
-	// prettier-ignore
-	(document.getElementById(dialogId) as HTMLDialogElement).showModal()
+	const dialog = document.getElementById(dialogId) as HTMLDialogElement
+	dialog.showModal()
 
-	selectedAlbumIndices = indices!
+	if (!indices) {
+		return console.error('Error indices not defined in openDialog()')
+	}
+
+	selectedAlbumIndices = indices
 }
 
 function closeDialog() {
-	// prettier-ignore
-	(document.getElementById(dialogId) as HTMLDialogElement).close()
+	const dialog = document.getElementById(dialogId) as HTMLDialogElement
+	dialog.close()
 }
 
 function deleteSelectedAlbum() {
@@ -34,12 +37,23 @@ function deleteSelectedAlbum() {
 }
 
 function onDragOver(dragEvent: DragEvent) {
-	dragEvent.dataTransfer!.dropEffect = 'move'
+	if (!dragEvent.dataTransfer) {
+		return console.error(
+			'Error dragEvent.dataTransfer not defined in onDragOver',
+			dragEvent
+		)
+	}
+
+	dragEvent.dataTransfer.dropEffect = 'move'
 }
 
 function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-	const data = dragEvent.dataTransfer?.getData('text/plain')!
+	const data = dragEvent.dataTransfer?.getData('text/plain')
+
+	if (!data) {
+		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
+	}
+
 	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
 
 	if (albumDraggedIn.dragSource === 'Chart') {
@@ -83,7 +97,12 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 			index2: index2
 		}
 	})
-	dragEvent.dataTransfer!.dropEffect = 'copy'
+
+	if (!dragEvent.dataTransfer) {
+		return console.error('Error dragEvent.dataTransfer not defined in onDrop()')
+	}
+
+	dragEvent.dataTransfer.dropEffect = 'copy'
 }
 
 function deleteCurrent(indices: IndicesObject) {

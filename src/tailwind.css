@@ -34,6 +34,15 @@
 	.tw-album-image-text-overlay {
 		@apply absolute tw-flex-center p-[2px] pointer-events-none h-full overflow-hidden;
 	}
+	.tw-sidebar-menu-div {
+		@apply flex flex-col gap-3 tw-sidebar-width bg-[#404040] h-full hidden fixed pt-2 z-10 md:flex;
+	}
+	.tw-options-overlay-div {
+		@apply flex flex-col overflow-auto tw-sidebar-width h-full top-0 left-0 fixed bg-[#404040] px-2 pb-2 z-10;
+	}
+	.tw-search-results-div {
+		@apply tw-flex-center flex-wrap mt-2 mx-4 gap-1 h-[102px] overflow-y-scroll md:tw-no-scrollbar md:mx-0 md:h-[415px];
+	}
 }
 
 @layer utilities {

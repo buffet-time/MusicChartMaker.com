@@ -24,10 +24,6 @@ async function onBgImageInput() {
 }
 
 function clearBackground() {
-	if (!GlobalChartState || !GlobalChartState.value.options.backgroundImage) {
-		return console.error('ERror in clearBackground()', GlobalChartState)
-	}
-
 	GlobalChartState.value.options.backgroundImage = undefined
 	bgImage.value = ''
 }

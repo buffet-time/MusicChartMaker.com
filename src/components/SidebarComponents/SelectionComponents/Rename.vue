@@ -34,8 +34,10 @@ function onRenameChart() {
 }
 
 function closeRenameModal() {
-	// prettier-ignore
-	(document.getElementById(renameDialogId) as HTMLDialogElement).close()
+	const renameModal = document.getElementById(
+		renameDialogId
+	) as HTMLDialogElement
+	renameModal.close()
 }
 
 function renameChart() {

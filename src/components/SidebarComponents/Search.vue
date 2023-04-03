@@ -6,7 +6,7 @@ import { DragSetData, onTouchStart } from '#shared/drag'
 import { IsImage, GrayBoxImgFromApi } from '#shared/misc'
 import { ProperFetch } from '#shared/misc'
 
-import Tooltip from '../CoreComponents/Tooltip.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
@@ -50,8 +50,12 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		// included just because im bad with ts typing and dont want it to optional in chart
 		originatingIndices: { index1: 0, index2: 0 }
 	})
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	dragEvent.dataTransfer!.dropEffect = 'copy'
+
+	if (!dragEvent.dataTransfer) {
+		return console.error('Error in onDragStart(): ', dragEvent, album)
+	}
+
+	dragEvent.dataTransfer.dropEffect = 'copy'
 }
 
 function getSearchResultsLength() {
@@ -93,7 +97,7 @@ function getSearchResultsLength() {
 		</div>
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center flex-wrap mt-2 mx-4 gap-1 h-[102px] overflow-y-scroll md:tw-no-scrollbar md:mx-0 md:h-[415px]"
+			class="tw-search-results-div"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">

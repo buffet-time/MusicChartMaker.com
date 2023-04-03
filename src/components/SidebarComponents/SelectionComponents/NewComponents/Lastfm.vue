@@ -45,8 +45,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		}&limit=${
 			preset
 				? preset.rowSizes.reduce((previous, current) => previous + current, 0)
-				: // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				  rows.value * columns.value
+				: rows.value * columns.value
 		}`
 	)
 

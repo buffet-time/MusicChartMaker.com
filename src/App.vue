@@ -30,7 +30,7 @@ watch(
 <template>
 	<div class="flex text-white font-sans antialiased h-screen">
 		<Sidebar @can-render-chart="renderChart = true" />
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col gap-2 w-full">
 			<Chart v-if="renderChart" />
 		</div>
 	</div>

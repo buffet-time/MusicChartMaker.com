@@ -4,8 +4,8 @@ import Dialog from '#core/Dialog.vue'
 const devToolsId = 'devtools'
 
 function openDevToolsModal() {
-	// prettier-ignore
-	(document.getElementById(devToolsId) as HTMLDialogElement).showModal()
+	const devTools = document.getElementById(devToolsId) as HTMLDialogElement
+	devTools.showModal()
 }
 
 function clearLocalStore() {

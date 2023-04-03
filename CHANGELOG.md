@@ -1,5 +1,10 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.3
+
+- Dev - a lot of CSS and other cchanges
+- Feat - Adding a lock chart option
+
 ## Version Beta-0.9.2
 
 - Fix - various small css changes & fixes

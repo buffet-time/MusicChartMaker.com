@@ -6,8 +6,8 @@ import Dialog from '#core/Dialog.vue'
 const dialogId = 'siteInfoModal'
 
 function showModal() {
-	// prettier-ignore
-	(document.getElementById(dialogId) as HTMLDialogElement).showModal()
+	const modal = document.getElementById(dialogId) as HTMLDialogElement
+	modal.showModal()
 }
 </script>
 

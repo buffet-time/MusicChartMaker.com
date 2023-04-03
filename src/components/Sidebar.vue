@@ -43,10 +43,7 @@ function hideMenu() {
 		@click="showMenu()"
 	/>
 
-	<div
-		ref="sidebarMenu"
-		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
-	>
+	<div ref="sidebarMenu" class="tw-sidebar-menu-div">
 		<img
 			src="/blackClose.svg"
 			alt="close-button"

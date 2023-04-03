@@ -30,7 +30,7 @@ watch(
 </script>
 
 <template>
-	<div class="flex justify-center w-full md:hidden">
+	<div class="tw-flex-center w-full md:hidden">
 		<Search />
 	</div>
 	<div
@@ -39,7 +39,7 @@ watch(
 			backgroundColor: GlobalChartState?.options.background,
 			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
 		}"
-		class="flex flex-col gap-1 justify-center items-center md:justify-start md:items-start md:flex-row md:ml-[231px]"
+		class="tw-flex-center flex-col gap-1 md:justify-start md:items-start md:flex-row md:ml-[231px]"
 	>
 		<ChartImages />
 		<ChartTitles />

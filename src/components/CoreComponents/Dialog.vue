@@ -19,6 +19,14 @@ onMounted(async () => {
 
 	// If needed pulls in the dialog polyfill
 	if (typeof HTMLDialogElement !== 'function') {
+		// adds the folllowing to the head of the document
+		// <link rel="stylesheet" type="text/css" href="/dialog-polyfill.css" />
+		const link = document.createElement('link')
+		link.type = 'text/css'
+		link.rel = 'stylesheet'
+		link.href = '/dialog-polyfill.css'
+		document.head.appendChild(link)
+
 		const { default: dialogPolyfill } = await import('dialog-polyfill')
 		dialogPolyfill.registerDialog(currentDialog.value)
 	}

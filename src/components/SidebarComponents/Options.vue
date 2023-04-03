@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { ref } from 'vue'
 import { GenerateDefaultChart } from '#shared/chart'
@@ -17,13 +16,17 @@ const resetOptionsId = 'resetoptions'
 const showOptions = ref(false)
 
 function openResetOptionsModal() {
-	// prettier-ignore
-	(document.getElementById(resetOptionsId) as HTMLDialogElement).showModal()
+	const resetOptionsModal = document.getElementById(
+		resetOptionsId
+	) as HTMLDialogElement
+	resetOptionsModal.showModal()
 }
 
 function closeResetOptionModal() {
-	// prettier-ignore
-	(document.getElementById(resetOptionsId) as HTMLDialogElement).close()
+	const resetOptionsModal = document.getElementById(
+		resetOptionsId
+	) as HTMLDialogElement
+	resetOptionsModal.close()
 }
 
 function resetOptionsToDefault() {
@@ -70,7 +73,7 @@ function resetOptionsToDefault() {
 		</div>
 
 		<!-- The options overlay -->
-		<div v-if="showOptions" class="options-div">
+		<div v-if="showOptions" class="tw-options-overlay-div">
 			<img
 				title="Close Options"
 				alt="close-button"
@@ -124,9 +127,3 @@ function resetOptionsToDefault() {
 		</div>
 	</div>
 </template>
-
-<style lang="postcss">
-.options-div {
-	@apply flex flex-col overflow-auto tw-sidebar-width h-full top-0 left-0 fixed bg-[#404040] px-2 pb-2 z-10;
-}
-</style>
