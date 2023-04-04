@@ -85,7 +85,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="tw-flex-center l flex-col">
+	<div class="tw-flex-center flex-col">
 		<label>Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
