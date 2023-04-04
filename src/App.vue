@@ -28,9 +28,9 @@ watch(
 </script>
 
 <template>
-	<div class="flex text-white font-sans antialiased h-screen">
+	<div class="flex h-screen font-sans text-white antialiased">
 		<Sidebar @can-render-chart="renderChart = true" />
-		<div class="flex flex-col gap-2">
+		<div class="flex w-full flex-col gap-2">
 			<Chart v-if="renderChart" />
 		</div>
 	</div>

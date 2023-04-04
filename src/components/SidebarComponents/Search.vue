@@ -6,7 +6,7 @@ import { DragSetData, onTouchStart } from '#shared/drag'
 import { IsImage, GrayBoxImgFromApi } from '#shared/misc'
 import { ProperFetch } from '#shared/misc'
 
-import Tooltip from '../CoreComponents/Tooltip.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
@@ -50,8 +50,12 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		// included just because im bad with ts typing and dont want it to optional in chart
 		originatingIndices: { index1: 0, index2: 0 }
 	})
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	dragEvent.dataTransfer!.dropEffect = 'copy'
+
+	if (!dragEvent.dataTransfer) {
+		return console.error('Error in onDragStart(): ', dragEvent, album)
+	}
+
+	dragEvent.dataTransfer.dropEffect = 'copy'
 }
 
 function getSearchResultsLength() {
@@ -66,14 +70,14 @@ function getSearchResultsLength() {
 			<div class="tw-flex-center flex-col gap-2">
 				<input
 					v-model="searchInput"
-					class="p-2 tw-input"
+					class="tw-input p-2"
 					type="search"
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"
 				/>
-				<div>
+				<div class="flex gap-1">
 					<button
-						class="ml-1 tw-button"
+						class="tw-button"
 						type="button"
 						:disabled="searchInput === ''"
 						@click="search"
@@ -81,7 +85,7 @@ function getSearchResultsLength() {
 						search
 					</button>
 					<button
-						class="ml-1 tw-button"
+						class="tw-button"
 						type="button"
 						:disabled="!showSearchResults"
 						@click="showSearchResults = false"
@@ -93,7 +97,7 @@ function getSearchResultsLength() {
 		</div>
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center flex-wrap mt-2 mx-4 gap-1 h-[102px] overflow-y-scroll md:tw-no-scrollbar md:mx-0 md:h-[415px]"
+			class="tw-search-results-div"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">
@@ -136,7 +140,7 @@ function getSearchResultsLength() {
 		</div>
 		<div
 			v-show="showSearchResults && getSearchResultsLength() > 1"
-			class="rectangle-blur hidden before:absolute before:left-0 before:pointer-events-none before:mt-[-2rem] before:h-8 before:w-full content md:block"
+			class="rectangle-blur content hidden before:pointer-events-none before:absolute before:left-0 before:mt-[-2rem] before:h-8 before:w-full md:block"
 		></div>
 	</div>
 </template>

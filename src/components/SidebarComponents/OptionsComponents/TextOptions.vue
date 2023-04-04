@@ -27,7 +27,7 @@ import { GlobalChartState } from '#shared/globals'
 		<input
 			v-model="GlobalChartState!.options.textColor"
 			type="color"
-			class="bg-transparent cursor-pointer"
+			class="cursor-pointer bg-transparent"
 		/>
 	</div>
 
@@ -36,7 +36,7 @@ import { GlobalChartState } from '#shared/globals'
 		<input
 			v-model="GlobalChartState!.options.textBorderColor"
 			type="color"
-			class="bg-transparent cursor-pointer"
+			class="cursor-pointer bg-transparent"
 		/>
 	</div>
 </template>

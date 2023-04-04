@@ -6,14 +6,14 @@ import Dialog from '#core/Dialog.vue'
 const dialogId = 'siteInfoModal'
 
 function showModal() {
-	// prettier-ignore
-	(document.getElementById(dialogId) as HTMLDialogElement).showModal()
+	const modal = document.getElementById(dialogId) as HTMLDialogElement
+	modal.showModal()
 }
 </script>
 
 <template>
 	<div>
-		<button type="button" class="tw-button py-1 px-3" @click="showModal()">
+		<button type="button" class="tw-button" @click="showModal()">
 			Site Info
 		</button>
 
@@ -33,7 +33,7 @@ function showModal() {
 				</p>
 
 				<!-- Links -->
-				<div class="tw-flex-center mt-1 mb-1 gap-1">
+				<div class="tw-flex-center mb-1 mt-1 gap-1">
 					<a
 						class="tw-button py-1"
 						href="https://discord.gg/526et4zxBT"
@@ -62,7 +62,7 @@ function showModal() {
 				<!-- Text info -->
 				<div class="pb-2">
 					<h2 class="font-bold">Planned Features/ Enhancements</h2>
-					<ol class="list-disc list-inside pt-1">
+					<ol class="list-inside list-disc pt-1">
 						<li>
 							RYM functionality (dependent on if their API is free/ works)
 						</li>

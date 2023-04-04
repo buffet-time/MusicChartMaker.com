@@ -4,8 +4,8 @@ import Dialog from '#core/Dialog.vue'
 const devToolsId = 'devtools'
 
 function openDevToolsModal() {
-	// prettier-ignore
-	(document.getElementById(devToolsId) as HTMLDialogElement).showModal()
+	const devTools = document.getElementById(devToolsId) as HTMLDialogElement
+	devTools.showModal()
 }
 
 function clearLocalStore() {
@@ -27,7 +27,7 @@ function clearLocalStore() {
 					Dev debugging tools. Feel free to use them, but be wary :)
 				</p>
 
-				<div class="gap-2 flex">
+				<div class="flex gap-2">
 					<div class="flex gap-2">
 						<button class="tw-button" @click="clearLocalStore">
 							Clear LocalStorage

@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { ref } from 'vue'
 import { GenerateDefaultChart } from '#shared/chart'
@@ -17,13 +16,17 @@ const resetOptionsId = 'resetoptions'
 const showOptions = ref(false)
 
 function openResetOptionsModal() {
-	// prettier-ignore
-	(document.getElementById(resetOptionsId) as HTMLDialogElement).showModal()
+	const resetOptionsModal = document.getElementById(
+		resetOptionsId
+	) as HTMLDialogElement
+	resetOptionsModal.showModal()
 }
 
 function closeResetOptionModal() {
-	// prettier-ignore
-	(document.getElementById(resetOptionsId) as HTMLDialogElement).close()
+	const resetOptionsModal = document.getElementById(
+		resetOptionsId
+	) as HTMLDialogElement
+	resetOptionsModal.close()
 }
 
 function resetOptionsToDefault() {
@@ -45,7 +48,8 @@ function resetOptionsToDefault() {
 		textSpacing: defaultChartOptions.textSpacing,
 		font: defaultChartOptions.font,
 		backgroundImage: undefined,
-		padding: 0.2
+		padding: 0.2,
+		lockChart: false
 	}
 
 	GlobalSiteOptions.value = {
@@ -60,73 +64,76 @@ function resetOptionsToDefault() {
 	<div>
 		<!-- in the sidebar -->
 		<div class="tw-flex-center gap-2">
-			<button
-				type="button"
-				class="tw-button cursor-pointer"
-				@click="showOptions = true"
-			>
+			<button type="button" class="tw-button" @click="showOptions = true">
 				Show Options
 			</button>
 		</div>
 
 		<!-- The options overlay -->
-		<div v-if="showOptions" class="options-div">
+		<div v-if="showOptions" class="tw-options-overlay-div">
 			<img
 				title="Close Options"
 				alt="close-button"
 				src="/back.svg"
 				width="25"
 				height="25"
-				class="cursor-pointer absolute left-0 mt-[6px] m-[6px] bg-neutral-500"
+				class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
 				@click="showOptions = false"
 			/>
+			<template v-if="!GlobalChartState.options.lockChart">
+				<ChartSize />
 
-			<ChartSize />
+				<div class="mt-4">
+					<Font />
+				</div>
 
-			<div class="mt-4">
-				<Font />
-			</div>
+				<div>
+					<TextOptions />
+				</div>
 
-			<div>
-				<TextOptions />
-			</div>
+				<Background />
 
-			<Background />
+				<div class="pt-2">
+					<button class="tw-button" @click="openResetOptionsModal">
+						Reset to Default
+					</button>
 
-			<div class="pt-2">
-				<button class="tw-button" @click="openResetOptionsModal">
-					Reset to Default
-				</button>
+					<Dialog :dialog-id="resetOptionsId" :close-button="true">
+						<template #content>
+							<p class="text-neutral-200">
+								This will not reset Chart Size or any albums that are in the
+								chart.
+							</p>
+							<p class="text-neutral-200">
+								Reset all options to their defaults?
+							</p>
 
-				<Dialog :dialog-id="resetOptionsId" :close-button="true">
-					<template #content>
-						<p class="text-neutral-200">
-							This will not reset Chart Size or any albums that are in the
-							chart.
-						</p>
-						<p class="text-neutral-200">Reset all options to their defaults?</p>
+							<div class="flex gap-2">
+								<button class="tw-button" @click="resetOptionsToDefault">
+									Yes
+								</button>
+								<button class="tw-button" @click="closeResetOptionModal">
+									No
+								</button>
+							</div>
+						</template>
+					</Dialog>
+				</div>
 
-						<div class="flex gap-2">
-							<button class="tw-button" @click="resetOptionsToDefault">
-								Yes
-							</button>
-							<button class="tw-button" @click="closeResetOptionModal">
-								No
-							</button>
-						</div>
-					</template>
-				</Dialog>
-			</div>
+				<div class="pt-2">
+					<DevTools />
+				</div>
+			</template>
 
-			<div class="pt-2">
-				<DevTools />
+			<!-- Lock chart check -->
+			<div class="tw-options-div">
+				<label>Lock this chart?</label>
+				<input
+					v-model="GlobalChartState!.options.lockChart"
+					class="tw-checkbox"
+					type="checkbox"
+				/>
 			</div>
 		</div>
 	</div>
 </template>
-
-<style lang="postcss">
-.options-div {
-	@apply flex flex-col overflow-auto tw-sidebar-width h-full top-0 left-0 fixed bg-[#404040] px-2 pb-2 z-10;
-}
-</style>

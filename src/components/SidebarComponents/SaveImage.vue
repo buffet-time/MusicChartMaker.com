@@ -12,8 +12,8 @@ const selectedFormat = ref('png')
 const renderImageSelect = ref(false)
 
 function openSaveImage() {
-	// prettier-ignore
-	(document.getElementById(saveImageId) as HTMLDialogElement).showModal()
+	const saveimage = document.getElementById(saveImageId) as HTMLDialogElement
+	saveimage.showModal()
 }
 
 function getValidFormats() {
@@ -35,8 +35,13 @@ function getValidFormats() {
 async function saveImage() {
 	try {
 		const { default: HTML2Canvas } = await import('html2canvas')
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const canvas = await HTML2Canvas(document.getElementById('Chart')!, {
+		const chartElement = document.getElementById('Chart')
+
+		if (!chartElement) {
+			return console.error('error in saveImage(): ', chartElement)
+		}
+
+		const canvas = await HTML2Canvas(chartElement, {
 			allowTaint: true,
 			useCORS: true,
 			backgroundColor: GlobalChartState.value.options.background
@@ -58,9 +63,7 @@ onMounted(() => {
 
 <template>
 	<div>
-		<button class="tw-button py-1 px-3" @click="openSaveImage()">
-			Save Image
-		</button>
+		<button class="tw-button" @click="openSaveImage()">Save Image</button>
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
@@ -76,7 +79,7 @@ onMounted(() => {
 					</option>
 				</select>
 
-				<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
+				<button class="tw-button mb-1 px-3 py-1" @click="saveImage">
 					Save Image
 				</button>
 			</template>

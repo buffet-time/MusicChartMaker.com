@@ -57,7 +57,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			</button>
 		</div>
 
-		<div class="flex gap-1 mt-2">
+		<div class="mt-2 flex gap-1">
 			<button class="tw-button" @click="emit('updateCreatePreset', true)">
 				New preset
 			</button>
@@ -80,7 +80,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 	<template v-if="createPreset">
 		<h1 class="text-lg text-green-400">Create a new preset</h1>
 
-		<ol class="mx-4 text-left list-decimal">
+		<ol class="mx-4 list-decimal text-left">
 			<li>The input should be a list of numbers</li>
 			<li>Seperate numbers by commas</li>
 			<li>You can't include a 0 in the list</li>

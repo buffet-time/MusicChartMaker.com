@@ -39,13 +39,13 @@ function hideMenu() {
 		height="25"
 		width="25"
 		src="/hamburgerMenu.svg"
-		class="tw-button fixed p-1 mt-2 ml-2 md:hidden"
+		class="tw-button fixed ml-2 mt-2 p-1 md:hidden"
 		@click="showMenu()"
 	/>
 
 	<div
 		ref="sidebarMenu"
-		class="flex flex-col gap-3 tw-sidebar-width bg-[#404040] min-w-[230px] h-full hidden fixed pt-2 md:flex"
+		class="tw-sidebar-width fixed z-10 flex hidden h-full flex-col gap-3 bg-[#404040] pt-2 md:flex"
 	>
 		<img
 			src="/blackClose.svg"

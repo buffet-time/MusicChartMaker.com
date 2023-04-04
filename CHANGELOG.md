@@ -1,5 +1,15 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.3
+
+- Feat - Adding a lock chart option
+- Fix - Dialog-Polyfill was not injecting necessary CSS
+- Fix - A lot of CSS fixes
+- Change - Normalized button and input styling
+- Dev - More and better error throwing
+- Dev - Many import and TypeScript small changes
+- Dev - fixed `prettier-plugin-tailwind` not actually being used and ran `format-fix` to format
+
 ## Version Beta-0.9.2
 
 - Fix - various small css changes & fixes

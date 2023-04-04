@@ -6,7 +6,7 @@ import { resolve } from 'path'
 export default defineConfig({
 	build: {
 		rollupOptions: {
-			maxParallelFileReads: 512,
+			maxParallelFileOps: 512,
 			output: {
 				compact: true,
 				generatedCode: 'es2015'

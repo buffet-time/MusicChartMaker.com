@@ -96,15 +96,11 @@ function importFromJson() {
 
 <template>
 	<div class="tw-flex-center flex-col gap-[6px] px-2">
-		<button
-			type="button"
-			class="tw-button py-1 px-3"
-			@click="ExportChartsAndOptions()"
-		>
+		<button type="button" class="tw-button" @click="ExportChartsAndOptions()">
 			Export Charts
 		</button>
 
-		<label for="file-picker" class="tw-button py-1">
+		<label for="file-picker" class="tw-button">
 			Import Charts
 			<input
 				id="file-picker"

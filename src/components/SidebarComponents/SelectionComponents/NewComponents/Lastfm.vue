@@ -45,8 +45,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		}&limit=${
 			preset
 				? preset.rowSizes.reduce((previous, current) => previous + current, 0)
-				: // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				  rows.value * columns.value
+				: rows.value * columns.value
 		}`
 	)
 
@@ -110,7 +109,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		</button>
 	</template>
 
-	<div v-else class="flex gap-1 mt-2 max-w-[350px] flex-wrap justify-center">
+	<div v-else class="mt-2 flex max-w-[350px] flex-wrap justify-center gap-1">
 		<button
 			v-for="(preset, index) in GlobalSiteOptions.presets"
 			:key="`preset-${index}`"

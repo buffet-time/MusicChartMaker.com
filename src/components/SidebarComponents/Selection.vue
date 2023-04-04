@@ -85,14 +85,11 @@ onMounted(() => {
 </script>
 
 <template>
-	<!-- a section for for selecting your chart, creating new, renaming, and deleting
-	https://i.gyazo.com/b0bbce58dbc30fa673ed26d14e93b7ef.png -->
-
 	<div class="tw-flex-center flex-col">
 		<label>Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
-			class="tw-input pr-1 pl-2"
+			class="tw-input pl-1"
 			@change="onSelect"
 		>
 			<option v-for="(name, index) in StoredChartNames" :key="index">
@@ -101,14 +98,12 @@ onMounted(() => {
 		</select>
 	</div>
 	<div class="mt-2">
-		<div v-if="!initializing">
-			<!-- make sure new and rename completely properly prevent name collision -->
+		<div v-if="!initializing" class="tw-flex-center gap-1">
 			<New
 				:selected-chart-title="selectedChartTitle"
 				:selected-chart="GlobalChartState!"
 				@update-selected-chart-title="(value) => (selectedChartTitle = value)"
 			/>
-			<!-- may need to update selected too? -->
 
 			<Rename
 				:selected-chart="GlobalChartState!"

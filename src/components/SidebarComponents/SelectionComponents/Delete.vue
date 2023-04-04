@@ -25,13 +25,17 @@ const emit = defineEmits<{
 const deleteDialogId = 'deleteDialog'
 
 function openDeleteModal() {
-	// prettier-ignore
-	(document.getElementById(deleteDialogId) as HTMLDialogElement).showModal()
+	const deleteModal = document.getElementById(
+		deleteDialogId
+	) as HTMLDialogElement
+	deleteModal.showModal()
 }
 
 function closeDeleteModal() {
-	// prettier-ignore
-	(document.getElementById(deleteDialogId) as HTMLDialogElement).close()
+	const deleteModal = document.getElementById(
+		deleteDialogId
+	) as HTMLDialogElement
+	deleteModal.close()
 }
 
 function deleteChart() {
@@ -53,7 +57,6 @@ function deleteChart() {
 	}
 
 	GlobalChartState.value = chartToSet
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	GlobalSiteOptions.value.currentChart = chartToSet.options.chartTitle
 	setCurrentChart(chartToSet.options.chartTitle)
 
@@ -64,7 +67,7 @@ function deleteChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button ml-1" @click="openDeleteModal">
+	<button type="button" class="tw-button" @click="openDeleteModal">
 		Delete
 	</button>
 

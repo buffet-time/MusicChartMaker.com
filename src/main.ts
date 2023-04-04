@@ -11,6 +11,5 @@ function addVersionMetaTag() {
 	const meta = document.createElement('meta')
 	meta.name = 'SiteVersion'
 	meta.content = PackageVersion
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementsByTagName('head')[0]!.appendChild(meta)
+	document.getElementsByTagName('head')[0].appendChild(meta)
 }

@@ -6,11 +6,15 @@ export function DragSetData(
 	dragEvent: DragEvent,
 	objectToTransfer: DragDataTransfer
 ) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	dragEvent.dataTransfer!.setData(
-		'text/plain',
-		JSON.stringify(objectToTransfer)
-	)
+	if (!dragEvent.dataTransfer) {
+		return console.error(
+			'error in DragSetData(): ',
+			dragEvent,
+			objectToTransfer
+		)
+	}
+
+	dragEvent.dataTransfer.setData('text/plain', JSON.stringify(objectToTransfer))
 }
 
 export function RearrangeChart(
@@ -69,8 +73,12 @@ export function RearrangeChart(
 		// popping the last one in the array and splicing it to the front of the next array
 		// until we see that we're in the array that it was originally moved from
 		for (let index = targetIndex1; index < originIndex1; index++) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const poppedTile = GlobalChartState.value.chartTiles[index].pop()!
+			const poppedTile = GlobalChartState.value.chartTiles[index].pop()
+
+			if (!poppedTile) {
+				return console.error('Error popping tile: ', GlobalChartState.value)
+			}
+
 			GlobalChartState.value.chartTiles[index + 1].splice(0, 0, poppedTile)
 		}
 		return

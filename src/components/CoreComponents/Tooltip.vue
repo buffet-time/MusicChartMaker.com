@@ -1,7 +1,6 @@
-<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <script setup lang="ts">
 import { createPopper, type Placement, type Instance } from '@popperjs/core'
-import { onMounted, ref } from 'vue'
+import { Ref, onMounted, ref } from 'vue'
 
 const props = defineProps<{
 	tooltipName: string
@@ -10,12 +9,12 @@ const props = defineProps<{
 	placement: Placement
 }>()
 
-const contentSlot = ref<HTMLDivElement>()
-const tooltipSlot = ref<HTMLDivElement>()
+const contentSlot = ref() as Ref<HTMLDivElement>
+const tooltipSlot = ref() as Ref<HTMLDivElement>
 let popperInstance: Instance
 
 onMounted(() => {
-	popperInstance = createPopper(contentSlot.value!, tooltipSlot.value!, {
+	popperInstance = createPopper(contentSlot.value, tooltipSlot.value, {
 		placement: props.placement,
 		modifiers: [
 			{
@@ -61,7 +60,7 @@ function onEnd() {
 	<div
 		:id="tooltipName"
 		ref="tooltipSlot"
-		class="bg-[#505050] rounded-md px-2 py-1 tooltip z-10"
+		class="tooltip z-10 rounded-md bg-[#505050] px-2 py-1"
 		role="tooltip"
 	>
 		<slot name="tooltip"></slot>
