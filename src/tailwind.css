@@ -5,43 +5,40 @@
 @layer components {
 	/* Input */
 	.tw-flex-center {
-		@apply flex justify-center items-center;
+		@apply flex items-center justify-center;
 	}
 	.tw-button {
-		@apply cursor-pointer rounded px-3 py-2 select-none text-neutral-200 bg-neutral-500 border-neutral-500 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
+		@apply cursor-pointer select-none rounded border-neutral-500 bg-neutral-500 px-3 py-2 text-neutral-200 hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
 	.tw-input {
-		@apply inline-block max-w-[16rem] rounded-md w-10/12 text-neutral-900 border-neutral-300 px-3 py-2;
+		@apply inline-block w-11/12 max-w-[16rem] overflow-ellipsis rounded-md border-neutral-300 px-3 py-2 text-neutral-900;
 	}
 	.tw-checkbox {
-		@apply align-top bg-white border border-solid border-black border-opacity-10 rounded-md w-4 h-4;
+		@apply h-4 w-4 rounded-md border border-solid border-black border-opacity-10 bg-white align-top;
 	}
 	.tw-options-div {
-		@apply tw-flex-center gap-2 mt-2;
+		@apply tw-flex-center mt-2 gap-2;
 	}
 	.tw-sidebar-width {
 		@apply w-[230px];
 	}
 	.tw-close-button {
-		@apply p-1 absolute left-6 top-6;
+		@apply absolute left-6 top-6 p-1;
 	}
 	.tw-chart-image-size {
-		@apply w-full min-w-[40px] min-h-[40px] max-w-[200px] max-h-[200px];
+		@apply max-h-[200px] min-h-[40px] w-full min-w-[40px] max-w-[200px];
 	}
 	.tw-album-image-div-wrapper {
-		@apply flex items-center justify-center relative;
+		@apply relative flex items-center justify-center;
 	}
 	.tw-album-image-text-overlay {
-		@apply absolute tw-flex-center p-[2px] pointer-events-none h-full overflow-hidden;
-	}
-	.tw-sidebar-menu-div {
-		@apply flex flex-col gap-3 tw-sidebar-width bg-[#404040] h-full hidden fixed pt-2 z-10 md:flex;
+		@apply tw-flex-center pointer-events-none absolute h-full overflow-hidden p-[2px];
 	}
 	.tw-options-overlay-div {
-		@apply flex flex-col overflow-auto tw-sidebar-width h-full top-0 left-0 fixed bg-[#404040] px-2 pb-2 z-10;
+		@apply tw-sidebar-width fixed left-0 top-0 z-10 flex h-full flex-col overflow-auto bg-[#404040] px-2 pb-2;
 	}
 	.tw-search-results-div {
-		@apply tw-flex-center flex-wrap mt-2 mx-4 gap-1 h-[102px] overflow-y-scroll md:tw-no-scrollbar md:mx-0 md:h-[415px];
+		@apply tw-flex-center md:tw-no-scrollbar mx-4 mt-2 h-[102px] flex-wrap gap-1 overflow-y-scroll md:mx-0 md:h-[415px];
 	}
 }
 

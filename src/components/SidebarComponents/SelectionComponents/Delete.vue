@@ -67,7 +67,7 @@ function deleteChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button ml-1" @click="openDeleteModal">
+	<button type="button" class="tw-button" @click="openDeleteModal">
 		Delete
 	</button>
 

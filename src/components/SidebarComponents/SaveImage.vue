@@ -63,9 +63,7 @@ onMounted(() => {
 
 <template>
 	<div>
-		<button class="tw-button py-1 px-3" @click="openSaveImage()">
-			Save Image
-		</button>
+		<button class="tw-button" @click="openSaveImage()">Save Image</button>
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
@@ -81,7 +79,7 @@ onMounted(() => {
 					</option>
 				</select>
 
-				<button class="tw-button py-1 px-3 mb-1" @click="saveImage">
+				<button class="tw-button mb-1 px-3 py-1" @click="saveImage">
 					Save Image
 				</button>
 			</template>

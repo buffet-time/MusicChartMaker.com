@@ -60,7 +60,7 @@ function onEnd() {
 	<div
 		:id="tooltipName"
 		ref="tooltipSlot"
-		class="bg-[#505050] rounded-md px-2 py-1 tooltip z-10"
+		class="tooltip z-10 rounded-md bg-[#505050] px-2 py-1"
 		role="tooltip"
 	>
 		<slot name="tooltip"></slot>

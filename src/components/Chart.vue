@@ -39,7 +39,7 @@ watch(
 			backgroundColor: GlobalChartState?.options.background,
 			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
 		}"
-		class="tw-flex-center flex-col gap-1 md:justify-start md:items-start md:flex-row md:ml-[231px]"
+		class="tw-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
 	>
 		<ChartImages />
 		<ChartTitles />

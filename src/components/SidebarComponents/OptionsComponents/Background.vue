@@ -35,7 +35,7 @@ function clearBackground() {
 		<input
 			v-model="GlobalChartState!.options.background"
 			type="color"
-			class="bg-transparent cursor-pointer"
+			class="cursor-pointer bg-transparent"
 		/>
 	</div>
 
@@ -52,19 +52,11 @@ function clearBackground() {
 			class="tw-input cursor-pointer"
 			@keyup.enter="onBgImageInput"
 		/>
-		<div class="flex gap-1 mt-1">
-			<button
-				type="button"
-				class="tw-button cursor-pointer"
-				@click="onBgImageInput"
-			>
+		<div class="mt-1 flex gap-1">
+			<button type="button" class="tw-button" @click="onBgImageInput">
 				Set BG
 			</button>
-			<button
-				type="button"
-				class="tw-button cursor-pointer"
-				@click="clearBackground"
-			>
+			<button type="button" class="tw-button" @click="clearBackground">
 				Clear BG
 			</button>
 		</div>

@@ -2,8 +2,9 @@
 
 ## Version Beta-0.9.3
 
-- Dev - a lot of CSS and other cchanges
 - Feat - Adding a lock chart option
+- Dev - a lot of CSS and other changes
+- Dev - fixed `prettier-plugin-tailwind` not actually being used and ran `format-fix` to format
 
 ## Version Beta-0.9.2
 

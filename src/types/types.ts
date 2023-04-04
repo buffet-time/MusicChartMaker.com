@@ -43,6 +43,7 @@ export interface ChartOptions {
 	preset?: boolean
 	fontSize?: number
 	textSpacing?: number
+	lockChart?: boolean
 }
 
 export interface SiteOptions {

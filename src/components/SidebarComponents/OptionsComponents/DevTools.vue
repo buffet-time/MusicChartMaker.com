@@ -27,7 +27,7 @@ function clearLocalStore() {
 					Dev debugging tools. Feel free to use them, but be wary :)
 				</p>
 
-				<div class="gap-2 flex">
+				<div class="flex gap-2">
 					<div class="flex gap-2">
 						<button class="tw-button" @click="clearLocalStore">
 							Clear LocalStorage

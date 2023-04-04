@@ -157,7 +157,7 @@ function chartTitle(
 					:src="`${album.image}`"
 					:alt="'placeholder square'"
 					draggable="false"
-					class="select-none tw-chart-image-size"
+					class="tw-chart-image-size select-none"
 					@dragstart="() => undefined"
 					@dragover.prevent="() => undefined"
 					@drop.prevent="
@@ -175,9 +175,9 @@ function chartTitle(
 					<template #content>
 						<div class="tw-album-image-div-wrapper">
 							<img
-								v-show="album"
+								v-show="album && !GlobalChartState.options.lockChart"
 								src="/blackClose.svg"
-								class="hidden absolute m-1 left-0 top-0 group-hover:bg-white group-hover:block cursor-pointer"
+								class="absolute left-0 top-0 m-1 hidden cursor-pointer group-hover:block group-hover:bg-white"
 								@click="deleteCurrent({ index1, index2 })"
 							/>
 
@@ -186,8 +186,11 @@ function chartTitle(
 								:secondIndex="index2"
 								:src="`${album.image}`"
 								:alt="`${album.artist} - ${album.name}`"
-								class="select-none cursor-grab tw-chart-image-size"
-								draggable="true"
+								class="tw-chart-image-size select-none"
+								:class="{
+									'cursor-grab': !GlobalChartState.options.lockChart
+								}"
+								:draggable="GlobalChartState.options.lockChart ? false : true"
 								@dragstart="
 									(dragEvent) =>
 										onDragStart(dragEvent, { index1: index1, index2: index2 })
@@ -198,7 +201,11 @@ function chartTitle(
 										onDrop(dragEvent, { index1: index1, index2: index2 })
 								"
 								@touchstart.prevent="
-									(touchEvent) =>
+									(touchEvent) => {
+										if (GlobalChartState.options.lockChart) {
+											return
+										}
+
 										onTouchStart(
 											touchEvent,
 											album,
@@ -206,6 +213,7 @@ function chartTitle(
 											{ index1, index2 },
 											openDialog
 										)
+									}
 								"
 							/>
 							<div

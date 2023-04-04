@@ -70,14 +70,14 @@ function getSearchResultsLength() {
 			<div class="tw-flex-center flex-col gap-2">
 				<input
 					v-model="searchInput"
-					class="p-2 tw-input"
+					class="tw-input p-2"
 					type="search"
 					placeholder="Album or Artist"
 					@keyup.enter.prevent="search"
 				/>
-				<div>
+				<div class="flex gap-1">
 					<button
-						class="ml-1 tw-button"
+						class="tw-button"
 						type="button"
 						:disabled="searchInput === ''"
 						@click="search"
@@ -85,7 +85,7 @@ function getSearchResultsLength() {
 						search
 					</button>
 					<button
-						class="ml-1 tw-button"
+						class="tw-button"
 						type="button"
 						:disabled="!showSearchResults"
 						@click="showSearchResults = false"
@@ -140,7 +140,7 @@ function getSearchResultsLength() {
 		</div>
 		<div
 			v-show="showSearchResults && getSearchResultsLength() > 1"
-			class="rectangle-blur hidden before:absolute before:left-0 before:pointer-events-none before:mt-[-2rem] before:h-8 before:w-full content md:block"
+			class="rectangle-blur content hidden before:pointer-events-none before:absolute before:left-0 before:mt-[-2rem] before:h-8 before:w-full md:block"
 		></div>
 	</div>
 </template>

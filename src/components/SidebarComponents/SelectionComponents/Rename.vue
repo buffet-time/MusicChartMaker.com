@@ -64,9 +64,7 @@ function renameChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button ml-1" @click="onRenameChart">
-		Rename
-	</button>
+	<button type="button" class="tw-button" @click="onRenameChart">Rename</button>
 
 	<Dialog :dialog-id="renameDialogId" :close-button="false">
 		<template #content>
