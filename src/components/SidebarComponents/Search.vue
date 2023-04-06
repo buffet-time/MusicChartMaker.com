@@ -65,36 +65,93 @@ function getSearchResultsLength() {
 
 <template>
 	<div class="flex-col gap-4">
-		<div>
-			<label>Search: </label>
-			<div class="tw-flex-center flex-col gap-2">
-				<input
-					v-model="searchInput"
-					class="tw-input p-2"
-					type="search"
-					placeholder="Album or Artist"
-					@keyup.enter.prevent="search"
-				/>
-				<div class="flex gap-1">
-					<button
-						class="tw-button"
-						type="button"
-						:disabled="searchInput === ''"
-						@click="search"
-					>
-						search
-					</button>
-					<button
-						class="tw-button"
-						type="button"
-						:disabled="!showSearchResults"
-						@click="showSearchResults = false"
-					>
-						clear results
-					</button>
+		<!-- This is not KISS tho pulling just the search component out to its
+			own component adds more complexity than its worth, and adding an
+			optional conditional to the tooltip results in jankiness due to how popper works
+
+			to make updates just do it one and copy past the empty div and its contents to the other
+
+			in the future I'll find a more elegant way to do this without making the tooltip messy
+		-->
+		<template v-if="!GlobalSiteOptions.hideTooltip">
+			<Tooltip
+				:tooltip-name="`search-input`"
+				:offset="[0, 4]"
+				:delay="500"
+				:placement="'auto'"
+			>
+				<template #content>
+					<div>
+						<label>Search: </label>
+						<div class="tw-flex-center flex-col gap-2">
+							<input
+								v-model="searchInput"
+								class="tw-input p-2"
+								type="search"
+								placeholder="Search input"
+								@keyup.enter.prevent="search"
+							/>
+							<div class="flex gap-1">
+								<button
+									class="tw-button"
+									type="button"
+									:disabled="searchInput === ''"
+									@click="search"
+								>
+									search
+								</button>
+								<button
+									class="tw-button"
+									type="button"
+									:disabled="!showSearchResults"
+									@click="showSearchResults = false"
+								>
+									clear results
+								</button>
+							</div>
+						</div>
+					</div>
+				</template>
+				<template #tooltip>
+					Uses Last.fm search<br />
+					Also accepts image url
+				</template>
+			</Tooltip>
+		</template>
+
+		<template v-else>
+			<div>
+				<label>Search: </label>
+				<div class="tw-flex-center flex-col gap-2">
+					<input
+						v-model="searchInput"
+						class="tw-input p-2"
+						type="search"
+						placeholder="Search input"
+						@keyup.enter.prevent="search"
+					/>
+					<div class="flex gap-1">
+						<button
+							class="tw-button"
+							type="button"
+							:disabled="searchInput === ''"
+							@click="search"
+						>
+							search
+						</button>
+						<button
+							class="tw-button"
+							type="button"
+							:disabled="!showSearchResults"
+							@click="showSearchResults = false"
+						>
+							clear results
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</template>
+
 		<div
 			v-show="showSearchResults"
 			class="tw-search-results-div"
@@ -120,6 +177,7 @@ function getSearchResultsLength() {
 							class="cursor-grab"
 							:src="`${album.image}`"
 							:alt="`${album.artist} - ${album.name}`"
+							loading="lazy"
 							draggable="true"
 							@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
 							@touchstart.prevent="

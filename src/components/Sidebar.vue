@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 
 import Search from './SidebarComponents/Search.vue'
-import Options from './SidebarComponents/Options.vue'
+import ChartOptions from './SidebarComponents/ChartOptions.vue'
+import SiteOptions from './SidebarComponents/SiteOptions.vue'
 import Selection from './SidebarComponents/Selection.vue'
 import SiteInfo from './SidebarComponents/SiteInfo.vue'
 import SaveImage from './SidebarComponents/SaveImage.vue'
@@ -40,6 +41,7 @@ function hideMenu() {
 		width="25"
 		src="/hamburgerMenu.svg"
 		class="tw-button fixed ml-2 mt-2 p-1 md:hidden"
+		loading="lazy"
 		@click="showMenu()"
 	/>
 
@@ -50,6 +52,7 @@ function hideMenu() {
 		<img
 			src="/blackClose.svg"
 			alt="close-button"
+			loading="lazy"
 			height="25"
 			width="25"
 			class="tw-button fixed ml-2 p-0 md:hidden"
@@ -66,7 +69,9 @@ function hideMenu() {
 
 		<SaveImage />
 
-		<Options v-if="showOptions" />
+		<ChartOptions v-if="showOptions" />
+
+		<SiteOptions v-if="showOptions" />
 
 		<div class="hidden md:block">
 			<Search />

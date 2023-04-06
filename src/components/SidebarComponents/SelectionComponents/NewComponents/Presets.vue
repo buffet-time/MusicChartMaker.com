@@ -73,7 +73,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			class="tw-button tw-close-button"
 			@click="emit('updatePresetAdd', false)"
 		>
-			<img src="/back.svg" width="25" height="25" />
+			<img src="/back.svg" width="25" height="25" loading="lazy" />
 		</button>
 	</template>
 
@@ -106,7 +106,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 		<div class="flex gap-1">
 			<button class="tw-button" @click="newPreset">Create preset</button>
 			<button class="tw-button tw-close-button" @click="closeCreatePreset">
-				<img src="/back.svg" width="25" height="25" />
+				<img src="/back.svg" width="25" height="25" loading="lazy" />
 			</button>
 		</div>
 	</template>
@@ -132,7 +132,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			class="tw-button tw-close-button"
 			@click="emit('updateEditPresets', false)"
 		>
-			<img src="/back.svg" width="25" height="25" />
+			<img src="/back.svg" width="25" height="25" loading="lazy" />
 		</button>
 	</template>
 </template>

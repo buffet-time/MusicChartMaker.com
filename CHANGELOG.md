@@ -1,5 +1,15 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.4
+
+- Feat - Added tooltip and updated placeholder for search input to inform user its searching via Last.fm & accepts image url
+- Feat - split out site specific options and chart options to exist seperately
+- Feat - tooltip on the new placeholder can be disabled, defaults to show to teach user
+- Performance - Updated all images to be lazy loaded (in supporting browsers)
+- Fix - Error orginating from backgroundImage being set to `undefined`
+- Fix - Error setting background if it wasn't already defined
+- Fix - Some search results not being returned incorrectly (api side)
+
 ## Version Beta-0.9.3
 
 - Feat - Adding a lock chart option

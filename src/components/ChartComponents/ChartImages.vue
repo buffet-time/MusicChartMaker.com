@@ -156,6 +156,7 @@ function chartTitle(
 					:secondIndex="index2"
 					:src="`${album.image}`"
 					:alt="'placeholder square'"
+					loading="lazy"
 					draggable="false"
 					class="tw-chart-image-size select-none"
 					@dragstart="() => undefined"
@@ -177,6 +178,7 @@ function chartTitle(
 							<img
 								v-show="album && !GlobalChartState.options.lockChart"
 								src="/blackClose.svg"
+								loading="lazy"
 								class="absolute left-0 top-0 m-1 hidden cursor-pointer group-hover:block group-hover:bg-white"
 								@click="deleteCurrent({ index1, index2 })"
 							/>
@@ -186,6 +188,7 @@ function chartTitle(
 								:secondIndex="index2"
 								:src="`${album.image}`"
 								:alt="`${album.artist} - ${album.name}`"
+								loading="lazy"
 								class="tw-chart-image-size select-none"
 								:class="{
 									'cursor-grab': !GlobalChartState.options.lockChart
