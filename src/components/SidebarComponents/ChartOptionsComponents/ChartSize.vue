@@ -147,15 +147,4 @@ function rowsChanged(difference: number) {
 		max="3"
 		step="0.1"
 	/>
-	<label class="mt-2">
-		# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
-	</label>
-	<input
-		v-model="GlobalSiteOptions!.numberOfSearchResults"
-		class="cursor-pointer"
-		type="range"
-		min="10"
-		max="50"
-		step="1"
-	/>
 </template>

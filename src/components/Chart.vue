@@ -37,7 +37,9 @@ watch(
 		id="Chart"
 		:style="{
 			backgroundColor: GlobalChartState?.options.background,
-			backgroundImage: `url(${GlobalChartState?.options.backgroundImage})`
+			backgroundImage: GlobalChartState?.options.backgroundImage
+				? `url(${GlobalChartState?.options.backgroundImage})`
+				: 'unset'
 		}"
 		class="tw-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
 	>

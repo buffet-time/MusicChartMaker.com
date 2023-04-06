@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.9.3",
+	"version": "0.9.4",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -19,6 +19,7 @@
 		"dev:phone": "vite --host 8086",
 		"build": "pnpm vite-build && pnpm add:cname",
 		"build:preview": "vite preview",
+		"preview": "pnpm build && pnpm build:preview",
 		"checks": "pnpm lint-check && pnpm format-check && pnpm type-check",
 		"lint-check": "eslint \"**/*.{ts,vue}\" && echo lint-check done",
 		"format-check": "prettier --check \"**/**\" && echo format-check done",
@@ -38,8 +39,8 @@
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^1.5.0",
 		"@types/node": "^18.15.11",
-		"@typescript-eslint/eslint-plugin": "^5.57.0",
-		"@typescript-eslint/parser": "^5.57.0",
+		"@typescript-eslint/eslint-plugin": "^5.57.1",
+		"@typescript-eslint/parser": "^5.57.1",
 		"@vitejs/plugin-vue": "^4.1.0",
 		"@vue/eslint-config-typescript": "^11.0.2",
 		"autoprefixer": "^10.4.14",
@@ -50,7 +51,7 @@
 		"husky": "^8.0.3",
 		"postcss": "^8.4.21",
 		"prettier": "^2.8.7",
-		"prettier-plugin-tailwindcss": "^0.2.6",
+		"prettier-plugin-tailwindcss": "^0.2.7",
 		"tailwindcss": "^3.3.1",
 		"typescript": "^5.0.3",
 		"vite": "^4.2.1",

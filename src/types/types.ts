@@ -51,6 +51,7 @@ export interface SiteOptions {
 	currentChart: string
 	fontCache?: string[]
 	presets?: ChartPreset[]
+	hideTooltip?: boolean
 }
 
 export interface ChartState {

@@ -3,6 +3,3 @@ List of bugs, and things to change.
 1) Improve the resizing to not delete albums 
 	a) when shrinking condense in any albums that would be deleted by pushing them further into the chart and removing placeholders
 	b) if after shrinking down there are more albums to take away store them in a temporary array that can then slot them in when sizing back up
-2) add more color to buttons 
-3) improve accesibility score
-4) Fix King Crimson not coming into search

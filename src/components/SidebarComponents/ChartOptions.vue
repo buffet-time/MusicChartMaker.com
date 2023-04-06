@@ -4,16 +4,15 @@ import { GenerateDefaultChart } from '#shared/chart'
 import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
 
 import Dialog from '#core/Dialog.vue'
-import DevTools from './OptionsComponents/DevTools.vue'
-import Background from './OptionsComponents/Background.vue'
-import ChartSize from './OptionsComponents/ChartSize.vue'
-import TextOptions from './OptionsComponents/TextOptions.vue'
-import Font from './OptionsComponents/Font.vue'
+import Background from './ChartOptionsComponents/Background.vue'
+import ChartSize from './ChartOptionsComponents/ChartSize.vue'
+import TextOptions from './ChartOptionsComponents/TextOptions.vue'
+import Font from './ChartOptionsComponents/Font.vue'
 import { GenerateDefaultSiteOptions } from '#shared/misc'
 
 const resetOptionsId = 'resetoptions'
 
-const showOptions = ref(false)
+const showChartOptions = ref(false)
 
 function openResetOptionsModal() {
 	const resetOptionsModal = document.getElementById(
@@ -64,13 +63,13 @@ function resetOptionsToDefault() {
 	<div>
 		<!-- in the sidebar -->
 		<div class="tw-flex-center gap-2">
-			<button type="button" class="tw-button" @click="showOptions = true">
-				Show Options
+			<button type="button" class="tw-button" @click="showChartOptions = true">
+				Chart Options
 			</button>
 		</div>
 
 		<!-- The options overlay -->
-		<div v-if="showOptions" class="tw-options-overlay-div">
+		<div v-if="showChartOptions" class="tw-options-overlay-div">
 			<img
 				title="Close Options"
 				alt="close-button"
@@ -78,7 +77,8 @@ function resetOptionsToDefault() {
 				width="25"
 				height="25"
 				class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
-				@click="showOptions = false"
+				loading="lazy"
+				@click="showChartOptions = false"
 			/>
 			<template v-if="!GlobalChartState.options.lockChart">
 				<ChartSize />
@@ -118,10 +118,6 @@ function resetOptionsToDefault() {
 							</div>
 						</template>
 					</Dialog>
-				</div>
-
-				<div class="pt-2">
-					<DevTools />
 				</div>
 			</template>
 

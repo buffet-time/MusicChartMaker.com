@@ -124,6 +124,6 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		class="tw-button tw-close-button"
 		@click="emit('updateLastfmAdd', false)"
 	>
-		<img src="/back.svg" width="25" height="25" />
+		<img src="/back.svg" width="25" height="25" loading="lazy" />
 	</button>
 </template>

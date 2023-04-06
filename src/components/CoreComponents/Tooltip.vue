@@ -4,7 +4,7 @@ import { Ref, onMounted, ref } from 'vue'
 
 const props = defineProps<{
 	tooltipName: string
-	offset: [number, number]
+	offset: [number, number] // [Y, X]
 	delay: number
 	placement: Placement
 }>()

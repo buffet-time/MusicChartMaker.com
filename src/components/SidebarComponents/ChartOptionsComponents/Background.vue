@@ -12,10 +12,6 @@ const bgImage = ref(
 async function onBgImageInput() {
 	bgImage.value.trim()
 	if (await IsImage(bgImage.value)) {
-		if (!GlobalChartState || !GlobalChartState.value.options.backgroundImage) {
-			return console.error('ERror in onBgImageInput()', GlobalChartState)
-		}
-
 		GlobalChartState.value.options.backgroundImage = bgImage.value
 		return
 	}
