@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.9.4",
+	"version": "0.9.5",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -32,6 +32,7 @@
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
+		"@vueuse/core": "^9.13.0",
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
 		"vue": "^3.2.47"
@@ -44,7 +45,7 @@
 		"@vitejs/plugin-vue": "^4.1.0",
 		"@vue/eslint-config-typescript": "^11.0.2",
 		"autoprefixer": "^10.4.14",
-		"eslint": "^8.37.0",
+		"eslint": "^8.38.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-vue": "^9.10.0",
@@ -53,7 +54,7 @@
 		"prettier": "^2.8.7",
 		"prettier-plugin-tailwindcss": "^0.2.7",
 		"tailwindcss": "^3.3.1",
-		"typescript": "^5.0.3",
+		"typescript": "^5.0.4",
 		"vite": "^4.2.1",
 		"vue-eslint-parser": "^9.1.1",
 		"vue-tsc": "^1.2.0"

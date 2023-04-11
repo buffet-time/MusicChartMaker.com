@@ -32,12 +32,8 @@ onMounted(async () => {
 	}
 
 	// adds listener to close the dialog when you start a click outside
-	// mousedown in case you are click dragging and end up just outside
-	// it then would feel like a bug
 	currentDialog.value.addEventListener('mousedown', (event) => {
 		if (currentDialog.value?.open && event.target === currentDialog.value) {
-			// TODO: maybe look into cleaning up listeners on dialogs
-			// there's only a few so it shouldn't be too big of a cpu or ram hit.
 			closeDialog()
 		}
 	})
@@ -52,7 +48,6 @@ onMounted(async () => {
 		@keypress.esc="closeDialog"
 	>
 		<div class="tw-flex-center flex-col gap-2 bg-neutral-700 p-5 text-white">
-			<!-- Where the override template goes -->
 			<slot name="content"></slot>
 
 			<!-- Footer -->

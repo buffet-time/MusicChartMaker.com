@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watchDebounced } from '@vueuse/core'
+
 import { GlobalChartState } from '#shared/globals'
 import { setStoredChart } from '#shared/storage'
 
@@ -7,8 +8,7 @@ import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
 import Search from './SidebarComponents/Search.vue'
 
-// TODO: look into feasibility of debouncing this as to reduce ops
-watch(
+watchDebounced(
 	GlobalChartState,
 	() => {
 		if (!GlobalChartState) {
@@ -24,7 +24,9 @@ watch(
 		)
 	},
 	{
-		deep: true
+		deep: true,
+		debounce: 500,
+		maxWait: 1000
 	}
 )
 </script>

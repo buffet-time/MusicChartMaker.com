@@ -172,23 +172,21 @@ export function onTouchStart(
 	}
 
 	function onTouchEnd(touchEvent: TouchEvent) {
-		// TODO:
-		// do a swap instead of splice in if the drop target is a placeholder
 		movingCopy.remove()
 		document.removeEventListener('touchmove', onTouchMove)
 		document.removeEventListener('touchend', onTouchEnd)
 
-		const elemBelow = document.elementFromPoint(
+		const elementBelow = document.elementFromPoint(
 			touchEvent.changedTouches[0].clientX,
 			touchEvent.changedTouches[0].clientY
 		) as HTMLImageElement | null
 
-		if (!elemBelow) {
+		if (!elementBelow) {
 			return
 		}
 
-		const firstIndex = elemBelow.getAttribute('firstindex')
-		const secondIndex = elemBelow.getAttribute('secondindex')
+		const firstIndex = elementBelow.getAttribute('firstindex')
+		const secondIndex = elementBelow.getAttribute('secondindex')
 
 		// if the attribute doesn't exist/ isn't a number it'll be NaN
 		if (!firstIndex || !secondIndex) {
@@ -208,8 +206,8 @@ export function onTouchStart(
 				1,
 				album
 			)
-			elemBelow.src = album.image
-			elemBelow.alt = `${album.artist} - ${album.name}`
+			elementBelow.src = album.image
+			elementBelow.alt = `${album.artist} - ${album.name}`
 		} else if (source === 'Chart' && originatingIndices) {
 			const targetIndices = {
 				index1: Number(firstIndex),

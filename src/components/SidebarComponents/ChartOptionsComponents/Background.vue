@@ -37,10 +37,6 @@ function clearBackground() {
 
 	<div class="tw-options-div flex-col gap-1">
 		<label>Background Image:</label>
-		<!-- 
-				TODO: better form validation with regex
-				and red border for incorrect input etc
-			-->
 		<input
 			v-model="bgImage"
 			placeholder="BG Image URL"

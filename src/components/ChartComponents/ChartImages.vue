@@ -58,7 +58,7 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 
 	if (albumDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
-		RearrangeChart(
+		return RearrangeChart(
 			{ index1, index2 },
 			albumDraggedIn.originatingIndices,
 			GlobalChartState.value.chartTiles[index1][index2].image ===
@@ -66,7 +66,6 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 				? true
 				: false
 		)
-		return
 	}
 
 	// from search replace current dropped
@@ -162,7 +161,10 @@ function chartTitle(
 					@dragstart="() => undefined"
 					@dragover.prevent="() => undefined"
 					@drop.prevent="
-						(dragEvent) => onDrop(dragEvent, { index1: index1, index2: index2 })
+						(dragEvent) => {
+							if (GlobalChartState.options.lockChart) return
+							onDrop(dragEvent, { index1: index1, index2: index2 })
+						}
 					"
 				/>
 
@@ -198,17 +200,21 @@ function chartTitle(
 									(dragEvent) =>
 										onDragStart(dragEvent, { index1: index1, index2: index2 })
 								"
-								@dragover.prevent="onDragOver"
+								@dragover.prevent="
+									() => {
+										if (GlobalChartState.options.lockChart) return
+										onDragOver
+									}
+								"
 								@drop.prevent="
-									(dragEvent) =>
+									(dragEvent) => {
+										if (GlobalChartState.options.lockChart) return
 										onDrop(dragEvent, { index1: index1, index2: index2 })
+									}
 								"
 								@touchstart.prevent="
 									(touchEvent) => {
-										if (GlobalChartState.options.lockChart) {
-											return
-										}
-
+										if (GlobalChartState.options.lockChart) return
 										onTouchStart(
 											touchEvent,
 											album,

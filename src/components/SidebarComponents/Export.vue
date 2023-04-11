@@ -59,7 +59,6 @@ function ImportChartsAndOptions(importFile: File | null) {
 					setCurrentChart(options.currentChart)
 					const data: ChartState[] = parsed.chartData
 					data.forEach((state) => {
-						// TODO: re read this
 						!!state && setStoredChart(state.options.chartTitle, state)
 					})
 					const chart = getStoredChart(options.currentChart) || getFirstChart()

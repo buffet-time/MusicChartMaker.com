@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
+import { watchDebounced } from '@vueuse/core'
+
 import { GlobalSiteOptions } from '#shared/globals'
 import { SaveSiteOptions } from '#shared/storage'
 
@@ -8,8 +10,7 @@ import Sidebar from '#components/Sidebar.vue'
 
 const renderChart = ref(false)
 
-// TODO: look into feasibility of debouncing this as to reduce ops
-watch(
+watchDebounced(
 	GlobalSiteOptions,
 	() => {
 		if (!GlobalSiteOptions.value) {
@@ -22,7 +23,9 @@ watch(
 		SaveSiteOptions()
 	},
 	{
-		deep: true
+		deep: true,
+		debounce: 500,
+		maxWait: 1000
 	}
 )
 </script>

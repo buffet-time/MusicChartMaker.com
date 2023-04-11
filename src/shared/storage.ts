@@ -29,7 +29,6 @@ export function getCurrentChart(): string | null {
 }
 
 export function setCurrentChart(chartTitle: string): void {
-	// TODO: handle errors
 	localStorage.setItem(
 		SiteOptionsKey,
 		JSON.stringify({
@@ -48,16 +47,18 @@ export function getStoredChart(key: string): ChartState | undefined {
 }
 
 export function setStoredChart(key: string, value: ChartState): void {
-	// TODO - Need more Error handling
 	if (!value || value.chartTiles == null) {
-		console.error(
+		return console.error(
 			'Error: attempted to store a chart of undefined or null value'
 		)
-	} else if (key === SiteOptionsKey) {
-		console.error("Can't use GlobalSiteOptions as the name for your chart.")
-	} else {
-		localStorage.setItem(key, JSON.stringify(value))
 	}
+	if (key === SiteOptionsKey) {
+		return console.error(
+			"Can't use GlobalSiteOptions as the name for your chart."
+		)
+	}
+
+	localStorage.setItem(key, JSON.stringify(value))
 }
 
 export function deleteStoredChart(key: string): void {

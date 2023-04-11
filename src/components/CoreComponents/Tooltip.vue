@@ -12,6 +12,7 @@ const props = defineProps<{
 const contentSlot = ref() as Ref<HTMLDivElement>
 const tooltipSlot = ref() as Ref<HTMLDivElement>
 let popperInstance: Instance
+let timer: ReturnType<typeof setTimeout>
 
 onMounted(() => {
 	popperInstance = createPopper(contentSlot.value, tooltipSlot.value, {
@@ -26,8 +27,6 @@ onMounted(() => {
 		]
 	})
 })
-
-let timer: ReturnType<typeof setTimeout>
 
 function onStart() {
 	timer = setTimeout(openTooltip, props.delay)
