@@ -1,5 +1,9 @@
 # Changelog for musicchartmaker.com
 
+## Version Beta-0.9.5
+
+- Performance - Added debouncing to watchers updating globalSiteOptions and chart
+
 ## Version Beta-0.9.4
 
 - Feat - Added tooltip and updated placeholder for search input to inform user its searching via Last.fm & accepts image url

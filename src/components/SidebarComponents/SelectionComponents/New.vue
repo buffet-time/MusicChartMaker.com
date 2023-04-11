@@ -109,7 +109,6 @@ onMounted(() => {
 <template>
 	<button type="button" class="tw-button" @click="onNewChart">New</button>
 
-	<!-- TODO: Move rename functionality to be inside the dialog too. -->
 	<Dialog :dialog-id="newDialogId" :close-button="true">
 		<template #content>
 			<p>New chart named:</p>
