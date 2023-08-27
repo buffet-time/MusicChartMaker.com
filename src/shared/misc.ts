@@ -1,4 +1,4 @@
-import type { SiteOptions } from '#types'
+import type { JSONReturnType, SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { top42, top100 } from '#shared/chart'
 
@@ -54,19 +54,21 @@ export function getAlbumNumber(indexOne: number, indexTwo: number): number {
 export async function ProperFetch(
 	input: RequestInfo | URL,
 	init?: RequestInit | undefined
-): Promise<any | null> {
+): Promise<JSONReturnType> {
 	try {
 		const response = await fetch(input, init)
 
 		if (response.ok) {
-			return await response.json()
+			return (await response.json()) as Promise<JSONReturnType>
 		}
 
 		console.error(
+			// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
 			`Fetch from ${input} responded with an error: ${await response.json()}`
 		)
 		return null
-	} catch (error) {
+	} catch (error: any) {
+		// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
 		console.error(`Error in fetch from ${input}: ${error}`)
 		return null
 	}

@@ -50,7 +50,7 @@ async function saveImage() {
 		anchor.href = canvas.toDataURL(`image/${selectedFormat.value}`)
 		anchor.download = `${GlobalChartState.value.options.chartTitle}.${selectedFormat.value}`
 		anchor.click()
-	} catch (error) {
+	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
 	}
 }

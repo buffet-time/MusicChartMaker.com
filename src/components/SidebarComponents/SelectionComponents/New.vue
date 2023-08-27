@@ -32,19 +32,20 @@ interface NewChartParams {
 	preset?: ChartPreset
 }
 
-const props = defineProps<{
+// eslint-disable-next-line vue/no-dupe-keys
+const { selectedChartTitle, selectedChart } = defineProps<{
 	selectedChartTitle: string
 	selectedChart: ChartState
 }>()
 
 const emit = defineEmits<{
-	(event: 'updateSelectedChartTitle', value: string): void
+	updateSelectedChartTitle: [value: string]
 }>()
 
 const newDialogId = 'newDialog'
 
 const presetAdd = ref(false)
-const chartNameInput = ref(props.selectedChartTitle)
+const chartNameInput = ref(selectedChartTitle)
 const chartInput = ref<HTMLInputElement>()
 const createPreset = ref(false)
 const editPresets = ref(false)
@@ -54,7 +55,7 @@ function onNewChart() {
 	presetAdd.value = false
 	createPreset.value = false
 	lastfmAdd.value = false
-	chartNameInput.value = PreventNameCollision(props.selectedChartTitle)
+	chartNameInput.value = PreventNameCollision(selectedChartTitle)
 	const newDialog = document.getElementById(newDialogId) as HTMLDialogElement
 	newDialog.showModal()
 }
@@ -93,8 +94,8 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 }
 
 function saveCurrentChart() {
-	if (props.selectedChartTitle && props.selectedChart) {
-		return setStoredChart(props.selectedChartTitle, props.selectedChart!)
+	if (selectedChartTitle && selectedChart) {
+		return setStoredChart(selectedChartTitle, selectedChart)
 	}
 	throw new Error('Error: Cannot save current Chart!')
 }

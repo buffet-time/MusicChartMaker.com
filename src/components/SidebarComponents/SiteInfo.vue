@@ -20,7 +20,7 @@ function showModal() {
 		<Dialog :dialog-id="dialogId" :close-button="true">
 			<template #content>
 				<!-- Header -->
-				<p class="text-neutral-200">Site Beta-{{ version }}</p>
+				<p class="text-neutral-200">Site Version: {{ version }}</p>
 
 				<p>This site will NEVER have Ads or any form of tracking</p>
 				<p>

@@ -10,7 +10,7 @@ import SaveImage from './SidebarComponents/SaveImage.vue'
 import Export from './SidebarComponents/Export.vue'
 
 const emit = defineEmits<{
-	(event: 'canRenderChart'): void
+	canRenderChart: []
 }>()
 
 const showOptions = ref(false)

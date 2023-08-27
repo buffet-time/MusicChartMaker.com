@@ -12,13 +12,14 @@ import { PreventNameCollision } from '#shared/chart'
 
 import Dialog from '#core/Dialog.vue'
 
-const props = defineProps<{
+// eslint-disable-next-line vue/no-dupe-keys
+const { selectedChart, selectedChartTitle } = defineProps<{
 	selectedChart: ChartState
 	selectedChartTitle: string
 }>()
 
 const emits = defineEmits<{
-	(event: 'updateChartTitle', value: string): void
+	updateChartTitle: [value: string]
 }>()
 
 const renameDialogId = 'renameDialog'
@@ -26,7 +27,7 @@ const chartInput = ref('')
 const renameChartInput = ref<HTMLInputElement>()
 
 function onRenameChart() {
-	chartInput.value = props.selectedChartTitle
+	chartInput.value = selectedChartTitle
 	const renameDialog = document.getElementById(
 		renameDialogId
 	) as HTMLDialogElement
@@ -43,18 +44,16 @@ function closeRenameModal() {
 function renameChart() {
 	const chartNameToSave = PreventNameCollision(chartInput.value)
 
-	if (!props.selectedChart) {
-		return console.error('Selected Chart is not defined', props.selectedChart)
+	if (!selectedChart) {
+		return console.error('Selected Chart is not defined', selectedChart)
 	}
 
-	setStoredChart(chartNameToSave, props.selectedChart)
-	deleteStoredChart(props.selectedChartTitle)
+	setStoredChart(chartNameToSave, selectedChart)
+	deleteStoredChart(selectedChartTitle)
 	setCurrentChart(chartNameToSave)
 
 	StoredChartNames.value[
-		StoredChartNames.value.findIndex(
-			(name) => name === props.selectedChartTitle
-		)
+		StoredChartNames.value.findIndex((name) => name === selectedChartTitle)
 	] = chartNameToSave
 
 	emits('updateChartTitle', chartNameToSave)

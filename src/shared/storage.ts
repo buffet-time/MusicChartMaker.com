@@ -47,7 +47,7 @@ export function getStoredChart(key: string): ChartState | undefined {
 }
 
 export function setStoredChart(key: string, value: ChartState): void {
-	if (!value || value.chartTiles == null) {
+	if (value?.chartTiles == null) {
 		return console.error(
 			'Error: attempted to store a chart of undefined or null value'
 		)

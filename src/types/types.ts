@@ -1,3 +1,5 @@
+import type { TopAlbumsResult } from '#lastfm/types'
+
 export interface DragDataTransfer {
 	albumObject: AlbumSearchResult
 	dragSource: 'Search' | 'Chart'
@@ -68,3 +70,14 @@ export type LastfmPeriod =
 	| '12month'
 
 export type ChartType = 'Dynamic' | 'Preset'
+
+export type JSONReturnType =
+	| string
+	| number
+	| boolean
+	| { [x: string]: JSONReturnType }
+	| JSONReturnType[]
+	| null
+	| AlbumSearchResult[]
+	| AlbumTile[]
+	| TopAlbumsResult[]

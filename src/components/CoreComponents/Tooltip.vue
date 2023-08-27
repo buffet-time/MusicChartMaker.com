@@ -2,7 +2,11 @@
 import { createPopper, type Placement, type Instance } from '@popperjs/core'
 import { Ref, onMounted, ref } from 'vue'
 
-const props = defineProps<{
+// TODO: add conditional to create this with native HTML popover
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover
+
+// eslint-disable-next-line vue/no-dupe-keys
+const { tooltipName, offset, delay, placement } = defineProps<{
 	tooltipName: string
 	offset: [number, number] // [Y, X]
 	delay: number
@@ -16,12 +20,12 @@ let timer: ReturnType<typeof setTimeout>
 
 onMounted(() => {
 	popperInstance = createPopper(contentSlot.value, tooltipSlot.value, {
-		placement: props.placement,
+		placement: placement,
 		modifiers: [
 			{
 				name: 'offset',
 				options: {
-					offset: props.offset
+					offset: offset
 				}
 			}
 		]
@@ -29,12 +33,12 @@ onMounted(() => {
 })
 
 function onStart() {
-	timer = setTimeout(openTooltip, props.delay)
+	timer = setTimeout(openTooltip, delay)
 }
 
 function openTooltip() {
 	tooltipSlot.value?.setAttribute('data-show', '')
-	popperInstance.update()
+	void popperInstance.update()
 }
 
 function onEnd() {

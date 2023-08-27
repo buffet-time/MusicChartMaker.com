@@ -50,18 +50,21 @@ function ImportChartsAndOptions(importFile: File | null) {
 			// console.log(fileEvent)
 			// Add logic here to check filename and see if it is a JSON file.
 			try {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				const parsed = JSON.parse(String(fileEvent.target?.result))
 				// Add a typecheck here, assert if it has the siteData and chartData properties
 				if (parsed) {
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const options: SiteOptions = parsed.siteData
 
 					GlobalSiteOptions.value = options
 					setCurrentChart(options.currentChart)
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const data: ChartState[] = parsed.chartData
 					data.forEach((state) => {
 						!!state && setStoredChart(state.options.chartTitle, state)
 					})
-					const chart = getStoredChart(options.currentChart) || getFirstChart()
+					const chart = getStoredChart(options.currentChart) ?? getFirstChart()
 					if (chart) {
 						GlobalChartState.value = chart
 					}
