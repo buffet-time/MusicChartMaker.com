@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "0.9.5",
+	"version": "1.0.0",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -31,32 +31,32 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"@popperjs/core": "^2.11.7",
-		"@vueuse/core": "^9.13.0",
+		"@popperjs/core": "^2.11.8",
+		"@vueuse/core": "^10.4.0",
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
-		"vue": "^3.2.47"
+		"vue": "^3.3.4"
 	},
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^1.5.0",
-		"@types/node": "^18.15.11",
-		"@typescript-eslint/eslint-plugin": "^5.57.1",
-		"@typescript-eslint/parser": "^5.57.1",
-		"@vitejs/plugin-vue": "^4.1.0",
-		"@vue/eslint-config-typescript": "^11.0.2",
-		"autoprefixer": "^10.4.14",
-		"eslint": "^8.38.0",
-		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-vue": "^9.10.0",
+		"@types/node": "^20.5.6",
+		"@typescript-eslint/eslint-plugin": "^6.4.1",
+		"@typescript-eslint/parser": "^6.4.1",
+		"@vitejs/plugin-vue": "^4.3.3",
+		"@vue/eslint-config-typescript": "^11.0.3",
+		"autoprefixer": "^10.4.15",
+		"eslint": "^8.48.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-vue": "^9.17.0",
 		"husky": "^8.0.3",
-		"postcss": "^8.4.21",
-		"prettier": "^2.8.7",
-		"prettier-plugin-tailwindcss": "^0.2.7",
-		"tailwindcss": "^3.3.1",
-		"typescript": "^5.0.4",
-		"vite": "^4.2.1",
-		"vue-eslint-parser": "^9.1.1",
-		"vue-tsc": "^1.2.0"
+		"postcss": "^8.4.28",
+		"prettier": "^3.0.2",
+		"prettier-plugin-tailwindcss": "^0.5.3",
+		"tailwindcss": "^3.3.3",
+		"typescript": "^5.2.2",
+		"vite": "^4.4.9",
+		"vue-eslint-parser": "^9.3.1",
+		"vue-tsc": "^1.8.8"
 	}
 }

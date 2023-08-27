@@ -2,7 +2,7 @@
 import { type Ref, ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
 import type { AlbumTile, ChartPreset, ChartType, LastfmPeriod } from '#types'
-import { ProperFetch } from '#shared/misc'
+import { getTopAlbums } from '#lastfm/main'
 
 interface CreateChartParams {
 	type: ChartType
@@ -20,16 +20,15 @@ const periodOptions: LastfmPeriod[] = [
 ]
 
 const emit = defineEmits<{
-	(event: 'updateLastfmAdd', value: boolean): void
-	(
-		event: 'newChart',
+	updateLastfmAdd: [value: boolean]
+	newChart: [
 		val: {
 			type: ChartType
 			lastfm: boolean
 			chartValues: AlbumTile[][]
 			preset?: ChartPreset
 		}
-	): void
+	]
 }>()
 
 const selectedPeriod: Ref<LastfmPeriod> = ref('7day')
@@ -39,15 +38,18 @@ const rows = ref(3)
 const columns = ref(3)
 
 async function createChart({ type, lastfm, preset }: CreateChartParams) {
-	const response: AlbumTile[] = await ProperFetch(
-		`https://api.musicchartmaker.com/TopAlbums?user=${username.value}&period=${
-			selectedPeriod.value
-		}&limit=${
-			preset
-				? preset.rowSizes.reduce((previous, current) => previous + current, 0)
-				: rows.value * columns.value
-		}`
+	const response = await getTopAlbums(
+		selectedPeriod.value,
+		preset
+			? preset.rowSizes.reduce((previous, current) => previous + current, 0)
+			: rows.value * columns.value,
+		username.value
 	)
+
+	if (!response) {
+		console.error('Rut ro, error getting top albums :/')
+		return
+	}
 
 	let returnArray: AlbumTile[][] = []
 

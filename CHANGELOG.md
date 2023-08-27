@@ -1,5 +1,14 @@
 # Changelog for musicchartmaker.com
 
+## Version 1.0.0
+
+- NO LONGER BETA
+- Performance/ Stability
+  - Many package updates
+  - Many refactors
+  - Last.fm no longer hits my server but runs in browser reducing latency
+  - mauch more.
+
 ## Version Beta-0.9.5
 
 - Performance - Added debouncing to watchers updating globalSiteOptions and chart

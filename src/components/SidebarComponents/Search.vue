@@ -4,9 +4,9 @@ import type { AlbumSearchResult } from '#types'
 import { GlobalSiteOptions } from '#shared/globals'
 import { DragSetData, onTouchStart } from '#shared/drag'
 import { IsImage, GrayBoxImgFromApi } from '#shared/misc'
-import { ProperFetch } from '#shared/misc'
 
 import Tooltip from '#core/Tooltip.vue'
+import { searchAlbum } from '#lastfm/main'
 
 const searchInput = ref('')
 const searchResults = ref<AlbumSearchResult[]>()
@@ -34,8 +34,9 @@ async function search() {
 		return
 	}
 
-	searchResults.value = await ProperFetch(
-		`https://api.musicchartmaker.com/Search?album=${searchInput.value}&limit=${GlobalSiteOptions.value.numberOfSearchResults}`
+	searchResults.value = await searchAlbum(
+		GlobalSiteOptions.value.numberOfSearchResults,
+		searchInput.value
 	)
 
 	if (!showSearchResults.value) {

@@ -14,12 +14,13 @@ import {
 
 import Dialog from '#core/Dialog.vue'
 
-const props = defineProps<{
+// eslint-disable-next-line vue/no-dupe-keys
+const { selectedChartTitle } = defineProps<{
 	selectedChartTitle: string
 }>()
 
 const emit = defineEmits<{
-	(event: 'deleteChart', value: ChartState): void
+	deleteChart: [value: ChartState]
 }>()
 
 const deleteDialogId = 'deleteDialog'
@@ -39,11 +40,9 @@ function closeDeleteModal() {
 }
 
 function deleteChart() {
-	deleteStoredChart(props.selectedChartTitle)
+	deleteStoredChart(selectedChartTitle)
 	StoredChartNames.value.splice(
-		StoredChartNames.value.findIndex(
-			(chart) => chart === props.selectedChartTitle
-		),
+		StoredChartNames.value.findIndex((chart) => chart === selectedChartTitle),
 		1
 	)
 	const firstChartReturn = getFirstChart()

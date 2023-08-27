@@ -1,7 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, onMounted, watch } from 'vue'
-import type { ChartState } from '#types'
 import { GenerateDefaultChart } from '#shared/chart'
 import {
 	GlobalChartState,
@@ -21,7 +20,7 @@ import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
 
 const emit = defineEmits<{
-	(event: 'canRenderChart'): void
+	canRenderChart: []
 }>()
 
 const selectedChartTitle = ref('')
@@ -30,7 +29,7 @@ const initializing = ref(true)
 // While this works, it may be better to just globalize selectedChartTitle performance wise. May be too many cases of feedback looping watches.
 watch(
 	() => GlobalSiteOptions.value.currentChart,
-	async (newTitle: string, oldTitle: string) => {
+	(newTitle: string, oldTitle: string) => {
 		if (newTitle === oldTitle) {
 			return
 		}
@@ -48,9 +47,7 @@ function onSelect() {
 		)
 	}
 
-	const loadedChart = getStoredChart(
-		String(selectedChartTitle.value)
-	) as ChartState
+	const loadedChart = getStoredChart(String(selectedChartTitle.value))!
 	if (!loadedChart) {
 		return console.error(
 			`Failed to load Selected Chart ${selectedChartTitle.value}.`
@@ -109,10 +106,10 @@ onMounted(() => {
 				:selected-chart="GlobalChartState!"
 				:selected-chart-title="selectedChartTitle"
 				@update-chart-title="
-					(value) => { 
+					(value) => {
 						GlobalChartState!.options.chartTitle = value
-						selectedChartTitle = value 
-					} 
+						selectedChartTitle = value
+					}
 				"
 			/>
 

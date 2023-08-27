@@ -48,6 +48,7 @@ onMounted(async () => {
 		@keypress.esc="closeDialog"
 	>
 		<div class="tw-flex-center flex-col gap-2 bg-neutral-700 p-5 text-white">
+			<!-- TODO: https://blog.vuejs.org/posts/vue-3-3#typed-slots-with-defineslots -->
 			<slot name="content"></slot>
 
 			<!-- Footer -->

@@ -10,10 +10,10 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-	(event: 'updateCreatePreset', value: boolean): void
-	(event: 'updateEditPresets', value: boolean): void
-	(event: 'updatePresetAdd', value: boolean): void
-	(event: 'newChart', val: { type: ChartType; preset: ChartPreset }): void
+	updateCreatePreset: [value: boolean]
+	updateEditPresets: [value: boolean]
+	updatePresetAdd: [value: boolean]
+	newChart: [val: { type: ChartType; preset: ChartPreset }]
 }>()
 
 const newPresetName = ref<string>()

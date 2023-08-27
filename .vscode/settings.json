@@ -21,6 +21,4 @@
 	"files.associations": {
 		"*.css": "tailwindcss"
 	},
-  "volar.inlayHints.eventArgumentInInlineHandlers": false,
-  "volar.inlayHints.missingRequiredProps": false
 }
