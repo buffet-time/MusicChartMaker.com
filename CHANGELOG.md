@@ -3,8 +3,11 @@
 ## Version 1.0.0
 
 - NO LONGER BETA
-- Feat - Enhanced resizing of charts to not just remove albums
-  - As in, when you shrink and regrow it should be the same as close as possible to original as possible (before site is refreshed)
+- Performance/ Stability
+  - Many package updates
+  - Many refactors
+  - Last.fm no longer hits my server but runs in browser reducing latency
+  - mauch more.
 
 ## Version Beta-0.9.5
 
