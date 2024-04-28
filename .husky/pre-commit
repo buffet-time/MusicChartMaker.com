@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Run Lint, Format, and Type checks on all files to help reduce bad commits
 pnpm checks
 # add any changed files from the build

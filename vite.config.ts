@@ -7,13 +7,12 @@ export default defineConfig({
 	build: {
 		chunkSizeWarningLimit: 100,
 		rollupOptions: {
-			maxParallelFileOps: 512,
-			output: {
-				compact: true,
-				generatedCode: 'es2015'
-			}
+			maxParallelFileOps: 512
 		},
-		sourcemap: true
+		sourcemap: true,
+		terserOptions: {
+			ecma: 2020
+		}
 	},
 
 	plugins: [

@@ -112,7 +112,7 @@ export function GenerateChartWithValues(
 						default: false,
 						presetName: 'Dynamic',
 						rowSizes: chartValues.map((chart) => chart.length)
-				  },
+					},
 			chartTitle: title ? title : defaultChartName,
 			preset: preset ? true : undefined
 		},
