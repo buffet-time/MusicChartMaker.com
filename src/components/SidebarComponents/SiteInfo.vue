@@ -22,11 +22,8 @@ function showModal() {
 				<!-- Header -->
 				<p class="text-neutral-200">Site Version: {{ version }}</p>
 
+				<p>This site is fully open source, see the github link</p>
 				<p>This site will NEVER have Ads or any form of tracking</p>
-				<p>
-					Discord is the preferred platform for discussion and bug reports of
-					the site.
-				</p>
 				<p>
 					This site uses a lot of newer web features, please use the latest
 					version of your browser!
@@ -49,25 +46,6 @@ function showModal() {
 					>
 						<img src="/github.png" alt="Github Logo" loading="lazy" />
 					</a>
-
-					<a
-						class="tw-button py-1"
-						href="https://www.paypal.com/paypalme/BuffetTime"
-						target="_blank"
-					>
-						<img src="/paypal.png" alt="Paypal Logo" loading="lazy" />
-					</a>
-				</div>
-
-				<!-- Text info -->
-				<div class="pb-2">
-					<h2 class="font-bold">Planned Features/ Enhancements</h2>
-					<ol class="list-inside list-disc pt-1">
-						<li>
-							RYM functionality (dependent on if their API is free/ works)
-						</li>
-						<li>Embedding chartdata into exported images</li>
-					</ol>
 				</div>
 			</template>
 		</Dialog>

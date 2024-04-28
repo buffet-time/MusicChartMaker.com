@@ -27,6 +27,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 			:class="{ 'mb-1': index !== GlobalChartState.chartTiles.length - 1 }"
 		>
 			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
+				<!-- my-[-2px -->
 				<p
 					v-if="album.image !== GrayBoxImgForPlaceholder"
 					class="pointer-events-none"
@@ -46,7 +47,9 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 					</template>
 					<span
 						role="textbox"
-						contenteditable
+						:contenteditable="
+							GlobalChartState.options.lockChart ? undefined : 'plaintext-only'
+						"
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"
@@ -57,7 +60,9 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 					-
 					<span
 						role="textbox"
-						contenteditable
+						:contenteditable="
+							GlobalChartState.options.lockChart ? undefined : 'plaintext-only'
+						"
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"

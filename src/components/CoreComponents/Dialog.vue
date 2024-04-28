@@ -47,12 +47,12 @@ onMounted(async () => {
 		class="bg-transparent"
 		@keypress.esc="closeDialog"
 	>
-		<div class="tw-flex-center flex-col gap-2 bg-neutral-700 p-5 text-white">
+		<div class="tw-flex-center flex-col gap-2 bg-neutral-700 p-8 text-white">
 			<!-- TODO: https://blog.vuejs.org/posts/vue-3-3#typed-slots-with-defineslots -->
 			<slot name="content"></slot>
 
 			<!-- Footer -->
-			<button v-if="closeButton" class="tw-button mt-1" @click="closeDialog">
+			<button v-if="closeButton" class="tw-button mt-4" @click="closeDialog">
 				Close
 			</button>
 		</div>
