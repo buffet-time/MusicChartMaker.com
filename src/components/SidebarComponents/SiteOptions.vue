@@ -20,12 +20,26 @@ function clearLocalStore() {
 }
 </script>
 
+<!-- TODO: add site level styling options for users -->
 <template>
 	<div>
 		<!-- in the sidebar -->
 		<div class="tw-flex-center gap-2">
-			<button type="button" class="tw-button" @click="showChartOptions = true">
-				Site Options
+			<button
+				type="button"
+				class="tw-button flex items-center gap-2"
+				@click="showChartOptions = true"
+			>
+				<img
+					title="Open in window icon"
+					alt="open in window icon"
+					src="/openInWindow.svg"
+					width="25"
+					height="25"
+					class="cursor-pointer bg-neutral-500"
+					loading="lazy"
+				/>
+				<label class="cursor-pointer pb-[2px]"> Site Options </label>
 			</button>
 		</div>
 

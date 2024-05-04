@@ -12,9 +12,22 @@ function showModal() {
 </script>
 
 <template>
-	<div>
-		<button type="button" class="tw-button" @click="showModal()">
-			Site Info
+	<div class="tw-flex-center gap-2">
+		<button
+			type="button"
+			class="tw-button flex items-center gap-2"
+			@click="showModal()"
+		>
+			<img
+				title="open in browser"
+				alt="open in browser"
+				src="/openInBrowser.svg"
+				width="25"
+				height="25"
+				class="cursor-pointer bg-neutral-500"
+				loading="lazy"
+			/>
+			<label class="cursor-pointer pb-[2px]"> Site Info </label>
 		</button>
 
 		<Dialog :dialog-id="dialogId" :close-button="true">

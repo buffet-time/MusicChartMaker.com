@@ -62,8 +62,19 @@ onMounted(() => {
 </script>
 
 <template>
-	<div>
-		<button class="tw-button" @click="openSaveImage()">Save Image</button>
+	<div class="tw-flex-center gap-2">
+		<button class="tw-button flex items-center gap-2" @click="openSaveImage()">
+			<img
+				title="Download icon"
+				alt="Download icon"
+				src="/download.svg"
+				width="25"
+				height="25"
+				class="cursor-pointer bg-neutral-500"
+				loading="lazy"
+			/>
+			<label class="cursor-pointer pb-[2px]"> Save Image </label>
+		</button>
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
