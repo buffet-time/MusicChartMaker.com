@@ -15,7 +15,7 @@ function showModal() {
 	<div class="tw-flex-center gap-2">
 		<button
 			type="button"
-			class="tw-button flex items-center gap-2"
+			class="tw-button flex w-7/12 items-center gap-2"
 			@click="showModal()"
 		>
 			<img

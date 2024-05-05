@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -36,14 +36,14 @@
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
 		"pako": "^2.1.0",
-		"vue": "^3.4.25"
+		"vue": "^3.4.26"
 	},
 	"devDependencies": {
 		"@nabla/vite-plugin-eslint": "^2.0.4",
-		"@types/node": "^20.12.7",
+		"@types/node": "^20.12.8",
 		"@types/pako": "^2.0.3",
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
+		"@typescript-eslint/eslint-plugin": "^7.8.0",
+		"@typescript-eslint/parser": "^7.8.0",
 		"@vitejs/plugin-vue": "^5.0.4",
 		"@vue/eslint-config-typescript": "^13.0.0",
 		"autoprefixer": "^10.4.19",
@@ -57,8 +57,8 @@
 		"prettier-plugin-tailwindcss": "^0.5.14",
 		"tailwindcss": "^3.4.3",
 		"typescript": "^5.4.5",
-		"vite": "^5.2.10",
+		"vite": "^5.2.11",
 		"vue-eslint-parser": "^9.4.2",
-		"vue-tsc": "^2.0.14"
+		"vue-tsc": "^2.0.16"
 	}
 }

@@ -48,16 +48,6 @@ type Topsters2ChartArray = {
 	playcount: string
 }[]
 
-export interface FinalReturnedTopsters2Json {
-	background: string
-	// custom: string
-	// numbered: BooleanButStrings
-	// options: string
-	// size: string
-	// titled: BooleanButStrings
-	cards: Topsters2ChartArray
-}
-
 // Lots of explanation required
 // The nazi who made Topsters 2 decided to heavily obfuscate the exported files
 // Steps taken here
@@ -126,13 +116,6 @@ export function importFromTopsters2(event: Event) {
 
 			decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
 
-			console.log(10, decodedTopsters2)
-
-			// const returnObject = {
-			// 	background: decodedTopsters2.background,
-			// 	cards: decodedTopsters2CardsArray
-			// } as FinalReturnedTopsters2Json
-
 			const newAlbumTileArray: AlbumTile[][] = []
 			let usedRowSizes: number[] = []
 
@@ -159,10 +142,9 @@ export function importFromTopsters2(event: Event) {
 				}
 
 				default:
+					// TODO: auto determine other sizes
 					break
 			}
-
-			console.log(10, newAlbumTileArray)
 
 			const pulledNameFromJson = topsters2Keys
 				.filter((value) => value.includes('titled'))
@@ -190,8 +172,6 @@ export function importFromTopsters2(event: Event) {
 			setCurrentChart(newChartNameToSave)
 			setStoredChart(newChartNameToSave, newChart)
 			GlobalChartState.value = newChart
-
-			console.log(newChart, newChartNameToSave)
 		}
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		fileReader.readAsText(topsters2ExportFile)

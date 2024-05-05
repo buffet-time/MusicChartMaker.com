@@ -27,7 +27,7 @@ function clearLocalStore() {
 		<div class="tw-flex-center gap-2">
 			<button
 				type="button"
-				class="tw-button flex items-center gap-2"
+				class="tw-button flex w-10/12 items-center gap-2"
 				@click="showChartOptions = true"
 			>
 				<img

@@ -71,7 +71,10 @@ onMounted(() => {
 
 <template>
 	<div class="tw-flex-center gap-2">
-		<button class="tw-button flex items-center gap-2" @click="openSaveImage()">
+		<button
+			class="tw-button flex w-10/12 items-center gap-2"
+			@click="openSaveImage()"
+		>
 			<img
 				title="Download icon"
 				alt="Download icon"

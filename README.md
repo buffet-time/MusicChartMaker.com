@@ -23,9 +23,9 @@ Thank you to: <https://iconoir.com/> for Open source SVGs
 
 ## Dev setup
 
-- install [node 18.4.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
+- install [node 21.7.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
 
-- install pnpm 7+ (Performant NPM)\
+- install pnpm 9.0.0+ (Performant NPM)\
   $ `npm install -g pnpm`
 
 - install dependencies & setup husky\
