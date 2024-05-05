@@ -65,9 +65,9 @@ function hideMenu() {
 			<Selection @can-render-chart="onCanRender" />
 		</div>
 
-		<Export />
-
 		<SaveImage />
+
+		<Export />
 
 		<ChartOptions v-if="showOptions" />
 

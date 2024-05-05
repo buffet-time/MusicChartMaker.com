@@ -1,117 +1,138 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { ChartState, SiteOptions } from '#types'
 import {
-	GlobalChartState,
-	GlobalSiteOptions,
-	StoredChartNames
-} from '#shared/globals'
-import {
-	getAllSavedKeys,
-	getFirstChart,
-	GetSiteOptions,
-	getStoredChart,
-	setCurrentChart,
-	setStoredChart
-} from '#shared/storage'
+	ImportChartsAndOptions,
+	importFromTopsters2,
+	ExportChartsAndOptions
+} from '#shared/importExport'
 
 const filePicker = ref<HTMLInputElement>()
+const showImportExport = ref(false)
 
-function ExportChartsAndOptions() {
-	try {
-		// Node does not work here, have to use WebAPI
-		const exportdata = {
-			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
-			siteData: GetSiteOptions()
-		}
-		const anchor = document.createElement('a')
-		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
-		anchor.href = URL.createObjectURL(file)
-		anchor.download = 'exported_charts.json'
-		anchor.click()
-	} catch (error) {
-		console.error('Error attempting to export chart data!', error)
-	}
-}
-
-function ImportChartsAndOptions(importFile: File | null) {
-	try {
-		if (!importFile) {
-			throw new Error('No File Submitted')
-		}
-
-		const reader = new FileReader()
-
-		reader.onerror = (errorEvt) => {
-			throw errorEvt.target?.error
-		}
-
-		reader.onload = (fileEvent) => {
-			// console.log(fileEvent)
-			// Add logic here to check filename and see if it is a JSON file.
-			try {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const parsed = JSON.parse(String(fileEvent.target?.result))
-				// Add a typecheck here, assert if it has the siteData and chartData properties
-				if (parsed) {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-					const options: SiteOptions = parsed.siteData
-
-					GlobalSiteOptions.value = options
-					setCurrentChart(options.currentChart)
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-					const data: ChartState[] = parsed.chartData
-					data.forEach((state) => {
-						!!state && setStoredChart(state.options.chartTitle, state)
-					})
-					const chart = getStoredChart(options.currentChart) ?? getFirstChart()
-					if (chart) {
-						GlobalChartState.value = chart
-					}
-					StoredChartNames.value = getAllSavedKeys()
-					return
-				}
-
-				throw new Error('Unsupported File/Unexpected Contents')
-			} catch (error) {
-				console.error('Failed to import selected file => Error:', error)
-			}
-		}
-
-		reader.readAsText(importFile, 'UTF-8')
-	} catch (error) {
-		console.error('Failed to import selected file => Error:', error)
-	}
-}
-
-function importFromJson() {
+function importMCM() {
 	if (!filePicker.value) {
+		// better handler here
 		return console.error('Error! Could not import file.')
 	}
 
 	if (filePicker.value.files) {
 		ImportChartsAndOptions(filePicker.value.files.item(0))
 		filePicker.value.value = ''
+	} else {
+		// handle the error path here!
 	}
 }
 </script>
 
 <template>
-	<div class="tw-flex-center flex-col gap-[6px] px-2">
-		<button type="button" class="tw-button" @click="ExportChartsAndOptions()">
-			Export Charts
-		</button>
+	<!-- Put all these into a new section -->
 
-		<label for="file-picker" class="tw-button">
-			Import Charts
-			<input
-				id="file-picker"
-				ref="filePicker"
-				type="file"
-				accept=".json"
-				class="hidden"
-				@input="importFromJson"
+	<!-- in the sidebar -->
+	<div class="tw-flex-center gap-2">
+		<button
+			type="button"
+			class="tw-button flex w-10/12 items-center gap-2"
+			@click="showImportExport = true"
+		>
+			<img
+				title="Open in window icon"
+				alt="open in window icon"
+				src="/openInWindow.svg"
+				width="25"
+				height="25"
+				class="cursor-pointer bg-neutral-500"
+				loading="lazy"
 			/>
-		</label>
+			<label class="cursor-pointer pb-[2px]"> Import/ Export </label>
+		</button>
+	</div>
+
+	<div v-if="showImportExport" class="t tw-options-overlay-div gap-[6px] px-2">
+		<img
+			title="Go back"
+			alt="go-back"
+			src="/back.svg"
+			width="25"
+			height="25"
+			class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
+			loading="lazy"
+			@click="showImportExport = false"
+		/>
+
+		<p class="mt-12">Bug fixes and more features to come here soon!</p>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From this site</h1>
+
+			<button type="button" class="tw-button" @click="ExportChartsAndOptions">
+				Export all charts & options
+			</button>
+
+			<label for="file-picker" class="tw-button block">
+				Import all charts & options
+				<input
+					id="file-picker"
+					ref="filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importMCM"
+				/>
+			</label>
+
+			<p>Importing/ Exporting single charts and options soon!</p>
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Topsters 2</h1>
+			<label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label>
+			<p>
+				If you encounter an issue please report it on GitHub! (check site info)
+			</p>
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Topsters 3</h1>
+
+			<p>Will be added in a future release!</p>
+			<!-- <label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label> -->
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Chartr or Topchart</h1>
+
+			<p>Will be added in a future release!</p>
+			<!-- <label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label> -->
+		</section>
 	</div>
 </template>

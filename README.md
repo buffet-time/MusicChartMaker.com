@@ -1,11 +1,21 @@
 # Music Charting Website
 
-## This website was developed to replace Topsters because
+## This website was initially developed to replace Topsters because
 
-1. The owner of Topsters is incredibly problematic.
-2. Topsters is clunky, unoptimized, and sloppy.
+1. The owner of Topsters 2 is incredibly problematic.
+2. Topsters 2 is clunky, unoptimized, and sloppy.
 3. [Patrician Music Chartposting](https://www.facebook.com/groups/patricianmusicchartposting) commenters wanted it
-4. Topsters isn't open source.
+4. Topsters 2 isn't open source.
+
+## This website is now developed because
+
+1. Same reasons as above
+2. Other Alternatives are slower, larger bundles, have less features
+3. Topsters 3 isn't open source
+
+## Credits
+
+Thank you to: <https://iconoir.com/> for Open source SVGs
 
 ## API
 
@@ -13,9 +23,9 @@
 
 ## Dev setup
 
-- install [node 18.4.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
+- install [node 21.7.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
 
-- install pnpm 7+ (Performant NPM)\
+- install pnpm 9.0.0+ (Performant NPM)\
   $ `npm install -g pnpm`
 
 - install dependencies & setup husky\

@@ -1,14 +1,22 @@
 # Changelog for musicchartmaker.com
 
-## Version 1.1.0 - upcoming
+## Future Version changes planned
 
 - Features/ Enhancements
   - Have a way to have the top 100 album chart titles fit to the size of the chart
-  - Topsters 2 import
+  - Improve accessibility
+  - Improve UX
 - Bug Fixes
   - Fix dynamic resizing deleting what people put inn
     - this means people can lose their progress by accident, which is annoying.
   - Some users are having issues with image being exported as `.jpeg` instead of `.jpg` and sometimes low quality output
+  - Album search preview being cutoff
+
+## Version 1.1.0 - May 5th, 2024
+
+- Features/ Enhancements
+  - Topsters 2 import
+  - Move all Import and Export into a new card
 
 ## Version 1.0.1 - April 28th, 2024
 

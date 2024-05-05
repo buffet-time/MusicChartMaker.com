@@ -4,6 +4,9 @@
 		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
 		"bradlc.vscode-tailwindcss",
-		"csstools.postcss"
+		"csstools.postcss",
+		"ban.spellright",
+		"YoavBls.pretty-ts-errors",
+		"jock.svg"
 	]
 }

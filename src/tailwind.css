@@ -8,13 +8,13 @@
 		@apply flex items-center justify-center;
 	}
 	.tw-button {
-		@apply cursor-pointer select-none rounded border-neutral-500 bg-neutral-500 px-3 py-2 text-white hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
+		@apply cursor-pointer select-none rounded-[2px] border-neutral-500 bg-neutral-500 px-3 py-2 text-white hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
 	.tw-input {
-		@apply inline-block w-11/12 max-w-[16rem] overflow-ellipsis rounded-md border-neutral-300 px-3 py-2 text-neutral-900;
+		@apply inline-block w-11/12 max-w-[16rem] overflow-ellipsis rounded-[2px] border-neutral-300 px-3 py-2 text-neutral-900;
 	}
 	.tw-checkbox {
-		@apply h-4 w-4 rounded-md border border-solid border-black border-opacity-10 bg-white align-top;
+		@apply h-4 w-4 rounded-[2px] border border-solid border-black border-opacity-10 bg-white align-top;
 	}
 	.tw-options-div {
 		@apply tw-flex-center mt-2 gap-2;
@@ -39,6 +39,9 @@
 	}
 	.tw-search-results-div {
 		@apply tw-flex-center md:tw-no-scrollbar mx-4 mt-2 h-[102px] flex-wrap gap-1 overflow-y-scroll md:mx-0 md:h-[415px];
+	}
+	.tw-card {
+		@apply bg-emerald-300 py-2;
 	}
 }
 
