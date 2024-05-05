@@ -100,9 +100,9 @@ export function importFromTopsters2(event: Event) {
 
 			const partiallyDecodedTopsters2Cards = Uint8Array.from(
 				atob(
-					decodedTopsters2[`${namedCardsProperty}`].substring(
+					decodedTopsters2[namedCardsProperty!].substring(
 						1,
-						decodedTopsters2[`${namedCardsProperty}`].length - 1
+						decodedTopsters2[namedCardsProperty!].length - 1
 					)
 				),
 				(character: string) => character.charCodeAt(0)
@@ -204,14 +204,14 @@ export function importFromTopsters2(event: Event) {
 }
 
 // Will give back the most squareish factors from all values possible
-function getFactorsFromLength(switchKey: number): [number, number] {
-	const sqrtOfKey = Math.sqrt(switchKey)
-	if (sqrtOfKey % 1 === 0 && sqrtOfKey * sqrtOfKey === switchKey) {
+function getFactorsFromLength(chartLength: number): [number, number] {
+	const sqrtOfKey = Math.sqrt(chartLength)
+	if (sqrtOfKey % 1 === 0 && sqrtOfKey * sqrtOfKey === chartLength) {
 		return [sqrtOfKey, sqrtOfKey]
 	}
 
-	const allFactors = [...Array(switchKey + 1).keys()].filter(
-		(index) => switchKey % index === 0
+	const allFactors = [...Array(chartLength + 1).keys()].filter(
+		(index) => chartLength % index === 0
 	)
 
 	const firstPossibleFactor = allFactors[allFactors.length / 2 - 1]
@@ -257,6 +257,7 @@ export function ExportChartsAndOptions() {
 		anchor.href = URL.createObjectURL(file)
 		anchor.download = 'exported_charts.json'
 		anchor.click()
+		anchor.remove()
 	} catch (error) {
 		console.error('Error attempting to export chart data!', error)
 	}
@@ -291,7 +292,7 @@ export function ImportChartsAndOptions(importFile: File | null) {
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const data: ChartState[] = parsed.chartData
 					data.forEach((state) => {
-						!!state && setStoredChart(state.options.chartTitle, state)
+						Boolean(state) && setStoredChart(state.options.chartTitle, state)
 					})
 					const chart = getStoredChart(options.currentChart) ?? getFirstChart()
 					if (chart) {
