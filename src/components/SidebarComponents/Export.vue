@@ -49,8 +49,8 @@ function importMCM() {
 
 	<div v-if="showImportExport" class="t tw-options-overlay-div gap-[6px] px-2">
 		<img
-			title="Close Options"
-			alt="close-button"
+			title="Go back"
+			alt="go-back"
 			src="/back.svg"
 			width="25"
 			height="25"
@@ -79,6 +79,8 @@ function importMCM() {
 					@input="importMCM"
 				/>
 			</label>
+
+			<p>Importing/ Exporting single charts and options soon!</p>
 		</section>
 
 		<section class="my-2 flex flex-col gap-2">
@@ -94,10 +96,30 @@ function importMCM() {
 					@input="importFromTopsters2"
 				/>
 			</label>
+			<p>
+				If you encounter an issue please report it on GitHub! (check site info)
+			</p>
 		</section>
 
 		<section class="my-2 flex flex-col gap-2">
 			<h1 class="text-xl">From Topsters 3</h1>
+
+			<p>Will be added in a future release!</p>
+			<!-- <label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label> -->
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Chartr or Topchart</h1>
 
 			<p>Will be added in a future release!</p>
 			<!-- <label for="topsters2-file-picker" class="tw-button block">

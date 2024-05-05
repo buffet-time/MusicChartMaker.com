@@ -2,6 +2,7 @@
 import { version } from '#root/package.json'
 
 import Dialog from '#core/Dialog.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const dialogId = 'siteInfoModal'
 
@@ -43,22 +44,46 @@ function showModal() {
 				</p>
 
 				<!-- Links -->
-				<div class="tw-flex-center mb-1 mt-1 gap-1">
-					<a
-						class="tw-button py-1"
-						href="https://discord.gg/526et4zxBT"
-						target="_blank"
+				<div class="tw-flex-center mt-2 gap-4">
+					<Tooltip
+						:tooltip-name="`discord-logo`"
+						:offset="[0, 0]"
+						:delay="250"
+						:placement="'bottom'"
 					>
-						<img src="/discord.png" alt="Discord Logo" loading="lazy" />
-					</a>
+						<template #content>
+							<a
+								class="py-1"
+								href="https://discord.gg/526et4zxBT"
+								target="_blank"
+							>
+								<img src="/discord.png" alt="Discord Logo" loading="lazy" />
+							</a>
+						</template>
 
-					<a
-						class="tw-button py-1"
-						href="https://github.com/buffet-time/MusicChartMaker.com"
-						target="_blank"
+						<template #tooltip>
+							This sites discord, ask questions report bugs.
+						</template>
+					</Tooltip>
+
+					<Tooltip
+						:tooltip-name="`github-logo`"
+						:offset="[0, 0]"
+						:delay="250"
+						:placement="'bottom'"
 					>
-						<img src="/github.png" alt="Github Logo" loading="lazy" />
-					</a>
+						<template #content>
+							<a
+								class="py-1"
+								href="https://github.com/buffet-time/MusicChartMaker.com"
+								target="_blank"
+							>
+								<img src="/github.png" alt="Github Logo" loading="lazy" />
+							</a>
+						</template>
+
+						<template #tooltip> The source code to this site. </template>
+					</Tooltip>
 				</div>
 			</template>
 		</Dialog>

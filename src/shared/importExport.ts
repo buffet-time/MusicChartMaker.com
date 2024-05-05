@@ -20,7 +20,7 @@ import {
 	PreventNameCollision,
 	top100,
 	top42
-} from './chart'
+} from '#shared/chart'
 
 type BooleanButStrings = 'true' | 'false'
 
@@ -119,9 +119,8 @@ export function importFromTopsters2(event: Event) {
 			const newAlbumTileArray: AlbumTile[][] = []
 			let usedRowSizes: number[] = []
 
-			switch (Number(decodedTopsters2.size)) {
-				// 25 = 5 x 5
-				// 40 = 5 x 8
+			const chartSize = Number(decodedTopsters2.size)
+			switch (chartSize) {
 				case 100: {
 					topsters2CardsArrayToAlbumTileArrayArray({
 						decodedTopsters2CardsArray,
@@ -140,10 +139,34 @@ export function importFromTopsters2(event: Event) {
 					usedRowSizes = top42.rowSizes
 					break
 				}
-
-				default:
-					// TODO: auto determine other sizes
+				case 40: {
+					// 40 = 5 x 8
+					const rowSizesFor40 = [8, 8, 8, 8, 8]
+					topsters2CardsArrayToAlbumTileArrayArray({
+						decodedTopsters2CardsArray,
+						newAlbumTileArray,
+						rowSizes: rowSizesFor40
+					})
+					usedRowSizes = rowSizesFor40
 					break
+				}
+
+				default: {
+					const factorsForRowSizes = getFactorsFromLength(chartSize)
+					const generatedRowSizes: number[] = []
+					for (let index = 0; index < factorsForRowSizes[0]; index++) {
+						generatedRowSizes.push(factorsForRowSizes[1])
+						index++
+					}
+
+					topsters2CardsArrayToAlbumTileArrayArray({
+						decodedTopsters2CardsArray,
+						newAlbumTileArray,
+						rowSizes: generatedRowSizes
+					})
+					usedRowSizes = generatedRowSizes
+					break
+				}
 			}
 
 			const pulledNameFromJson = topsters2Keys
@@ -178,6 +201,23 @@ export function importFromTopsters2(event: Event) {
 	} catch (error: any) {
 		console.error(`Error: ${error}`)
 	}
+}
+
+// Will give back the most squareish factors from all values possible
+function getFactorsFromLength(switchKey: number): [number, number] {
+	const sqrtOfKey = Math.sqrt(switchKey)
+	if (sqrtOfKey % 1 === 0 && sqrtOfKey * sqrtOfKey === switchKey) {
+		return [sqrtOfKey, sqrtOfKey]
+	}
+
+	const allFactors = [...Array(switchKey + 1).keys()].filter(
+		(index) => switchKey % index === 0
+	)
+
+	const firstPossibleFactor = allFactors[allFactors.length / 2 - 1]
+	const secondPossibleFactor = allFactors[allFactors.length / 2]
+
+	return [firstPossibleFactor, secondPossibleFactor]
 }
 
 function topsters2CardsArrayToAlbumTileArrayArray({
