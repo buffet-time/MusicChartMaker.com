@@ -59,36 +59,58 @@ function importMCM() {
 			@click="showImportExport = false"
 		/>
 
-		<button
-			type="button"
-			class="tw-button mt-12"
-			@click="ExportChartsAndOptions"
-		>
-			Export Charts & Options
-		</button>
+		<p class="mt-12">Bug fixes and more features to come here soon!</p>
 
-		<label for="file-picker" class="tw-button">
-			Import Charts
-			<input
-				id="file-picker"
-				ref="filePicker"
-				type="file"
-				accept=".json"
-				class="hidden"
-				@input="importMCM"
-			/>
-		</label>
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From this site</h1>
 
-		<label for="topsters2-file-picker" class="tw-button">
-			Import Topster2 Chart
-			<input
-				id="topsters2-file-picker"
-				ref="topsters2-filePicker"
-				type="file"
-				accept=".json"
-				class="hidden"
-				@input="importFromTopsters2"
-			/>
-		</label>
+			<button type="button" class="tw-button" @click="ExportChartsAndOptions">
+				Export all charts & options
+			</button>
+
+			<label for="file-picker" class="tw-button block">
+				Import all charts & options
+				<input
+					id="file-picker"
+					ref="filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importMCM"
+				/>
+			</label>
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Topsters 2</h1>
+			<label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label>
+		</section>
+
+		<section class="my-2 flex flex-col gap-2">
+			<h1 class="text-xl">From Topsters 3</h1>
+
+			<p>Will be added in a future release!</p>
+			<!-- <label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label> -->
+		</section>
 	</div>
 </template>

@@ -2,9 +2,10 @@ import { inflate } from 'pako'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
+	selectedChartTitle,
 	StoredChartNames
 } from '#shared/globals'
-import type { ChartState, SiteOptions } from '#types'
+import type { AlbumTile, ChartState, SiteOptions } from '#types'
 
 import {
 	getAllSavedKeys,
@@ -14,7 +15,12 @@ import {
 	setCurrentChart,
 	setStoredChart
 } from '#shared/storage'
-// import { GenerateChartWithValues } from './chart'
+import {
+	GenerateChartWithValues,
+	PreventNameCollision,
+	top100,
+	top42
+} from './chart'
 
 type BooleanButStrings = 'true' | 'false'
 
@@ -96,7 +102,9 @@ export function importFromTopsters2(event: Event) {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			)[0] as Topsters2DecodedJson
 
-			const namedCardsProperty = Object.keys(decodedTopsters2).find((value) =>
+			const topsters2Keys = Object.keys(decodedTopsters2)
+
+			const namedCardsProperty = topsters2Keys.find((value) =>
 				value.includes('cards-cards')
 			)
 
@@ -125,36 +133,94 @@ export function importFromTopsters2(event: Event) {
 			// 	cards: decodedTopsters2CardsArray
 			// } as FinalReturnedTopsters2Json
 
-			// GenerateChartWithValues(
-			// 	namedCardsProperty ? namedCardsProperty : 'FailedToImportChartName',
-			// 	decodedTopsters2CardsArray
-			// )
+			const newAlbumTileArray: AlbumTile[][] = []
+			let usedRowSizes: number[] = []
 
-			// if (parsed) {
-			// 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-			// 	const options: SiteOptions = parsed.siteData
+			switch (Number(decodedTopsters2.size)) {
+				// 25 = 5 x 5
+				// 40 = 5 x 8
+				case 100: {
+					topsters2CardsArrayToAlbumTileArrayArray({
+						decodedTopsters2CardsArray,
+						newAlbumTileArray,
+						rowSizes: top100.rowSizes
+					})
+					usedRowSizes = top100.rowSizes
+					break
+				}
+				case 42: {
+					topsters2CardsArrayToAlbumTileArrayArray({
+						decodedTopsters2CardsArray,
+						newAlbumTileArray,
+						rowSizes: top42.rowSizes
+					})
+					usedRowSizes = top42.rowSizes
+					break
+				}
 
-			// 	GlobalSiteOptions.value = options
-			// 	setCurrentChart(options.currentChart)
-			// 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-			// 	const data: ChartState[] = parsed.chartData
-			// 	data.forEach((state) => {
-			// 		!!state && setStoredChart(state.options.chartTitle, state)
-			// 	})
-			// 	const chart = getStoredChart(options.currentChart) ?? getFirstChart()
-			// 	if (chart) {
-			// 		GlobalChartState.value = chart
-			// 	}
-			// 	StoredChartNames.value = getAllSavedKeys()
-			// 	return
-			// }
+				default:
+					break
+			}
 
-			// Topsters2MassagedJson.value = returnObject
+			console.log(10, newAlbumTileArray)
+
+			const pulledNameFromJson = topsters2Keys
+				.filter((value) => value.includes('titled'))
+				.find((value) => value.includes('cards'))
+				?.replace('-cards-titled', '')
+
+			const newChartNameToSave = PreventNameCollision(
+				pulledNameFromJson ? pulledNameFromJson : 'FailedToImportChartName'
+			)
+
+			// TODO: look into changing the default options
+			const newChart = GenerateChartWithValues(
+				newChartNameToSave,
+				newAlbumTileArray,
+				{
+					default: false,
+					rowSizes: usedRowSizes,
+					presetName: 'Topsters2Import'
+				}
+			)
+
+			// TODO: Look into extracting this out!
+			StoredChartNames.value.unshift(newChartNameToSave)
+			selectedChartTitle.value = newChartNameToSave
+			setCurrentChart(newChartNameToSave)
+			setStoredChart(newChartNameToSave, newChart)
+			GlobalChartState.value = newChart
+
+			console.log(newChart, newChartNameToSave)
 		}
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		fileReader.readAsText(topsters2ExportFile)
 	} catch (error: any) {
 		console.error(`Error: ${error}`)
+	}
+}
+
+function topsters2CardsArrayToAlbumTileArrayArray({
+	rowSizes,
+	newAlbumTileArray,
+	decodedTopsters2CardsArray
+}: {
+	rowSizes: number[]
+	newAlbumTileArray: AlbumTile[][]
+	decodedTopsters2CardsArray: Topsters2ChartArray
+}) {
+	for (const rowSize of rowSizes) {
+		const splicedSection = decodedTopsters2CardsArray.splice(0, rowSize)
+		newAlbumTileArray.push(
+			splicedSection.map((topsters2Item) => {
+				const topsters2titleSplit = topsters2Item.title.split(' - ')
+				return {
+					image: topsters2Item.src,
+					artist: topsters2titleSplit[0],
+					name: topsters2titleSplit[1]
+				}
+			})
+		)
 	}
 }
 

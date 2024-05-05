@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { type Ref, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#shared/globals'
 
 import Dialog from '#core/Dialog.vue'
@@ -8,8 +8,10 @@ const saveImageId = 'saveImage'
 
 const emptyCanvas = document.createElement('canvas')
 const validFormats = ref<string[]>()
-const selectedFormat = ref('png')
+const selectedFormat: Ref<ImageTypes> = ref('png')
 const renderImageSelect = ref(false)
+
+type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
 function openSaveImage() {
 	const saveimage = document.getElementById(saveImageId) as HTMLDialogElement
@@ -17,7 +19,7 @@ function openSaveImage() {
 }
 
 function getValidFormats() {
-	const imageTypes = ['png', 'jpeg', 'webp', 'bmp', 'ico', 'gif']
+	const imageTypes: ImageTypes[] = ['png', 'jpeg', 'webp', 'bmp', 'ico', 'gif']
 	return imageTypes.filter((imageType, index) => {
 		// PNG has to be supported by spec.
 		if (index === 0) return true
@@ -47,8 +49,14 @@ async function saveImage() {
 			backgroundColor: GlobalChartState.value.options.background
 		})
 		const anchor = document.createElement('a')
-		anchor.href = canvas.toDataURL(`image/${selectedFormat.value}`)
-		anchor.download = `${GlobalChartState.value.options.chartTitle}.${selectedFormat.value}`
+
+		let formatToSaveAs: string = selectedFormat.value
+		if (formatToSaveAs === 'jpeg') {
+			formatToSaveAs = 'jpg'
+		}
+
+		anchor.href = canvas.toDataURL(`image/${formatToSaveAs}`)
+		anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
 		anchor.click()
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)

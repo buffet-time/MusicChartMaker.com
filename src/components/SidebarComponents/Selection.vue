@@ -5,7 +5,8 @@ import { GenerateDefaultChart } from '#shared/chart'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
-	StoredChartNames
+	StoredChartNames,
+	selectedChartTitle
 } from '#shared/globals'
 import {
 	setStoredChart,
@@ -23,7 +24,6 @@ const emit = defineEmits<{
 	canRenderChart: []
 }>()
 
-const selectedChartTitle = ref('')
 const initializing = ref(true)
 
 // While this works, it may be better to just globalize selectedChartTitle performance wise. May be too many cases of feedback looping watches.
@@ -96,6 +96,7 @@ onMounted(() => {
 	</div>
 	<div class="mt-2">
 		<div v-if="!initializing" class="tw-flex-center gap-1">
+			<!-- TODO: remove emitting to change `selectedChartTitle' -->
 			<New
 				:selected-chart-title="selectedChartTitle"
 				:selected-chart="GlobalChartState!"
