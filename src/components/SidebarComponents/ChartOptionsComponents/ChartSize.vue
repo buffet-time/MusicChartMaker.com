@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
-import { FillerAlbum } from '#shared/misc'
+import { rowsChanged, colsChanged } from './ChartSize'
 
 const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
@@ -27,6 +27,7 @@ watch(colsNum, (newColNum, prevColNum) => {
 
 	colsChanged(newColNum - prevColNum)
 })
+
 watch(rowsNum, (newRowNum, prevRowNum) => {
 	if (updatingRows || GlobalChartState.value.options.preset) {
 		// if this was triggered by currentChart being changed skip 1 iteration
@@ -60,57 +61,6 @@ watch(
 		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
 	}
 )
-
-function colsChanged(difference: number) {
-	if (!GlobalChartState) {
-		return console.error('error in colsChanged', GlobalChartState)
-	}
-
-	if (difference > 0) {
-		// Add a new column
-		GlobalChartState.value.chartTiles.forEach((row, index) => {
-			for (let x = 0; x < difference; x++) {
-				row.push(FillerAlbum)
-				GlobalChartState.value.options.chartSize.rowSizes[index]++
-			}
-		})
-		return
-	}
-
-	// Remove a column
-	GlobalChartState.value.chartTiles.forEach((row, index) => {
-		for (let x = 0; x < Math.abs(difference); x++) {
-			row.pop()
-			GlobalChartState.value.options.chartSize.rowSizes[index]--
-		}
-	})
-}
-
-function rowsChanged(difference: number) {
-	if (!GlobalChartState) {
-		return console.error('error in rowsChanged', GlobalChartState)
-	}
-
-	// add a new row array of the same size as the last one
-	if (difference > 0) {
-		// Add a row
-		for (let x = 0; x < difference; x++) {
-			const newRow = GlobalChartState.value.chartTiles[
-				GlobalChartState.value.chartTiles.length - 1
-			].map(() => FillerAlbum)
-
-			GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
-			GlobalChartState.value.chartTiles.push(newRow)
-		}
-		return
-	}
-
-	// Remove a row
-	for (let x = 0; x < Math.abs(difference); x++) {
-		GlobalChartState.value.options.chartSize.rowSizes.pop()
-		GlobalChartState.value.chartTiles.pop()
-	}
-}
 </script>
 
 <template>

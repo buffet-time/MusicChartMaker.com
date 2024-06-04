@@ -89,7 +89,7 @@ onMounted(() => {
 			class="tw-input pl-1"
 			@change="onSelect"
 		>
-			<option v-for="(name, index) in StoredChartNames" :key="index">
+			<option v-for="(name, index) in StoredChartNames.sort()" :key="index">
 				{{ name }}
 			</option>
 		</select>

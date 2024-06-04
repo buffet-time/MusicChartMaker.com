@@ -6,11 +6,22 @@
   - Have a way to have the top 100 album chart titles fit to the size of the chart
   - Improve accessibility
   - Improve UX
+  - Shadow in chart
+- Bug Fixes
+  - Album search preview being cutoff
+  
+## Version 1.1.1 - June 4th, 2024
+
 - Bug Fixes
   - Fix dynamic resizing deleting what people put inn
     - this means people can lose their progress by accident, which is annoying.
-  - Some users are having issues with image being exported as `.jpeg` instead of `.jpg` and sometimes low quality output
-  - Album search preview being cutoff
+  - Some users are having issues with image being exported as `.jpeg` instead of `.jpg`
+  - Low quality of image output, updated to have a quality slider
+- Other Changes
+  - default sorting of created charts changed from mirroring LocalStorage to Alphabetical
+- Performance/ Stability
+  - Updating all packages
+    - except ESLint to 9 because it's a lot of tedious work
 
 ## Version 1.1.0 - May 5th, 2024
 

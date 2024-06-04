@@ -3,6 +3,7 @@ import { type Ref, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#shared/globals'
 
 import Dialog from '#core/Dialog.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const saveImageId = 'saveImage'
 
@@ -10,6 +11,7 @@ const emptyCanvas = document.createElement('canvas')
 const validFormats = ref<string[]>()
 const selectedFormat: Ref<ImageTypes> = ref('png')
 const renderImageSelect = ref(false)
+const scale = ref(2)
 
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
@@ -44,6 +46,8 @@ async function saveImage() {
 		}
 
 		const canvas = await HTML2Canvas(chartElement, {
+			// scale 1 = 96 dpi, each increment is a multiplier on that
+			scale: scale.value,
 			allowTaint: true,
 			useCORS: true,
 			backgroundColor: GlobalChartState.value.options.background
@@ -90,21 +94,52 @@ onMounted(() => {
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
-				Save chart as image
+				<div class="flex flex-col gap-3 p-4 pb-0">
+					Save chart as image
 
-				<select
-					v-if="renderImageSelect"
-					v-model="selectedFormat"
-					class="tw-input"
-				>
-					<option v-for="(imageType, index) in validFormats" :key="index">
-						{{ imageType }}
-					</option>
-				</select>
+					<div class="flex flex-col">
+						<Tooltip
+							:tooltip-name="'tooltip-render-quality'"
+							:offset="[0, 0]"
+							:delay="300"
+							:placement="'bottom'"
+						>
+							<template #content>
+								<label>Render Quality: {{ scale }}</label>
+							</template>
+							<template #tooltip>
+								Each quality tick is 96dpi, the higher the value the larger the
+								image is rendered (better quality)
+							</template>
+						</Tooltip>
 
-				<button class="tw-button mb-1 px-3 py-1" @click="saveImage">
-					Save Image
-				</button>
+						<input
+							v-model="scale"
+							class="mt-1 cursor-pointer"
+							type="range"
+							min="1"
+							max="5"
+							step="1"
+						/>
+					</div>
+
+					<div>
+						<label>Image type</label>
+						<select
+							v-if="renderImageSelect"
+							v-model="selectedFormat"
+							class="tw-input"
+						>
+							<option v-for="(imageType, index) in validFormats" :key="index">
+								{{ imageType }}
+							</option>
+						</select>
+					</div>
+
+					<button class="tw-button mb-1 px-3 py-1" @click="saveImage">
+						Save Image
+					</button>
+				</div>
 			</template>
 		</Dialog>
 	</div>
