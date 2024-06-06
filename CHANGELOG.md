@@ -7,10 +7,12 @@
   - Improve accessibility
   - Improve UX
   - Shadow in chart
+  - Have temporary storage of removed albums from resizing to refill
 - Bug Fixes
   - Album search preview being cutoff
+  - Fix Last.fm!!
   
-## Version 1.1.1 - June 4th, 2024
+## Version 1.1.1 - June 5th, 2024
 
 - Bug Fixes
   - Fix dynamic resizing deleting what people put inn

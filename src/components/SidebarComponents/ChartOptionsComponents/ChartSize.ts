@@ -49,6 +49,9 @@ function addRow(difference: number) {
 	}
 }
 
+// =====
+// TODO: look into keeping a store of the albums removed when they couldn't fit
+// =====
 // Shared between row and column removal.
 function getOneDimensionalArrayFromChartState() {
 	const tempArray: AlbumTile[] = []
