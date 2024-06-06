@@ -1,4 +1,4 @@
-import type { JSONReturnType, SiteOptions } from '#types'
+import type { AlbumTile, JSONReturnType, SiteOptions } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { top42, top100 } from '#shared/chart'
 
@@ -9,7 +9,7 @@ export const GrayBoxImgForPlaceholder = `${grayBoxImgur}.jpg`
 // Comes back from the API
 export const GrayBoxImgFromApi = `${grayBoxImgur}.jpeg`
 
-export const FillerAlbum = {
+export const FillerAlbum: AlbumTile = {
 	artist: 'Artist',
 	name: 'Album',
 	image: GrayBoxImgForPlaceholder

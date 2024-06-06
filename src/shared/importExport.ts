@@ -108,9 +108,7 @@ export function importFromTopsters2(event: Event) {
 				(character: string) => character.charCodeAt(0)
 			)
 
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const decodedTopsters2CardsArray = JSON.parse(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 				textDecoder.decode(inflate(partiallyDecodedTopsters2Cards))
 			) as Topsters2ChartArray
 
