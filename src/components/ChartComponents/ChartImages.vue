@@ -149,24 +149,26 @@ function chartTitle(
 				:key="`img-${index1}-${index2}`"
 				class="group"
 			>
-				<img
-					v-if="album.image === GrayBoxImgForPlaceholder"
-					:firstIndex="index1"
-					:secondIndex="index2"
-					:src="`${album.image}`"
-					:alt="'placeholder square'"
-					loading="lazy"
-					draggable="false"
-					class="tw-chart-image-size select-none"
-					@dragstart="() => undefined"
-					@dragover.prevent="() => undefined"
-					@drop.prevent="
-						(dragEvent) => {
-							if (GlobalChartState.options.lockChart) return
-							onDrop(dragEvent, { index1: index1, index2: index2 })
-						}
-					"
-				/>
+				<!-- Genuinely not sure where the extra 4px is coming from for these -->
+				<div v-if="album.image === GrayBoxImgForPlaceholder" class="mb-[-4px]">
+					<img
+						:firstIndex="index1"
+						:secondIndex="index2"
+						:src="`${album.image}`"
+						:alt="'placeholder square'"
+						loading="lazy"
+						draggable="false"
+						class="uno-chart-image-size select-none"
+						@dragstart="() => undefined"
+						@dragover.prevent="() => undefined"
+						@drop.prevent="
+							(dragEvent) => {
+								if (GlobalChartState.options.lockChart) return
+								onDrop(dragEvent, { index1: index1, index2: index2 })
+							}
+						"
+					/>
+				</div>
 
 				<Tooltip
 					v-else
@@ -176,7 +178,7 @@ function chartTitle(
 					:placement="'bottom-start'"
 				>
 					<template #content>
-						<div class="tw-album-image-div-wrapper">
+						<div class="uno-album-image-div-wrapper">
 							<img
 								v-show="album && !GlobalChartState.options.lockChart"
 								src="/blackClose.svg"
@@ -191,7 +193,7 @@ function chartTitle(
 								:src="`${album.image}`"
 								:alt="`${album.artist} - ${album.name}`"
 								loading="lazy"
-								class="tw-chart-image-size select-none"
+								class="uno-chart-image-size select-none"
 								:class="{
 									'cursor-grab': !GlobalChartState.options.lockChart
 								}"
@@ -227,7 +229,7 @@ function chartTitle(
 							/>
 							<div
 								v-if="album.image === GrayBoxImgFromApi"
-								class="tw-album-image-text-overlay"
+								class="uno-flex-center uno-album-image-text-overlay"
 							>
 								{{ album.artist }} - {{ album.name }}
 							</div>
@@ -243,8 +245,8 @@ function chartTitle(
 			<template #content>
 				Delete the selected album?
 				<div class="flex gap-2">
-					<button class="tw-button" @click="deleteSelectedAlbum">Yes</button>
-					<button class="tw-button" @click="closeDialog">No</button>
+					<button class="uno-button" @click="deleteSelectedAlbum">Yes</button>
+					<button class="uno-button" @click="closeDialog">No</button>
 				</div>
 			</template>
 		</Dialog>

@@ -18,7 +18,8 @@
 	"[svg]": {
 		"editor.defaultFormatter": "jock.svg"
 	},
-	"files.associations": {
-		"*.css": "tailwindcss"
+	"[vue]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+	"typescript.tsdk": "node_modules\\typescript\\lib",
 }

@@ -66,7 +66,7 @@ function deleteChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button" @click="openDeleteModal">
+	<button type="button" class="uno-button" @click="openDeleteModal">
 		Delete
 	</button>
 
@@ -75,8 +75,8 @@ function deleteChart() {
 			<p class="text-neutral-200">Delete current chart permanently?</p>
 
 			<div class="flex gap-2">
-				<button class="tw-button" @click="deleteChart">Yes</button>
-				<button class="tw-button" @click="closeDeleteModal">No</button>
+				<button class="uno-button" @click="deleteChart">Yes</button>
+				<button class="uno-button" @click="closeDeleteModal">No</button>
 			</div>
 		</template>
 	</Dialog>

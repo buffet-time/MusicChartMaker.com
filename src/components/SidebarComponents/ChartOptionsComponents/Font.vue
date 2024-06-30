@@ -34,7 +34,7 @@ onMounted(async () => {
 			<select
 				v-if="fontsLoaded"
 				v-model="GlobalChartState!.options.font"
-				class="tw-input cursor-pointer"
+				class="uno-input global-select uno-select"
 			>
 				<option v-for="(name, index) in fonts" :key="index">
 					{{ name }}

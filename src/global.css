@@ -1,0 +1,8 @@
+.global-select {
+	scrollbar-width: thin;
+	scrollbar-color: gray dimgray;
+}
+
+p {
+	margin: 0;
+}

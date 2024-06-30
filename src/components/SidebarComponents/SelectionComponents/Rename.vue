@@ -63,7 +63,9 @@ function renameChart() {
 </script>
 
 <template>
-	<button type="button" class="tw-button" @click="onRenameChart">Rename</button>
+	<button type="button" class="uno-button" @click="onRenameChart">
+		Rename
+	</button>
 
 	<Dialog :dialog-id="renameDialogId" :close-button="false">
 		<template #content>
@@ -74,19 +76,19 @@ function renameChart() {
 				v-model="chartInput"
 				placeholder="Name of chart"
 				type="text"
-				class="tw-input"
+				class="uno-input"
 				title="Any name but can't just be a number."
 				pattern="(?!GlobalSiteOptions$).*"
 			/>
 			<template v-if="chartInput === '' || !renameChartInput?.validity.valid">
 				<p class="pt-1">The name can't be empty</p>
 				<p>or {{ SiteOptionsKey }}</p>
-				<button class="tw-button" @click="closeRenameModal">Cancel</button>
+				<button class="uno-button" @click="closeRenameModal">Cancel</button>
 			</template>
 
 			<div v-else class="flex gap-2">
-				<button class="tw-button" @click="renameChart">Yes</button>
-				<button class="tw-button" @click="closeRenameModal">No</button>
+				<button class="uno-button" @click="renameChart">Yes</button>
+				<button class="uno-button" @click="closeRenameModal">No</button>
 			</div>
 		</template>
 	</Dialog>

@@ -65,7 +65,7 @@ function getSearchResultsLength() {
 </script>
 
 <template>
-	<div class="flex-col gap-4">
+	<div class="flex-col h-full gap-4">
 		<!-- This is not KISS tho pulling just the search component out to its
 			own component adds more complexity than its worth, and adding an
 			optional conditional to the tooltip results in jankiness due to how popper works
@@ -84,17 +84,17 @@ function getSearchResultsLength() {
 				<template #content>
 					<div>
 						<label>Search: </label>
-						<div class="tw-flex-center flex-col gap-2">
+						<div class="uno-flex-center flex-col gap-2">
 							<input
 								v-model="searchInput"
-								class="tw-input p-2"
+								class="uno-input p-2"
 								type="search"
 								placeholder="Search input"
 								@keyup.enter.prevent="search"
 							/>
 							<div class="flex gap-1">
 								<button
-									class="tw-button"
+									class="uno-button"
 									type="button"
 									:disabled="searchInput === ''"
 									@click="search"
@@ -102,7 +102,7 @@ function getSearchResultsLength() {
 									search
 								</button>
 								<button
-									class="tw-button"
+									class="uno-button"
 									type="button"
 									:disabled="!showSearchResults"
 									@click="showSearchResults = false"
@@ -123,17 +123,17 @@ function getSearchResultsLength() {
 		<template v-else>
 			<div>
 				<label>Search: </label>
-				<div class="tw-flex-center flex-col gap-2">
+				<div class="uno-flex-center flex-col gap-2">
 					<input
 						v-model="searchInput"
-						class="tw-input p-2"
+						class="uno-input p-2"
 						type="search"
 						placeholder="Search input"
 						@keyup.enter.prevent="search"
 					/>
 					<div class="flex gap-1">
 						<button
-							class="tw-button"
+							class="uno-button"
 							type="button"
 							:disabled="searchInput === ''"
 							@click="search"
@@ -141,7 +141,7 @@ function getSearchResultsLength() {
 							search
 						</button>
 						<button
-							class="tw-button"
+							class="uno-button"
 							type="button"
 							:disabled="!showSearchResults"
 							@click="showSearchResults = false"
@@ -155,7 +155,7 @@ function getSearchResultsLength() {
 
 		<div
 			v-show="showSearchResults"
-			class="tw-search-results-div"
+			class="uno-flex-center uno-search-results-div results-div"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">
@@ -172,7 +172,7 @@ function getSearchResultsLength() {
 				:placement="'top-start'"
 			>
 				<template #content>
-					<div class="tw-album-image-div-wrapper">
+					<div class="uno-album-image-div-wrapper">
 						<img
 							width="100"
 							class="cursor-grab"
@@ -188,7 +188,7 @@ function getSearchResultsLength() {
 
 						<div
 							v-if="album.image === GrayBoxImgFromApi"
-							class="tw-album-image-text-overlay"
+							class="uno-album-image-text-overlay"
 						>
 							{{ album.artist }} - {{ album.name }}
 						</div>
@@ -197,20 +197,15 @@ function getSearchResultsLength() {
 				<template #tooltip>{{ album.artist }} - {{ album.name }}</template>
 			</Tooltip>
 		</div>
-		<div
-			v-show="showSearchResults && getSearchResultsLength() > 1"
-			class="rectangle-blur content hidden before:pointer-events-none before:absolute before:left-0 before:mt-[-2rem] before:h-8 before:w-full md:block"
-		></div>
 	</div>
 </template>
 
 <style>
-.rectangle-blur:before {
-	content: '';
-	background-image: linear-gradient(
-		to bottom,
-		rgba(255, 255, 255, 0),
-		rgba(50, 50, 50, 1) 99%
-	);
+.results-div {
+	scrollbar-width: thin;
+	scrollbar-color: gray dimgray;
+	/* 96.8px is the height of the search box */
+	max-height: calc(100% - 96.8px - 8px);
+	height: 100%;
 }
 </style>

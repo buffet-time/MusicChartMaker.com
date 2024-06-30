@@ -48,7 +48,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 					<span
 						role="textbox"
 						:contenteditable="
-							GlobalChartState.options.lockChart ? undefined : 'plaintext-only'
+							GlobalChartState.options.lockChart ? undefined : true
 						"
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
@@ -61,7 +61,7 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 					<span
 						role="textbox"
 						:contenteditable="
-							GlobalChartState.options.lockChart ? undefined : 'plaintext-only'
+							GlobalChartState.options.lockChart ? undefined : true
 						"
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"

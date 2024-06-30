@@ -38,3 +38,13 @@ watchDebounced(
 		</div>
 	</div>
 </template>
+
+<style>
+html {
+	scrollbar-width: thin;
+	scrollbar-color: gray rgb(80, 80, 80);
+}
+body {
+	margin: 0;
+}
+</style>

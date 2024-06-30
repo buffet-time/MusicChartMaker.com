@@ -1,0 +1,42 @@
+/* Input */
+@layer components {
+	.uno-flex-center {
+		@apply flex items-center justify-center;
+	}
+	.uno-button {
+		@apply cursor-pointer select-none rounded-[2px] border border-neutral-500 bg-neutral-500 px-3 py-2 text-white hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
+	}
+	.uno-input {
+		@apply inline-block w-11/12 max-w-[16rem] overflow-ellipsis rounded-[2px] border border-neutral-300 px-3 py-2 text-neutral-900;
+	}
+	.uno-checkbox {
+		@apply h-4 w-4 rounded-[2px] border border-solid border-black border-opacity-10 bg-white align-top;
+	}
+	.uno-options-div {
+		@apply mt-2 gap-2;
+	}
+	.uno-sidebar-width {
+		@apply w-[230px];
+	}
+	.uno-close-button {
+		@apply absolute left-6 top-6 p-1;
+	}
+	.uno-chart-image-size {
+		@apply max-h-[200px] min-h-[40px] w-full min-w-[40px] max-w-[200px];
+	}
+	.uno-album-image-div-wrapper {
+		@apply relative flex items-center justify-center;
+	}
+	.uno-album-image-text-overlay {
+		@apply pointer-events-none absolute h-full overflow-hidden p-[2px];
+	}
+	.uno-options-overlay-div {
+		@apply fixed left-0 top-0 z-10 flex h-full flex-col overflow-auto bg-[#404040] px-2 pb-2;
+	}
+	.uno-search-results-div {
+		@apply md:tw-no-scrollbar mx-4 mt-2 h-[102px] flex-wrap gap-1 overflow-y-scroll md:mx-0 scrollbar-width-thin;
+	}
+	.uno-select {
+		@apply cursor-pointer bg-neutral-500 color-white border-none;
+	}
+}

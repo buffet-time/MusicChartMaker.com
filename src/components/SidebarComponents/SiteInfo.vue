@@ -13,10 +13,10 @@ function showModal() {
 </script>
 
 <template>
-	<div class="tw-flex-center gap-2">
+	<div class="flex items-center justify-center gap-2">
 		<button
 			type="button"
-			class="tw-button flex w-7/12 items-center gap-2"
+			class="uno-button flex items-center gap-2 w-7/12"
 			@click="showModal()"
 		>
 			<img
@@ -34,56 +34,63 @@ function showModal() {
 		<Dialog :dialog-id="dialogId" :close-button="true">
 			<template #content>
 				<!-- Header -->
-				<p class="text-neutral-200">Site Version: {{ version }}</p>
+				<div class="max-w-md">
+					<div class="flex flex-col gap-1">
+						<p class="text-neutral-200 m-0">Site Version: {{ version }}</p>
+						<p class="m-0">
+							This site is fully open source, see the github link
+						</p>
+						<p class="m-0">
+							This site will NEVER have Ads or any form of tracking
+						</p>
+						<p class="m-0">
+							This site uses a lot of newer web features, if you have a problem
+							first make sure your browser is updated please :)
+						</p>
+					</div>
 
-				<p>This site is fully open source, see the github link</p>
-				<p>This site will NEVER have Ads or any form of tracking</p>
-				<p>
-					This site uses a lot of newer web features, please use the latest
-					version of your browser!
-				</p>
+					<!-- Links -->
+					<div class="uno-flex-center mt-4 gap-4">
+						<Tooltip
+							:tooltip-name="`discord-logo`"
+							:offset="[0, 0]"
+							:delay="250"
+							:placement="'bottom'"
+						>
+							<template #content>
+								<a
+									class="py-1"
+									href="https://discord.gg/526et4zxBT"
+									target="_blank"
+								>
+									<img src="/discord.png" alt="Discord Logo" loading="lazy" />
+								</a>
+							</template>
 
-				<!-- Links -->
-				<div class="tw-flex-center mt-2 gap-4">
-					<Tooltip
-						:tooltip-name="`discord-logo`"
-						:offset="[0, 0]"
-						:delay="250"
-						:placement="'bottom'"
-					>
-						<template #content>
-							<a
-								class="py-1"
-								href="https://discord.gg/526et4zxBT"
-								target="_blank"
-							>
-								<img src="/discord.png" alt="Discord Logo" loading="lazy" />
-							</a>
-						</template>
+							<template #tooltip>
+								This sites discord, ask questions report bugs.
+							</template>
+						</Tooltip>
 
-						<template #tooltip>
-							This sites discord, ask questions report bugs.
-						</template>
-					</Tooltip>
+						<Tooltip
+							:tooltip-name="`github-logo`"
+							:offset="[0, 0]"
+							:delay="250"
+							:placement="'bottom'"
+						>
+							<template #content>
+								<a
+									class="py-1"
+									href="https://github.com/buffet-time/MusicChartMaker.com"
+									target="_blank"
+								>
+									<img src="/github.png" alt="Github Logo" loading="lazy" />
+								</a>
+							</template>
 
-					<Tooltip
-						:tooltip-name="`github-logo`"
-						:offset="[0, 0]"
-						:delay="250"
-						:placement="'bottom'"
-					>
-						<template #content>
-							<a
-								class="py-1"
-								href="https://github.com/buffet-time/MusicChartMaker.com"
-								target="_blank"
-							>
-								<img src="/github.png" alt="Github Logo" loading="lazy" />
-							</a>
-						</template>
-
-						<template #tooltip> The source code to this site. </template>
-					</Tooltip>
+							<template #tooltip> The source code to this site. </template>
+						</Tooltip>
+					</div>
 				</div>
 			</template>
 		</Dialog>

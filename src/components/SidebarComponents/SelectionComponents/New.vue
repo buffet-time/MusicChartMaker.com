@@ -108,7 +108,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<button type="button" class="tw-button" @click="onNewChart">New</button>
+	<button type="button" class="uno-button" @click="onNewChart">New</button>
 
 	<Dialog :dialog-id="newDialogId" :close-button="true">
 		<template #content>
@@ -119,7 +119,7 @@ onMounted(() => {
 				v-model="chartNameInput"
 				placeholder="Name of chart"
 				type="text"
-				class="tw-input"
+				class="uno-input"
 				title="Any name but can't just be a number."
 				pattern="(?!GlobalSiteOptions$).*"
 			/>
@@ -134,14 +134,16 @@ onMounted(() => {
 				<p v-show="!createPreset && !editPresets && !lastfmAdd">
 					Select the preset for the new chart.
 				</p>
-				<div v-if="!presetAdd && !lastfmAdd" class="tw-flex-center gap-1">
-					<button class="tw-button" @click="newChart({ type: 'Dynamic' })">
+				<div v-if="!presetAdd && !lastfmAdd" class="uno-flex-center gap-1">
+					<button class="uno-button" @click="newChart({ type: 'Dynamic' })">
 						Dynamic
 					</button>
 
-					<button class="tw-button" @click="presetAdd = true">Preset</button>
+					<button class="uno-button" @click="presetAdd = true">Preset</button>
 
-					<button class="tw-button" @click="lastfmAdd = true">Last.fm</button>
+					<button class="uno-button" @click="lastfmAdd = true">
+						Last.fm (a bit buggy, fixing soon!)
+					</button>
 				</div>
 
 				<template v-if="presetAdd">

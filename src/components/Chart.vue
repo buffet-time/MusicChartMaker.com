@@ -32,7 +32,8 @@ watchDebounced(
 </script>
 
 <template>
-	<div class="tw-flex-center w-full md:hidden">
+	<!-- height value is hacky but works... -->
+	<div class="w-full uno-flex-center md:hidden h-[208px]">
 		<Search />
 	</div>
 	<div
@@ -43,7 +44,7 @@ watchDebounced(
 				? `url(${GlobalChartState?.options.backgroundImage})`
 				: 'unset'
 		}"
-		class="tw-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
+		class="uno-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
 	>
 		<ChartImages />
 		<ChartTitles />

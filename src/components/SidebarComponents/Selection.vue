@@ -82,11 +82,11 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="tw-flex-center flex-col">
-		<label>Select Chart: </label>
+	<div class="uno-flex-center flex-col">
+		<label class="mb-1">Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
-			class="tw-input pl-1"
+			class="uno-input global-select uno-select pl-1"
 			@change="onSelect"
 		>
 			<option v-for="(name, index) in StoredChartNames.sort()" :key="index">
@@ -95,7 +95,7 @@ onMounted(() => {
 		</select>
 	</div>
 	<div class="mt-2">
-		<div v-if="!initializing" class="tw-flex-center gap-1">
+		<div v-if="!initializing" class="uno-flex-center gap-1">
 			<!-- TODO: remove emitting to change `selectedChartTitle' -->
 			<New
 				:selected-chart-title="selectedChartTitle"

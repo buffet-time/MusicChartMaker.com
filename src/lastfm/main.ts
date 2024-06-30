@@ -35,7 +35,8 @@ export async function searchAlbum(limit: number, album: string) {
 
 		const apiUrl = `${searchBaseUrl}${album}&api_key=${lastFmApiKey}&limit=${requestLimit}&format=json`
 
-		console.log(12, apiUrl)
+		// TESTING log
+		// console.log(12, apiUrl)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const results: AlbumResults = (await ProperFetch(
 			apiUrl

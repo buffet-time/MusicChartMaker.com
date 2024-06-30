@@ -75,9 +75,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="tw-flex-center gap-2">
+	<div class="uno-flex-center gap-2">
 		<button
-			class="tw-button flex w-10/12 items-center gap-2"
+			class="uno-button flex w-10/12 items-center gap-2"
 			@click="openSaveImage()"
 		>
 			<img
@@ -124,11 +124,11 @@ onMounted(() => {
 					</div>
 
 					<div>
-						<label>Image type</label>
+						<p class="pb-2">Image type</p>
 						<select
 							v-if="renderImageSelect"
 							v-model="selectedFormat"
-							class="tw-input"
+							class="uno-input global-select uno-select"
 						>
 							<option v-for="(imageType, index) in validFormats" :key="index">
 								{{ imageType }}
@@ -136,7 +136,7 @@ onMounted(() => {
 						</select>
 					</div>
 
-					<button class="tw-button mb-1 px-3 py-1" @click="saveImage">
+					<button class="uno-button py-1 mb-1 px-3" @click="saveImage">
 						Save Image
 					</button>
 				</div>
