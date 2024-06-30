@@ -8,6 +8,7 @@
   - Improve UX
   - Shadow in chart
   - Have temporary storage of removed albums from resizing to refill
+  - Show changelog in Site Info!
 - Bug Fixes
   - Fix Last.fm!!
   - Add better guard rails to chart names

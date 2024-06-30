@@ -1,9 +1,9 @@
 /* Input */
 @layer components {
-	.tw-flex-center {
+	.uno-flex-center {
 		@apply flex items-center justify-center;
 	}
-	.tw-button {
+	.uno-button {
 		@apply cursor-pointer select-none rounded-[2px] border border-neutral-500 bg-neutral-500 px-3 py-2 text-white hover:bg-neutral-600 disabled:cursor-default disabled:bg-neutral-600;
 	}
 	.uno-input {

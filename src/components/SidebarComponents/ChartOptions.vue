@@ -62,10 +62,10 @@ function resetOptionsToDefault() {
 <template>
 	<div>
 		<!-- in the sidebar -->
-		<div class="tw-flex-center gap-2">
+		<div class="uno-flex-center gap-2">
 			<button
 				type="button"
-				class="tw-button flex gap-2 w-10/12 items-center"
+				class="uno-button flex gap-2 w-10/12 items-center"
 				@click="showChartOptions = true"
 			>
 				<img
@@ -111,7 +111,7 @@ function resetOptionsToDefault() {
 					<Background />
 
 					<div class="pt-2">
-						<button class="tw-button" @click="openResetOptionsModal">
+						<button class="uno-button" @click="openResetOptionsModal">
 							Reset to Default
 						</button>
 
@@ -126,10 +126,10 @@ function resetOptionsToDefault() {
 								</p>
 
 								<div class="flex gap-2">
-									<button class="tw-button" @click="resetOptionsToDefault">
+									<button class="uno-button" @click="resetOptionsToDefault">
 										Yes
 									</button>
-									<button class="tw-button" @click="closeResetOptionModal">
+									<button class="uno-button" @click="closeResetOptionModal">
 										No
 									</button>
 								</div>

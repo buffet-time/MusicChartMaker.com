@@ -16,7 +16,7 @@ function showModal() {
 	<div class="flex items-center justify-center gap-2">
 		<button
 			type="button"
-			class="tw-button flex items-center gap-2 w-7/12"
+			class="uno-button flex items-center gap-2 w-7/12"
 			@click="showModal()"
 		>
 			<img
@@ -50,7 +50,7 @@ function showModal() {
 					</div>
 
 					<!-- Links -->
-					<div class="tw-flex-center mt-4 gap-4">
+					<div class="uno-flex-center mt-4 gap-4">
 						<Tooltip
 							:tooltip-name="`discord-logo`"
 							:offset="[0, 0]"

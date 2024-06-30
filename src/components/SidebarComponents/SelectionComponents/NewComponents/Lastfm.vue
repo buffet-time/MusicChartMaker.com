@@ -102,7 +102,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		<input v-model="columns" type="range" min="1" max="10" />
 
 		<button
-			class="tw-button"
+			class="uno-button"
 			@click="
 				createChart({
 					lastfm: true,
@@ -118,7 +118,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		<button
 			v-for="(preset, index) in GlobalSiteOptions.presets"
 			:key="`preset-${index}`"
-			class="tw-button"
+			class="uno-button"
 			@click="createChart({ lastfm: true, type: 'Preset', preset })"
 		>
 			{{ preset.presetName }}
@@ -126,7 +126,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 	</div>
 
 	<button
-		class="tw-button uno-close-button"
+		class="uno-button uno-close-button"
 		@click="emit('updateLastfmAdd', false)"
 	>
 		<img src="/back.svg" width="25" height="25" loading="lazy" />

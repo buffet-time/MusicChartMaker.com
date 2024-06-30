@@ -31,7 +31,7 @@ watchDebounced(
 </script>
 
 <template>
-	<div class="flex h-screen font-sans text-white antialiased scrollbar-chagnes">
+	<div class="flex h-screen font-sans text-white antialiased">
 		<Sidebar @can-render-chart="renderChart = true" />
 		<div class="flex w-full flex-col gap-2">
 			<Chart v-if="renderChart" />

@@ -24,10 +24,10 @@ function clearLocalStore() {
 <template>
 	<div>
 		<!-- in the sidebar -->
-		<div class="tw-flex-center gap-2">
+		<div class="uno-flex-center gap-2">
 			<button
 				type="button"
-				class="tw-button flex w-10/12 items-center gap-2"
+				class="uno-button flex w-10/12 items-center gap-2"
 				@click="showChartOptions = true"
 			>
 				<img
@@ -82,7 +82,7 @@ function clearLocalStore() {
 				</div>
 
 				<div class="pt-2">
-					<button class="tw-button mx-14" @click="openDevToolsModal">
+					<button class="uno-button mx-14" @click="openDevToolsModal">
 						Dev Tools
 					</button>
 
@@ -94,7 +94,7 @@ function clearLocalStore() {
 
 							<div class="flex gap-2">
 								<div class="flex gap-2">
-									<button class="tw-button" @click="clearLocalStore">
+									<button class="uno-button" @click="clearLocalStore">
 										Clear LocalStorage
 									</button>
 								</div>

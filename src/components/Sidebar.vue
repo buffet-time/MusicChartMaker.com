@@ -54,7 +54,7 @@ onMounted(() => {
 		height="25"
 		width="25"
 		src="/hamburgerMenu.svg"
-		class="tw-button md:hidden fixed ml-2 mt-2 p-1"
+		class="uno-button md:hidden fixed ml-2 mt-2 p-1"
 		loading="lazy"
 		@click="toggleMenu"
 	/>
@@ -69,7 +69,7 @@ onMounted(() => {
 			loading="lazy"
 			height="25"
 			width="25"
-			class="tw-button fixed ml-2 p-1 mt-2 md:hidden"
+			class="uno-button fixed ml-2 p-1 mt-2 md:hidden"
 			@click="toggleMenu"
 		/>
 

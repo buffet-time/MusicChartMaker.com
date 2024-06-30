@@ -82,7 +82,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="tw-flex-center flex-col">
+	<div class="uno-flex-center flex-col">
 		<label class="mb-1">Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
@@ -95,7 +95,7 @@ onMounted(() => {
 		</select>
 	</div>
 	<div class="mt-2">
-		<div v-if="!initializing" class="tw-flex-center gap-1">
+		<div v-if="!initializing" class="uno-flex-center gap-1">
 			<!-- TODO: remove emitting to change `selectedChartTitle' -->
 			<New
 				:selected-chart-title="selectedChartTitle"

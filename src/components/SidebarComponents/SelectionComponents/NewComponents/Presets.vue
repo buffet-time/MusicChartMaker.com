@@ -46,11 +46,11 @@ function deletePreset(preset: ChartPreset, index: number) {
 
 <template>
 	<template v-if="!createPreset && !editPresets">
-		<div class="tw-flex-center gap-1">
+		<div class="uno-flex-center gap-1">
 			<button
 				v-for="(preset, index) in GlobalSiteOptions.presets"
 				:key="`preset-${index}`"
-				class="tw-button"
+				class="uno-button"
 				@click="emit('newChart', { type: 'Preset', preset: preset })"
 			>
 				{{ preset.presetName }}
@@ -58,19 +58,19 @@ function deletePreset(preset: ChartPreset, index: number) {
 		</div>
 
 		<div class="mt-2 flex gap-1">
-			<button class="tw-button" @click="emit('updateCreatePreset', true)">
+			<button class="uno-button" @click="emit('updateCreatePreset', true)">
 				New preset
 			</button>
 			<button
 				v-if="GlobalSiteOptions.presets?.some((preset) => !preset.default)"
-				class="tw-button"
+				class="uno-button"
 				@click="emit('updateEditPresets', true)"
 			>
 				Edit presets
 			</button>
 		</div>
 		<button
-			class="tw-button uno-close-button h-[33px] w-[33px]"
+			class="uno-button uno-close-button h-[33px] w-[33px]"
 			@click="emit('updatePresetAdd', false)"
 		>
 			<img src="/back.svg" width="25" height="25" loading="lazy" />
@@ -108,9 +108,9 @@ function deletePreset(preset: ChartPreset, index: number) {
 		/>
 
 		<div class="flex gap-1">
-			<button class="tw-button" @click="newPreset">Create preset</button>
+			<button class="uno-button" @click="newPreset">Create preset</button>
 			<button
-				class="tw-button uno-close-button h-[33px] w-[33px]"
+				class="uno-button uno-close-button h-[33px] w-[33px]"
 				@click="closeCreatePreset"
 			>
 				<img src="/back.svg" width="25" height="25" loading="lazy" />
@@ -129,14 +129,14 @@ function deletePreset(preset: ChartPreset, index: number) {
 					v-model="GlobalSiteOptions.presets![index].presetName"
 					class="uno-input"
 				/>
-				<button class="tw-button" @click="deletePreset(preset, index)">
+				<button class="uno-button" @click="deletePreset(preset, index)">
 					Delete
 				</button>
 			</div>
 		</template>
 
 		<button
-			class="tw-button uno-close-button h-[33px] w-[33px]"
+			class="uno-button uno-close-button h-[33px] w-[33px]"
 			@click="emit('updateEditPresets', false)"
 		>
 			<img src="/back.svg" width="25" height="25" loading="lazy" />

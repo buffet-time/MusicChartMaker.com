@@ -26,7 +26,7 @@ function clearBackground() {
 </script>
 
 <template>
-	<div class="uno-options-div tw-flex-center">
+	<div class="uno-options-div uno-flex-center">
 		<label>Background Color</label>
 		<input
 			v-model="GlobalChartState!.options.background"
@@ -44,11 +44,11 @@ function clearBackground() {
 			class="cursor-pointer uno-input w-auto"
 			@keyup.enter="onBgImageInput"
 		/>
-		<div class="tw-flex-center gap-1 mt-1">
-			<button type="button" class="tw-button" @click="onBgImageInput">
+		<div class="uno-flex-center gap-1 mt-1">
+			<button type="button" class="uno-button" @click="onBgImageInput">
 				Set BG
 			</button>
-			<button type="button" class="tw-button" @click="clearBackground">
+			<button type="button" class="uno-button" @click="clearBackground">
 				Clear BG
 			</button>
 		</div>

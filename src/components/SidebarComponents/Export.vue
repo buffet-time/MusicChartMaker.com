@@ -28,10 +28,10 @@ function importMCM() {
 	<!-- Put all these into a new section -->
 
 	<!-- in the sidebar -->
-	<div class="tw-flex-center gap-2">
+	<div class="uno-flex-center gap-2">
 		<button
 			type="button"
-			class="tw-button flex w-10/12 items-center gap-2"
+			class="uno-button flex w-10/12 items-center gap-2"
 			@click="showImportExport = true"
 		>
 			<img
@@ -68,11 +68,15 @@ function importMCM() {
 			<section class="flex flex-col gap-2 my-2">
 				<h1 class="text-xl m-0">From this site</h1>
 
-				<button type="button" class="tw-button" @click="ExportChartsAndOptions">
+				<button
+					type="button"
+					class="uno-button"
+					@click="ExportChartsAndOptions"
+				>
 					Export all charts & options
 				</button>
 
-				<label for="file-picker" class="tw-button block">
+				<label for="file-picker" class="uno-button block">
 					Import all charts & options
 					<input
 						id="file-picker"
@@ -89,7 +93,7 @@ function importMCM() {
 
 			<section class="my-2 flex flex-col gap-2">
 				<h1 class="text-xl m-0">From Topsters 2</h1>
-				<label for="topsters2-file-picker" class="tw-button block">
+				<label for="topsters2-file-picker" class="uno-button block">
 					Import a Chart
 					<input
 						id="topsters2-file-picker"
@@ -110,7 +114,7 @@ function importMCM() {
 				<h1 class="text-xl m-0">From Topsters 3</h1>
 
 				<p class="m-0">Will be added in a future release!</p>
-				<!-- <label for="topsters2-file-picker" class="tw-button block">
+				<!-- <label for="topsters2-file-picker" class="uno-button block">
 				Import a Chart
 				<input
 					id="topsters2-file-picker"
@@ -127,7 +131,7 @@ function importMCM() {
 				<h1 class="text-xl m-0">From Chartr or Topchart</h1>
 
 				<p class="m-0">Will be added in a future release!</p>
-				<!-- <label for="topsters2-file-picker" class="tw-button block">
+				<!-- <label for="topsters2-file-picker" class="uno-button block">
 				Import a Chart
 				<input
 					id="topsters2-file-picker"

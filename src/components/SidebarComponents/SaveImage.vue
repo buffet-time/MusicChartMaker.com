@@ -75,9 +75,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="tw-flex-center gap-2">
+	<div class="uno-flex-center gap-2">
 		<button
-			class="tw-button flex w-10/12 items-center gap-2"
+			class="uno-button flex w-10/12 items-center gap-2"
 			@click="openSaveImage()"
 		>
 			<img
@@ -136,7 +136,7 @@ onMounted(() => {
 						</select>
 					</div>
 
-					<button class="tw-button py-1 mb-1 px-3" @click="saveImage">
+					<button class="uno-button py-1 mb-1 px-3" @click="saveImage">
 						Save Image
 					</button>
 				</div>

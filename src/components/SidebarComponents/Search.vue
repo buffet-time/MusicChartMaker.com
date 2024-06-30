@@ -84,7 +84,7 @@ function getSearchResultsLength() {
 				<template #content>
 					<div>
 						<label>Search: </label>
-						<div class="tw-flex-center flex-col gap-2">
+						<div class="uno-flex-center flex-col gap-2">
 							<input
 								v-model="searchInput"
 								class="uno-input p-2"
@@ -94,7 +94,7 @@ function getSearchResultsLength() {
 							/>
 							<div class="flex gap-1">
 								<button
-									class="tw-button"
+									class="uno-button"
 									type="button"
 									:disabled="searchInput === ''"
 									@click="search"
@@ -102,7 +102,7 @@ function getSearchResultsLength() {
 									search
 								</button>
 								<button
-									class="tw-button"
+									class="uno-button"
 									type="button"
 									:disabled="!showSearchResults"
 									@click="showSearchResults = false"
@@ -123,7 +123,7 @@ function getSearchResultsLength() {
 		<template v-else>
 			<div>
 				<label>Search: </label>
-				<div class="tw-flex-center flex-col gap-2">
+				<div class="uno-flex-center flex-col gap-2">
 					<input
 						v-model="searchInput"
 						class="uno-input p-2"
@@ -133,7 +133,7 @@ function getSearchResultsLength() {
 					/>
 					<div class="flex gap-1">
 						<button
-							class="tw-button"
+							class="uno-button"
 							type="button"
 							:disabled="searchInput === ''"
 							@click="search"
@@ -141,7 +141,7 @@ function getSearchResultsLength() {
 							search
 						</button>
 						<button
-							class="tw-button"
+							class="uno-button"
 							type="button"
 							:disabled="!showSearchResults"
 							@click="showSearchResults = false"
@@ -155,7 +155,7 @@ function getSearchResultsLength() {
 
 		<div
 			v-show="showSearchResults"
-			class="tw-flex-center uno-search-results-div results-div"
+			class="uno-flex-center uno-search-results-div results-div"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>
 			<div v-if="getSearchResultsLength() < 1" class="flex">

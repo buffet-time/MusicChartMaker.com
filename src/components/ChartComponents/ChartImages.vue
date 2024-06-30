@@ -229,7 +229,7 @@ function chartTitle(
 							/>
 							<div
 								v-if="album.image === GrayBoxImgFromApi"
-								class="tw-flex-center uno-album-image-text-overlay"
+								class="uno-flex-center uno-album-image-text-overlay"
 							>
 								{{ album.artist }} - {{ album.name }}
 							</div>
@@ -245,8 +245,8 @@ function chartTitle(
 			<template #content>
 				Delete the selected album?
 				<div class="flex gap-2">
-					<button class="tw-button" @click="deleteSelectedAlbum">Yes</button>
-					<button class="tw-button" @click="closeDialog">No</button>
+					<button class="uno-button" @click="deleteSelectedAlbum">Yes</button>
+					<button class="uno-button" @click="closeDialog">No</button>
 				</div>
 			</template>
 		</Dialog>
