@@ -65,7 +65,7 @@ function resetOptionsToDefault() {
 		<div class="tw-flex-center gap-2">
 			<button
 				type="button"
-				class="tw-button flex w-10/12 items-center gap-2"
+				class="tw-button flex gap-2 w-10/12 items-center"
 				@click="showChartOptions = true"
 			>
 				<img
@@ -82,66 +82,71 @@ function resetOptionsToDefault() {
 		</div>
 
 		<!-- The options overlay -->
-		<div v-if="showChartOptions" class="tw-options-overlay-div">
-			<img
-				title="Close Options"
-				alt="close-button"
-				src="/back.svg"
-				width="25"
-				height="25"
-				class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
-				loading="lazy"
-				@click="showChartOptions = false"
-			/>
-			<template v-if="!GlobalChartState.options.lockChart">
-				<ChartSize />
-
-				<div class="mt-4">
-					<Font />
-				</div>
-
-				<div>
-					<TextOptions />
-				</div>
-
-				<Background />
-
-				<div class="pt-2">
-					<button class="tw-button" @click="openResetOptionsModal">
-						Reset to Default
-					</button>
-
-					<Dialog :dialog-id="resetOptionsId" :close-button="true">
-						<template #content>
-							<p class="text-neutral-200">
-								This will not reset Chart Size or any albums that are in the
-								chart.
-							</p>
-							<p class="text-neutral-200">
-								Reset all options to their defaults?
-							</p>
-
-							<div class="flex gap-2">
-								<button class="tw-button" @click="resetOptionsToDefault">
-									Yes
-								</button>
-								<button class="tw-button" @click="closeResetOptionModal">
-									No
-								</button>
-							</div>
-						</template>
-					</Dialog>
-				</div>
-			</template>
-
-			<!-- Lock chart check -->
-			<div class="tw-options-div">
-				<label>Lock this chart?</label>
-				<input
-					v-model="GlobalChartState!.options.lockChart"
-					class="tw-checkbox"
-					type="checkbox"
+		<div
+			v-if="showChartOptions"
+			class="uno-sidebar-width uno-options-overlay-div px-0"
+		>
+			<div class="px-2 flex flex-col">
+				<img
+					title="Close Options"
+					alt="close-button"
+					src="/back.svg"
+					width="25"
+					height="25"
+					class="absolute left-0 cursor-pointer bg-neutral-500 m-[6px] mt-[6px]"
+					loading="lazy"
+					@click="showChartOptions = false"
 				/>
+				<template v-if="!GlobalChartState.options.lockChart">
+					<ChartSize />
+
+					<div class="mt-4">
+						<Font />
+					</div>
+
+					<div>
+						<TextOptions />
+					</div>
+
+					<Background />
+
+					<div class="pt-2">
+						<button class="tw-button" @click="openResetOptionsModal">
+							Reset to Default
+						</button>
+
+						<Dialog :dialog-id="resetOptionsId" :close-button="true">
+							<template #content>
+								<p class="text-neutral-200">
+									This will not reset Chart Size or any albums that are in the
+									chart.
+								</p>
+								<p class="text-neutral-200">
+									Reset all options to their defaults?
+								</p>
+
+								<div class="flex gap-2">
+									<button class="tw-button" @click="resetOptionsToDefault">
+										Yes
+									</button>
+									<button class="tw-button" @click="closeResetOptionModal">
+										No
+									</button>
+								</div>
+							</template>
+						</Dialog>
+					</div>
+				</template>
+
+				<!-- Lock chart check -->
+				<div class="uno-options-div">
+					<label>Lock this chart?</label>
+					<input
+						v-model="GlobalChartState!.options.lockChart"
+						class="uno-checkbox"
+						type="checkbox"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>

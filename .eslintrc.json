@@ -19,7 +19,8 @@
 		"@vue/typescript/recommended",
 		"plugin:@typescript-eslint/recommended-type-checked",
 		"plugin:@typescript-eslint/stylistic-type-checked",
-		"plugin:depend/recommended"
+		"plugin:depend/recommended",
+		"@unocss"
 	],
 	"parser": "vue-eslint-parser",
 	"parserOptions": {

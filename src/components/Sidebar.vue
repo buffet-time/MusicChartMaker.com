@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import Search from './SidebarComponents/Search.vue'
 import ChartOptions from './SidebarComponents/ChartOptions.vue'
@@ -16,21 +16,35 @@ const emit = defineEmits<{
 const showOptions = ref(false)
 const sidebarMenu = ref<HTMLDivElement>()
 const hamburgerMenu = ref<HTMLImageElement>()
+const nonSearchSideBarItems = ref<HTMLDivElement>()
+const searchHeight = ref<string | number>()
+
+const resizeObserver = new ResizeObserver(() => getSearchHeight())
+resizeObserver.observe(document.body)
 
 function onCanRender() {
 	emit('canRenderChart')
 	showOptions.value = true
 }
 
-function showMenu() {
+function toggleMenu() {
 	hamburgerMenu.value?.classList.toggle('hidden')
 	sidebarMenu.value?.classList.toggle('hidden')
+	sidebarMenu.value?.classList.toggle('flex')
 }
 
-function hideMenu() {
-	hamburgerMenu.value?.classList.toggle('hidden')
-	sidebarMenu.value?.classList.toggle('hidden')
+function getSearchHeight() {
+	searchHeight.value = nonSearchSideBarItems.value
+		? (searchHeight.value = `${document.body.clientHeight - nonSearchSideBarItems.value.clientHeight}px`)
+		: 0
 }
+
+onMounted(() => {
+	// wait for synchronous call stack is empty to ensure we get valid search height
+	setTimeout(() => {
+		getSearchHeight()
+	}, 0)
+})
 </script>
 
 <template>
@@ -40,14 +54,14 @@ function hideMenu() {
 		height="25"
 		width="25"
 		src="/hamburgerMenu.svg"
-		class="tw-button fixed ml-2 mt-2 p-1 md:hidden"
+		class="tw-button md:hidden fixed ml-2 mt-2 p-1"
 		loading="lazy"
-		@click="showMenu()"
+		@click="toggleMenu"
 	/>
 
 	<div
 		ref="sidebarMenu"
-		class="tw-sidebar-width fixed z-10 flex hidden h-full flex-col gap-3 bg-[#404040] pt-2 md:flex"
+		class="fixed z-10 flex-col hidden uno-sidebar-width h-full bg-[#404040] md:flex"
 	>
 		<img
 			src="/blackClose.svg"
@@ -55,25 +69,27 @@ function hideMenu() {
 			loading="lazy"
 			height="25"
 			width="25"
-			class="tw-button fixed ml-2 p-0 md:hidden"
-			@click="hideMenu()"
+			class="tw-button fixed ml-2 p-1 mt-2 md:hidden"
+			@click="toggleMenu"
 		/>
 
-		<SiteInfo />
+		<div ref="nonSearchSideBarItems" class="flex flex-col gap-3 pt-2">
+			<SiteInfo />
 
-		<div class="mt-[-4px]">
-			<Selection @can-render-chart="onCanRender" />
+			<div class="mt-[-4px]">
+				<Selection @can-render-chart="onCanRender" />
+			</div>
+
+			<SaveImage />
+
+			<Export />
+
+			<ChartOptions v-if="showOptions" />
+
+			<SiteOptions v-if="showOptions" />
 		</div>
 
-		<SaveImage />
-
-		<Export />
-
-		<ChartOptions v-if="showOptions" />
-
-		<SiteOptions v-if="showOptions" />
-
-		<div class="hidden md:block">
+		<div class="hidden md:block" :style="{ 'max-height': searchHeight }">
 			<Search />
 		</div>
 	</div>

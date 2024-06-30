@@ -83,10 +83,10 @@ onMounted(() => {
 
 <template>
 	<div class="tw-flex-center flex-col">
-		<label>Select Chart: </label>
+		<label class="mb-1">Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
-			class="tw-input pl-1"
+			class="uno-input global-select uno-select pl-1"
 			@change="onSelect"
 		>
 			<option v-for="(name, index) in StoredChartNames.sort()" :key="index">

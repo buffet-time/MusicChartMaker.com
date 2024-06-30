@@ -32,7 +32,8 @@ watchDebounced(
 </script>
 
 <template>
-	<div class="tw-flex-center w-full md:hidden">
+	<!-- height value is hacky but works... -->
+	<div class="w-full tw-flex-center md:hidden h-[208px]">
 		<Search />
 	</div>
 	<div

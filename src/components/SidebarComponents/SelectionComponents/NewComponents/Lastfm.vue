@@ -75,18 +75,21 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 	<input
 		v-model="username"
 		placeholder="last.fm/user/[THIS PART]"
-		class="tw-input"
+		class="uno-input"
 	/>
 
 	<label>Time Range:</label>
-	<select v-model="selectedPeriod" class="tw-input">
+	<select v-model="selectedPeriod" class="uno-input global-select uno-select">
 		<option v-for="(value, index) in periodOptions" :key="index">
 			{{ value }}
 		</option>
 	</select>
 
 	<label>Chart type: </label>
-	<select v-model="selectedChartType" class="tw-input">
+	<select
+		v-model="selectedChartType"
+		class="uno-input global-select uno-select"
+	>
 		<option>Dynamic</option>
 		<option>Preset</option>
 	</select>
@@ -111,7 +114,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		</button>
 	</template>
 
-	<div v-else class="mt-2 flex max-w-[350px] flex-wrap justify-center gap-1">
+	<div v-else class="mt-2 flex justify-center gap-1 max-w-[350px] flex-wrap">
 		<button
 			v-for="(preset, index) in GlobalSiteOptions.presets"
 			:key="`preset-${index}`"
@@ -123,7 +126,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 	</div>
 
 	<button
-		class="tw-button tw-close-button"
+		class="tw-button uno-close-button"
 		@click="emit('updateLastfmAdd', false)"
 	>
 		<img src="/back.svg" width="25" height="25" loading="lazy" />

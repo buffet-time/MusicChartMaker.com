@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './tailwind.css'
 import { version as PackageVersion } from '#root/package.json'
+import './uno.css'
+import './global.css'
 
 addVersionMetaTag()
 createApp(App).mount('#app')

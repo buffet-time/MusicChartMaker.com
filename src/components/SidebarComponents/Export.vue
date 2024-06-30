@@ -47,82 +47,70 @@ function importMCM() {
 		</button>
 	</div>
 
-	<div v-if="showImportExport" class="t tw-options-overlay-div gap-[6px] px-2">
-		<img
-			title="Go back"
-			alt="go-back"
-			src="/back.svg"
-			width="25"
-			height="25"
-			class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
-			loading="lazy"
-			@click="showImportExport = false"
-		/>
+	<div
+		v-if="showImportExport"
+		class="uno-options-overlay-div uno-sidebar-width p-0"
+	>
+		<div class="px-2 flex flex-col gap-[6px]">
+			<img
+				title="Go back"
+				alt="go-back"
+				src="/back.svg"
+				width="25"
+				height="25"
+				class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
+				loading="lazy"
+				@click="showImportExport = false"
+			/>
 
-		<p class="mt-12">Bug fixes and more features to come here soon!</p>
+			<p class="mt-12 mb-0">Bug fixes and more features to come here soon!</p>
 
-		<section class="my-2 flex flex-col gap-2">
-			<h1 class="text-xl">From this site</h1>
+			<section class="flex flex-col gap-2 my-2">
+				<h1 class="text-xl m-0">From this site</h1>
 
-			<button type="button" class="tw-button" @click="ExportChartsAndOptions">
-				Export all charts & options
-			</button>
+				<button type="button" class="tw-button" @click="ExportChartsAndOptions">
+					Export all charts & options
+				</button>
 
-			<label for="file-picker" class="tw-button block">
-				Import all charts & options
-				<input
-					id="file-picker"
-					ref="filePicker"
-					type="file"
-					accept=".json"
-					class="hidden"
-					@input="importMCM"
-				/>
-			</label>
+				<label for="file-picker" class="tw-button block">
+					Import all charts & options
+					<input
+						id="file-picker"
+						ref="filePicker"
+						type="file"
+						accept=".json"
+						class="hidden"
+						@input="importMCM"
+					/>
+				</label>
 
-			<p>Importing/ Exporting single charts and options soon!</p>
-		</section>
+				<p class="m-0">Importing/ Exporting single charts and options soon!</p>
+			</section>
 
-		<section class="my-2 flex flex-col gap-2">
-			<h1 class="text-xl">From Topsters 2</h1>
-			<label for="topsters2-file-picker" class="tw-button block">
-				Import a Chart
-				<input
-					id="topsters2-file-picker"
-					ref="topsters2-filePicker"
-					type="file"
-					accept=".json"
-					class="hidden"
-					@input="importFromTopsters2"
-				/>
-			</label>
-			<p>
-				If you encounter an issue please report it on GitHub! (check site info)
-			</p>
-		</section>
+			<section class="my-2 flex flex-col gap-2">
+				<h1 class="text-xl m-0">From Topsters 2</h1>
+				<label for="topsters2-file-picker" class="tw-button block">
+					Import a Chart
+					<input
+						id="topsters2-file-picker"
+						ref="topsters2-filePicker"
+						type="file"
+						accept=".json"
+						class="hidden"
+						@input="importFromTopsters2"
+					/>
+				</label>
+				<p class="m-0">
+					If you encounter an issue please report it on GitHub! (check site
+					info)
+				</p>
+			</section>
 
-		<section class="my-2 flex flex-col gap-2">
-			<h1 class="text-xl">From Topsters 3</h1>
+			<section class="my-2 flex flex-col gap-2">
+				<h1 class="text-xl m-0">From Topsters 3</h1>
 
-			<p>Will be added in a future release!</p>
-			<!-- <label for="topsters2-file-picker" class="tw-button block">
-				Import a Chart
-				<input
-					id="topsters2-file-picker"
-					ref="topsters2-filePicker"
-					type="file"
-					accept=".json"
-					class="hidden"
-					@input="importFromTopsters2"
-				/>
-			</label> -->
-		</section>
-
-		<section class="my-2 flex flex-col gap-2">
-			<h1 class="text-xl">From Chartr or Topchart</h1>
-
-			<p>Will be added in a future release!</p>
-			<!-- <label for="topsters2-file-picker" class="tw-button block">
+				<p class="m-0">Will be added in a future release!</p>
+				<!-- <label for="topsters2-file-picker" class="tw-button block">
 				Import a Chart
 				<input
 					id="topsters2-file-picker"
@@ -133,6 +121,24 @@ function importMCM() {
 					@input="importFromTopsters2"
 				/>
 			</label> -->
-		</section>
+			</section>
+
+			<section class="my-2 flex flex-col gap-2 m-0">
+				<h1 class="text-xl m-0">From Chartr or Topchart</h1>
+
+				<p class="m-0">Will be added in a future release!</p>
+				<!-- <label for="topsters2-file-picker" class="tw-button block">
+				Import a Chart
+				<input
+					id="topsters2-file-picker"
+					ref="topsters2-filePicker"
+					type="file"
+					accept=".json"
+					class="hidden"
+					@input="importFromTopsters2"
+				/>
+			</label> -->
+			</section>
+		</div>
 	</div>
 </template>

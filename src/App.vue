@@ -31,10 +31,20 @@ watchDebounced(
 </script>
 
 <template>
-	<div class="flex h-screen font-sans text-white antialiased">
+	<div class="flex h-screen font-sans text-white antialiased scrollbar-chagnes">
 		<Sidebar @can-render-chart="renderChart = true" />
 		<div class="flex w-full flex-col gap-2">
 			<Chart v-if="renderChart" />
 		</div>
 	</div>
 </template>
+
+<style>
+html {
+	scrollbar-width: thin;
+	scrollbar-color: gray rgb(80, 80, 80);
+}
+body {
+	margin: 0;
+}
+</style>

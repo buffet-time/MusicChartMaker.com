@@ -70,7 +70,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			</button>
 		</div>
 		<button
-			class="tw-button tw-close-button"
+			class="tw-button uno-close-button h-[33px] w-[33px]"
 			@click="emit('updatePresetAdd', false)"
 		>
 			<img src="/back.svg" width="25" height="25" loading="lazy" />
@@ -78,34 +78,41 @@ function deletePreset(preset: ChartPreset, index: number) {
 	</template>
 
 	<template v-if="createPreset">
-		<h1 class="text-lg text-green-400">Create a new preset</h1>
+		<h1 class="m-0 text-lg text-green-400">Create a new preset</h1>
 
-		<ol class="mx-4 list-decimal text-left">
+		<ol class="m-0 text-left list-decimal">
 			<li>The input should be a list of numbers</li>
 			<li>Seperate numbers by commas</li>
 			<li>You can't include a 0 in the list</li>
 			<li>These can be really weird, go for it</li>
 		</ol>
 
-		<div class="flex gap-1">
-			<p class="text-green-400">Example 1 -</p>
+		<div class="m-0 flex gap-1">
+			<p class="text-green-400 m-0">Example 1 -</p>
 			5, 5, 6, 6, 10, 10
 		</div>
-		<div class="flex gap-1">
-			<p class="text-green-400">Example 2 -</p>
+		<div class="m-0 flex gap-1 mb-2">
+			<p class="text-green-400 m-0">Example 2 -</p>
 			15,3,8,5
 		</div>
 
-		<input v-model="newPresetName" class="tw-input" placeholder="Preset Name" />
+		<input
+			v-model="newPresetName"
+			class="uno-input"
+			placeholder="Preset Name"
+		/>
 		<input
 			v-model="newPresetList"
-			class="tw-input"
+			class="uno-input"
 			placeholder="New preset input"
 		/>
 
 		<div class="flex gap-1">
 			<button class="tw-button" @click="newPreset">Create preset</button>
-			<button class="tw-button tw-close-button" @click="closeCreatePreset">
+			<button
+				class="tw-button uno-close-button h-[33px] w-[33px]"
+				@click="closeCreatePreset"
+			>
 				<img src="/back.svg" width="25" height="25" loading="lazy" />
 			</button>
 		</div>
@@ -120,7 +127,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 			<div v-if="!preset.default" class="flex gap-2">
 				<input
 					v-model="GlobalSiteOptions.presets![index].presetName"
-					class="tw-input"
+					class="uno-input"
 				/>
 				<button class="tw-button" @click="deletePreset(preset, index)">
 					Delete
@@ -129,7 +136,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 		</template>
 
 		<button
-			class="tw-button tw-close-button"
+			class="tw-button uno-close-button h-[33px] w-[33px]"
 			@click="emit('updateEditPresets', false)"
 		>
 			<img src="/back.svg" width="25" height="25" loading="lazy" />

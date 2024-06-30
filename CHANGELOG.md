@@ -9,8 +9,23 @@
   - Shadow in chart
   - Have temporary storage of removed albums from resizing to refill
 - Bug Fixes
-  - Album search preview being cutoff
   - Fix Last.fm!!
+  - Add better guard rails to chart names
+  - Add guard rails to custom presets
+
+## Version 1.1.2 - June 28th, 2024
+
+- Bug Fixes
+  - Album search preview being cutoff
+  - [Firefox] - Fix inability to edit album title and name
+  
+- Performance/ Stability
+  - Migration from Tailwind -> UnoCSS
+    - This was a lot of work, slightly changes how the site looks
+    - includes a lot of small CSS tweaks and changes
+    - Notably faster CSS compared to Tailwind
+  - Updating all packages
+    - except ESLint to 9 because it's a lot of tedious work
   
 ## Version 1.1.1 - June 5th, 2024
 

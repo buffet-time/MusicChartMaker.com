@@ -74,7 +74,7 @@ function renameChart() {
 				v-model="chartInput"
 				placeholder="Name of chart"
 				type="text"
-				class="tw-input"
+				class="uno-input"
 				title="Any name but can't just be a number."
 				pattern="(?!GlobalSiteOptions$).*"
 			/>

@@ -119,7 +119,7 @@ onMounted(() => {
 				v-model="chartNameInput"
 				placeholder="Name of chart"
 				type="text"
-				class="tw-input"
+				class="uno-input"
 				title="Any name but can't just be a number."
 				pattern="(?!GlobalSiteOptions$).*"
 			/>
@@ -141,7 +141,9 @@ onMounted(() => {
 
 					<button class="tw-button" @click="presetAdd = true">Preset</button>
 
-					<button class="tw-button" @click="lastfmAdd = true">Last.fm</button>
+					<button class="tw-button" @click="lastfmAdd = true">
+						Last.fm (a bit buggy, fixing soon!)
+					</button>
 				</div>
 
 				<template v-if="presetAdd">

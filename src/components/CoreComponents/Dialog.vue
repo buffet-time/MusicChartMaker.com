@@ -44,10 +44,10 @@ onMounted(async () => {
 	<dialog
 		:id="dialogId"
 		ref="currentDialog"
-		class="bg-transparent"
+		class="bg-transparent border-transparent"
 		@keypress.esc="closeDialog"
 	>
-		<div class="tw-flex-center flex-col gap-2 bg-neutral-700 p-8 text-white">
+		<div class="tw-flex-center flex-col gap-2 text-white bg-neutral-700 p-8">
 			<!-- TODO: https://blog.vuejs.org/posts/vue-3-3#typed-slots-with-defineslots -->
 			<slot name="content"></slot>
 
