@@ -14,7 +14,7 @@
   - Add better guard rails to chart names
   - Add guard rails to custom presets
 
-## Version 1.1.2 - June 28th, 2024
+## Version 1.1.2 - June 29th, 2024
 
 - Bug Fixes
   - Album search preview being cutoff
