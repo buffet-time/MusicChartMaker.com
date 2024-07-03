@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { onMounted, ref } from 'vue'
 import type { AlbumTile, ChartPreset, ChartState, ChartType } from '#types'
 import {
@@ -32,7 +31,6 @@ interface NewChartParams {
 	preset?: ChartPreset
 }
 
-// eslint-disable-next-line vue/no-dupe-keys
 const { selectedChartTitle, selectedChart } = defineProps<{
 	selectedChartTitle: string
 	selectedChart: ChartState
@@ -141,9 +139,7 @@ onMounted(() => {
 
 					<button class="uno-button" @click="presetAdd = true">Preset</button>
 
-					<button class="uno-button" @click="lastfmAdd = true">
-						Last.fm (a bit buggy, fixing soon!)
-					</button>
+					<button class="uno-button" @click="lastfmAdd = true">Last.fm</button>
 				</div>
 
 				<template v-if="presetAdd">

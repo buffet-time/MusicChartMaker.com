@@ -1,4 +1,3 @@
-import { inflate } from 'pako'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
@@ -71,7 +70,7 @@ export function importFromTopsters2(event: Event) {
 		const fileReader = new FileReader()
 		const textDecoder = new TextDecoder()
 
-		fileReader.onload = (event) => {
+		fileReader.onload = async (event) => {
 			const encodedTopsters2 = event.target?.result
 			if (!encodedTopsters2) {
 				// BAD PATH REACHED!
@@ -107,6 +106,8 @@ export function importFromTopsters2(event: Event) {
 				),
 				(character: string) => character.charCodeAt(0)
 			)
+
+			const { inflate } = await import('pako')
 
 			const decodedTopsters2CardsArray = JSON.parse(
 				textDecoder.decode(inflate(partiallyDecodedTopsters2Cards))

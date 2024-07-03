@@ -86,7 +86,7 @@ function resetOptionsToDefault() {
 			v-if="showChartOptions"
 			class="uno-sidebar-width uno-options-overlay-div px-0"
 		>
-			<div class="px-2 flex flex-col">
+			<div class="flex flex-col px-2">
 				<img
 					title="Close Options"
 					alt="close-button"

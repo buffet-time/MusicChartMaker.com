@@ -14,6 +14,7 @@ const showSearchResults = ref(false)
 let previousSearch = ''
 
 async function search() {
+	showSearchResults.value = false
 	if (searchInput.value === '') {
 		return
 	}
@@ -154,7 +155,7 @@ function getSearchResultsLength() {
 		</template>
 
 		<div
-			v-show="showSearchResults"
+			v-if="showSearchResults"
 			class="uno-flex-center uno-search-results-div results-div"
 			:class="{ 'items-start': getSearchResultsLength() < 1 }"
 		>

@@ -5,7 +5,6 @@ import { Ref, onMounted, ref } from 'vue'
 // TODO: add conditional to create this with native HTML popover
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover
 
-// eslint-disable-next-line vue/no-dupe-keys
 const { tooltipName, offset, delay, placement } = defineProps<{
 	tooltipName: string
 	offset: [number, number] // [Y, X]
@@ -63,7 +62,7 @@ function onEnd() {
 	<div
 		:id="tooltipName"
 		ref="tooltipSlot"
-		class="tooltip z-10 rounded-md bg-[#505050] px-2 py-1"
+		class="z-10 px-2 tooltip rounded-md bg-[#505050] py-1"
 		role="tooltip"
 	>
 		<slot name="tooltip"></slot>

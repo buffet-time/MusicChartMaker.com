@@ -6,6 +6,7 @@
 /.github
 /src/assets/*
 /node_modules
+/testFiles
 
 # singular files
 .prettierignore

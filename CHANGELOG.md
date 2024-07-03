@@ -4,15 +4,34 @@
 
 - Features/ Enhancements
   - Have a way to have the top 100 album chart titles fit to the size of the chart
+    - blargh this is hard
   - Improve accessibility
   - Improve UX
   - Shadow in chart
   - Have temporary storage of removed albums from resizing to refill
-  - Show changelog in Site Info!
+  - Have a loading state image as images are lazy loaded
 - Bug Fixes
   - Fix Last.fm!!
-  - Add better guard rails to chart names
+
+## Version 1.1.3 - July 2nd, 2024
+
+- Features/ Enhancements
+  - Flush out old images when a new search happens to prevent bugginess
+    - On every instance of search tear down the component and rebuild
+  - Show changelog in Site Info!
+    - Renders the CHANGELOG.MD into Site Info
+- Bug Fixes
   - Add guard rails to custom presets
+- Performance/ Stability
+  - Code Splitting
+    - Dynamic Import Pako
+    - Dynamic Import Marked
+  - Updating all packages
+    - Finally upgraded to ESlint 9
+  - Set Rollup to use SWC for minification
+    - SWC Minify is the currently best Minifier
+- Other
+  - Added an example Topsters2 Export to the repo as I don't have it stored off-site anywhere
 
 ## Version 1.1.2 - June 29th, 2024
 

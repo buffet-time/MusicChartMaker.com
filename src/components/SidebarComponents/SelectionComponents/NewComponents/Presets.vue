@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#shared/globals'
 import type { ChartPreset, ChartType } from '#types'
@@ -16,18 +15,20 @@ const emit = defineEmits<{
 	newChart: [val: { type: ChartType; preset: ChartPreset }]
 }>()
 
-const newPresetName = ref<string>()
-const newPresetList = ref<string>()
+const newPresetName = ref('')
+const newPresetList = ref('')
+
+const presetRegex = /^[0-9 ]+(,[0-9 ]+)*$/
 
 function closeCreatePreset() {
 	emit('updateCreatePreset', false)
-	newPresetName.value = undefined
-	newPresetList.value = undefined
+	newPresetName.value = ''
+	newPresetList.value = ''
 }
 
 // Make sure that this is not called unless its a valid number seperated list
 function newPreset() {
-	const massagedPresetList = newPresetList.value!.split(',').map(Number)
+	const massagedPresetList = newPresetList.value.split(',').map(Number)
 
 	GlobalSiteOptions.value.presets?.push({
 		default: false,
@@ -41,6 +42,10 @@ function deletePreset(preset: ChartPreset, index: number) {
 	if (window.confirm(`Delete preset "${preset.presetName}"?`)) {
 		GlobalSiteOptions.value.presets?.splice(index, 1)
 	}
+}
+
+function isPresetInputInvalid() {
+	return newPresetList.value.match(presetRegex) === null
 }
 </script>
 
@@ -108,7 +113,17 @@ function deletePreset(preset: ChartPreset, index: number) {
 		/>
 
 		<div class="flex gap-1">
-			<button class="uno-button" @click="newPreset">Create preset</button>
+			<button
+				:disabled="
+					newPresetName?.length === 0 ||
+					newPresetList?.length === 0 ||
+					isPresetInputInvalid()
+				"
+				class="uno-button"
+				@click="newPreset"
+			>
+				Create preset
+			</button>
 			<button
 				class="uno-button uno-close-button h-[33px] w-[33px]"
 				@click="closeCreatePreset"

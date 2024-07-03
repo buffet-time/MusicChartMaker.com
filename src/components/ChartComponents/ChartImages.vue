@@ -183,7 +183,7 @@ function chartTitle(
 								v-show="album && !GlobalChartState.options.lockChart"
 								src="/blackClose.svg"
 								loading="lazy"
-								class="absolute left-0 top-0 m-1 hidden cursor-pointer group-hover:block group-hover:bg-white"
+								class="hidden absolute left-0 top-0 m-1 cursor-pointer group-hover:block group-hover:bg-white"
 								@click="deleteCurrent({ index1, index2 })"
 							/>
 

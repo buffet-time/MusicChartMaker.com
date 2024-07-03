@@ -54,14 +54,14 @@ onMounted(() => {
 		height="25"
 		width="25"
 		src="/hamburgerMenu.svg"
-		class="uno-button md:hidden fixed ml-2 mt-2 p-1"
+		class="md:hidden uno-button fixed ml-2 mt-2 p-1"
 		loading="lazy"
 		@click="toggleMenu"
 	/>
 
 	<div
 		ref="sidebarMenu"
-		class="fixed z-10 flex-col hidden uno-sidebar-width h-full bg-[#404040] md:flex"
+		class="fixed flex-col z-10 hidden uno-sidebar-width h-full bg-[#404040] md:flex"
 	>
 		<img
 			src="/blackClose.svg"
@@ -73,7 +73,7 @@ onMounted(() => {
 			@click="toggleMenu"
 		/>
 
-		<div ref="nonSearchSideBarItems" class="flex flex-col gap-3 pt-2">
+		<div ref="nonSearchSideBarItems" class="flex-col flex gap-3 pt-2">
 			<SiteInfo />
 
 			<div class="mt-[-4px]">
