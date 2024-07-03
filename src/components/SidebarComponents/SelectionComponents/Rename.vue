@@ -12,7 +12,6 @@ import { PreventNameCollision } from '#shared/chart'
 
 import Dialog from '#core/Dialog.vue'
 
-// eslint-disable-next-line vue/no-dupe-keys
 const { selectedChart, selectedChartTitle } = defineProps<{
 	selectedChart: ChartState
 	selectedChartTitle: string

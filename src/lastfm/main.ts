@@ -37,7 +37,6 @@ export async function searchAlbum(limit: number, album: string) {
 
 		// TESTING log
 		// console.log(12, apiUrl)
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const results: AlbumResults = (await ProperFetch(
 			apiUrl
 		)) as unknown as AlbumResults
@@ -78,7 +77,6 @@ export async function getTopAlbums(
 
 		const requestPeriod = period ? period : '1month'
 		const apiUrl = `${topAlbumBaseUrl}${user}&api_key=${lastFmApiKey}&period=${requestPeriod}&limit=${requestLimit}&format=json`
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
 		const results: TopAlbumsResult = (await ProperFetch(
 			apiUrl

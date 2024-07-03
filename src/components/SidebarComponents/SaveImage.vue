@@ -77,7 +77,7 @@ onMounted(() => {
 <template>
 	<div class="uno-flex-center gap-2">
 		<button
-			class="uno-button flex w-10/12 items-center gap-2"
+			class="uno-button flex gap-2 w-10/12 items-center"
 			@click="openSaveImage()"
 		>
 			<img
@@ -115,7 +115,7 @@ onMounted(() => {
 
 						<input
 							v-model="scale"
-							class="mt-1 cursor-pointer"
+							class="cursor-pointer mt-1"
 							type="range"
 							min="1"
 							max="5"

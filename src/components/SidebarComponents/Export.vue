@@ -49,7 +49,7 @@ function importMCM() {
 
 	<div
 		v-if="showImportExport"
-		class="uno-options-overlay-div uno-sidebar-width p-0"
+		class="uno-sidebar-width uno-options-overlay-div p-0"
 	>
 		<div class="px-2 flex flex-col gap-[6px]">
 			<img
@@ -58,7 +58,7 @@ function importMCM() {
 				src="/back.svg"
 				width="25"
 				height="25"
-				class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
+				class="absolute left-0 cursor-pointer bg-neutral-500 m-[6px] mt-[6px]"
 				loading="lazy"
 				@click="showImportExport = false"
 			/>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ref, onMounted, watch } from 'vue'
 import { GenerateDefaultChart } from '#shared/chart'
 import {

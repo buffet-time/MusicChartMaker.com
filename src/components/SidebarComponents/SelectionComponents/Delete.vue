@@ -14,7 +14,6 @@ import {
 
 import Dialog from '#core/Dialog.vue'
 
-// eslint-disable-next-line vue/no-dupe-keys
 const { selectedChartTitle } = defineProps<{
 	selectedChartTitle: string
 }>()

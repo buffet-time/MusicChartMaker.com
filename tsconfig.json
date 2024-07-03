@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "ES2020",
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "Bundler",
 
 		"strict": true,
 		"sourceMap": true,
@@ -11,9 +11,7 @@
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"resolveJsonModule": true,
-		"useDefineForClassFields": true,
 
-		"jsx": "preserve", // Needed for Volar to work properly.
 		"lib": ["ESNext", "DOM"],
 		"paths": {
 			"#root/*": ["./*"],
@@ -30,7 +28,7 @@
 		"src/**/*.ts",
 		"src/**/*.d.ts",
 		"src/**/*.vue",
-		".eslintrc.json",
+		"eslint.config.js",
 		"vite.config.ts",
 		"uno.config.ts"
 	]
