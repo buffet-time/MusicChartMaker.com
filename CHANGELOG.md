@@ -10,7 +10,7 @@
   - Add more options to sorting stored charts
     - And add folders
 
-## Version 1.2.0 - July ??, 2024
+## Version 1.2.0 - July 14, 2024
 
 - Features/ Enhancements
   - The text now fits properly and on one line next to the chart no matter the size
