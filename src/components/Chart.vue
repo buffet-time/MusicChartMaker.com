@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 
 import { GlobalChartState } from '#shared/globals'
@@ -7,6 +8,23 @@ import { setStoredChart } from '#shared/storage'
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
 import Search from './SidebarComponents/Search.vue'
+
+const chartImagesRef = ref<InstanceType<typeof ChartImages>>()
+const heightOfChartImages = ref<number>()
+
+function updateHeightOfChartImages() {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+	heightOfChartImages.value = chartImagesRef.value?.$el.clientHeight
+}
+
+onMounted(() => {
+	const resizeOberserver = new ResizeObserver(() => updateHeightOfChartImages())
+
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+	resizeOberserver.observe(chartImagesRef.value!.$el)
+
+	updateHeightOfChartImages()
+})
 
 watchDebounced(
 	GlobalChartState,
@@ -46,7 +64,10 @@ watchDebounced(
 		}"
 		class="uno-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
 	>
-		<ChartImages />
-		<ChartTitles />
+		<ChartImages ref="chartImagesRef" />
+		<ChartTitles
+			v-if="GlobalChartState?.options.displayTitles"
+			:height-of-chart-images="heightOfChartImages"
+		/>
 	</div>
 </template>

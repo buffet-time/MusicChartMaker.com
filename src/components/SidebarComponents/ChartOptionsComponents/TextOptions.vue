@@ -30,13 +30,4 @@ import { GlobalChartState } from '#shared/globals'
 			class="cursor-pointer bg-transparent border-none"
 		/>
 	</div>
-
-	<div class="uno-options-div">
-		<label>Text Outline Color</label>
-		<input
-			v-model="GlobalChartState!.options.textBorderColor"
-			type="color"
-			class="cursor-pointer bg-transparent border-none"
-		/>
-	</div>
 </template>

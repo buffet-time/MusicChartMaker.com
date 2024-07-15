@@ -126,6 +126,7 @@ function chartTitle(
 
 <template>
 	<div
+		id="chartImages"
 		class="flex flex-col"
 		:style="{
 			maxWidth: `${
@@ -229,7 +230,7 @@ function chartTitle(
 							/>
 							<div
 								v-if="album.image === GrayBoxImgFromApi"
-								class="uno-flex-center uno-album-image-text-overlay"
+								class="uno-flex-center uno-album-image-text-overlay overflow-hidden text-ellipsis chartImages"
 							>
 								{{ album.artist }} - {{ album.name }}
 							</div>
@@ -252,3 +253,15 @@ function chartTitle(
 		</Dialog>
 	</div>
 </template>
+
+<style scoped>
+.chartImages {
+	width: 100%;
+	width: -moz-available; /* WebKit-based browsers will ignore this. */
+	width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+
+	height: 100%;
+	height: -moz-available; /* WebKit-based browsers will ignore this. */
+	height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+}
+</style>

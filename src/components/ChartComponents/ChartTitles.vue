@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { GlobalChartState } from '#shared/globals'
 import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#shared/misc'
+import { onMounted, ref, nextTick } from 'vue'
 
+const props = defineProps<{
+	heightOfChartImages: number | undefined
+}>()
+
+const chartTitlesRef = ref<HTMLDivElement>()
 function albumArtistEdited(event: Event, index: number, index2: number) {
 	GlobalChartState.value.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
@@ -13,31 +19,81 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 		event.target as HTMLSpanElement
 	).innerText
 }
+
+function delay(t: number) {
+	return new Promise((resolve) => setTimeout(resolve, t))
+}
+
+onMounted(async () => {
+	window.addEventListener('resize', () => void getFontSize())
+
+	// Let the micro task queue empty out
+	await delay(1)
+
+	// ensures the ref is defined
+	await nextTick()
+
+	// Fire off to get it crunched down/ increased
+	await getFontSize()
+
+	// Let the micro task queue empty out
+	await delay(1)
+
+	// Fire again to ensure it renders correctly
+	void getFontSize()
+})
+
+async function getFontSize() {
+	if (isOverflowing()) {
+		async function reduceFontSize() {
+			if (isOverflowing()) {
+				GlobalChartState.value.options.fontSize! -= 0.05
+				await nextTick()
+				await reduceFontSize()
+			}
+		}
+
+		await reduceFontSize()
+	} else {
+		async function increaseFontSize() {
+			if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
+				GlobalChartState.value.options.fontSize! += 0.05
+				await nextTick()
+				await increaseFontSize()
+			}
+		}
+
+		await increaseFontSize()
+	}
+}
+
+function isOverflowing() {
+	return chartTitlesRef.value!.scrollHeight > chartTitlesRef.value!.clientHeight
+}
 </script>
 
 <template>
 	<div
-		v-if="GlobalChartState?.options.displayTitles"
-		class="min-w-[200px] text-left text-sm"
+		ref="chartTitlesRef"
+		class="min-w-[200px] text-left text-sm line-height-tight"
+		:style="{
+			height: `${props.heightOfChartImages}px`,
+			fontSize: GlobalChartState.options.fontSize + 'px'
+		}"
 	>
 		<div
 			v-for="(albumRow, index) in GlobalChartState.chartTiles"
 			:key="index"
 			class="flex flex-col"
-			:class="{ 'mb-1': index !== GlobalChartState.chartTiles.length - 1 }"
+			:class="{ 'mb-[2px]': index !== GlobalChartState.chartTiles.length - 1 }"
 		>
 			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
-				<!-- my-[-2px -->
 				<p
 					v-if="album.image !== GrayBoxImgForPlaceholder"
-					class="pointer-events-none"
+					class="overflow-hidden text-ellipsis pointer-events-none whitespace-nowrap"
 					:style="{
 						color: GlobalChartState.options.textColor,
-						textShadow: `-1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
-						1px -1px 0 ${GlobalChartState.options.textBorderColor}, 
-						-1px 1px 0 ${GlobalChartState.options.textBorderColor}, 
-						1px 1px 0 ${GlobalChartState.options.textBorderColor}`,
-						fontSize: `${GlobalChartState.options.fontSize}px`,
+						textShadow: GlobalChartState.options.textShadow,
 						letterSpacing: `${GlobalChartState.options.textSpacing}px`,
 						fontFamily: GlobalChartState.options.font
 					}"

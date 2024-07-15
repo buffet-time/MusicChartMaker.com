@@ -41,11 +41,11 @@ export interface ChartOptions {
 	font?: string
 	padding?: number
 	backgroundImage?: string
-	textBorderColor?: string
 	preset?: boolean
 	fontSize?: number
 	textSpacing?: number
 	lockChart?: boolean
+	textShadow?: string
 }
 
 export interface SiteOptions {

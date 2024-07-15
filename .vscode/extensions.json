@@ -3,9 +3,8 @@
 		"Vue.volar",
 		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
-		"csstools.postcss",
-		"ban.spellright",
 		"YoavBls.pretty-ts-errors",
-		"jock.svg"
+		"jock.svg",
+		"antfu.unocss"
 	]
 }

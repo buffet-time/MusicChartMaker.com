@@ -1,5 +1,5 @@
 import type { AlbumResults, AlbumReturn, TopAlbumsResult } from '#lastfm/types'
-import { ProperFetch } from '#shared/misc'
+import { GrayBoxImgFromApi, ProperFetch } from '#shared/misc'
 
 type LastfmPeriod =
 	| 'overall'
@@ -10,10 +10,9 @@ type LastfmPeriod =
 	| '12month'
 
 // For some reason Last.fm for authorization puts this out anyways so it's ok to be public?
-const lastFmApiKey = '97e07667d61af5f08e860561fb7a2ec8'
+const lastFmApiKey = '5305bfeacfbbb03eafa3372a536d0ec8'
 
 const apiBaseUrl = 'https://ws.audioscrobbler.com/2.0/'
-const grayImageUrl = 'https://i.imgur.com/5IYcmZz.jpeg'
 
 const searchBaseUrl = `${apiBaseUrl}?method=album.search&album=`
 const topAlbumBaseUrl = `${apiBaseUrl}?method=user.gettopalbums&user=`
@@ -35,29 +34,24 @@ export async function searchAlbum(limit: number, album: string) {
 
 		const apiUrl = `${searchBaseUrl}${album}&api_key=${lastFmApiKey}&limit=${requestLimit}&format=json`
 
-		// TESTING log
-		// console.log(12, apiUrl)
 		const results: AlbumResults = (await ProperFetch(
 			apiUrl
 		)) as unknown as AlbumResults
 
-		const massagedResponse: AlbumReturn[] = []
-
-		results.results.albummatches.album.forEach((album) => {
-			massagedResponse.push({
-				image: album.image[3]['#text'] ? album.image[3]['#text'] : grayImageUrl,
+		return results.results.albummatches.album.map((album) => {
+			return {
+				image: album.image[3]['#text']
+					? album.image[3]['#text']
+					: GrayBoxImgFromApi,
 				artist: album.artist ? album.artist : 'Placeholder Artist',
 				name: album.name ? album.name : 'Placeholder Album'
-			})
+			}
 		})
-
-		return massagedResponse
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}
 }
 
-// TODO: clean this up!
 export async function getTopAlbums(
 	period: LastfmPeriod,
 	limit: number,
@@ -82,11 +76,15 @@ export async function getTopAlbums(
 			apiUrl
 		)) as unknown as TopAlbumsResult
 
-		const values = (await Promise.all(
-			results.topalbums.album.map((album) => searchAlbum(1, album.artist.name))
-		)) as unknown as AlbumReturn[][]
-
-		return values.map((album) => album[0])
+		return results.topalbums.album.map((album) => {
+			return {
+				image: album.image[album.image.length - 1]['#text']
+					? album.image[album.image.length - 1]['#text']
+					: GrayBoxImgFromApi,
+				name: album.name,
+				artist: album.artist.name
+			} as AlbumReturn
+		})
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}
