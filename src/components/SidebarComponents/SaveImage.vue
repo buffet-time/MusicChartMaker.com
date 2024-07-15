@@ -96,7 +96,7 @@ onMounted(() => {
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
-				<div class="flex flex-col gap-3 p-4 py-0 items-center">
+				<div class="flex flex-col gap-3 items-center p-4 py-0">
 					<h2 class="mt-0 mb-1">Save chart as image</h2>
 					<p>Includes Titles, if shown.</p>
 

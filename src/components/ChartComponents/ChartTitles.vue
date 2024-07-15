@@ -90,7 +90,7 @@ function isOverflowing() {
 			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
 				<p
 					v-if="album.image !== GrayBoxImgForPlaceholder"
-					class="pointer-events-none overflow-hidden text-ellipsis whitespace-nowrap"
+					class="overflow-hidden text-ellipsis pointer-events-none whitespace-nowrap"
 					:style="{
 						color: GlobalChartState.options.textColor,
 						textShadow: GlobalChartState.options.textShadow,
