@@ -9,6 +9,7 @@ import ChartSize from './ChartOptionsComponents/ChartSize.vue'
 import TextOptions from './ChartOptionsComponents/TextOptions.vue'
 import Font from './ChartOptionsComponents/Font.vue'
 import { GenerateDefaultSiteOptions } from '#shared/misc'
+import TextShadow from './ChartOptionsComponents/TextShadow.vue'
 
 const resetOptionsId = 'resetoptions'
 
@@ -42,7 +43,7 @@ function resetOptionsToDefault() {
 		displayPlaycount: defaultChartOptions.displayPlaycount,
 		background: defaultChartOptions.background,
 		textColor: defaultChartOptions.textColor,
-		textBorderColor: defaultChartOptions.textBorderColor,
+		textShadow: defaultChartOptions.textShadow,
 		fontSize: defaultChartOptions.fontSize,
 		textSpacing: defaultChartOptions.textSpacing,
 		font: defaultChartOptions.font,
@@ -107,6 +108,8 @@ function resetOptionsToDefault() {
 					<div>
 						<TextOptions />
 					</div>
+
+					<TextShadow />
 
 					<Background />
 

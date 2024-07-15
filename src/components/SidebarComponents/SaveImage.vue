@@ -39,7 +39,9 @@ function getValidFormats() {
 async function saveImage() {
 	try {
 		const { default: HTML2Canvas } = await import('html2canvas')
-		const chartElement = document.getElementById('Chart')
+		const chartElement = GlobalChartState.value.options.displayTitles
+			? document.getElementById('Chart')
+			: document.getElementById('chartImages')
 
 		if (!chartElement) {
 			return console.error('error in saveImage(): ', chartElement)
@@ -94,8 +96,9 @@ onMounted(() => {
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>
-				<div class="flex flex-col gap-3 p-4 pb-0">
-					Save chart as image
+				<div class="flex flex-col gap-3 p-4 py-0 items-center">
+					<h2 class="mt-0 mb-1">Save chart as image</h2>
+					<p>Includes Titles, if shown.</p>
 
 					<div class="flex flex-col">
 						<Tooltip
@@ -136,9 +139,7 @@ onMounted(() => {
 						</select>
 					</div>
 
-					<button class="uno-button py-1 mb-1 px-3" @click="saveImage">
-						Save Image
-					</button>
+					<button class="uno-button mb-1" @click="saveImage">Save Image</button>
 				</div>
 			</template>
 		</Dialog>

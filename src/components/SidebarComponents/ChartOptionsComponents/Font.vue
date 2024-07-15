@@ -43,18 +43,6 @@ onMounted(async () => {
 		</div>
 
 		<label class="mt-2">
-			Font Size: {{ GlobalChartState!.options.fontSize }}px
-		</label>
-		<input
-			v-model="GlobalChartState!.options.fontSize"
-			class="cursor-pointer"
-			type="range"
-			min="8"
-			max="20"
-			step="1"
-		/>
-
-		<label class="mt-2">
 			Text Spacing: {{ GlobalChartState!.options.textSpacing }}px
 		</label>
 		<input
@@ -63,7 +51,7 @@ onMounted(async () => {
 			type="range"
 			min="-2"
 			max="10"
-			step="0.5"
+			step="0.1"
 		/>
 	</div>
 </template>

@@ -21,12 +21,12 @@ const baseOptionsDefault = {
 	displayPlaycount: false,
 	background: '#303030',
 	textColor: '#FFFFFF',
-	textBorderColor: '#000000',
-	fontSize: 14,
+	fontSize: 16,
 	textSpacing: 0,
 	font: 'Arial',
 	padding: 0.2,
-	backgroundImage: undefined
+	backgroundImage: undefined,
+	textShadow: '0px 0px 0px #FFFFFF'
 }
 
 export function GenerateDefaultChart(title?: string): ChartState {

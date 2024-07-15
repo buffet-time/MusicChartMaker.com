@@ -3,15 +3,29 @@
 ## Future Version changes planned
 
 - Features/ Enhancements
-  - Have a way to have the top 100 album chart titles fit to the size of the chart
-    - blargh this is hard
   - Improve accessibility
   - Improve UX
-  - Shadow in chart
   - Have temporary storage of removed albums from resizing to refill
   - Have a loading state image as images are lazy loaded
+  - Add more options to sorting stored charts
+    - And add folders
+
+## Version 1.2.0 - July ??, 2024
+
+- Features/ Enhancements
+  - The text now fits properly and on one line next to the chart no matter the size
+    - Removed FontSize option, as this is now algorithmically determined.
+  - Shadow in chart
+    - Removed Text Outline Option as this uses the underlying tech, but gives you more fine grain control.
 - Bug Fixes
-  - Fix Last.fm!!
+  - Fixed Last.fm chart creation
+    - I have no idea what i was doing with the original version, that was dogshit code.
+    - Also cleaned up other Last.fm code.
+  - Fixed Show Album Titles toggle  
+  - Fixed Save Image saving the space where Titles are, even if the titles aren't shown
+  - Fixed last.fm/ other album images failed to load where it shows the title in the chart overflowing if text is too large
+- Performance/ Stability
+  - Updating all packages
 
 ## Version 1.1.3 - July 2nd, 2024
 
