@@ -11,7 +11,7 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Read the pnpm version from the `.pnpmrc` file
       - name: Read .pnpmrc
@@ -21,24 +21,20 @@ jobs:
           path: ./.pnpmrc
 
       - name: Cache PNPM modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-
 
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup@v4
         with:
           version: '${{ steps.pnpm_version.outputs.content }}'
 
-      # Read node version from `.nvmrc` file
-      - id: nvmrc
-        uses: browniebroke/read-nvmrc-action@v1
-
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           # use the output from the action
-          node-version: '${{ steps.nvmrc.outputs.node_version }}'
+          node-version-file: '.nvmrc'
 
       - name: Install `node_modules`
         run: pnpm install
@@ -50,7 +46,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
           branch: gh-pages
           folder: dist

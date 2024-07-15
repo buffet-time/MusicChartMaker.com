@@ -26,6 +26,7 @@
   - Fixed last.fm/ other album images failed to load where it shows the title in the chart overflowing if text is too large
 - Performance/ Stability
   - Updating all packages
+  - Updated GitHub CI actions
 
 ## Version 1.1.3 - July 2nd, 2024
 
