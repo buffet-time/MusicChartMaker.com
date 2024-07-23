@@ -5,10 +5,17 @@
 - Features/ Enhancements
   - Improve accessibility
   - Improve UX
-  - Have temporary storage of removed albums from resizing to refill
   - Have a loading state image as images are lazy loaded
   - Add more options to sorting stored charts
     - And add folders
+
+## Version 1.2.1 - July 23, 2024
+
+- Features/ Enhancements
+  - Have temporary storage of removed albums from resizing to refill
+    - accidentally resize? np they're still there!
+- Bug Fixes
+  - Fixed incorrect non-null assertion
 
 ## Version 1.2.0 - July 14, 2024
 
