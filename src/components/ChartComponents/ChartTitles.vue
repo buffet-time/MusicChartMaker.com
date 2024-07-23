@@ -68,7 +68,11 @@ async function getFontSize() {
 }
 
 function isOverflowing() {
-	return chartTitlesRef.value!.scrollHeight > chartTitlesRef.value!.clientHeight
+	if (chartTitlesRef?.value && chartTitlesRef?.value) {
+		return chartTitlesRef.value.scrollHeight > chartTitlesRef.value.clientHeight
+	}
+
+	return false
 }
 </script>
 

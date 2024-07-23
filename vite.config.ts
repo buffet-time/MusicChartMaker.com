@@ -26,9 +26,7 @@ export default defineConfig({
 				propsDestructure: true
 			}
 		}),
-		UnoCSS({
-			mode: 'vue-scoped'
-		})
+		UnoCSS()
 	],
 	resolve: {
 		alias: {

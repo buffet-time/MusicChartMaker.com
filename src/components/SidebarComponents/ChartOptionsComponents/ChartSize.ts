@@ -2,6 +2,13 @@ import type { AlbumTile } from '#types'
 import { GlobalChartState } from '#shared/globals'
 import { FillerAlbum } from '#shared/misc'
 import { GrayBoxImgForPlaceholder } from '#shared/misc'
+import { watch } from 'vue'
+
+const tempChartTileUnderflowArray = [] as AlbumTile[]
+
+watch(GlobalChartState, () => {
+	tempChartTileUnderflowArray.length = 0
+})
 
 //  blargh
 export function colsChanged(difference: number) {
@@ -32,7 +39,12 @@ export function rowsChanged(difference: number) {
 function addColumn(difference: number) {
 	GlobalChartState.value.chartTiles.forEach((row, index) => {
 		for (let x = 0; x < difference; x++) {
-			row.push(FillerAlbum)
+			row.push(
+				tempChartTileUnderflowArray.length > 0
+					? // Non-Null because we check to see if there is an item in the array first
+						tempChartTileUnderflowArray.shift()!
+					: FillerAlbum
+			)
 			GlobalChartState.value.options.chartSize.rowSizes[index]++
 		}
 	})
@@ -42,7 +54,12 @@ function addRow(difference: number) {
 	for (let x = 0; x < difference; x++) {
 		const newRow = GlobalChartState.value.chartTiles[
 			GlobalChartState.value.chartTiles.length - 1
-		].map(() => FillerAlbum)
+		].map(() =>
+			tempChartTileUnderflowArray.length > 0
+				? // Non-Null because we check to see if there is an item in the array first
+					tempChartTileUnderflowArray.shift()!
+				: FillerAlbum
+		)
 
 		GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
 		GlobalChartState.value.chartTiles.push(newRow)
@@ -100,6 +117,11 @@ function createNewMatrix(
 				newAlbumTilesMatrix[outerIndex].push(FillerAlbum)
 			}
 		}
+	}
+
+	// any non placeholders removed thrown into a tempArray
+	if (oneDimensionalArray.length > 0) {
+		oneDimensionalArray.forEach((val) => tempChartTileUnderflowArray.push(val))
 	}
 
 	return newAlbumTilesMatrix

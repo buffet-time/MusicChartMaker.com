@@ -3,6 +3,7 @@ import App from './App.vue'
 import { version as PackageVersion } from '#root/package.json'
 import './uno.css'
 import './global.css'
+import 'virtual:uno.css'
 
 addVersionMetaTag()
 createApp(App).mount('#app')
