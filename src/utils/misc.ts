@@ -1,6 +1,6 @@
 import type { AlbumTile, JSONReturnType, SiteOptions } from '#types'
-import { GlobalChartState } from '#shared/globals'
-import { top42, top100 } from '#shared/chart'
+import { GlobalChartState } from '#utils/globals'
+import { top42, top100 } from '#utils/chart'
 
 // This is weird looking but streamlines functionality tbh
 const grayBoxImgur = 'https://i.imgur.com/5IYcmZz'
@@ -12,14 +12,14 @@ export const GrayBoxImgFromApi = `${grayBoxImgur}.jpeg`
 export const FillerAlbum: AlbumTile = {
 	artist: 'Artist',
 	name: 'Album',
-	image: GrayBoxImgForPlaceholder
+	image: GrayBoxImgForPlaceholder,
 }
 
 export function GenerateDefaultSiteOptions(): SiteOptions {
 	return {
 		numberOfSearchResults: 12,
 		currentChart: 'New Album Chart',
-		presets: [top42, top100]
+		presets: [top42, top100],
 	}
 }
 
@@ -37,7 +37,7 @@ export function getAlbumNumber(indexOne: number, indexTwo: number): number {
 	if (!GlobalChartState) {
 		console.error(
 			'Error getting GlobalChartState in getAlbumNumber()',
-			GlobalChartState
+			GlobalChartState,
 		)
 		return 0
 	}
@@ -53,7 +53,7 @@ export function getAlbumNumber(indexOne: number, indexTwo: number): number {
 // This is a wrapper around the Fetch() WebAPI to handle errors without any fuss
 export async function ProperFetch(
 	input: RequestInfo | URL,
-	init?: RequestInit | undefined
+	init?: RequestInit,
 ): Promise<JSONReturnType> {
 	try {
 		const response = await fetch(input, init)
@@ -63,12 +63,11 @@ export async function ProperFetch(
 		}
 
 		console.error(
-			// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
-			`Fetch from ${input} responded with an error: ${await response.json()}`
+			`Fetch from ${input} responded with an error: ${await response.json()}`,
 		)
 		return null
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
-		// eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
 		console.error(`Error in fetch from ${input}: ${error}`)
 		return null
 	}

@@ -1,16 +1,16 @@
 import type { ChartPreset, ChartState, AlbumTile } from '#types'
-import { FillerAlbum } from '#shared/misc'
-import { getAllSavedKeys } from '#shared/storage'
+import { FillerAlbum } from '#utils/misc'
+import { getAllSavedKeys } from '#utils/storage'
 
 export const top42: ChartPreset = {
 	default: true,
 	presetName: 'Top 42',
-	rowSizes: [5, 5, 6, 6, 10, 10]
+	rowSizes: [5, 5, 6, 6, 10, 10],
 }
 export const top100: ChartPreset = {
 	default: true,
 	presetName: 'Top 100',
-	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14]
+	rowSizes: [5, 5, 6, 6, 6, 10, 10, 10, 14, 14, 14],
 }
 const numberInParensRegex = /\s\((\d+)\)$/
 
@@ -26,7 +26,7 @@ const baseOptionsDefault = {
 	font: 'Arial',
 	padding: 0.2,
 	backgroundImage: undefined,
-	textShadow: '0px 0px 0px #FFFFFF'
+	textShadow: '0px 0px 0px #FFFFFF',
 }
 
 export function GenerateDefaultChart(title?: string): ChartState {
@@ -34,7 +34,7 @@ export function GenerateDefaultChart(title?: string): ChartState {
 	const defaultChartSize: ChartPreset = {
 		default: true,
 		presetName: 'Dynamic',
-		rowSizes: [3, 3, 3]
+		rowSizes: [3, 3, 3],
 	}
 
 	defaultChartSize.rowSizes.forEach((size, index) => {
@@ -49,9 +49,9 @@ export function GenerateDefaultChart(title?: string): ChartState {
 			...baseOptionsDefault,
 			chartSize: defaultChartSize,
 			chartTitle: title ? title : defaultChartName,
-			preset: undefined
+			preset: undefined,
 		},
-		chartTiles: albumArray
+		chartTiles: albumArray,
 	}
 }
 
@@ -60,10 +60,10 @@ export function PreventNameCollision(name: string): string {
 
 	function GetUnusedName(name: string): string {
 		if (storedCharts.some((storedName) => storedName === name)) {
-			const matchArray = name.match(numberInParensRegex)
+			const matchArray = numberInParensRegex.exec(name)
 			if (matchArray) {
 				return GetUnusedName(
-					name.replace(numberInParensRegex, ` (${Number(matchArray[1]) + 1})`)
+					name.replace(numberInParensRegex, ` (${Number(matchArray[1]) + 1})`),
 				)
 			}
 			return GetUnusedName(`${name} (1)`)
@@ -76,7 +76,7 @@ export function PreventNameCollision(name: string): string {
 
 export function GeneratePresetChart(
 	title: string,
-	preset: ChartPreset
+	preset: ChartPreset,
 ): ChartState {
 	const albumArray: AlbumTile[][] = []
 
@@ -92,16 +92,16 @@ export function GeneratePresetChart(
 			...baseOptionsDefault,
 			chartSize: preset,
 			chartTitle: title ? title : defaultChartName,
-			preset: true
+			preset: true,
 		},
-		chartTiles: albumArray
+		chartTiles: albumArray,
 	}
 }
 
 export function GenerateChartWithValues(
 	title: string,
 	chartValues: AlbumTile[][],
-	preset?: ChartPreset
+	preset?: ChartPreset,
 ): ChartState {
 	return {
 		options: {
@@ -111,11 +111,11 @@ export function GenerateChartWithValues(
 				: {
 						default: false,
 						presetName: 'Dynamic',
-						rowSizes: chartValues.map((chart) => chart.length)
+						rowSizes: chartValues.map((chart) => chart.length),
 					},
 			chartTitle: title ? title : defaultChartName,
-			preset: preset ? true : undefined
+			preset: preset ? true : undefined,
 		},
-		chartTiles: chartValues
+		chartTiles: chartValues,
 	}
 }

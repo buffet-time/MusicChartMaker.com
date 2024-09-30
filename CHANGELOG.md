@@ -6,8 +6,19 @@
   - Improve accessibility
   - Improve UX
   - Have a loading state image as images are lazy loaded
+    - currently impossible maybe?
   - Add more options to sorting stored charts
     - And add folders
+
+## Version 1.2.2 - September 30, 2024
+
+- Performance/ Stability
+  - Code Splitting
+    - Popper.js
+  - Updated all packages
+    - Includes upgrade from Vue 3.4.x -> 3.5.x
+  - Migrated from ESLint + Prettier -> Biome
+    - major Developer experience improvement for myself.
 
 ## Version 1.2.1 - July 23, 2024
 
@@ -16,7 +27,9 @@
     - accidentally resize? np they're still there!
 - Bug Fixes
   - Fixed incorrect non-null assertion
-
+- Performance/ Stability
+  - Updated all packages
+  
 ## Version 1.2.0 - July 14, 2024
 
 - Features/ Enhancements
@@ -32,7 +45,7 @@
   - Fixed Save Image saving the space where Titles are, even if the titles aren't shown
   - Fixed last.fm/ other album images failed to load where it shows the title in the chart overflowing if text is too large
 - Performance/ Stability
-  - Updating all packages
+  - Updated all packages
   - Updated GitHub CI actions
 
 ## Version 1.1.3 - July 2nd, 2024
@@ -48,7 +61,7 @@
   - Code Splitting
     - Dynamic Import Pako
     - Dynamic Import Marked
-  - Updating all packages
+  - Updated all packages
     - Finally upgraded to ESlint 9
   - Set Rollup to use SWC for minification
     - SWC Minify is the currently best Minifier
@@ -66,7 +79,7 @@
     - This was a lot of work, slightly changes how the site looks
     - includes a lot of small CSS tweaks and changes
     - Notably faster CSS compared to Tailwind
-  - Updating all packages
+  - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
   
 ## Version 1.1.1 - June 5th, 2024
@@ -79,7 +92,7 @@
 - Other Changes
   - default sorting of created charts changed from mirroring LocalStorage to Alphabetical
 - Performance/ Stability
-  - Updating all packages
+  - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
 
 ## Version 1.1.0 - May 5th, 2024
@@ -94,7 +107,7 @@
   - Lock editing of album text when you lock a chart
   - Fix styling issue inside Dialogs
 - Performance/ Stability
-  - Updating all packages
+  - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
 
 ## Version 1.0.0 - August 27th, 2023

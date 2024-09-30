@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GlobalChartState } from '#root/src/shared/globals'
+import { GlobalChartState } from '#utils/globals'
 import { onMounted, ref, watch } from 'vue'
 
 const showTextShadowOptions = ref(false)
@@ -10,13 +10,13 @@ const offsetX = ref(0)
 const offsetY = ref(0)
 
 function textShadowStateToUpdateRefs() {
-	const splitTextShadowState = GlobalChartState.value.options.textShadow!.split(
-		' '
+	const splitTextShadowState = GlobalChartState.value.options.textShadow?.split(
+		' ',
 	) as [string, string, string, string]
 
-	offsetX.value = parseInt(splitTextShadowState[0], 10)
-	offsetY.value = parseInt(splitTextShadowState[1], 10)
-	blurRadius.value = parseInt(splitTextShadowState[2], 10)
+	offsetX.value = Number.parseInt(splitTextShadowState[0], 10)
+	offsetY.value = Number.parseInt(splitTextShadowState[1], 10)
+	blurRadius.value = Number.parseInt(splitTextShadowState[2], 10)
 	shadowColor.value = splitTextShadowState[3]
 }
 

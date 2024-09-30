@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 
-import { GlobalSiteOptions } from '#shared/globals'
-import { SaveSiteOptions } from '#shared/storage'
+import { GlobalSiteOptions } from '#utils/globals'
+import { SaveSiteOptions } from '#utils/storage'
 
 import Chart from '#components/Chart.vue'
 import Sidebar from '#components/Sidebar.vue'
@@ -16,7 +16,7 @@ watchDebounced(
 		if (!GlobalSiteOptions.value) {
 			return console.error(
 				'Error getting GlobalChartState in watch(GlobalChartState)',
-				GlobalSiteOptions.value
+				GlobalSiteOptions.value,
 			)
 		}
 
@@ -25,8 +25,8 @@ watchDebounced(
 	{
 		deep: true,
 		debounce: 500,
-		maxWait: 1000
-	}
+		maxWait: 1000,
+	},
 )
 </script>
 

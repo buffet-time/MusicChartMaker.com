@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -10,9 +10,10 @@
 		"url": "https://danielTurcich.com"
 	},
 	"engines": {
-		"node": ">=22.0.0",
-		"pnpm": ">=9.0.0"
+		"node": ">=22.2.0",
+		"pnpm": ">=9.11.0"
 	},
+	"packageManager": "pnpm@9.11.0",
 	"engineStrict": true,
 	"scripts": {
 		"dev": "vite",
@@ -21,49 +22,35 @@
 		"build:preview": "vite preview",
 		"preview": "pnpm build && pnpm build:preview",
 		"checks": "pnpm lint-check && pnpm format-check && pnpm type-check",
-		"lint-check": "eslint \"**/*.{ts,vue}\" && echo lint-check done",
-		"format-check": "prettier --check \"**/**\" && echo format-check done",
+		"lint-check": "biome lint && echo lint-check done",
+		"format-check": "biome format && echo format-check done",
 		"type-check": "vue-tsc --noEmit && echo type-check done",
-		"lint-fix": "eslint \"**/*.{ts,vue}\" --fix",
-		"format-fix": "prettier --write \"**/**\"",
+		"lint-fix": "biome lint --write",
+		"format-fix": "biome format --write",
 		"vite-build": "vite build --emptyOutDir && echo vite-build done",
 		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME && echo add:cname done",
 		"prepare": "husky"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.8",
-		"@vueuse/core": "^10.11.0",
+		"@vueuse/core": "^11.1.0",
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
-		"marked": "^13.0.2",
+		"marked": "^14.1.2",
 		"pako": "^2.1.0",
-		"vue": "^3.4.33"
+		"vue": "^3.5.10"
 	},
 	"devDependencies": {
-		"@eslint/eslintrc": "^3.1.0",
-		"@eslint/js": "^9.7.0",
-		"@nabla/vite-plugin-eslint": "^2.0.4",
-		"@types/node": "^20.14.11",
+		"@biomejs/biome": "1.9.2",
+		"@types/node": "^22.7.4",
 		"@types/pako": "^2.0.3",
-		"@typescript-eslint/eslint-plugin": "^7.17.0",
-		"@typescript-eslint/parser": "^7.17.0",
-		"@unocss/eslint-config": "^0.61.5",
-		"@unocss/transformer-directives": "^0.61.5",
-		"@vitejs/plugin-vue": "^5.0.5",
-		"@vue/eslint-config-typescript": "^13.0.0",
-		"eslint": "^9.7.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-depend": "^0.9.0",
-		"eslint-plugin-prettier": "^5.2.1",
-		"eslint-plugin-vue": "^9.27.0",
-		"globals": "^15.8.0",
-		"husky": "^9.1.1",
-		"prettier": "^3.3.3",
-		"rollup-plugin-swc-minify": "^1.1.1",
-		"typescript": "^5.5.4",
-		"unocss": "^0.61.5",
-		"vite": "^5.3.4",
-		"vue-eslint-parser": "^9.4.3",
-		"vue-tsc": "^2.0.28"
+		"@unocss/transformer-directives": "^0.62.4",
+		"@vitejs/plugin-vue": "^5.1.4",
+		"husky": "^9.1.6",
+		"rollup-plugin-swc-minify": "^1.1.2",
+		"typescript": "^5.6.2",
+		"unocss": "^0.62.4",
+		"vite": "^5.4.8",
+		"vue-tsc": "^2.1.6"
 	}
 }

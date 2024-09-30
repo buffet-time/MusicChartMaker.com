@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 
-import { GlobalChartState } from '#shared/globals'
-import { setStoredChart } from '#shared/storage'
+import { GlobalChartState } from '#utils/globals'
+import { setStoredChart } from '#utils/storage'
 
 import ChartTitles from './ChartComponents/ChartTitles.vue'
+// biome-ignore lint/style/useImportType: component import
 import ChartImages from './ChartComponents/ChartImages.vue'
 import Search from './SidebarComponents/Search.vue'
 
-const chartImagesRef = ref<InstanceType<typeof ChartImages>>()
+const chartImagesRef =
+	useTemplateRef<InstanceType<typeof ChartImages>>('chartImagesRef')
 const heightOfChartImages = ref<number>()
 
 function updateHeightOfChartImages() {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 	heightOfChartImages.value = chartImagesRef.value?.$el.clientHeight
 }
 
 onMounted(() => {
 	const resizeOberserver = new ResizeObserver(() => updateHeightOfChartImages())
 
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-	resizeOberserver.observe(chartImagesRef.value!.$el)
+	resizeOberserver.observe(chartImagesRef.value?.$el)
 
 	updateHeightOfChartImages()
 })
@@ -32,20 +32,20 @@ watchDebounced(
 		if (!GlobalChartState) {
 			return console.error(
 				'Error getting GlobalChartState in watch(GlobalChartState)',
-				GlobalChartState
+				GlobalChartState,
 			)
 		}
 
 		setStoredChart(
 			GlobalChartState.value.options.chartTitle,
-			GlobalChartState.value
+			GlobalChartState.value,
 		)
 	},
 	{
 		deep: true,
 		debounce: 500,
-		maxWait: 1000
-	}
+		maxWait: 1000,
+	},
 )
 </script>
 

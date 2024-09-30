@@ -19,7 +19,7 @@ interface Album {
 		{
 			'#text': string
 			size: 'extralarge'
-		}
+		},
 	]
 	streamable: string
 	mbid: string
@@ -50,6 +50,7 @@ export interface AlbumReturn {
 }
 
 export interface AlbumResults {
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	topalbums: any
 	results: {
 		'opensearch:Query': {

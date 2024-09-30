@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
 // @ts-expect-error
 import { minify } from 'rollup-plugin-swc-minify'
@@ -11,22 +11,21 @@ export default defineConfig({
 		chunkSizeWarningLimit: 100,
 		rollupOptions: {
 			maxParallelFileOps: 512,
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-			plugins: [minify()]
+			plugins: [minify()],
 		},
 		sourcemap: true,
 		terserOptions: {
-			ecma: 2020
-		}
+			ecma: 2020,
+		},
 	},
 
 	plugins: [
 		vue({
 			script: {
-				propsDestructure: true
-			}
+				propsDestructure: true,
+			},
 		}),
-		UnoCSS()
+		UnoCSS(),
 	],
 	resolve: {
 		alias: {
@@ -35,8 +34,8 @@ export default defineConfig({
 			'#components': resolve(__dirname, './src/components'),
 			'#types': resolve(__dirname, './src/types/types.ts'),
 			'#core': resolve(__dirname, './src/components/CoreComponents'),
-			'#shared': resolve(__dirname, './src/shared'),
-			'#lastfm': resolve(__dirname, './src/lastfm')
-		}
-	}
+			'#utils': resolve(__dirname, './src/utils'),
+			'#lastfm': resolve(__dirname, './src/lastfm'),
+		},
+	},
 })

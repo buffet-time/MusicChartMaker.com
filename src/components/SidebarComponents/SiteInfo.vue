@@ -16,7 +16,7 @@ function showModal() {
 onMounted(async () => {
 	const response = await (
 		await fetch(
-			'https://raw.githubusercontent.com/buffet-time/MusicChartMaker.com/main/CHANGELOG.md'
+			'https://raw.githubusercontent.com/buffet-time/MusicChartMaker.com/main/CHANGELOG.md',
 		)
 	).text()
 

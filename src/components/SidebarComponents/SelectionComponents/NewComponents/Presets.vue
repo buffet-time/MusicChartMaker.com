@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GlobalSiteOptions } from '#shared/globals'
+import { GlobalSiteOptions } from '#utils/globals'
 import type { ChartPreset, ChartType } from '#types'
 
 defineProps<{
@@ -33,7 +33,7 @@ function newPreset() {
 	GlobalSiteOptions.value.presets?.push({
 		default: false,
 		rowSizes: massagedPresetList,
-		presetName: newPresetName.value
+		presetName: newPresetName.value,
 	})
 	closeCreatePreset()
 }
@@ -45,7 +45,7 @@ function deletePreset(preset: ChartPreset, index: number) {
 }
 
 function isPresetInputInvalid() {
-	return newPresetList.value.match(presetRegex) === null
+	return presetRegex.exec(newPresetList.value) === null
 }
 </script>
 

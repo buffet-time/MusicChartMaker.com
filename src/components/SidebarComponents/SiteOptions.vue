@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GlobalSiteOptions } from '#shared/globals'
+import { GlobalSiteOptions } from '#utils/globals'
 
 import Dialog from '#core/Dialog.vue'
 

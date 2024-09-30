@@ -1,5 +1,5 @@
 import type { AlbumResults, AlbumReturn, TopAlbumsResult } from '#lastfm/types'
-import { GrayBoxImgFromApi, ProperFetch } from '#shared/misc'
+import { GrayBoxImgFromApi, ProperFetch } from '#utils/misc'
 
 type LastfmPeriod =
 	| 'overall'
@@ -35,7 +35,7 @@ export async function searchAlbum(limit: number, album: string) {
 		const apiUrl = `${searchBaseUrl}${album}&api_key=${lastFmApiKey}&limit=${requestLimit}&format=json`
 
 		const results: AlbumResults = (await ProperFetch(
-			apiUrl
+			apiUrl,
 		)) as unknown as AlbumResults
 
 		return results.results.albummatches.album.map((album) => {
@@ -44,9 +44,10 @@ export async function searchAlbum(limit: number, album: string) {
 					? album.image[3]['#text']
 					: GrayBoxImgFromApi,
 				artist: album.artist ? album.artist : 'Placeholder Artist',
-				name: album.name ? album.name : 'Placeholder Album'
+				name: album.name ? album.name : 'Placeholder Album',
 			}
 		})
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}
@@ -55,7 +56,7 @@ export async function searchAlbum(limit: number, album: string) {
 export async function getTopAlbums(
 	period: LastfmPeriod,
 	limit: number,
-	user: string
+	user: string,
 ) {
 	try {
 		let requestLimit = topAlbumRequestMinimum
@@ -73,7 +74,7 @@ export async function getTopAlbums(
 		const apiUrl = `${topAlbumBaseUrl}${user}&api_key=${lastFmApiKey}&period=${requestPeriod}&limit=${requestLimit}&format=json`
 
 		const results: TopAlbumsResult = (await ProperFetch(
-			apiUrl
+			apiUrl,
 		)) as unknown as TopAlbumsResult
 
 		return results.topalbums.album.map((album) => {
@@ -82,9 +83,10 @@ export async function getTopAlbums(
 					? album.image[album.image.length - 1]['#text']
 					: GrayBoxImgFromApi,
 				name: album.name,
-				artist: album.artist.name
+				artist: album.artist.name,
 			} as AlbumReturn
 		})
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}
