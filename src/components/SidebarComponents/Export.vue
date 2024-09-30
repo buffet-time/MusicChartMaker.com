@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import {
 	ImportChartsAndOptions,
 	importFromTopsters2,
-	ExportChartsAndOptions
-} from '#shared/importExport'
+	ExportChartsAndOptions,
+} from '#utils/importExport'
 
-const filePicker = ref<HTMLInputElement>()
+const filePicker = useTemplateRef<HTMLInputElement>('filePicker')
 const showImportExport = ref(false)
 
 function importMCM() {

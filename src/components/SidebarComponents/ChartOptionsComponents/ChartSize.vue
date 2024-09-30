@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
-import { rowsChanged, colsChanged } from './ChartSize'
+import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
+import { rowsChanged, colsChanged } from '#src/utils/ChartSize'
 
 const colsNum = ref(GlobalChartState.value.options.chartSize.rowSizes[0])
 const rowsNum = ref(GlobalChartState.value.options.chartSize.rowSizes.length)
@@ -21,7 +21,7 @@ watch(colsNum, (newColNum, prevColNum) => {
 		return console.error(
 			'NewColNum or PrevColNum in watch(colNum doesnt exist)',
 			newColNum,
-			prevColNum
+			prevColNum,
 		)
 	}
 
@@ -39,7 +39,7 @@ watch(rowsNum, (newRowNum, prevRowNum) => {
 		return console.error(
 			'newRowNum or prevRowNum in watch(rowsNum doesnt exist)',
 			newRowNum,
-			prevRowNum
+			prevRowNum,
 		)
 	}
 
@@ -59,7 +59,7 @@ watch(
 
 		updatingRows = true
 		rowsNum.value = GlobalChartState.value.options.chartSize.rowSizes.length
-	}
+	},
 )
 </script>
 

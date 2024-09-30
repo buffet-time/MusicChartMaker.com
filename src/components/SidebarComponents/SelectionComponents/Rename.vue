@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import type { ChartState } from '#types'
-import { StoredChartNames } from '#shared/globals'
+import { StoredChartNames } from '#utils/globals'
 import {
 	setStoredChart,
 	deleteStoredChart,
 	SiteOptionsKey,
-	setCurrentChart
-} from '#shared/storage'
-import { PreventNameCollision } from '#shared/chart'
+	setCurrentChart,
+} from '#utils/storage'
+import { PreventNameCollision } from '#utils/chart'
 
 import Dialog from '#core/Dialog.vue'
 
@@ -23,19 +23,19 @@ const emits = defineEmits<{
 
 const renameDialogId = 'renameDialog'
 const chartInput = ref('')
-const renameChartInput = ref<HTMLInputElement>()
+const renameChartInput = useTemplateRef<HTMLInputElement>('renameChartInput')
 
 function onRenameChart() {
 	chartInput.value = selectedChartTitle
 	const renameDialog = document.getElementById(
-		renameDialogId
+		renameDialogId,
 	) as HTMLDialogElement
 	renameDialog.showModal()
 }
 
 function closeRenameModal() {
 	const renameModal = document.getElementById(
-		renameDialogId
+		renameDialogId,
 	) as HTMLDialogElement
 	renameModal.close()
 }

@@ -1,8 +1,8 @@
 import { ref, type Ref } from 'vue'
 import type { ChartState, SiteOptions } from '#types'
-import { GetSiteOptions, getStoredChart } from '#shared/storage'
-import { GenerateDefaultChart } from '#shared/chart'
-import { GenerateDefaultSiteOptions } from '#shared/misc'
+import { GetSiteOptions, getStoredChart } from '#utils/storage'
+import { GenerateDefaultChart } from '#utils/chart'
+import { GenerateDefaultSiteOptions } from '#utils/misc'
 
 // TODO: look into adding Pinia for state management
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import type { AlbumTile, ChartPreset, ChartState, ChartType } from '#types'
 import {
 	GenerateChartWithValues,
@@ -7,18 +7,14 @@ import {
 	GeneratePresetChart,
 	PreventNameCollision,
 	top100,
-	top42
-} from '#shared/chart'
+	top42,
+} from '#utils/chart'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
-	StoredChartNames
-} from '#shared/globals'
-import {
-	setCurrentChart,
-	setStoredChart,
-	SiteOptionsKey
-} from '#shared/storage'
+	StoredChartNames,
+} from '#utils/globals'
+import { setCurrentChart, setStoredChart, SiteOptionsKey } from '#utils/storage'
 
 import Dialog from '#core/Dialog.vue'
 import Presets from './NewComponents/Presets.vue'
@@ -44,7 +40,7 @@ const newDialogId = 'newDialog'
 
 const presetAdd = ref(false)
 const chartNameInput = ref(selectedChartTitle)
-const chartInput = ref<HTMLInputElement>()
+const chartInput = useTemplateRef<HTMLInputElement>('chartInput')
 const createPreset = ref(false)
 const editPresets = ref(false)
 const lastfmAdd = ref(false)
@@ -67,15 +63,18 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 	switch (type) {
 		case 'Dynamic':
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!)
+				? // biome-ignore lint/style/noNonNullAssertion: <explanation>
+					GenerateChartWithValues(nameToSave, chartValues!)
 				: GenerateDefaultChart(nameToSave)
 
 			break
 
 		case 'Preset':
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!, preset)
-				: GeneratePresetChart(nameToSave, preset!)
+				? // biome-ignore lint/style/noNonNullAssertion: <explanation>
+					GenerateChartWithValues(nameToSave, chartValues!, preset)
+				: // biome-ignore lint/style/noNonNullAssertion: <explanation>
+					GeneratePresetChart(nameToSave, preset!)
 			break
 
 		default:

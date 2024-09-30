@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { GenerateDefaultChart } from '#shared/chart'
+import { GenerateDefaultChart } from '#utils/chart'
 import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	StoredChartNames,
-	selectedChartTitle
-} from '#shared/globals'
+	selectedChartTitle,
+} from '#utils/globals'
 import {
 	setStoredChart,
 	getStoredChart,
 	setCurrentChart,
 	getCurrentChart,
-	getAllSavedKeys
-} from '#shared/storage'
+	getAllSavedKeys,
+} from '#utils/storage'
 
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
@@ -33,7 +33,7 @@ watch(
 			return
 		}
 		selectedChartTitle.value = newTitle
-	}
+	},
 )
 
 // this is a bit janky :/
@@ -42,14 +42,15 @@ function onSelect() {
 		return console.error(
 			'Error getting either GlobalChartState or Options in onSelect()',
 			GlobalChartState.value,
-			GlobalSiteOptions.value
+			GlobalSiteOptions.value,
 		)
 	}
 
+	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const loadedChart = getStoredChart(String(selectedChartTitle.value))!
 	if (!loadedChart) {
 		return console.error(
-			`Failed to load Selected Chart ${selectedChartTitle.value}.`
+			`Failed to load Selected Chart ${selectedChartTitle.value}.`,
 		)
 	}
 	// First, store current chart
@@ -63,6 +64,7 @@ onMounted(() => {
 	const storedLastChart = getCurrentChart()
 
 	if (storedLastChart) {
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
 		GlobalChartState.value = getStoredChart(storedLastChart)!
 	}
 	if (!storedLastChart || !GlobalChartState.value) {

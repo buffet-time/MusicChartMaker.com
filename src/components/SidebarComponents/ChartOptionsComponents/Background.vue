@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GlobalChartState } from '#shared/globals'
-import { IsImage } from '#shared/misc'
+import { GlobalChartState } from '#utils/globals'
+import { IsImage } from '#utils/misc'
 
 const bgImage = ref(
 	GlobalChartState.value.options.backgroundImage
 		? GlobalChartState.value.options.backgroundImage
-		: ''
+		: '',
 )
 
 async function onBgImageInput() {

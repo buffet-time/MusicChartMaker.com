@@ -2,8 +2,8 @@ import {
 	GlobalChartState,
 	GlobalSiteOptions,
 	selectedChartTitle,
-	StoredChartNames
-} from '#shared/globals'
+	StoredChartNames,
+} from '#utils/globals'
 import type { AlbumTile, ChartState, SiteOptions } from '#types'
 
 import {
@@ -12,14 +12,14 @@ import {
 	GetSiteOptions,
 	getStoredChart,
 	setCurrentChart,
-	setStoredChart
-} from '#shared/storage'
+	setStoredChart,
+} from '#utils/storage'
 import {
 	GenerateChartWithValues,
 	PreventNameCollision,
 	top100,
-	top42
-} from '#shared/chart'
+	top42,
+} from '#utils/chart'
 
 type BooleanButStrings = 'true' | 'false'
 
@@ -62,7 +62,6 @@ type Topsters2ChartArray = {
 export function importFromTopsters2(event: Event) {
 	try {
 		// @ts-expect-error - this is fine, I just need to be less lazy with Typings
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 		const topsters2ExportFile = event.target?.files[0]
 		if (!topsters2ExportFile) {
 			return
@@ -84,33 +83,34 @@ export function importFromTopsters2(event: Event) {
 						.split('')
 						.map((currentCharacter) =>
 							// Base64 characters that are shifted by 17
-							String.fromCharCode(currentCharacter.charCodeAt(0) - 17)
+							String.fromCharCode(currentCharacter.charCodeAt(0) - 17),
 						)
-						.join('')
-				)
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+						.join(''),
+				),
 			)[0] as Topsters2DecodedJson
 
 			const topsters2Keys = Object.keys(decodedTopsters2)
 
 			const namedCardsProperty = topsters2Keys.find((value) =>
-				value.includes('cards-cards')
+				value.includes('cards-cards'),
 			)
 
 			const partiallyDecodedTopsters2Cards = Uint8Array.from(
 				atob(
+					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					decodedTopsters2[namedCardsProperty!].substring(
 						1,
-						decodedTopsters2[namedCardsProperty!].length - 1
-					)
+						// biome-ignore lint/style/noNonNullAssertion: <explanation>
+						decodedTopsters2[namedCardsProperty!].length - 1,
+					),
 				),
-				(character: string) => character.charCodeAt(0)
+				(character: string) => character.charCodeAt(0),
 			)
 
 			const { inflate } = await import('pako')
 
 			const decodedTopsters2CardsArray = JSON.parse(
-				textDecoder.decode(inflate(partiallyDecodedTopsters2Cards))
+				textDecoder.decode(inflate(partiallyDecodedTopsters2Cards)),
 			) as Topsters2ChartArray
 
 			decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
@@ -124,7 +124,7 @@ export function importFromTopsters2(event: Event) {
 					topsters2CardsArrayToAlbumTileArrayArray({
 						decodedTopsters2CardsArray,
 						newAlbumTileArray,
-						rowSizes: top100.rowSizes
+						rowSizes: top100.rowSizes,
 					})
 					usedRowSizes = top100.rowSizes
 					break
@@ -133,7 +133,7 @@ export function importFromTopsters2(event: Event) {
 					topsters2CardsArrayToAlbumTileArrayArray({
 						decodedTopsters2CardsArray,
 						newAlbumTileArray,
-						rowSizes: top42.rowSizes
+						rowSizes: top42.rowSizes,
 					})
 					usedRowSizes = top42.rowSizes
 					break
@@ -144,7 +144,7 @@ export function importFromTopsters2(event: Event) {
 					topsters2CardsArrayToAlbumTileArrayArray({
 						decodedTopsters2CardsArray,
 						newAlbumTileArray,
-						rowSizes: rowSizesFor40
+						rowSizes: rowSizesFor40,
 					})
 					usedRowSizes = rowSizesFor40
 					break
@@ -161,7 +161,7 @@ export function importFromTopsters2(event: Event) {
 					topsters2CardsArrayToAlbumTileArrayArray({
 						decodedTopsters2CardsArray,
 						newAlbumTileArray,
-						rowSizes: generatedRowSizes
+						rowSizes: generatedRowSizes,
 					})
 					usedRowSizes = generatedRowSizes
 					break
@@ -174,7 +174,7 @@ export function importFromTopsters2(event: Event) {
 				?.replace('-cards-titled', '')
 
 			const newChartNameToSave = PreventNameCollision(
-				pulledNameFromJson ? pulledNameFromJson : 'FailedToImportChartName'
+				pulledNameFromJson ? pulledNameFromJson : 'FailedToImportChartName',
 			)
 
 			// TODO: look into changing the default options
@@ -184,8 +184,8 @@ export function importFromTopsters2(event: Event) {
 				{
 					default: false,
 					rowSizes: usedRowSizes,
-					presetName: 'Topsters2Import'
-				}
+					presetName: 'Topsters2Import',
+				},
 			)
 
 			// TODO: Look into extracting this out!
@@ -195,8 +195,8 @@ export function importFromTopsters2(event: Event) {
 			setStoredChart(newChartNameToSave, newChart)
 			GlobalChartState.value = newChart
 		}
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		fileReader.readAsText(topsters2ExportFile)
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.error(`Error: ${error}`)
 	}
@@ -210,7 +210,7 @@ function getFactorsFromLength(chartLength: number): [number, number] {
 	}
 
 	const allFactors = [...Array(chartLength + 1).keys()].filter(
-		(index) => chartLength % index === 0
+		(index) => chartLength % index === 0,
 	)
 
 	const firstPossibleFactor = allFactors[allFactors.length / 2 - 1]
@@ -222,7 +222,7 @@ function getFactorsFromLength(chartLength: number): [number, number] {
 function topsters2CardsArrayToAlbumTileArrayArray({
 	rowSizes,
 	newAlbumTileArray,
-	decodedTopsters2CardsArray
+	decodedTopsters2CardsArray,
 }: {
 	rowSizes: number[]
 	newAlbumTileArray: AlbumTile[][]
@@ -236,9 +236,9 @@ function topsters2CardsArrayToAlbumTileArrayArray({
 				return {
 					image: topsters2Item.src,
 					artist: topsters2titleSplit[0],
-					name: topsters2titleSplit[1]
+					name: topsters2titleSplit[1],
 				}
-			})
+			}),
 		)
 	}
 }
@@ -249,7 +249,7 @@ export function ExportChartsAndOptions() {
 		// Node does not work here, have to use WebAPI
 		const exportdata = {
 			chartData: getAllSavedKeys().map((cName) => getStoredChart(cName)),
-			siteData: GetSiteOptions()
+			siteData: GetSiteOptions(),
 		}
 		const anchor = document.createElement('a')
 		const file = new Blob([JSON.stringify(exportdata)], { type: 'text/plain' })
@@ -279,17 +279,15 @@ export function ImportChartsAndOptions(importFile: File | null) {
 			// console.log(fileEvent)
 			// Add logic here to check filename and see if it is a JSON file.
 			try {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				const parsed = JSON.parse(String(fileEvent.target?.result))
 				// Add a typecheck here, assert if it has the siteData and chartData properties
 				if (parsed) {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const options: SiteOptions = parsed.siteData
 
 					GlobalSiteOptions.value = options
 					setCurrentChart(options.currentChart)
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const data: ChartState[] = parsed.chartData
+					// biome-ignore lint/complexity/noForEach: <explanation>
 					data.forEach((state) => {
 						Boolean(state) && setStoredChart(state.options.chartTitle, state)
 					})

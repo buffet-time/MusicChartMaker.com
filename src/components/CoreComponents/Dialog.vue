@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, useTemplateRef } from 'vue'
 
 defineProps<{
 	dialogId: string
 	closeButton: boolean
 }>()
 
-const currentDialog = ref<HTMLDialogElement>()
+const currentDialog = useTemplateRef<HTMLDialogElement>('currentDialog')
 
 function closeDialog() {
 	currentDialog.value?.close()

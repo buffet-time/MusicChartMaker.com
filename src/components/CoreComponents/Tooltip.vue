@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { createPopper, type Placement, type Instance } from '@popperjs/core'
-import { Ref, onMounted, ref } from 'vue'
+import type { Placement, Instance } from '@popperjs/core'
+import { type Ref, onMounted, useTemplateRef } from 'vue'
 
 // TODO: add conditional to create this with native HTML popover
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover
@@ -12,22 +12,23 @@ const { tooltipName, offset, delay, placement } = defineProps<{
 	placement: Placement
 }>()
 
-const contentSlot = ref() as Ref<HTMLDivElement>
-const tooltipSlot = ref() as Ref<HTMLDivElement>
+const contentSlot = useTemplateRef('contentSlot') as Ref<HTMLDivElement>
+const tooltipSlot = useTemplateRef('tooltipSlot') as Ref<HTMLDivElement>
 let popperInstance: Instance
 let timer: ReturnType<typeof setTimeout>
 
-onMounted(() => {
+onMounted(async () => {
+	const { createPopper } = await import('@popperjs/core')
 	popperInstance = createPopper(contentSlot.value, tooltipSlot.value, {
 		placement: placement,
 		modifiers: [
 			{
 				name: 'offset',
 				options: {
-					offset: offset
-				}
-			}
-		]
+					offset: offset,
+				},
+			},
+		],
 	})
 })
 

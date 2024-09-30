@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
-import { GlobalChartState } from '#shared/globals'
-import { DragSetData, RearrangeChart, onTouchStart } from '#shared/drag'
+import { GlobalChartState } from '#utils/globals'
+import { DragSetData, RearrangeChart, onTouchStart } from '#utils/drag'
 import {
 	FillerAlbum,
 	GrayBoxImgForPlaceholder,
 	GrayBoxImgFromApi,
-	getAlbumNumber
-} from '#shared/misc'
+	getAlbumNumber,
+} from '#utils/misc'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
@@ -40,7 +40,7 @@ function onDragOver(dragEvent: DragEvent) {
 	if (!dragEvent.dataTransfer) {
 		return console.error(
 			'Error dragEvent.dataTransfer not defined in onDragOver',
-			dragEvent
+			dragEvent,
 		)
 	}
 
@@ -62,9 +62,7 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 			{ index1, index2 },
 			albumDraggedIn.originatingIndices,
 			GlobalChartState.value.chartTiles[index1][index2].image ===
-				GrayBoxImgForPlaceholder
-				? true
-				: false
+				GrayBoxImgForPlaceholder,
 		)
 	}
 
@@ -74,7 +72,7 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	GlobalChartState.value.chartTiles[index1].splice(
 		index2,
 		1,
-		albumDraggedIn.albumObject
+		albumDraggedIn.albumObject,
 	)
 	currentElement.src = albumDraggedIn.albumObject.image
 	currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
@@ -84,7 +82,7 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	if (!GlobalChartState) {
 		return console.error(
 			'Error getting GlobalChartState in onDragStart()',
-			GlobalChartState
+			GlobalChartState,
 		)
 	}
 
@@ -93,8 +91,8 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		dragSource: 'Chart',
 		originatingIndices: {
 			index1: index1,
-			index2: index2
-		}
+			index2: index2,
+		},
 	})
 
 	if (!dragEvent.dataTransfer) {
@@ -108,7 +106,7 @@ function deleteCurrent(indices: IndicesObject) {
 	GlobalChartState.value.chartTiles[indices.index1].splice(
 		indices.index2,
 		1,
-		FillerAlbum
+		FillerAlbum,
 	)
 }
 
@@ -116,7 +114,7 @@ function deleteCurrent(indices: IndicesObject) {
 function chartTitle(
 	index1: number,
 	index2: number,
-	album: AlbumTile
+	album: AlbumTile,
 ): string | undefined {
 	return album.artist === 'Artist' && album.name === 'Album'
 		? undefined

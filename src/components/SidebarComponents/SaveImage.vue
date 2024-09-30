@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, onMounted, ref } from 'vue'
-import { GlobalChartState } from '#shared/globals'
+import { GlobalChartState } from '#utils/globals'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
@@ -52,7 +52,7 @@ async function saveImage() {
 			scale: scale.value,
 			allowTaint: true,
 			useCORS: true,
-			backgroundColor: GlobalChartState.value.options.background
+			backgroundColor: GlobalChartState.value.options.background,
 		})
 		const anchor = document.createElement('a')
 
@@ -65,6 +65,7 @@ async function saveImage() {
 		anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
 		anchor.click()
 		anchor.remove()
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
 	}

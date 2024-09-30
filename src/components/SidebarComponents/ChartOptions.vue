@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GenerateDefaultChart } from '#shared/chart'
-import { GlobalChartState, GlobalSiteOptions } from '#shared/globals'
+import { GenerateDefaultChart } from '#utils/chart'
+import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 
 import Dialog from '#core/Dialog.vue'
 import Background from './ChartOptionsComponents/Background.vue'
 import ChartSize from './ChartOptionsComponents/ChartSize.vue'
 import TextOptions from './ChartOptionsComponents/TextOptions.vue'
 import Font from './ChartOptionsComponents/Font.vue'
-import { GenerateDefaultSiteOptions } from '#shared/misc'
+import { GenerateDefaultSiteOptions } from '#utils/misc'
 import TextShadow from './ChartOptionsComponents/TextShadow.vue'
 
 const resetOptionsId = 'resetoptions'
@@ -17,14 +17,14 @@ const showChartOptions = ref(false)
 
 function openResetOptionsModal() {
 	const resetOptionsModal = document.getElementById(
-		resetOptionsId
+		resetOptionsId,
 	) as HTMLDialogElement
 	resetOptionsModal.showModal()
 }
 
 function closeResetOptionModal() {
 	const resetOptionsModal = document.getElementById(
-		resetOptionsId
+		resetOptionsId,
 	) as HTMLDialogElement
 	resetOptionsModal.close()
 }
@@ -49,12 +49,12 @@ function resetOptionsToDefault() {
 		font: defaultChartOptions.font,
 		backgroundImage: undefined,
 		padding: 0.2,
-		lockChart: false
+		lockChart: false,
 	}
 
 	GlobalSiteOptions.value = {
 		currentChart: GlobalSiteOptions.value.currentChart,
-		numberOfSearchResults: defaultSearchResults
+		numberOfSearchResults: defaultSearchResults,
 	}
 	closeResetOptionModal()
 }

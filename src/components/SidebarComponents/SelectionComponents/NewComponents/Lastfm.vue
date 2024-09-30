@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
-import { GlobalSiteOptions } from '#shared/globals'
+import { GlobalSiteOptions } from '#utils/globals'
 import type { AlbumTile, ChartPreset, ChartType, LastfmPeriod } from '#types'
 import { getTopAlbums } from '#lastfm/main'
 
@@ -16,7 +16,7 @@ const periodOptions: LastfmPeriod[] = [
 	'1month',
 	'3month',
 	'6month',
-	'12month'
+	'12month',
 ]
 
 const emit = defineEmits<{
@@ -27,7 +27,7 @@ const emit = defineEmits<{
 			lastfm: boolean
 			chartValues: AlbumTile[][]
 			preset?: ChartPreset
-		}
+		},
 	]
 }>()
 
@@ -43,7 +43,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		preset
 			? preset.rowSizes.reduce((previous, current) => previous + current, 0)
 			: rows.value * columns.value,
-		username.value
+		username.value,
 	)
 
 	if (!response) {
@@ -65,7 +65,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		type: type,
 		lastfm: lastfm,
 		chartValues: returnArray,
-		preset: preset
+		preset: preset,
 	})
 }
 </script>

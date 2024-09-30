@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { GlobalChartState } from '#shared/globals'
-import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#shared/misc'
+import { GlobalChartState } from '#utils/globals'
+import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#utils/misc'
 import { onMounted, ref, nextTick } from 'vue'
 
 const props = defineProps<{
@@ -47,6 +47,7 @@ async function getFontSize() {
 	if (isOverflowing()) {
 		async function reduceFontSize() {
 			if (isOverflowing()) {
+				// biome-ignore lint/style/noNonNullAssertion: <explanation>
 				GlobalChartState.value.options.fontSize! -= 0.05
 				await nextTick()
 				await reduceFontSize()
@@ -56,7 +57,9 @@ async function getFontSize() {
 		await reduceFontSize()
 	} else {
 		async function increaseFontSize() {
+			// biome-ignore lint/style/noNonNullAssertion: <explanation>
 			if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
+				// biome-ignore lint/style/noNonNullAssertion: <explanation>
 				GlobalChartState.value.options.fontSize! += 0.05
 				await nextTick()
 				await increaseFontSize()

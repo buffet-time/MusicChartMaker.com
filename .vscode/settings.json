@@ -1,10 +1,9 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.defaultFormatter": "biomejs.biome",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
-	"eslint.validate": ["javascript", "vue"],
 	"editor.tabSize": 2,
 	"editor.insertSpaces": false,
 	"files.eol": "\n",
@@ -18,8 +17,20 @@
 	"[svg]": {
 		"editor.defaultFormatter": "jock.svg"
 	},
-	"[vue]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
 	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
 }

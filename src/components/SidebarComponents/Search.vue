@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { AlbumSearchResult } from '#types'
-import { GlobalSiteOptions } from '#shared/globals'
-import { DragSetData, onTouchStart } from '#shared/drag'
-import { IsImage, GrayBoxImgFromApi } from '#shared/misc'
+import { GlobalSiteOptions } from '#utils/globals'
+import { DragSetData, onTouchStart } from '#utils/drag'
+import { IsImage, GrayBoxImgFromApi } from '#utils/misc'
 
 import Tooltip from '#core/Tooltip.vue'
 import { searchAlbum } from '#lastfm/main'
@@ -29,7 +29,7 @@ async function search() {
 	// handle Direct image adding
 	if (await IsImage(searchInput.value)) {
 		searchResults.value = [
-			{ artist: 'Artist Name', name: 'Album Name', image: searchInput.value }
+			{ artist: 'Artist Name', name: 'Album Name', image: searchInput.value },
 		]
 		showSearchResults.value = true
 		return
@@ -37,7 +37,7 @@ async function search() {
 
 	searchResults.value = await searchAlbum(
 		GlobalSiteOptions.value.numberOfSearchResults,
-		searchInput.value
+		searchInput.value,
 	)
 
 	if (!showSearchResults.value) {
@@ -50,7 +50,7 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 		albumObject: album,
 		dragSource: 'Search',
 		// included just because im bad with ts typing and dont want it to optional in chart
-		originatingIndices: { index1: 0, index2: 0 }
+		originatingIndices: { index1: 0, index2: 0 },
 	})
 
 	if (!dragEvent.dataTransfer) {

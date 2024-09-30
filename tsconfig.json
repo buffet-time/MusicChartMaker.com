@@ -20,7 +20,7 @@
 			"#components/*": ["./src/components/*"],
 			"#types": ["./src/types/types.ts"],
 			"#core/*": ["./src/components/CoreComponents/*"],
-			"#shared/*": ["./src/shared/*"],
+			"#utils/*": ["./src/utils/*"],
 			"#lastfm/*": ["./src/lastfm/*"]
 		}
 	},

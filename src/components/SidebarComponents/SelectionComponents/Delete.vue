@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { ChartState } from '#types'
-import { GenerateDefaultChart } from '#shared/chart'
+import { GenerateDefaultChart } from '#utils/chart'
 import {
 	StoredChartNames,
 	GlobalChartState,
-	GlobalSiteOptions
-} from '#shared/globals'
+	GlobalSiteOptions,
+} from '#utils/globals'
 import {
 	deleteStoredChart,
 	getFirstChart,
-	setCurrentChart
-} from '#shared/storage'
+	setCurrentChart,
+} from '#utils/storage'
 
 import Dialog from '#core/Dialog.vue'
 
@@ -26,14 +26,14 @@ const deleteDialogId = 'deleteDialog'
 
 function openDeleteModal() {
 	const deleteModal = document.getElementById(
-		deleteDialogId
+		deleteDialogId,
 	) as HTMLDialogElement
 	deleteModal.showModal()
 }
 
 function closeDeleteModal() {
 	const deleteModal = document.getElementById(
-		deleteDialogId
+		deleteDialogId,
 	) as HTMLDialogElement
 	deleteModal.close()
 }
@@ -42,7 +42,7 @@ function deleteChart() {
 	deleteStoredChart(selectedChartTitle)
 	StoredChartNames.value.splice(
 		StoredChartNames.value.findIndex((chart) => chart === selectedChartTitle),
-		1
+		1,
 	)
 	const firstChartReturn = getFirstChart()
 

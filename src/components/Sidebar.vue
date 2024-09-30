@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 
 import Search from './SidebarComponents/Search.vue'
 import ChartOptions from './SidebarComponents/ChartOptions.vue'
@@ -14,9 +14,11 @@ const emit = defineEmits<{
 }>()
 
 const showOptions = ref(false)
-const sidebarMenu = ref<HTMLDivElement>()
-const hamburgerMenu = ref<HTMLImageElement>()
-const nonSearchSideBarItems = ref<HTMLDivElement>()
+const sidebarMenu = useTemplateRef<HTMLDivElement>('sidebarMenu')
+const hamburgerMenu = useTemplateRef<HTMLImageElement>('hamburgerMenu')
+const nonSearchSideBarItems = useTemplateRef<HTMLDivElement>(
+	'nonSearchSideBarItems',
+)
 const searchHeight = ref<string | number>()
 
 const resizeObserver = new ResizeObserver(() => getSearchHeight())
@@ -35,7 +37,8 @@ function toggleMenu() {
 
 function getSearchHeight() {
 	searchHeight.value = nonSearchSideBarItems.value
-		? (searchHeight.value = `${document.body.clientHeight - nonSearchSideBarItems.value.clientHeight}px`)
+		? // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+			(searchHeight.value = `${document.body.clientHeight - nonSearchSideBarItems.value.clientHeight}px`)
 		: 0
 }
 

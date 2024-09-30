@@ -1,7 +1,7 @@
 import type { AlbumTile } from '#types'
-import { GlobalChartState } from '#shared/globals'
-import { FillerAlbum } from '#shared/misc'
-import { GrayBoxImgForPlaceholder } from '#shared/misc'
+import { GlobalChartState } from '#utils/globals'
+import { FillerAlbum } from '#utils/misc'
+import { GrayBoxImgForPlaceholder } from '#utils/misc'
 import { watch } from 'vue'
 
 const tempChartTileUnderflowArray = [] as AlbumTile[]
@@ -10,7 +10,6 @@ watch(GlobalChartState, () => {
 	tempChartTileUnderflowArray.length = 0
 })
 
-//  blargh
 export function colsChanged(difference: number) {
 	if (!GlobalChartState) {
 		return console.error('error in colsChanged', GlobalChartState)
@@ -42,8 +41,9 @@ function addColumn(difference: number) {
 			row.push(
 				tempChartTileUnderflowArray.length > 0
 					? // Non-Null because we check to see if there is an item in the array first
+						// biome-ignore lint/style/noNonNullAssertion: <explanation>
 						tempChartTileUnderflowArray.shift()!
-					: FillerAlbum
+					: FillerAlbum,
 			)
 			GlobalChartState.value.options.chartSize.rowSizes[index]++
 		}
@@ -57,8 +57,9 @@ function addRow(difference: number) {
 		].map(() =>
 			tempChartTileUnderflowArray.length > 0
 				? // Non-Null because we check to see if there is an item in the array first
+					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					tempChartTileUnderflowArray.shift()!
-				: FillerAlbum
+				: FillerAlbum,
 		)
 
 		GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
@@ -97,7 +98,7 @@ function containsNonPlaceholder(array: AlbumTile[]) {
 
 function createNewMatrix(
 	rowsAfterRemoval: number,
-	columnsAfterRemoval: number
+	columnsAfterRemoval: number,
 ) {
 	const oneDimensionalArray = getOneDimensionalArrayFromChartState()
 
@@ -121,6 +122,7 @@ function createNewMatrix(
 
 	// any non placeholders removed thrown into a tempArray
 	if (oneDimensionalArray.length > 0) {
+		// biome-ignore lint/complexity/noForEach: <explanation>
 		oneDimensionalArray.forEach((val) => tempChartTileUnderflowArray.push(val))
 	}
 
@@ -165,6 +167,7 @@ function checkToSeeIfTheColumnsCanBeTriviallyRemoved(difference: number) {
 	const tempArray: AlbumTile[] = []
 
 	for (const tileArray of GlobalChartState.value.chartTiles) {
+		// biome-ignore lint/complexity/noForEach: <explanation>
 		tileArray
 			.slice(GlobalChartState.value.options.chartSize.rowSizes[0] - difference)
 			.forEach((value) => tempArray.push(value))
@@ -213,7 +216,7 @@ function checkToSeeIfTheRowsCanBeTriviallyRemoved(difference: number) {
 			!containsNonPlaceholder(
 				GlobalChartState.value.chartTiles[
 					GlobalChartState.value.chartTiles.length - 1 - index
-				]
+				],
 			)
 		) {
 			return true

@@ -1,16 +1,16 @@
 import type { DragDataTransfer, IndicesObject, AlbumSearchResult } from '#types'
-import { GlobalChartState } from '#shared/globals'
+import { GlobalChartState } from '#utils/globals'
 import { GrayBoxImgForPlaceholder } from './misc'
 
 export function DragSetData(
 	dragEvent: DragEvent,
-	objectToTransfer: DragDataTransfer
+	objectToTransfer: DragDataTransfer,
 ) {
 	if (!dragEvent.dataTransfer) {
 		return console.error(
 			'error in DragSetData(): ',
 			dragEvent,
-			objectToTransfer
+			objectToTransfer,
 		)
 	}
 
@@ -20,12 +20,12 @@ export function DragSetData(
 export function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
 	{ index1: originIndex1, index2: originIndex2 }: IndicesObject,
-	swap?: boolean
+	swap?: boolean,
 ) {
 	if (!GlobalChartState) {
 		return console.error(
 			'Error getting GlobalChartState in RearrangeChart()',
-			GlobalChartState
+			GlobalChartState,
 		)
 	}
 
@@ -43,12 +43,12 @@ export function RearrangeChart(
 		// they're in the same array (read row) so it's simple and 1 dimensional
 		const tile = GlobalChartState.value.chartTiles[originIndex1].splice(
 			originIndex2,
-			1
+			1,
 		)[0]
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
-			tile
+			tile,
 		)
 		return
 	}
@@ -57,7 +57,7 @@ export function RearrangeChart(
 	// First splice out the tile we're moving
 	const movingTile = GlobalChartState.value.chartTiles[originIndex1].splice(
 		originIndex2,
-		1
+		1,
 	)[0]
 
 	// Moving The album up
@@ -66,7 +66,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
-			movingTile
+			movingTile,
 		)
 
 		// now iteratively move through all arrays
@@ -90,7 +90,7 @@ export function RearrangeChart(
 	GlobalChartState.value.chartTiles[targetIndex1].splice(
 		targetIndex2 + 1,
 		0,
-		movingTile
+		movingTile,
 	)
 
 	// now iteratively move through all arrays
@@ -101,7 +101,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[index - 1].splice(
 			GlobalChartState.value.chartTiles[index - 1].length,
 			0,
-			poppedTile
+			poppedTile,
 		)
 	}
 }
@@ -113,7 +113,7 @@ export function onTouchStart(
 	album: AlbumSearchResult,
 	source: 'Search' | 'Chart',
 	originatingIndices?: IndicesObject,
-	openDialog?: (indices?: IndicesObject) => void
+	openDialog?: (indices?: IndicesObject) => void,
 ) {
 	if (typeof DragEvent !== 'function') {
 		// If the HTML Drag and Drop API is supported
@@ -146,7 +146,7 @@ export function onTouchStart(
 		touchEvent.targetTouches[0].clientY - imgElement.getBoundingClientRect().top
 
 	const movingCopy = document.body.appendChild(
-		imgElement.cloneNode(true)
+		imgElement.cloneNode(true),
 	) as HTMLImageElement
 
 	function moveImageToCursor(xPos: number, yPos: number) {
@@ -161,13 +161,13 @@ export function onTouchStart(
 	movingCopy.style.zIndex = '99'
 	moveImageToCursor(
 		touchEvent.targetTouches[0].clientX,
-		touchEvent.targetTouches[0].clientY
+		touchEvent.targetTouches[0].clientY,
 	)
 
 	function onTouchMove(touchEvent: TouchEvent) {
 		moveImageToCursor(
 			touchEvent.targetTouches[0].clientX,
-			touchEvent.targetTouches[0].clientY
+			touchEvent.targetTouches[0].clientY,
 		)
 	}
 
@@ -178,7 +178,7 @@ export function onTouchStart(
 
 		const elementBelow = document.elementFromPoint(
 			touchEvent.changedTouches[0].clientX,
-			touchEvent.changedTouches[0].clientY
+			touchEvent.changedTouches[0].clientY,
 		) as HTMLImageElement | null
 
 		if (!elementBelow) {
@@ -197,21 +197,21 @@ export function onTouchStart(
 			if (!GlobalChartState) {
 				return console.error(
 					'Error getting GlobalChartState in onTouchEnd() type Search',
-					GlobalChartState
+					GlobalChartState,
 				)
 			}
 
 			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
 				Number(secondIndex),
 				1,
-				album
+				album,
 			)
 			elementBelow.src = album.image
 			elementBelow.alt = `${album.artist} - ${album.name}`
 		} else if (source === 'Chart' && originatingIndices) {
 			const targetIndices = {
 				index1: Number(firstIndex),
-				index2: Number(secondIndex)
+				index2: Number(secondIndex),
 			}
 			// If in chart move the dragged element to the position you drop and push everything else back one
 			RearrangeChart(
@@ -219,9 +219,7 @@ export function onTouchStart(
 				originatingIndices,
 				GlobalChartState.value.chartTiles[targetIndices.index1][
 					targetIndices.index2
-				].image === GrayBoxImgForPlaceholder
-					? true
-					: false
+				].image === GrayBoxImgForPlaceholder,
 			)
 		}
 	}

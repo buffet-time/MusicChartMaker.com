@@ -1,12 +1,12 @@
 import type { SiteOptions, ChartState } from '#types'
-import { GlobalSiteOptions } from '#shared/globals'
+import { GlobalSiteOptions } from '#utils/globals'
 
 export const SiteOptionsKey = 'GlobalSiteOptions'
 
 export function getAllSavedKeys(): string[] {
 	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
-		(current) => current !== SiteOptionsKey
+		(current) => current !== SiteOptionsKey,
 	)
 }
 
@@ -16,7 +16,7 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
-			localStorageKeys.filter((key) => key !== SiteOptionsKey)[0]
+			localStorageKeys.filter((key) => key !== SiteOptionsKey)[0],
 		)
 	}
 
@@ -33,8 +33,8 @@ export function setCurrentChart(chartTitle: string): void {
 		SiteOptionsKey,
 		JSON.stringify({
 			...GlobalSiteOptions.value,
-			currentChart: chartTitle
-		} as SiteOptions)
+			currentChart: chartTitle,
+		} as SiteOptions),
 	)
 }
 
@@ -48,14 +48,14 @@ export function getStoredChart(key: string): ChartState | undefined {
 
 export function setStoredChart(key: string, value: ChartState): void {
 	if (value?.chartTiles == null) {
-		return console.error(
-			'Error: attempted to store a chart of undefined or null value'
+		console.error(
+			'Error: attempted to store a chart of undefined or null value',
 		)
+		return
 	}
 	if (key === SiteOptionsKey) {
-		return console.error(
-			"Can't use GlobalSiteOptions as the name for your chart."
-		)
+		console.error("Can't use GlobalSiteOptions as the name for your chart.")
+		return
 	}
 
 	localStorage.setItem(key, JSON.stringify(value))
