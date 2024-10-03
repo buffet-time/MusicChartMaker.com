@@ -10,7 +10,15 @@
   - Add more options to sorting stored charts
     - And add folders
 
-## Version 1.2.2 - September 30, 2024
+## Version 1.2.3 - October 3rd, 2024
+
+- Bug Fixes
+  - Hopefully fixed some Topsters2 imports not working
+- Performance/ Stability
+  - Updated all packages
+  - Audited the bundle and made small changes
+  
+## Version 1.2.2 - September 30th, 2024
 
 - Performance/ Stability
   - Code Splitting
@@ -20,7 +28,7 @@
   - Migrated from ESLint + Prettier -> Biome
     - major Developer experience improvement for myself.
 
-## Version 1.2.1 - July 23, 2024
+## Version 1.2.1 - July 23rd, 2024
 
 - Features/ Enhancements
   - Have temporary storage of removed albums from resizing to refill
@@ -30,7 +38,7 @@
 - Performance/ Stability
   - Updated all packages
   
-## Version 1.2.0 - July 14, 2024
+## Version 1.2.0 - July 14th, 2024
 
 - Features/ Enhancements
   - The text now fits properly and on one line next to the chart no matter the size

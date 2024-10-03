@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -38,18 +38,18 @@
 		"html2canvas": "^1.4.1",
 		"marked": "^14.1.2",
 		"pako": "^2.1.0",
-		"vue": "^3.5.10"
+		"vue": "^3.5.11"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.2",
 		"@types/node": "^22.7.4",
 		"@types/pako": "^2.0.3",
-		"@unocss/transformer-directives": "^0.62.4",
+		"@unocss/transformer-directives": "^0.63.2",
 		"@vitejs/plugin-vue": "^5.1.4",
 		"husky": "^9.1.6",
 		"rollup-plugin-swc-minify": "^1.1.2",
 		"typescript": "^5.6.2",
-		"unocss": "^0.62.4",
+		"unocss": "^0.63.2",
 		"vite": "^5.4.8",
 		"vue-tsc": "^2.1.6"
 	}

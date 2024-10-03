@@ -47,6 +47,34 @@ type Topsters2ChartArray = {
 	playcount: string
 }[]
 
+function getPartiallyDecodedTopsters2Cards({
+	propertyName,
+	decodedTopsters2,
+}: {
+	propertyName: string
+	decodedTopsters2: Topsters2DecodedJson
+}) {
+	return Uint8Array.from(
+		atob(
+			decodedTopsters2[propertyName].substring(
+				1,
+				decodedTopsters2[propertyName].length - 1,
+			),
+		),
+		(character: string) => character.charCodeAt(0),
+	)
+}
+
+async function getDecodedTopsters2CardsArray(
+	partiallyDecodedTopsters2Cards: Uint8Array,
+) {
+	const { inflate } = await import('pako')
+	const textDecoder = new TextDecoder()
+	return JSON.parse(
+		textDecoder.decode(inflate(partiallyDecodedTopsters2Cards)),
+	) as Topsters2ChartArray
+}
+
 // Lots of explanation required
 // The nazi who made Topsters 2 decided to heavily obfuscate the exported files
 // Steps taken here
@@ -55,6 +83,7 @@ type Topsters2ChartArray = {
 // 3) Take this now decoded JSON file and then get the name of the key with `cards-cards`
 //   a) There are 2 `cards` properties one has some data but is incomplete
 //   b) the other has the actual chart data
+//   c) sometimes its named `cards` and other time its the name of the chart and cards-cards
 // 4) This value is also Encoded, it's a compressed bit of data in Uint8Array that is Base64 encoded
 // 5) Once this is a Uint8Array we then need to take that do a decompression (inflate) on it
 // 6) Take that inflated value, decode it with a TextDecoder, and finally Parse it into JSON
@@ -67,10 +96,10 @@ export function importFromTopsters2(event: Event) {
 			return
 		}
 		const fileReader = new FileReader()
-		const textDecoder = new TextDecoder()
 
 		fileReader.onload = async (event) => {
 			const encodedTopsters2 = event.target?.result
+
 			if (!encodedTopsters2) {
 				// BAD PATH REACHED!
 				// TODO handle this
@@ -94,24 +123,32 @@ export function importFromTopsters2(event: Event) {
 			const namedCardsProperty = topsters2Keys.find((value) =>
 				value.includes('cards-cards'),
 			)
+			let partiallyDecodedTopsters2Cards: Uint8Array
+			let decodedTopsters2CardsArray: Topsters2ChartArray
 
-			const partiallyDecodedTopsters2Cards = Uint8Array.from(
-				atob(
-					// biome-ignore lint/style/noNonNullAssertion: <explanation>
-					decodedTopsters2[namedCardsProperty!].substring(
-						1,
-						// biome-ignore lint/style/noNonNullAssertion: <explanation>
-						decodedTopsters2[namedCardsProperty!].length - 1,
-					),
-				),
-				(character: string) => character.charCodeAt(0),
-			)
+			if (
+				namedCardsProperty &&
+				decodedTopsters2[namedCardsProperty].length >
+					decodedTopsters2.cards.length
+			) {
+				partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
+					propertyName: namedCardsProperty,
+					decodedTopsters2,
+				})
 
-			const { inflate } = await import('pako')
+				decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
+					partiallyDecodedTopsters2Cards,
+				)
+			} else {
+				partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
+					propertyName: 'cards',
+					decodedTopsters2,
+				})
 
-			const decodedTopsters2CardsArray = JSON.parse(
-				textDecoder.decode(inflate(partiallyDecodedTopsters2Cards)),
-			) as Topsters2ChartArray
+				decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
+					partiallyDecodedTopsters2Cards,
+				)
+			}
 
 			decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
 
@@ -119,6 +156,7 @@ export function importFromTopsters2(event: Event) {
 			let usedRowSizes: number[] = []
 
 			const chartSize = Number(decodedTopsters2.size)
+
 			switch (chartSize) {
 				case 100: {
 					topsters2CardsArrayToAlbumTileArrayArray({
@@ -276,7 +314,6 @@ export function ImportChartsAndOptions(importFile: File | null) {
 		}
 
 		reader.onload = (fileEvent) => {
-			// console.log(fileEvent)
 			// Add logic here to check filename and see if it is a JSON file.
 			try {
 				const parsed = JSON.parse(String(fileEvent.target?.result))

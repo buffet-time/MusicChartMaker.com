@@ -8,25 +8,14 @@ import { minify } from 'rollup-plugin-swc-minify'
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
-		chunkSizeWarningLimit: 100,
+		chunkSizeWarningLimit: 150,
 		rollupOptions: {
 			maxParallelFileOps: 512,
 			plugins: [minify()],
 		},
-		sourcemap: true,
-		terserOptions: {
-			ecma: 2020,
-		},
 	},
 
-	plugins: [
-		vue({
-			script: {
-				propsDestructure: true,
-			},
-		}),
-		UnoCSS(),
-	],
+	plugins: [vue(), UnoCSS()],
 	resolve: {
 		alias: {
 			'#root': resolve(__dirname),
