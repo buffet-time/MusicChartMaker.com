@@ -10,6 +10,14 @@
   - Add more options to sorting stored charts
     - And add folders
 
+## Version 1.2.3 - October ##, 2024
+
+- Bug Fixes
+  - Hopefully fixed some Topsters2 imports not working
+- Performance/ Stability
+  - Updated all packages
+  - Audited the bundle and made small changes
+  
 ## Version 1.2.2 - September 30, 2024
 
 - Performance/ Stability
