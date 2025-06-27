@@ -18,7 +18,6 @@ Heavily preferred for you to use VSCode so ESLint, Prettier, and Volar (vue 3 to
 - If you don't need to compute anything use UnoCSS classes.
 
 - If you need to do computation ([docs here](https://vuejs.org/guide/essentials/class-and-style.html))
-
   - but Tailwind classes still work use Class Bindings\
     `:class="blah"`
 

@@ -124,7 +124,7 @@ onMounted(() => {
 				v-if="chartNameInput === '' || !chartInput?.validity.valid"
 				class="pt-1"
 			>
-				The name must not be empty or {{ SiteOptionsKey }}
+				The name must not be empty, session or {{ SiteOptionsKey }}
 			</p>
 
 			<template v-else>

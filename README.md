@@ -17,16 +17,12 @@
 
 Thank you to: <https://iconoir.com/> for Open source SVGs
 
-## API
-
-- The API Source Code lives in my API monorepo [here](https://github.com/buffet-time/APIs/tree/main/src/musicChartApi)
-
 ## Dev setup
 
-- install [node 21.7.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
+- install [node 24.3.0 or higher](https://nodejs.org/en/) as it's the current and I am working off that.
 
-- install pnpm 9.0.0+ (Performant NPM)\
-  $ `npm install -g pnpm`
+- install pnpm 10.12.4+ (Performant NPM)\
+  $ `npm install -g pnpm@10.12.4`
 
 - install dependencies & setup husky\
   $ `pnpm install`
