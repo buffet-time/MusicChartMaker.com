@@ -3,10 +3,22 @@ import { GlobalSiteOptions } from '#utils/globals'
 
 export const SiteOptionsKey = 'GlobalSiteOptions'
 
+const localStorageIgnore = [
+	SiteOptionsKey,
+	'__vue-devtools-frame-state__',
+	'__vue-devtools-theme__',
+	'vueuse-color-scheme',
+	'session',
+]
+
+function hasLocalStorageIgnore(providedKey: string) {
+	return localStorageIgnore.some((currentKey) => providedKey === currentKey)
+}
+
 export function getAllSavedKeys(): string[] {
 	// Needs to be more strictly filtered. Maybe some kind of key for the App submitted entries.
 	return Object.keys(localStorage).filter(
-		(current) => current !== SiteOptionsKey,
+		(currentKey) => !hasLocalStorageIgnore(currentKey),
 	)
 }
 
@@ -16,7 +28,7 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
-			localStorageKeys.filter((key) => key !== SiteOptionsKey)[0],
+			localStorageKeys.filter((key) => !hasLocalStorageIgnore(key))[0],
 		)
 	}
 
@@ -39,8 +51,8 @@ export function setCurrentChart(chartTitle: string): void {
 }
 
 export function getStoredChart(key: string): ChartState | undefined {
-	if (key === SiteOptionsKey) {
-		console.error("Can't get GlobalSiteOptions as it is not a chart.")
+	if (hasLocalStorageIgnore(key)) {
+		console.error("Can't get specified chart, it's in the ignore list.")
 	}
 	const item = localStorage.getItem(key)
 	return item ? (JSON.parse(item) as ChartState) : undefined
@@ -53,8 +65,8 @@ export function setStoredChart(key: string, value: ChartState): void {
 		)
 		return
 	}
-	if (key === SiteOptionsKey) {
-		console.error("Can't use GlobalSiteOptions as the name for your chart.")
+	if (hasLocalStorageIgnore(key)) {
+		console.error("Can't use specified value as the name for your chart.")
 		return
 	}
 
@@ -62,8 +74,8 @@ export function setStoredChart(key: string, value: ChartState): void {
 }
 
 export function deleteStoredChart(key: string): void {
-	if (key === SiteOptionsKey) {
-		console.error("Can't delete GlobalSiteOptions as it is not a chart.")
+	if (hasLocalStorageIgnore(key)) {
+		console.error("Can't delete specified key as it is not a chart.")
 	}
 	localStorage.removeItem(key)
 }

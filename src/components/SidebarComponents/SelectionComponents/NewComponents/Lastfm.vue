@@ -106,7 +106,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 			@click="
 				createChart({
 					lastfm: true,
-					type: 'Dynamic'
+					type: 'Dynamic',
 				})
 			"
 		>

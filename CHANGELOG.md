@@ -10,6 +10,19 @@
   - Add more options to sorting stored charts
     - And add folders
 
+## Version 1.2.4 - June 27th, 2025
+
+- Misc
+  - Added a note that there is no Transformers/ LLM usage ("AI") at all in the creation of this website
+  - updated README.MD
+- Bug Fixes
+  - Fixed bug which allowed the viewing, creation, editing, and deletion of 4 invalid chart names.
+  - Attempted fix at flakiness of auto-resizing of titles
+- Performance/ Stability
+  - Updated all packages
+  - Migrated Linter from Biome -> to OXC
+  - Migrated Formatter from Biome -> Prettier w/ OXC for speed.
+
 ## Version 1.2.3 - October 3rd, 2024
 
 - Bug Fixes
@@ -17,7 +30,7 @@
 - Performance/ Stability
   - Updated all packages
   - Audited the bundle and made small changes
-  
+
 ## Version 1.2.2 - September 30th, 2024
 
 - Performance/ Stability
@@ -37,7 +50,7 @@
   - Fixed incorrect non-null assertion
 - Performance/ Stability
   - Updated all packages
-  
+
 ## Version 1.2.0 - July 14th, 2024
 
 - Features/ Enhancements
@@ -49,7 +62,7 @@
   - Fixed Last.fm chart creation
     - I have no idea what i was doing with the original version, that was dogshit code.
     - Also cleaned up other Last.fm code.
-  - Fixed Show Album Titles toggle  
+  - Fixed Show Album Titles toggle
   - Fixed Save Image saving the space where Titles are, even if the titles aren't shown
   - Fixed last.fm/ other album images failed to load where it shows the title in the chart overflowing if text is too large
 - Performance/ Stability
@@ -81,7 +94,6 @@
 - Bug Fixes
   - Album search preview being cutoff
   - [Firefox] - Fix inability to edit album title and name
-  
 - Performance/ Stability
   - Migration from Tailwind -> UnoCSS
     - This was a lot of work, slightly changes how the site looks
@@ -89,7 +101,7 @@
     - Notably faster CSS compared to Tailwind
   - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
-  
+
 ## Version 1.1.1 - June 5th, 2024
 
 - Bug Fixes

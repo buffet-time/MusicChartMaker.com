@@ -60,7 +60,7 @@ watchDebounced(
 			backgroundColor: GlobalChartState?.options.background,
 			backgroundImage: GlobalChartState?.options.backgroundImage
 				? `url(${GlobalChartState?.options.backgroundImage})`
-				: 'unset'
+				: 'unset',
 		}"
 		class="uno-flex-center flex-col gap-1 md:ml-[231px] md:flex-row md:items-start md:justify-start"
 	>

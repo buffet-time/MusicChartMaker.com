@@ -131,7 +131,7 @@ function chartTitle(
 				GlobalChartState!.options.chartSize.rowSizes[0] * 200 +
 				(GlobalChartState!.options.chartSize.rowSizes[0] - 1) * 4
 			}px`,
-			gap: `${GlobalChartState?.options.padding}rem`
+			gap: `${GlobalChartState?.options.padding}rem`,
 		}"
 	>
 		<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
@@ -140,7 +140,7 @@ function chartTitle(
 			:key="`img-${index1}`"
 			class="flex flex-row"
 			:style="{
-				gap: `${GlobalChartState?.options.padding}rem`
+				gap: `${GlobalChartState?.options.padding}rem`,
 			}"
 		>
 			<div
@@ -194,7 +194,7 @@ function chartTitle(
 								loading="lazy"
 								class="uno-chart-image-size select-none"
 								:class="{
-									'cursor-grab': !GlobalChartState.options.lockChart
+									'cursor-grab': !GlobalChartState.options.lockChart,
 								}"
 								:draggable="GlobalChartState.options.lockChart ? false : true"
 								@dragstart="
@@ -221,7 +221,7 @@ function chartTitle(
 											album,
 											'Chart',
 											{ index1, index2 },
-											openDialog
+											openDialog,
 										)
 									}
 								"

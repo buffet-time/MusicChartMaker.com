@@ -53,6 +53,7 @@ onMounted(async () => {
 
 						<ul class="gap-1 flex flex-col text-align-left">
 							<li>This site is fully open source, see the github link</li>
+							<li>Not a single line of text or code written with AI ❤️</li>
 							<li>This site will NEVER have Ads or any form of tracking</li>
 							<li>
 								This site uses a lot of newer web features, if you have a

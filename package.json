@@ -1,7 +1,7 @@
 {
 	"name": "musicchartsite",
 	"description": "A website to create Music Charts",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"type": "module",
 	"private": "true",
 	"author": {
@@ -10,10 +10,10 @@
 		"url": "https://danielTurcich.com"
 	},
 	"engines": {
-		"node": ">=22.2.0",
-		"pnpm": ">=9.11.0"
+		"node": ">=24.3.0",
+		"pnpm": ">=10.12.4"
 	},
-	"packageManager": "pnpm@9.11.0",
+	"packageManager": "pnpm@10.12.4",
 	"engineStrict": true,
 	"scripts": {
 		"dev": "vite",
@@ -22,35 +22,37 @@
 		"build:preview": "vite preview",
 		"preview": "pnpm build && pnpm build:preview",
 		"checks": "pnpm lint-check && pnpm format-check && pnpm type-check",
-		"lint-check": "biome lint && echo lint-check done",
-		"format-check": "biome format && echo format-check done",
+		"lint-check": "oxlint && echo lint-check done",
+		"format-check": "prettier . && echo format-check done",
 		"type-check": "vue-tsc --noEmit && echo type-check done",
-		"lint-fix": "biome lint --write",
-		"format-fix": "biome format --write",
+		"lint-fix": "oxlint --fix",
+		"format-fix": "prettier . --write",
 		"vite-build": "vite build --emptyOutDir && echo vite-build done",
 		"add:cname": "cd dist && echo 'musicchartmaker.com' > CNAME && echo add:cname done",
 		"prepare": "husky"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.8",
-		"@vueuse/core": "^11.1.0",
+		"@vueuse/core": "^13.4.0",
 		"dialog-polyfill": "^0.5.6",
 		"html2canvas": "^1.4.1",
-		"marked": "^14.1.2",
+		"marked": "^16.0.0",
 		"pako": "^2.1.0",
-		"vue": "^3.5.11"
+		"vue": "^3.5.17"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.2",
-		"@types/node": "^22.7.4",
+		"@prettier/plugin-oxc": "^0.0.4",
+		"@types/node": "^24.0.4",
 		"@types/pako": "^2.0.3",
-		"@unocss/transformer-directives": "^0.63.2",
-		"@vitejs/plugin-vue": "^5.1.4",
-		"husky": "^9.1.6",
-		"rollup-plugin-swc-minify": "^1.1.2",
-		"typescript": "^5.6.2",
-		"unocss": "^0.63.2",
-		"vite": "^5.4.8",
-		"vue-tsc": "^2.1.6"
+		"@unocss/transformer-directives": "^66.3.2",
+		"@vitejs/plugin-vue": "^6.0.0",
+		"husky": "^9.1.7",
+		"oxlint": "^1.3.0",
+		"prettier": "^3.6.2",
+		"rollup-plugin-swc-minify": "^1.3.0",
+		"typescript": "^5.8.3",
+		"unocss": "^66.3.2",
+		"vite": "^7.0.0",
+		"vue-tsc": "^2.2.10"
 	}
 }

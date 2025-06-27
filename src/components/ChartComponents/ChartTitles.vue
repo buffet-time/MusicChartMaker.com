@@ -39,8 +39,11 @@ onMounted(async () => {
 	// Let the micro task queue empty out
 	await delay(1)
 
+	// ensures the ref is defined
+	await nextTick()
+
 	// Fire again to ensure it renders correctly
-	void getFontSize()
+	await getFontSize()
 })
 
 async function getFontSize() {
@@ -71,7 +74,7 @@ async function getFontSize() {
 }
 
 function isOverflowing() {
-	if (chartTitlesRef?.value && chartTitlesRef?.value) {
+	if (chartTitlesRef?.value) {
 		return chartTitlesRef.value.scrollHeight > chartTitlesRef.value.clientHeight
 	}
 
@@ -85,7 +88,7 @@ function isOverflowing() {
 		class="min-w-[200px] text-left text-sm line-height-tight"
 		:style="{
 			height: `${props.heightOfChartImages}px`,
-			fontSize: GlobalChartState.options.fontSize + 'px'
+			fontSize: GlobalChartState.options.fontSize + 'px',
 		}"
 	>
 		<div
@@ -102,7 +105,7 @@ function isOverflowing() {
 						color: GlobalChartState.options.textColor,
 						textShadow: GlobalChartState.options.textShadow,
 						letterSpacing: `${GlobalChartState.options.textSpacing}px`,
-						fontFamily: GlobalChartState.options.font
+						fontFamily: GlobalChartState.options.font,
 					}"
 				>
 					<template v-if="GlobalChartState.options.displayNumberRank">
