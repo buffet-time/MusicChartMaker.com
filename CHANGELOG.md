@@ -7,7 +7,7 @@
   - Improve UX
   - Investigate having folder structure for selected charts.
 
-## Version 1.3.0 - July XXth, 2025
+## Version 1.3.0 - July 4th, 2025
 
 - Features
   - Click search result album to add it top-most empty chart tile.
