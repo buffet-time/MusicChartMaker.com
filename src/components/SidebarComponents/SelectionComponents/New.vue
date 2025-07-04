@@ -63,18 +63,15 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 	switch (type) {
 		case 'Dynamic':
 			tempChart = lastfm
-				? // biome-ignore lint/style/noNonNullAssertion: <explanation>
-					GenerateChartWithValues(nameToSave, chartValues!)
+				? GenerateChartWithValues(nameToSave, chartValues!)
 				: GenerateDefaultChart(nameToSave)
 
 			break
 
 		case 'Preset':
 			tempChart = lastfm
-				? // biome-ignore lint/style/noNonNullAssertion: <explanation>
-					GenerateChartWithValues(nameToSave, chartValues!, preset)
-				: // biome-ignore lint/style/noNonNullAssertion: <explanation>
-					GeneratePresetChart(nameToSave, preset!)
+				? GenerateChartWithValues(nameToSave, chartValues!, preset)
+				: GeneratePresetChart(nameToSave, preset!)
 			break
 
 		default:

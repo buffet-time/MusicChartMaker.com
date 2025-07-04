@@ -1,12 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#utils/globals'
+import type { OrderOptions } from '#types'
 
 import Dialog from '#core/Dialog.vue'
 
 const showChartOptions = ref(false)
 
 const devToolsId = 'devtools'
+
+const orderOptions: OrderOptions[] = [
+	'Ascending',
+	'Descending',
+	'Most Characters',
+	'Least Characters',
+]
+
+const selectedOrder = ref<OrderOptions>(
+	GlobalSiteOptions.value.chartTitleSortingMethod
+		? GlobalSiteOptions.value.chartTitleSortingMethod
+		: 'Ascending',
+)
 
 function openDevToolsModal() {
 	const devTools = document.getElementById(devToolsId) as HTMLDialogElement
@@ -60,17 +74,34 @@ function clearLocalStore() {
 					@click="showChartOptions = false"
 				/>
 
-				<label class="mt-8">
-					# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
-				</label>
-				<input
-					v-model="GlobalSiteOptions!.numberOfSearchResults"
-					class="cursor-pointer"
-					type="range"
-					min="10"
-					max="50"
-					step="1"
-				/>
+				<div class="uno-options-div mt-10">
+					<label class="mt-8">
+						# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
+					</label>
+					<input
+						v-model="GlobalSiteOptions!.numberOfSearchResults"
+						class="cursor-pointer"
+						type="range"
+						min="10"
+						max="50"
+						step="1"
+					/>
+				</div>
+
+				<div class="uno-options-div">
+					<p class="mb-2">Chart Selection Order</p>
+					<select
+						v-model="selectedOrder"
+						class="uno-input global-select uno-select pl-1"
+						@change="
+							() => (GlobalSiteOptions.chartTitleSortingMethod = selectedOrder)
+						"
+					>
+						<option v-for="(order, index) in orderOptions" :key="index">
+							{{ order }}
+						</option>
+					</select>
+				</div>
 
 				<div class="uno-options-div">
 					<label>Hide search tooltip</label>
@@ -81,7 +112,7 @@ function clearLocalStore() {
 					/>
 				</div>
 
-				<div class="pt-2">
+				<div class="pt-4">
 					<button class="uno-button mx-14" @click="openDevToolsModal">
 						Dev Tools
 					</button>

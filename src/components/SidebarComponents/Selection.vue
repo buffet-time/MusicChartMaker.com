@@ -18,6 +18,7 @@ import {
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
+import Select from './SelectionComponents/Select.vue'
 
 const emit = defineEmits<{
 	canRenderChart: []
@@ -36,35 +37,10 @@ watch(
 	},
 )
 
-// this is a bit janky :/
-function onSelect() {
-	if (!GlobalChartState.value || !GlobalSiteOptions.value) {
-		return console.error(
-			'Error getting either GlobalChartState or Options in onSelect()',
-			GlobalChartState.value,
-			GlobalSiteOptions.value,
-		)
-	}
-
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
-	const loadedChart = getStoredChart(String(selectedChartTitle.value))!
-	if (!loadedChart) {
-		return console.error(
-			`Failed to load Selected Chart ${selectedChartTitle.value}.`,
-		)
-	}
-	// First, store current chart
-	setCurrentChart(selectedChartTitle.value)
-	// Now, update current chart, and update latest chart to current.
-	GlobalChartState.value = loadedChart
-	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
-}
-
 onMounted(() => {
 	const storedLastChart = getCurrentChart()
 
 	if (storedLastChart) {
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
 		GlobalChartState.value = getStoredChart(storedLastChart)!
 	}
 	if (!storedLastChart || !GlobalChartState.value) {
@@ -83,18 +59,8 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="uno-flex-center flex-col">
-		<label class="mb-1">Select Chart: </label>
-		<select
-			v-model="selectedChartTitle"
-			class="uno-input global-select uno-select pl-1"
-			@change="onSelect"
-		>
-			<option v-for="(name, index) in StoredChartNames.sort()" :key="index">
-				{{ name }}
-			</option>
-		</select>
-	</div>
+	<Select />
+
 	<div class="mt-2">
 		<div v-if="!initializing" class="uno-flex-center gap-1">
 			<!-- TODO: remove emitting to change `selectedChartTitle' -->

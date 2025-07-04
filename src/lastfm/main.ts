@@ -47,7 +47,6 @@ export async function searchAlbum(limit: number, album: string) {
 				name: album.name ? album.name : 'Placeholder Album',
 			}
 		})
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}
@@ -86,7 +85,6 @@ export async function getTopAlbums(
 				artist: album.artist.name,
 			} as AlbumReturn
 		})
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.log(`Error in /Search request:\n ${error}`)
 	}

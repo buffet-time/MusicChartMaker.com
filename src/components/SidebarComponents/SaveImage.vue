@@ -65,7 +65,6 @@ async function saveImage() {
 		anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
 		anchor.click()
 		anchor.remove()
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
 	}
