@@ -5,10 +5,22 @@
 - Features/ Enhancements
   - Improve accessibility
   - Improve UX
-  - Have a loading state image as images are lazy loaded
-    - currently impossible maybe?
-  - Add more options to sorting stored charts
-    - And add folders
+  - Investigate having folder structure for selected charts.
+
+## Version 1.3.0 - July 4th, 2025
+
+- Features
+  - Click search result album to add it top-most empty chart tile.
+  - Add order options for charts
+    - Ascending
+    - Descending
+    - Most Characters
+    - Least Characters
+- Performance/ Stability/ Dev
+  - Updated all packages
+  - Cleaned up dangling biome comments
+
+---
 
 ## Version 1.2.4 - June 27th, 2025
 
@@ -23,6 +35,8 @@
   - Migrated Linter from Biome -> to OXC
   - Migrated Formatter from Biome -> Prettier w/ OXC for speed.
 
+---
+
 ## Version 1.2.3 - October 3rd, 2024
 
 - Bug Fixes
@@ -30,6 +44,8 @@
 - Performance/ Stability
   - Updated all packages
   - Audited the bundle and made small changes
+
+---
 
 ## Version 1.2.2 - September 30th, 2024
 
@@ -41,6 +57,8 @@
   - Migrated from ESLint + Prettier -> Biome
     - major Developer experience improvement for myself.
 
+---
+
 ## Version 1.2.1 - July 23rd, 2024
 
 - Features/ Enhancements
@@ -50,6 +68,8 @@
   - Fixed incorrect non-null assertion
 - Performance/ Stability
   - Updated all packages
+
+---
 
 ## Version 1.2.0 - July 14th, 2024
 
@@ -68,6 +88,8 @@
 - Performance/ Stability
   - Updated all packages
   - Updated GitHub CI actions
+
+---
 
 ## Version 1.1.3 - July 2nd, 2024
 
@@ -89,6 +111,8 @@
 - Other
   - Added an example Topsters2 Export to the repo as I don't have it stored off-site anywhere
 
+---
+
 ## Version 1.1.2 - June 29th, 2024
 
 - Bug Fixes
@@ -101,6 +125,8 @@
     - Notably faster CSS compared to Tailwind
   - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
+
+---
 
 ## Version 1.1.1 - June 5th, 2024
 
@@ -115,11 +141,15 @@
   - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
 
+---
+
 ## Version 1.1.0 - May 5th, 2024
 
 - Features/ Enhancements
   - Topsters 2 import
   - Move all Import and Export into a new card
+
+---
 
 ## Version 1.0.1 - April 28th, 2024
 
@@ -130,6 +160,8 @@
   - Updated all packages
     - except ESLint to 9 because it's a lot of tedious work
 
+---
+
 ## Version 1.0.0 - August 27th, 2023
 
 - NO LONGER BETA
@@ -139,9 +171,13 @@
   - Last.fm no longer hits my server but runs in browser reducing latency
   - much more.
 
+---
+
 ## Version Beta-0.9.5 - April 10th, 2023
 
 - Performance - Added debouncing to watchers updating globalSiteOptions and chart
+
+---
 
 ## Version Beta-0.9.4 - April 6th, 2023
 
@@ -153,6 +189,8 @@
 - Fix - Error setting background if it wasn't already defined
 - Fix - Some search results not being returned incorrectly (api side)
 
+---
+
 ## Version Beta-0.9.3 - April 4th, 2023
 
 - Feat - Adding a lock chart option
@@ -163,11 +201,15 @@
 - Dev - Many import and TypeScript small changes
 - Dev - fixed `prettier-plugin-tailwind` not actually being used and ran `format-fix` to format
 
+---
+
 ## Version Beta-0.9.2 - March 24th, 2023
 
 - Fix - various small CSS changes & fixes
 - Dev - Many package updates and changes
 - Optimization - Moved assets to static public folder
+
+---
 
 ## Version Beta-0.9.1 - November 9th, 2022
 
@@ -175,14 +217,20 @@
 - Fix - Search results coming back with gray image but not overlaying the name on top
 - CSS - Fixed overflow on text overlay of image sometimes overflowing
 
+---
+
 ## Version Beta-0.9.0 - November 1st, 2022
 
 - Feat - Last.FM import functionality!
+
+---
 
 ## Version Beta-0.8.1 - October 27th, 2022
 
 - Fix - Changed touch and hold to be double tap so it works properly.
 - Dev - Refactor of `New.vue`to make it easier to maintain
+
+---
 
 ## Version Beta-0.8.0 - October 12th, 2022
 
@@ -191,15 +239,21 @@
 - UI - many small changes and added back buttons to replace close buttons
 - Fix - A few small accessibility changes.
 
+---
+
 ## Version Beta-0.7.7 - October 7th, 2022
 
 - Bug - Fixed blur appearing when no results are shown
 - Feat - Changed how scroll is indicated to user on mobile devices/ small screens
 
+---
+
 ## Version Beta-0.7.6 - October 6th, 2022
 
 - Bug - Fixed Save Image button capturing too much of the screen.
 - Feat - Added blur to search results to indicate that it's scrollable without sacrificing width by having a scrollbar
+
+---
 
 ## Version Beta-0.7.5 - October 5th, 2022
 
@@ -264,6 +318,8 @@
 - Dev - Enhanced fetch() wrapper
 - Dev - Condense Tailwind to have more custom classes to K.I.S.S
 - Dev - Major refactor of Options component to not be a monolith
+
+---
 
 ## Prior versions - Between May 31st, 2022 -> September 13th, 2022
 

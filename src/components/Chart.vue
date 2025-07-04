@@ -6,7 +6,6 @@ import { GlobalChartState } from '#utils/globals'
 import { setStoredChart } from '#utils/storage'
 
 import ChartTitles from './ChartComponents/ChartTitles.vue'
-// biome-ignore lint/style/useImportType: component import
 import ChartImages from './ChartComponents/ChartImages.vue'
 import Search from './SidebarComponents/Search.vue'
 

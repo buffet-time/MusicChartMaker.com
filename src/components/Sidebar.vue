@@ -37,8 +37,7 @@ function toggleMenu() {
 
 function getSearchHeight() {
 	searchHeight.value = nonSearchSideBarItems.value
-		? // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
-			(searchHeight.value = `${document.body.clientHeight - nonSearchSideBarItems.value.clientHeight}px`)
+		? (searchHeight.value = `${document.body.clientHeight - nonSearchSideBarItems.value.clientHeight}px`)
 		: 0
 }
 

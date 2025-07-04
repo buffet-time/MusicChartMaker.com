@@ -66,7 +66,6 @@ export async function ProperFetch(
 			`Fetch from ${input} responded with an error: ${await response.json()}`,
 		)
 		return null
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.error(`Error in fetch from ${input}: ${error}`)
 		return null

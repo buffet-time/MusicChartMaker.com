@@ -50,7 +50,6 @@ export interface AlbumReturn {
 }
 
 export interface AlbumResults {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	topalbums: any
 	results: {
 		'opensearch:Query': {

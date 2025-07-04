@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { AlbumSearchResult } from '#types'
-import { GlobalSiteOptions } from '#utils/globals'
+import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { DragSetData, onTouchStart } from '#utils/drag'
-import { IsImage, GrayBoxImgFromApi } from '#utils/misc'
+import {
+	IsImage,
+	GrayBoxImgFromApi,
+	GrayBoxImgForPlaceholder,
+} from '#utils/misc'
 
 import Tooltip from '#core/Tooltip.vue'
 import { searchAlbum } from '#lastfm/main'
@@ -26,7 +30,6 @@ async function search() {
 
 	previousSearch = searchInput.value
 
-	// handle Direct image adding
 	if (await IsImage(searchInput.value)) {
 		searchResults.value = [
 			{ artist: 'Artist Name', name: 'Album Name', image: searchInput.value },
@@ -49,7 +52,6 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 	DragSetData(dragEvent, {
 		albumObject: album,
 		dragSource: 'Search',
-		// included just because im bad with ts typing and dont want it to optional in chart
 		originatingIndices: { index1: 0, index2: 0 },
 	})
 
@@ -63,18 +65,36 @@ function onDragStart(dragEvent: DragEvent, album: AlbumSearchResult) {
 function getSearchResultsLength() {
 	return searchResults.value ? searchResults.value.length : 0
 }
+
+function handleClick(album: AlbumSearchResult) {
+	for (
+		let rowIndex = 0;
+		rowIndex < GlobalChartState.value.chartTiles.length;
+		rowIndex++
+	) {
+		for (
+			let elementIndex = 0;
+			elementIndex < GlobalChartState.value.chartTiles[rowIndex].length;
+			elementIndex++
+		) {
+			if (
+				GlobalChartState.value.chartTiles[rowIndex][elementIndex].image ===
+				GrayBoxImgForPlaceholder
+			) {
+				GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
+					artist: album.artist,
+					image: album.image,
+					name: album.name,
+				}
+				return
+			}
+		}
+	}
+}
 </script>
 
 <template>
 	<div class="flex-col h-full gap-4">
-		<!-- This is not KISS tho pulling just the search component out to its
-			own component adds more complexity than its worth, and adding an
-			optional conditional to the tooltip results in jankiness due to how popper works
-
-			to make updates just do it one and copy past the empty div and its contents to the other
-
-			in the future I'll find a more elegant way to do this without making the tooltip messy
-		-->
 		<template v-if="!GlobalSiteOptions.hideTooltip">
 			<Tooltip
 				:tooltip-name="`search-input`"
@@ -181,6 +201,7 @@ function getSearchResultsLength() {
 							:alt="`${album.artist} - ${album.name}`"
 							loading="lazy"
 							draggable="true"
+							@click="handleClick(album)"
 							@dragstart="(dragEvent) => onDragStart(dragEvent, album)"
 							@touchstart.prevent="
 								(touchEvent) => onTouchStart(touchEvent, album, 'Search')

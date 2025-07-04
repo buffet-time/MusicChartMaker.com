@@ -41,7 +41,6 @@ function addColumn(difference: number) {
 			row.push(
 				tempChartTileUnderflowArray.length > 0
 					? // Non-Null because we check to see if there is an item in the array first
-						// biome-ignore lint/style/noNonNullAssertion: <explanation>
 						tempChartTileUnderflowArray.shift()!
 					: FillerAlbum,
 			)
@@ -57,7 +56,6 @@ function addRow(difference: number) {
 		].map(() =>
 			tempChartTileUnderflowArray.length > 0
 				? // Non-Null because we check to see if there is an item in the array first
-					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					tempChartTileUnderflowArray.shift()!
 				: FillerAlbum,
 		)
@@ -122,7 +120,6 @@ function createNewMatrix(
 
 	// any non placeholders removed thrown into a tempArray
 	if (oneDimensionalArray.length > 0) {
-		// biome-ignore lint/complexity/noForEach: <explanation>
 		oneDimensionalArray.forEach((val) => tempChartTileUnderflowArray.push(val))
 	}
 
@@ -167,7 +164,6 @@ function checkToSeeIfTheColumnsCanBeTriviallyRemoved(difference: number) {
 	const tempArray: AlbumTile[] = []
 
 	for (const tileArray of GlobalChartState.value.chartTiles) {
-		// biome-ignore lint/complexity/noForEach: <explanation>
 		tileArray
 			.slice(GlobalChartState.value.options.chartSize.rowSizes[0] - difference)
 			.forEach((value) => tempArray.push(value))
