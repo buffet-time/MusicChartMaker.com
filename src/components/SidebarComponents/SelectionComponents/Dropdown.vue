@@ -7,7 +7,6 @@ import {
 	selectedChartTitle,
 } from '#utils/globals'
 import { nextTick, onMounted, watch } from 'vue'
-import { delay } from '#utils/misc'
 
 onMounted(async () => {
 	// ensures the StoredChartNames ref is defined
