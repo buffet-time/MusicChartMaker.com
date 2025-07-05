@@ -234,7 +234,6 @@ export function importFromTopsters2(event: Event) {
 			GlobalChartState.value = newChart
 		}
 		fileReader.readAsText(topsters2ExportFile)
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	} catch (error: any) {
 		console.error(`Error: ${error}`)
 	}
@@ -324,7 +323,6 @@ export function ImportChartsAndOptions(importFile: File | null) {
 					GlobalSiteOptions.value = options
 					setCurrentChart(options.currentChart)
 					const data: ChartState[] = parsed.chartData
-					// biome-ignore lint/complexity/noForEach: <explanation>
 					data.forEach((state) => {
 						Boolean(state) && setStoredChart(state.options.chartTitle, state)
 					})

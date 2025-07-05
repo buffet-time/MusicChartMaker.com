@@ -27,22 +27,14 @@ function delay(t: number) {
 onMounted(async () => {
 	window.addEventListener('resize', () => void getFontSize())
 
+	// This is hacky, sloppy, maybe i'll fix it eventually???
 	// Let the micro task queue empty out
 	await delay(1)
-
 	// ensures the ref is defined
 	await nextTick()
-
-	// Fire off to get it crunched down/ increased
 	await getFontSize()
-
-	// Let the micro task queue empty out
 	await delay(1)
-
-	// ensures the ref is defined
 	await nextTick()
-
-	// Fire again to ensure it renders correctly
 	await getFontSize()
 })
 
@@ -50,7 +42,6 @@ async function getFontSize() {
 	if (isOverflowing()) {
 		async function reduceFontSize() {
 			if (isOverflowing()) {
-				// biome-ignore lint/style/noNonNullAssertion: <explanation>
 				GlobalChartState.value.options.fontSize! -= 0.05
 				await nextTick()
 				await reduceFontSize()
@@ -60,9 +51,7 @@ async function getFontSize() {
 		await reduceFontSize()
 	} else {
 		async function increaseFontSize() {
-			// biome-ignore lint/style/noNonNullAssertion: <explanation>
 			if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
-				// biome-ignore lint/style/noNonNullAssertion: <explanation>
 				GlobalChartState.value.options.fontSize! += 0.05
 				await nextTick()
 				await increaseFontSize()

@@ -48,16 +48,24 @@ export interface ChartOptions {
 	textShadow?: string
 }
 
+export type OrderOptions =
+	| 'Ascending'
+	| 'Descending'
+	| 'Most Characters'
+	| 'Least Characters'
+
 export interface SiteOptions {
 	numberOfSearchResults: number
 	currentChart: string
 	fontCache?: string[]
 	presets?: ChartPreset[]
 	hideTooltip?: boolean
+	chartTitleSortingMethod?: OrderOptions
 }
 
 export interface ChartState {
 	options: ChartOptions
+	// I genuinely have no idea why I decided making this a matrix when it could have been single dimensional array :/
 	chartTiles: AlbumTile[][]
 }
 
