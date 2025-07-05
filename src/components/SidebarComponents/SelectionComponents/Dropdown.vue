@@ -36,6 +36,11 @@ function sortStoredChartNames() {
 		case 'Most Characters':
 			sortByCharacterAmount({ reversed: false })
 			break
+
+		// If the user didn't define it yet set the value to 'Ascending'
+		default:
+			GlobalSiteOptions.value.chartTitleSortingMethod = 'Ascending'
+			break
 	}
 }
 

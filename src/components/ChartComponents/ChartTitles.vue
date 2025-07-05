@@ -2,6 +2,7 @@
 import { GlobalChartState } from '#utils/globals'
 import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#utils/misc'
 import { onMounted, ref, nextTick } from 'vue'
+import { delay } from '#utils/misc'
 
 const props = defineProps<{
 	heightOfChartImages: number | undefined
@@ -18,10 +19,6 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 	GlobalChartState.value.chartTiles[index][index2].name = (
 		event.target as HTMLSpanElement
 	).innerText
-}
-
-function delay(t: number) {
-	return new Promise((resolve) => setTimeout(resolve, t))
 }
 
 onMounted(async () => {

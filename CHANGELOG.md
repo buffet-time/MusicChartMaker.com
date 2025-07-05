@@ -7,6 +7,15 @@
   - Improve UX
   - Investigate having folder structure for selected charts.
 
+## Version 1.3.1 - July 5th, 2025
+
+- Bug Fixes
+  - Fixed issue where the charts wouldn't be sorted in anyway if you did not set manually a value in Site Options for sort order.
+- Dev
+  - Added new Dev Tool to help test this and other bugs.
+
+---
+
 ## Version 1.3.0 - July 4th, 2025
 
 - Features

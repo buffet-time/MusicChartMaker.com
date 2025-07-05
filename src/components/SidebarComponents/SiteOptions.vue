@@ -3,11 +3,9 @@ import { ref } from 'vue'
 import { GlobalSiteOptions } from '#utils/globals'
 import type { OrderOptions } from '#types'
 
-import Dialog from '#core/Dialog.vue'
+import DevTools from './SiteOptionsComponents/DevTools.vue'
 
 const showChartOptions = ref(false)
-
-const devToolsId = 'devtools'
 
 const orderOptions: OrderOptions[] = [
 	'Ascending',
@@ -21,17 +19,6 @@ const selectedOrder = ref<OrderOptions>(
 		? GlobalSiteOptions.value.chartTitleSortingMethod
 		: 'Ascending',
 )
-
-function openDevToolsModal() {
-	const devTools = document.getElementById(devToolsId) as HTMLDialogElement
-	devTools.showModal()
-}
-
-function clearLocalStore() {
-	if (window.confirm('This deletes all charts and site options')) {
-		localStorage.clear()
-	}
-}
 </script>
 
 <!-- TODO: add site level styling options for users -->
@@ -112,27 +99,7 @@ function clearLocalStore() {
 					/>
 				</div>
 
-				<div class="pt-4">
-					<button class="uno-button mx-14" @click="openDevToolsModal">
-						Dev Tools
-					</button>
-
-					<Dialog :dialog-id="devToolsId" :close-button="true">
-						<template #content>
-							<p class="text-neutral-200">
-								Dev debugging tools. Feel free to use them, but be wary :)
-							</p>
-
-							<div class="flex gap-2">
-								<div class="flex gap-2">
-									<button class="uno-button" @click="clearLocalStore">
-										Clear LocalStorage
-									</button>
-								</div>
-							</div>
-						</template>
-					</Dialog>
-				</div>
+				<DevTools />
 			</div>
 		</div>
 	</div>
