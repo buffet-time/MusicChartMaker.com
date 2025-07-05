@@ -2,15 +2,16 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
+
 // @ts-expect-error - The package is JS w/ no TS definitions.
 import { minify } from 'rollup-plugin-swc-minify'
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
-		chunkSizeWarningLimit: 198,
+		// nothing should get above the html2canvas chunk size
+		chunkSizeWarningLimit: 197,
 		rollupOptions: {
-			maxParallelFileOps: 512,
 			plugins: [minify()],
 		},
 	},

@@ -19,6 +19,8 @@
 - Performance/ Stability/ Dev
   - Updated all packages
   - Cleaned up dangling biome comments
+  - Moved to using Vite-Rolldown preview
+  - other small dev-y changes.
 
 ---
 

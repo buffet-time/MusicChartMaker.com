@@ -18,7 +18,7 @@ import {
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
-import Select from './SelectionComponents/Select.vue'
+import Dropdown from './SelectionComponents/Dropdown.vue'
 
 const emit = defineEmits<{
 	canRenderChart: []
@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<Select />
+	<Dropdown />
 
 	<div class="mt-2">
 		<div v-if="!initializing" class="uno-flex-center gap-1">
