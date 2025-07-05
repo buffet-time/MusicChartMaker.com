@@ -71,3 +71,7 @@ export async function ProperFetch(
 		return null
 	}
 }
+
+export function delay(t: number) {
+	return new Promise((resolve) => setTimeout(resolve, t))
+}

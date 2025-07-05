@@ -7,6 +7,7 @@ import {
 	selectedChartTitle,
 } from '#utils/globals'
 import { nextTick, onMounted, watch } from 'vue'
+import { delay } from '#utils/misc'
 
 onMounted(async () => {
 	// ensures the StoredChartNames ref is defined
@@ -35,6 +36,11 @@ function sortStoredChartNames() {
 
 		case 'Most Characters':
 			sortByCharacterAmount({ reversed: false })
+			break
+
+		// If the user didn't define it yet set the value to 'Ascending'
+		default:
+			GlobalSiteOptions.value.chartTitleSortingMethod = 'Ascending'
 			break
 	}
 }
