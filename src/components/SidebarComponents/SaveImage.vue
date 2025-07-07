@@ -4,6 +4,7 @@ import { GlobalChartState } from '#utils/globals'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
+import SidebarButton from '#core/SidebarButton.vue'
 
 const saveImageId = 'saveImage'
 
@@ -78,21 +79,11 @@ onMounted(() => {
 
 <template>
 	<div class="uno-flex-center gap-2">
-		<button
-			class="uno-button flex gap-2 w-10/12 items-center"
-			@click="openSaveImage()"
-		>
-			<img
-				title="Download icon"
-				alt="Download icon"
-				src="/download.svg"
-				width="25"
-				height="25"
-				class="cursor-pointer bg-neutral-500"
-				loading="lazy"
-			/>
-			<label class="cursor-pointer pb-[2px]"> Save Image </label>
-		</button>
+		<SidebarButton
+			:button-icon="'Download'"
+			:button-text="'Save Image'"
+			@click-handler="openSaveImage()"
+		/>
 
 		<Dialog :dialog-id="saveImageId" :close-button="true">
 			<template #content>

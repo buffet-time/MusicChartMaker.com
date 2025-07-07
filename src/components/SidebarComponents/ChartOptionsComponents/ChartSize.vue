@@ -65,8 +65,9 @@ watch(
 
 <template>
 	<template v-if="!GlobalChartState!.options.preset">
-		<label class="pt-4"> Columns: {{ colsNum }} </label>
+		<label for="columnsAmount" class="mt-3"> Columns: {{ colsNum }} </label>
 		<input
+			id="columnsAmount"
 			v-model="colsNum"
 			class="cursor-pointer"
 			type="range"
@@ -75,8 +76,9 @@ watch(
 			step="1"
 		/>
 
-		<label class="mt-2"> Rows: {{ rowsNum }} </label>
+		<label for="rowsAmount" class="mt-2"> Rows: {{ rowsNum }} </label>
 		<input
+			id="rowsAmount"
 			v-model="rowsNum"
 			class="cursor-pointer"
 			type="range"
@@ -86,10 +88,11 @@ watch(
 		/>
 	</template>
 
-	<label class="mt-2" :class="{ 'pt-7': GlobalChartState!.options.preset }">
+	<label for="paddingAmount" class="mt-3">
 		Chart Spacing: {{ GlobalChartState!.options.padding }}rem
 	</label>
 	<input
+		id="paddingAmount"
 		v-model="GlobalChartState!.options.padding"
 		class="cursor-pointer"
 		type="range"

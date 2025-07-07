@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#utils/globals'
 import type { ChartPreset, ChartType } from '#types'
+import BackButton from '#core/BackButton.vue'
 
 defineProps<{
 	createPreset: boolean
@@ -74,12 +75,11 @@ function isPresetInputInvalid() {
 				Edit presets
 			</button>
 		</div>
-		<button
-			class="uno-button uno-close-button h-[33px] w-[33px]"
-			@click="emit('updatePresetAdd', false)"
-		>
-			<img src="/back.svg" width="25" height="25" loading="lazy" />
-		</button>
+
+		<BackButton
+			:origin="'Modal'"
+			@click-handler="emit('updatePresetAdd', false)"
+		/>
 	</template>
 
 	<template v-if="createPreset">
@@ -124,12 +124,8 @@ function isPresetInputInvalid() {
 			>
 				Create preset
 			</button>
-			<button
-				class="uno-button uno-close-button h-[33px] w-[33px]"
-				@click="closeCreatePreset"
-			>
-				<img src="/back.svg" width="25" height="25" loading="lazy" />
-			</button>
+
+			<BackButton :origin="'Modal'" @click-handler="closeCreatePreset" />
 		</div>
 	</template>
 
@@ -150,11 +146,9 @@ function isPresetInputInvalid() {
 			</div>
 		</template>
 
-		<button
-			class="uno-button uno-close-button h-[33px] w-[33px]"
-			@click="emit('updateEditPresets', false)"
-		>
-			<img src="/back.svg" width="25" height="25" loading="lazy" />
-		</button>
+		<BackButton
+			:origin="'Modal'"
+			@click-handler="emit('updateEditPresets', false)"
+		/>
 	</template>
 </template>
