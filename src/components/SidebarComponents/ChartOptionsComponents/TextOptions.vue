@@ -4,8 +4,9 @@ import { GlobalChartState } from '#utils/globals'
 
 <template>
 	<div class="uno-options-div">
-		<label>Show Album Titles</label>
+		<label for="displayTitles">Show Album Titles</label>
 		<input
+			id="displayTitles"
 			v-model="GlobalChartState!.options.displayTitles"
 			type="checkbox"
 			class="uno-checkbox cursor-pointer"
@@ -13,8 +14,9 @@ import { GlobalChartState } from '#utils/globals'
 	</div>
 
 	<div class="uno-options-div">
-		<label>Show Numbers</label>
+		<label for="displayNumberRank">Show Numbers</label>
 		<input
+			id="displayNumberRank"
 			v-model="GlobalChartState!.options.displayNumberRank"
 			type="checkbox"
 			class="uno-checkbox cursor-pointer border-none"
@@ -23,8 +25,9 @@ import { GlobalChartState } from '#utils/globals'
 	</div>
 
 	<div class="uno-options-div">
-		<label>Text Color</label>
+		<label for="textColor">Text Color</label>
 		<input
+			id="textColor"
 			v-model="GlobalChartState!.options.textColor"
 			type="color"
 			class="cursor-pointer bg-transparent border-none"

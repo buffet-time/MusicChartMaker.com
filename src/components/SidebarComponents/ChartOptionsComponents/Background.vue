@@ -27,8 +27,9 @@ function clearBackground() {
 
 <template>
 	<div class="uno-options-div uno-flex-center">
-		<label>Background Color</label>
+		<label for="backgroundColor">Background Color</label>
 		<input
+			id="backgroundColor"
 			v-model="GlobalChartState!.options.background"
 			type="color"
 			class="cursor-pointer bg-transparent border-none"
@@ -36,8 +37,9 @@ function clearBackground() {
 	</div>
 
 	<div class="uno-options-div flex flex-col gap-1 px-0">
-		<label>Background Image:</label>
+		<label for="backgroundImage">Background Image:</label>
 		<input
+			id="backgroundImage"
 			v-model="bgImage"
 			placeholder="BG Image URL"
 			type="url"

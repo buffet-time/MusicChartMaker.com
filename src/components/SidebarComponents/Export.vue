@@ -5,13 +5,15 @@ import {
 	importFromTopsters2,
 	ExportChartsAndOptions,
 } from '#utils/importExport'
+import BackButton from '#core/BackButton.vue'
+import SidebarButton from '#core/SidebarButton.vue'
 
 const filePicker = useTemplateRef<HTMLInputElement>('filePicker')
 const showImportExport = ref(false)
+const sectionName = 'Import/ Export'
 
 function importMCM() {
 	if (!filePicker.value) {
-		// better handler here
 		return console.error('Error! Could not import file.')
 	}
 
@@ -19,32 +21,19 @@ function importMCM() {
 		ImportChartsAndOptions(filePicker.value.files.item(0))
 		filePicker.value.value = ''
 	} else {
-		// handle the error path here!
+		console.error(`Error trying to import MusicChartMaker, ${filePicker.value}`)
 	}
 }
 </script>
 
 <template>
-	<!-- Put all these into a new section -->
-
 	<!-- in the sidebar -->
 	<div class="uno-flex-center gap-2">
-		<button
-			type="button"
-			class="uno-button flex w-10/12 items-center gap-2"
-			@click="showImportExport = true"
-		>
-			<img
-				title="Open in window icon"
-				alt="open in window icon"
-				src="/openInWindow.svg"
-				width="25"
-				height="25"
-				class="cursor-pointer bg-neutral-500"
-				loading="lazy"
-			/>
-			<label class="cursor-pointer pb-[2px]"> Import/ Export </label>
-		</button>
+		<SidebarButton
+			:button-icon="'OpenInWindow'"
+			:button-text="sectionName"
+			@click-handler="showImportExport = true"
+		/>
 	</div>
 
 	<div
@@ -52,18 +41,15 @@ function importMCM() {
 		class="uno-sidebar-width uno-options-overlay-div p-0"
 	>
 		<div class="px-2 flex flex-col gap-[6px]">
-			<img
-				title="Go back"
-				alt="go-back"
-				src="/back.svg"
-				width="25"
-				height="25"
-				class="absolute left-0 cursor-pointer bg-neutral-500 m-[6px] mt-[6px]"
-				loading="lazy"
-				@click="showImportExport = false"
-			/>
+			<div class="flex flex-row mt-2 items-center">
+				<BackButton
+					:origin="'Overlay'"
+					@click-handler="showImportExport = false"
+				/>
+				<p class="ml-4 text-size-xl">{{ sectionName }}</p>
+			</div>
 
-			<p class="mt-12 mb-0">Bug fixes and more features to come here soon!</p>
+			<p class="mt-3 mb-0">Bug fixes and more features to come here soon!</p>
 
 			<section class="flex flex-col gap-2 my-2">
 				<h1 class="text-xl m-0">From this site</h1>

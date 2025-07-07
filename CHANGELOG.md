@@ -6,6 +6,27 @@
   - Improve accessibility
   - Improve UX
   - Investigate having folder structure for selected charts.
+  - Add single chart exports
+  - Add all chart exports (without site options)
+  - Add site options export (by itself)
+  - Add Import from Topsters 3 (topsters.org)
+  - Add Import from Topchart (topchart.amanharwara.com)
+  - Add user site level customizations
+  - Add Games charts
+  - Add books Charts
+  - Add movies/ TV charts
+
+## Version 1.3.2 - July 7th, 2025
+
+- Enhancements
+  - Many, many Accesibility fixes
+  - Many, many UI/UX fixes/ tweaks
+- Dev
+  - Extracted multiple repeated blocks into their own components
+  - Marked more areas for improvement, cleaned up comments
+  - General cleanup
+
+---
 
 ## Version 1.3.1 - July 5th, 2025
 

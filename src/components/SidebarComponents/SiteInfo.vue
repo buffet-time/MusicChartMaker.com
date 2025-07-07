@@ -4,6 +4,7 @@ import { version } from '#root/package.json'
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
 import { onMounted, ref } from 'vue'
+import SidebarButton from '#core/SidebarButton.vue'
 
 const dialogId = 'siteInfoModal'
 const changelog = ref<string>()
@@ -27,26 +28,14 @@ onMounted(async () => {
 
 <template>
 	<div class="flex items-center gap-2 justify-center">
-		<button
-			type="button"
-			class="uno-button flex items-center gap-2 w-7/12"
-			@click="showModal()"
-		>
-			<img
-				title="open in browser"
-				alt="open in browser"
-				src="/openInBrowser.svg"
-				width="25"
-				height="25"
-				class="cursor-pointer bg-neutral-500"
-				loading="lazy"
-			/>
-			<label class="cursor-pointer pb-[2px]"> Site Info </label>
-		</button>
+		<SidebarButton
+			:button-icon="'OpenNewWindow'"
+			:button-text="'Site Info'"
+			@click-handler="showModal()"
+		/>
 
 		<Dialog :dialog-id="dialogId" :close-button="true">
 			<template #content>
-				<!-- Header -->
 				<div class="max-w-lg">
 					<div class="flex flex-col gap-1">
 						<h2 class="text-neutral-200 m-0">Site Version: {{ version }}</h2>
@@ -56,12 +45,21 @@ onMounted(async () => {
 							<li>Not a single line of text or code written with AI ❤️</li>
 							<li>This site will NEVER have Ads or any form of tracking</li>
 							<li>
+								Thank you to
+								<a class="color-[#00FF00]" href="https://iconoir.com/"
+									>Iconoir</a
+								>
+								for the wonderful Free to use SVG Icons ❤️
+							</li>
+							<li>
 								This site uses a lot of newer web features, if you have a
-								problem first make sure your browser is updated please :)
+								problem first make sure your browser is updated please!
+							</li>
+							<li>
+								Please report any found bugs, suggestions, feedback, etc to the
+								Discord!
 							</li>
 						</ul>
-						<!-- Security isn't a problme in this case! -->
-						<!-- eslint-disable vue/no-v-html  -->
 						<div
 							class="text-align-left global-select overflow-overlay h-md"
 							v-html="changelog"

@@ -42,6 +42,7 @@ function getSearchHeight() {
 }
 
 onMounted(() => {
+	// TODO: see if vue.nextTick() works
 	// wait for synchronous call stack is empty to ensure we get valid search height
 	setTimeout(() => {
 		getSearchHeight()
@@ -75,20 +76,19 @@ onMounted(() => {
 			@click="toggleMenu"
 		/>
 
-		<div ref="nonSearchSideBarItems" class="flex-col flex gap-3 pt-2">
-			<SiteInfo />
+		<div ref="nonSearchSideBarItems" class="flex-col flex gap-3 pt-1">
+			<Selection @can-render-chart="onCanRender" />
 
-			<div class="mt-[-4px]">
-				<Selection @can-render-chart="onCanRender" />
-			</div>
+			<ChartOptions v-if="showOptions" />
 
 			<SaveImage />
 
 			<Export />
 
-			<ChartOptions v-if="showOptions" />
-
 			<SiteOptions v-if="showOptions" />
+
+			<!-- WHY IS THIS THE SAME ICON?  -->
+			<SiteInfo />
 		</div>
 
 		<div class="hidden md:block" :style="{ 'max-height': searchHeight }">

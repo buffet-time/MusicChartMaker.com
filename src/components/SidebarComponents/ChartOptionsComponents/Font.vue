@@ -26,6 +26,7 @@ onMounted(async () => {
 		<div class="items-center justify-center">
 			<select
 				v-if="fontsLoaded"
+				aria-label="A Select Element with all available fonts to the current browser"
 				v-model="GlobalChartState!.options.font"
 				class="uno-input global-select uno-select"
 			>
@@ -35,10 +36,11 @@ onMounted(async () => {
 			</select>
 		</div>
 
-		<label class="mt-2">
+		<label for="textSpacingAmount" class="mt-2">
 			Text Spacing: {{ GlobalChartState!.options.textSpacing }}px
 		</label>
 		<input
+			id="textSpacingAmount"
 			v-model="GlobalChartState!.options.textSpacing"
 			class="cursor-pointer"
 			type="range"

@@ -8,6 +8,8 @@ import {
 } from '#utils/globals'
 import { nextTick, onMounted, watch } from 'vue'
 
+const chartSelectLabel = 'chartSelect'
+
 onMounted(async () => {
 	// ensures the StoredChartNames ref is defined
 	await nextTick()
@@ -80,10 +82,12 @@ function onChartSelect() {
 
 <template>
 	<div class="uno-flex-center flex-col">
-		<label class="mb-1">Select Chart: </label>
+		<label :for="chartSelectLabel" class="mb-1">Select Chart: </label>
 		<select
 			v-model="selectedChartTitle"
 			class="uno-input global-select uno-select pl-1"
+			:name="chartSelectLabel"
+			:id="chartSelectLabel"
 			@change="onChartSelect"
 		>
 			<option v-for="(name, index) in StoredChartNames" :key="index">

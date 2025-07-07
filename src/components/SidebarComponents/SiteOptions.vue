@@ -4,8 +4,11 @@ import { GlobalSiteOptions } from '#utils/globals'
 import type { OrderOptions } from '#types'
 
 import DevTools from './SiteOptionsComponents/DevTools.vue'
+import BackButton from '../CoreComponents/BackButton.vue'
+import SidebarButton from '../CoreComponents/SidebarButton.vue'
 
 const showChartOptions = ref(false)
+const sectionName = 'Site Options'
 
 const orderOptions: OrderOptions[] = [
 	'Ascending',
@@ -21,27 +24,14 @@ const selectedOrder = ref<OrderOptions>(
 )
 </script>
 
-<!-- TODO: add site level styling options for users -->
 <template>
 	<div>
-		<!-- in the sidebar -->
 		<div class="uno-flex-center gap-2">
-			<button
-				type="button"
-				class="uno-button flex w-10/12 items-center gap-2"
-				@click="showChartOptions = true"
-			>
-				<img
-					title="Open in window icon"
-					alt="open in window icon"
-					src="/openInWindow.svg"
-					width="25"
-					height="25"
-					class="cursor-pointer bg-neutral-500"
-					loading="lazy"
-				/>
-				<label class="cursor-pointer pb-[2px]"> Site Options </label>
-			</button>
+			<SidebarButton
+				:button-icon="'OpenInWindow'"
+				:button-text="sectionName"
+				@click-handler="showChartOptions = true"
+			/>
 		</div>
 
 		<!-- The options overlay -->
@@ -50,22 +40,21 @@ const selectedOrder = ref<OrderOptions>(
 			class="uno-options-overlay-div uno-sidebar-width p-0"
 		>
 			<div class="px-2 flex flex-col">
-				<img
-					title="Close Options"
-					alt="close-button"
-					src="/back.svg"
-					width="25"
-					height="25"
-					class="absolute left-0 m-[6px] mt-[6px] cursor-pointer bg-neutral-500"
-					loading="lazy"
-					@click="showChartOptions = false"
-				/>
+				<div class="flex flex-row mt-2 items-center">
+					<BackButton
+						:origin="'Overlay'"
+						@click-handler="showChartOptions = false"
+					/>
 
-				<div class="uno-options-div mt-10">
-					<label class="mt-8">
+					<p class="ml-4 text-size-xl">{{ sectionName }}</p>
+				</div>
+
+				<div class="uno-options-div mt-3">
+					<label for="searchResultsAmount" class="mt-8">
 						# of Search Results: {{ GlobalSiteOptions?.numberOfSearchResults }}
 					</label>
 					<input
+						id="searchResultsAmount"
 						v-model="GlobalSiteOptions!.numberOfSearchResults"
 						class="cursor-pointer"
 						type="range"
@@ -76,10 +65,11 @@ const selectedOrder = ref<OrderOptions>(
 				</div>
 
 				<div class="uno-options-div">
-					<p class="mb-2">Chart Selection Order</p>
+					<label for="selectedOrder">Chart Selection Order</label>
 					<select
+						id="selectedOrder"
 						v-model="selectedOrder"
-						class="uno-input global-select uno-select pl-1"
+						class="uno-input global-select uno-select pl-1 mt-2"
 						@change="
 							() => (GlobalSiteOptions.chartTitleSortingMethod = selectedOrder)
 						"
@@ -91,8 +81,9 @@ const selectedOrder = ref<OrderOptions>(
 				</div>
 
 				<div class="uno-options-div">
-					<label>Hide search tooltip</label>
+					<label for="hideToolTips">Hide search tooltip</label>
 					<input
+						id="hideToolTips"
 						v-model="GlobalSiteOptions.hideTooltip"
 						type="checkbox"
 						class="uno-checkbox cursor-pointer"

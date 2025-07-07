@@ -59,37 +59,39 @@ onMounted(() => {
 </script>
 
 <template>
-	<Dropdown />
+	<div class="mt-4 md:mt-1">
+		<Dropdown />
 
-	<div class="mt-2">
-		<div v-if="!initializing" class="uno-flex-center gap-1">
-			<!-- TODO: remove emitting to change `selectedChartTitle' -->
-			<New
-				:selected-chart-title="selectedChartTitle"
-				:selected-chart="GlobalChartState!"
-				@update-selected-chart-title="(value) => (selectedChartTitle = value)"
-			/>
+		<div class="mt-2">
+			<div v-if="!initializing" class="uno-flex-center gap-1">
+				<!-- TODO: remove emitting to change `selectedChartTitle' -->
+				<New
+					:selected-chart-title="selectedChartTitle"
+					:selected-chart="GlobalChartState!"
+					@update-selected-chart-title="(value) => (selectedChartTitle = value)"
+				/>
 
-			<Rename
-				:selected-chart="GlobalChartState!"
-				:selected-chart-title="selectedChartTitle"
-				@update-chart-title="
-					(value) => {
-						GlobalChartState!.options.chartTitle = value
-						selectedChartTitle = value
-					}
-				"
-			/>
+				<Rename
+					:selected-chart="GlobalChartState!"
+					:selected-chart-title="selectedChartTitle"
+					@update-chart-title="
+						(value) => {
+							GlobalChartState!.options.chartTitle = value
+							selectedChartTitle = value
+						}
+					"
+				/>
 
-			<Delete
-				:selected-chart-title="selectedChartTitle"
-				@delete-chart="
-					(value) => {
-						selectedChartTitle = value.options.chartTitle
-						GlobalChartState = value
-					}
-				"
-			/>
+				<Delete
+					:selected-chart-title="selectedChartTitle"
+					@delete-chart="
+						(value) => {
+							selectedChartTitle = value.options.chartTitle
+							GlobalChartState = value
+						}
+					"
+				/>
+			</div>
 		</div>
 	</div>
 </template>

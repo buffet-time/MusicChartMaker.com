@@ -47,8 +47,9 @@ watch([shadowColor, blurRadius, offsetX, offsetY], () => {
 
 		<div v-if="showTextShadowOptions">
 			<div class="uno-options-div flex flex-col items-center">
-				<label>Shadow Color: {{ shadowColor }}</label>
+				<label for="shadowColor">Shadow Color: {{ shadowColor }}</label>
 				<input
+					id="shadowColor"
 					v-model="shadowColor"
 					type="color"
 					class="cursor-pointer bg-transparent border-none items-center justify-center"
@@ -56,8 +57,9 @@ watch([shadowColor, blurRadius, offsetX, offsetY], () => {
 			</div>
 
 			<div class="uno-options-div flex flex-col">
-				<label>Blur Radius: {{ blurRadius }} pixels</label>
+				<label for="blurRadius">Blur Radius: {{ blurRadius }} pixels</label>
 				<input
+					id="blurRadius"
 					v-model="blurRadius"
 					type="range"
 					min="0"
@@ -68,8 +70,9 @@ watch([shadowColor, blurRadius, offsetX, offsetY], () => {
 			</div>
 
 			<div class="uno-options-div flex flex-col">
-				<label>Offset-X: {{ offsetX }} pixels</label>
+				<label for="offsetX">Offset-X: {{ offsetX }} pixels</label>
 				<input
+					id="offsetX"
 					v-model="offsetX"
 					type="range"
 					min="-20"
@@ -80,8 +83,9 @@ watch([shadowColor, blurRadius, offsetX, offsetY], () => {
 			</div>
 
 			<div class="uno-options-div flex flex-col">
-				<label>Offset-Y: {{ offsetY }} pixels</label>
+				<label for="offsetY">Offset-Y: {{ offsetY }} pixels</label>
 				<input
+					id="offsetY"
 					v-model="offsetY"
 					type="range"
 					min="-20"

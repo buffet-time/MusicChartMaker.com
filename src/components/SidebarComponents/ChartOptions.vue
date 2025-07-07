@@ -10,8 +10,11 @@ import TextOptions from './ChartOptionsComponents/TextOptions.vue'
 import Font from './ChartOptionsComponents/Font.vue'
 import { GenerateDefaultSiteOptions } from '#utils/misc'
 import TextShadow from './ChartOptionsComponents/TextShadow.vue'
+import BackButton from '#core/BackButton.vue'
+import SidebarButton from '#core/SidebarButton.vue'
 
 const resetOptionsId = 'resetoptions'
+const sectionName = 'Chart Options'
 
 const showChartOptions = ref(false)
 
@@ -62,24 +65,12 @@ function resetOptionsToDefault() {
 
 <template>
 	<div>
-		<!-- in the sidebar -->
 		<div class="uno-flex-center gap-2">
-			<button
-				type="button"
-				class="uno-button flex gap-2 w-10/12 items-center"
-				@click="showChartOptions = true"
-			>
-				<img
-					title="Open in window icon"
-					alt="open in window icon"
-					src="/openInWindow.svg"
-					width="25"
-					height="25"
-					class="cursor-pointer bg-neutral-500"
-					loading="lazy"
-				/>
-				<label class="cursor-pointer pb-[2px]"> Chart Options </label>
-			</button>
+			<SidebarButton
+				:button-icon="'OpenInWindow'"
+				:button-text="sectionName"
+				@click-handler="showChartOptions = true"
+			/>
 		</div>
 
 		<!-- The options overlay -->
@@ -88,16 +79,14 @@ function resetOptionsToDefault() {
 			class="uno-sidebar-width uno-options-overlay-div px-0"
 		>
 			<div class="flex flex-col px-2">
-				<img
-					title="Close Options"
-					alt="close-button"
-					src="/back.svg"
-					width="25"
-					height="25"
-					class="absolute left-0 cursor-pointer bg-neutral-500 m-[6px] mt-[6px]"
-					loading="lazy"
-					@click="showChartOptions = false"
-				/>
+				<div class="flex flex-row mt-2 items-center">
+					<BackButton
+						:origin="'Overlay'"
+						@click-handler="showChartOptions = false"
+					/>
+					<p class="ml-4 text-size-xl">{{ sectionName }}</p>
+				</div>
+
 				<template v-if="!GlobalChartState.options.lockChart">
 					<ChartSize />
 
@@ -143,8 +132,9 @@ function resetOptionsToDefault() {
 
 				<!-- Lock chart check -->
 				<div class="uno-options-div">
-					<label>Lock this chart?</label>
+					<label for="lockChart">Lock this chart?</label>
 					<input
+						id="lockChart"
 						v-model="GlobalChartState!.options.lockChart"
 						class="uno-checkbox"
 						type="checkbox"
