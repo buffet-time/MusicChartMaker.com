@@ -6,7 +6,7 @@ const { origin } = defineProps<{
 </script>
 
 <template>
-	<Button
+	<button
 		:class="
 			origin === 'Modal'
 				? 'uno-button uno-close-button h-[33px] w-[33px] p-[3px]'
@@ -23,5 +23,5 @@ const { origin } = defineProps<{
 			:class="origin === 'Modal' ? 'pr-[1px]' : 'cursor-pointer'"
 			loading="lazy"
 		/>
-	</Button>
+	</button>
 </template>

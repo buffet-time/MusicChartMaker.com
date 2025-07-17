@@ -6,6 +6,7 @@ import {
 	GlobalSiteOptions,
 	StoredChartNames,
 	selectedChartTitle,
+	singleChartSelectedChartTitle,
 } from '#utils/globals'
 import {
 	setStoredChart,
@@ -18,13 +19,14 @@ import {
 import Rename from './SelectionComponents/Rename.vue'
 import Delete from './SelectionComponents/Delete.vue'
 import New from './SelectionComponents/New.vue'
-import Dropdown from './SelectionComponents/Dropdown.vue'
+import SelectChartDropdown from '#core/SelectChartDropdown.vue'
 
 const emit = defineEmits<{
 	canRenderChart: []
 }>()
 
 const initializing = ref(true)
+const chartSelectLabel = 'selectChartLabelSidebar'
 
 // While this works, it may be better to just globalize selectedChartTitle performance wise. May be too many cases of feedback looping watches.
 watch(
@@ -34,6 +36,7 @@ watch(
 			return
 		}
 		selectedChartTitle.value = newTitle
+		singleChartSelectedChartTitle.value = newTitle
 	},
 )
 
@@ -52,15 +55,39 @@ onMounted(() => {
 	setCurrentChart(GlobalChartState.value.options.chartTitle)
 	StoredChartNames.value = getAllSavedKeys()
 	selectedChartTitle.value = GlobalChartState.value.options.chartTitle
+	singleChartSelectedChartTitle.value =
+		GlobalChartState.value.options.chartTitle
 
 	emit('canRenderChart')
 	initializing.value = false
 })
+
+function onChartSelect() {
+	const loadedChart = getStoredChart(String(selectedChartTitle.value))!
+	if (!loadedChart) {
+		return console.error(
+			`Failed to load Selected Chart ${selectedChartTitle.value}.`,
+		)
+	}
+	// First, store current chart
+	setCurrentChart(selectedChartTitle.value)
+	// Now, update current chart, and update latest chart to current.
+	GlobalChartState.value = loadedChart
+	GlobalSiteOptions.value.currentChart = selectedChartTitle.value
+}
 </script>
 
 <template>
 	<div class="mt-4 md:mt-1">
-		<Dropdown />
+		<div class="uno-flex-center flex-col">
+			<label :for="chartSelectLabel" class="mb-1">Select Chart: </label>
+			<SelectChartDropdown
+				initiator="Sidebar"
+				:chart-select-label="chartSelectLabel"
+				:chart-names-array="StoredChartNames"
+				@on-chart-select="onChartSelect"
+			/>
+		</div>
 
 		<div class="mt-2">
 			<div v-if="!initializing" class="uno-flex-center gap-1">
