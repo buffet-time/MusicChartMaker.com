@@ -3,12 +3,7 @@
 ## Future Version changes planned
 
 - Features/ Enhancements
-  - Improve accessibility
-  - Improve UX
   - Investigate having folder structure for selected charts.
-  - Add single chart exports
-  - Add all chart exports (without site options)
-  - Add site options export (by itself)
   - Add Import from Topsters 3 (topsters.org)
   - Add Import from Topchart (topchart.amanharwara.com)
   - Add user site level customizations
@@ -16,10 +11,19 @@
   - Add books Charts
   - Add movies/ TV charts
 
+## Version 1.4.0 - July 7th, 2025
+
+- Features/ Enhancements
+  - Add single chart export/ import
+  - Add all chart export/ import (without site options)
+  - Add site options export/ import (by itself)
+
+---
+
 ## Version 1.3.2 - July 7th, 2025
 
 - Enhancements
-  - Many, many Accesibility fixes
+  - Many, many Accessibility fixes
   - Many, many UI/UX fixes/ tweaks
 - Dev
   - Extracted multiple repeated blocks into their own components
