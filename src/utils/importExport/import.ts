@@ -41,26 +41,27 @@ export function ImportFile(importFile: File | null) {
 					}
 
 					if (exportType !== 'Site Config') {
-						console.log(1, parsed)
 						const data: ChartState[] = parsed.chartData!
-						console.log(2, data)
 						data.forEach((state) => {
 							Boolean(state) && setStoredChart(state.options.chartTitle, state)
 						})
-						console.log(3)
 
 						StoredChartNames.value = getAllSavedKeys()
 					}
+
+					return
 				}
 
 				throw new Error('Unsupported File/Unexpected Contents')
 			} catch (error) {
-				console.error('Failed to import selected file => Error:', error)
+				console.error('Failed to import selected file => ', error)
+				console.log('Extra info on error: ', importFile, fileEvent)
 			}
 		}
 
 		reader.readAsText(importFile, 'UTF-8')
 	} catch (error) {
-		console.error('Failed to import selected file => Error:', error)
+		console.error('Failed to import selected file => ', error)
+		console.log('Extra info on error: ', importFile)
 	}
 }

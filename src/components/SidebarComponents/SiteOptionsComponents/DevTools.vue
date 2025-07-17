@@ -65,7 +65,6 @@ function changeValueOfGlobalSiteOptionsKey() {
 						<select
 							v-model="globalSiteOptionKey"
 							placeholder="Key value"
-							type="text"
 							class="cursor-pointer uno-input w-auto"
 						>
 							<option v-for="(val, index) in siteOptionsValues" :key="index">

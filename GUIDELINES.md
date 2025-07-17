@@ -2,7 +2,7 @@
 
 General guidelines for contributing
 
-Heavily preferred for you to use VSCode so ESLint, Prettier, and Volar (vue 3 tool) work properly
+Heavily preferred for you to use VSCode so Oxlint, Prettier, and Vue Devtools extensions can run.
 
 ## JS
 

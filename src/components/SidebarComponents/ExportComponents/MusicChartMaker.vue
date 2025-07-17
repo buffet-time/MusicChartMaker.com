@@ -99,7 +99,7 @@ function onImportPressed() {
 				</select>
 
 				<div
-					class="uno-flex-center flex-col"
+					class="uno-flex-center flex-col w-full"
 					v-if="selectedImportExportType === 'Single Chart'"
 				>
 					<label :for="chartSelectLabel" class="mt-1 mb-1"

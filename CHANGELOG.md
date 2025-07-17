@@ -11,12 +11,17 @@
   - Add books Charts
   - Add movies/ TV charts
 
-## Version 1.4.0 - July 7th, 2025
+## Version 1.4.0 - July 17th, 2025
 
 - Features/ Enhancements
-  - Add single chart export/ import
-  - Add all chart export/ import (without site options)
-  - Add site options export/ import (by itself)
+  - Imports and Exports!
+    - Improved UI/ UX
+    - Add single chart export/ import
+    - Add all chart export/ import (without site options)
+    - Add site options export/ import (by itself)
+- Performance/ Stability/ Dev
+  - Updated all packages
+  - Major refactoring
 
 ---
 
