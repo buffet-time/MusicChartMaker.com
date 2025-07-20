@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from 'vue'
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
 
 import Search from './SidebarComponents/Search.vue'
 import ChartOptions from './SidebarComponents/ChartOptions.vue'
@@ -41,12 +41,10 @@ function getSearchHeight() {
 		: 0
 }
 
-onMounted(() => {
-	// TODO: see if vue.nextTick() works
-	// wait for synchronous call stack is empty to ensure we get valid search height
-	setTimeout(() => {
-		getSearchHeight()
-	}, 0)
+onMounted(async () => {
+	await nextTick()
+
+	getSearchHeight()
 })
 </script>
 
@@ -87,7 +85,6 @@ onMounted(() => {
 
 			<SiteOptions v-if="showOptions" />
 
-			<!-- WHY IS THIS THE SAME ICON?  -->
 			<SiteInfo />
 		</div>
 

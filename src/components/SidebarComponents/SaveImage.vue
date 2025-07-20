@@ -13,6 +13,9 @@ const validFormats = ref<string[]>()
 const selectedFormat: Ref<ImageTypes> = ref('png')
 const renderImageSelect = ref(false)
 const scale = ref(2)
+const renderImagePrep = ref(false)
+const renderImageSuccess = ref(false)
+const renderImageError = ref(false)
 
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
@@ -38,6 +41,10 @@ function getValidFormats() {
 }
 
 async function saveImage() {
+	renderImagePrep.value = true
+	renderImageError.value = false
+	renderImageSuccess.value = false
+
 	try {
 		const { default: HTML2Canvas } = await import('html2canvas')
 		const chartElement = GlobalChartState.value.options.displayTitles
@@ -66,8 +73,14 @@ async function saveImage() {
 		anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
 		anchor.click()
 		anchor.remove()
+
+		renderImagePrep.value = false
+		renderImageSuccess.value = true
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
+
+		renderImagePrep.value = false
+		renderImageError.value = true
 	}
 }
 
@@ -131,6 +144,20 @@ onMounted(() => {
 					</div>
 
 					<button class="uno-button mb-1" @click="saveImage">Save Image</button>
+
+					<div v-if="renderImagePrep">
+						<p>Image is being prepared to be saved!</p>
+					</div>
+
+					<div v-if="renderImageSuccess">
+						<p>
+							Image successfully generated, download should start automatically.
+						</p>
+					</div>
+
+					<div v-if="renderImageError">
+						<p>Image failed to be generated :(</p>
+					</div>
 				</div>
 			</template>
 		</Dialog>

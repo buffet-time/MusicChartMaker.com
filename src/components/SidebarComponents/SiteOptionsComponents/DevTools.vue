@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dialog from '#core/Dialog.vue'
-import { GlobalSiteOptions } from '#root/src/utils/globals'
+import { GlobalSiteOptions } from '#utils/globals'
 import { SaveSiteOptions } from '#utils/storage'
 import { ref } from 'vue'
 import type { SiteOptions } from '#types'
@@ -65,7 +65,6 @@ function changeValueOfGlobalSiteOptionsKey() {
 						<select
 							v-model="globalSiteOptionKey"
 							placeholder="Key value"
-							type="text"
 							class="cursor-pointer uno-input w-auto"
 						>
 							<option v-for="(val, index) in siteOptionsValues" :key="index">

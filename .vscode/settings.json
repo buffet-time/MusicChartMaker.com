@@ -29,5 +29,15 @@
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"oxc.enable": true
+	"oxc.enable": true,
+	"cSpell.words": [
+		"buefy",
+		"Chartr",
+		"musicchartmaker",
+		"musicchartsite",
+		"oxlint",
+		"Topchart",
+		"Topsters",
+		"unocss"
+	]
 }

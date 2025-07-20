@@ -110,7 +110,6 @@ function deleteCurrent(indices: IndicesObject) {
 	)
 }
 
-// Returns the title for the given tile, if it's a placeholder it returns undefined
 function chartTitle(
 	index1: number,
 	index2: number,
