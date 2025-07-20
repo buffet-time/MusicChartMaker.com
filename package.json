@@ -21,7 +21,7 @@
 		"build": "pnpm vite-build && pnpm add:cname",
 		"build:preview": "vite preview",
 		"preview": "pnpm build && pnpm build:preview",
-		"checks": "pnpm lint-check && pnpm format-check && pnpm type-check",
+		"checks": "pnpm lint-check && pnpm format-check && pnpm type-check && pnpm test",
 		"lint-check": "oxlint && echo lint-check done",
 		"format-check": "prettier . --check && echo format-check done",
 		"type-check": "vue-tsc --noEmit && echo type-check done",
