@@ -23,6 +23,10 @@ const chartSelectLabel = 'singleChartSelect'
 const filePicker = useTemplateRef<HTMLInputElement>('filePicker')
 const selectedImportExportType = ref<ImportExportTypes>('Everything')
 
+const renderImportStarted = ref(false)
+const renderImportFailure = ref(false)
+const renderImportSuccessful = ref(false)
+
 const singleChartSelectArray = computed(() => {
 	return StoredChartNames.value.slice()
 })
@@ -46,22 +50,38 @@ function onExportPressed() {
 }
 
 function onImportPressed() {
-	if (!filePicker.value) {
-		console.error('Error! Could not import file.')
+	renderImportSuccessful.value = false
+	renderImportFailure.value = false
+	renderImportStarted.value = true
+
+	try {
+		if (!filePicker.value || !filePicker.value.files) {
+			throw new Error()
+		}
+
+		ImportFile(filePicker.value.files.item(0))
+	} catch (error) {
+		console.error('Failed to import selected file => ', error)
+		console.log(
+			'Extra info on error (if available): ',
+			filePicker.value?.files?.item(0),
+		)
+		renderImportStarted.value = false
+		renderImportFailure.value = true
+
+		setTimeout(() => {
+			renderImportFailure.value = false
+		}, 5000)
 		return
 	}
 
-	if (!filePicker.value.files) {
-		console.error(`Error trying to import MusicChartMaker, ${filePicker.value}`)
-		return
-	}
-
-	ImportFile(filePicker.value.files.item(0))
 	filePicker.value.value = ''
+	renderImportStarted.value = false
+	renderImportSuccessful.value = true
 
-	//
-	// TODO READ THIS
-	// DO SOMETHING TO INDICATE SUCCESS!!
+	setTimeout(() => {
+		renderImportSuccessful.value = false
+	}, 5000)
 }
 </script>
 
@@ -70,8 +90,8 @@ function onImportPressed() {
 		<h1 class="text-xl m-0">From this site</h1>
 
 		<div>
-			<div class="flex flex-row justify-center mb-2 gap-1">
-				<label for="file-picker" class="uno-button block mb-[0.5px] w-full">
+			<div class="flex flex-col justify-center mb-2 gap-1">
+				<label for="file-picker" class="uno-button block mb-[0.5px]">
 					Import
 					<input
 						id="file-picker"
@@ -82,6 +102,17 @@ function onImportPressed() {
 						@input="onImportPressed"
 					/>
 				</label>
+
+				<p v-if="renderImportStarted" class="mb-2">
+					Started to import the file!
+				</p>
+				<p v-else-if="renderImportFailure" class="mb-2">
+					There was an error importing the file, feel free to check the browser
+					Console for more info.
+				</p>
+				<p v-else-if="renderImportSuccessful" class="mb-2">
+					File imported successful!
+				</p>
 			</div>
 			<div class="uno-flex-center flex-col">
 				<label :for="exportTypeSelectLabel" class="mb-1"

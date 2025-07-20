@@ -17,7 +17,6 @@ const emit = defineEmits<{
 }>()
 
 onMounted(async () => {
-	// ensures the StoredChartNames ref is defined
 	await nextTick()
 	sortStoredChartNames()
 	// emit('onChartSelect', selectedChartTitle.value)
@@ -46,7 +45,6 @@ function sortStoredChartNames() {
 			sortByCharacterAmount({ reversed: false })
 			break
 
-		// If the user didn't define it yet set the value to 'Ascending'
 		default:
 			GlobalSiteOptions.value.chartTitleSortingMethod = 'Ascending'
 			break

@@ -6,22 +6,36 @@
   - Investigate having folder structure for selected charts.
   - Add Import from Topsters 3 (topsters.org)
   - Add Import from Topchart (topchart.amanharwara.com)
-  - Add user site level customizations
   - Add Games charts
   - Add books Charts
   - Add movies/ TV charts
 
-## Version 1.4.0 - July 17th, 2025
+---
+
+## Next Updates Planned changes
+
+- Features/ Enhancements
+  - Add `buefy` and use some of it's components to make the UI a tad less ugly.
+  - Add user site level customizations
+    - To allow users to make it less boring if they so choose.
+
+---
+
+## Version 1.4.0 - July 19th, 2025
 
 - Features/ Enhancements
   - Imports and Exports!
-    - Improved UI/ UX
     - Add single chart export/ import
     - Add all chart export/ import (without site options)
     - Add site options export/ import (by itself)
+  - UI/ UX improvements
+    - Updated Import/ Export section
+    - Added visual indication of Image Save working
 - Performance/ Stability/ Dev
   - Updated all packages
-  - Major refactoring
+    - Moved to using rolldown-vite for better builds
+  - Major refactoring work
+  - Setup Vitest, will expand on the current coverage on only 3 files later
 
 ---
 

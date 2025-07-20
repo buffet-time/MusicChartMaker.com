@@ -17,10 +17,7 @@ onMounted(async () => {
 		return console.error('The passed modal doesnt exist', currentDialog.value)
 	}
 
-	// If needed pulls in the dialog polyfill
 	if (typeof HTMLDialogElement !== 'function') {
-		// adds the folllowing to the head of the document
-		// <link rel="stylesheet" type="text/css" href="/dialog-polyfill.css" />
 		const link = document.createElement('link')
 		link.type = 'text/css'
 		link.rel = 'stylesheet'
@@ -31,7 +28,6 @@ onMounted(async () => {
 		dialogPolyfill.registerDialog(currentDialog.value)
 	}
 
-	// adds listener to close the dialog when you start a click outside
 	currentDialog.value.addEventListener('mousedown', (event) => {
 		if (currentDialog.value?.open && event.target === currentDialog.value) {
 			closeDialog()
@@ -48,11 +44,14 @@ onMounted(async () => {
 		@keypress.esc="closeDialog"
 	>
 		<div class="uno-flex-center flex-col gap-2 text-white bg-neutral-700 p-8">
-			<!-- TODO: https://blog.vuejs.org/posts/vue-3-3#typed-slots-with-defineslots -->
 			<slot name="content"></slot>
 
-			<!-- Footer -->
-			<button v-if="closeButton" class="uno-button mt-4" @click="closeDialog">
+			<button
+				v-if="closeButton"
+				role="button"
+				class="uno-button mt-4"
+				@click="closeDialog"
+			>
 				Close
 			</button>
 		</div>

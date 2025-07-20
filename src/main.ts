@@ -1,14 +1,16 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { version as PackageVersion } from '#root/package.json'
+// import { Toast } from 'buefy'
 import './uno.css'
 import './global.css'
 import 'virtual:uno.css'
 
+const app = createApp(App)
+// app.use(Toast)
+app.mount('#app')
 addVersionMetaTag()
-createApp(App).mount('#app')
 
-// adds a meta tag with current package.json version
 function addVersionMetaTag() {
 	const meta = document.createElement('meta')
 	meta.name = 'SiteVersion'

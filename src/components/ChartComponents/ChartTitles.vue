@@ -25,9 +25,7 @@ onMounted(async () => {
 	window.addEventListener('resize', () => void getFontSize())
 
 	// This is hacky, sloppy, maybe i'll fix it eventually???
-	// Let the micro task queue empty out
 	await delay(1)
-	// ensures the ref is defined
 	await nextTick()
 	await getFontSize()
 	await delay(1)
