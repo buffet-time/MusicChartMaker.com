@@ -59,6 +59,11 @@ function getIconSrc(toast: ToastOptions) {
 </template>
 
 <style scoped lang="css">
+img {
+	border-radius: 16px;
+	background-color: var(--tertiaryColor);
+}
+
 .toastContainer {
 	bottom: 3%;
 	right: 5%;
@@ -74,20 +79,24 @@ function getIconSrc(toast: ToastOptions) {
 .success {
 	--primaryColor: #3a9c2b;
 	--secondaryColor: #68e84e;
+	--tertiaryColor: black;
 }
 
 .info {
 	--primaryColor: #a3a3a3;
 	--secondaryColor: #e8e8e8;
+	--tertiaryColor: white;
 }
 
 .error {
 	--primaryColor: #9c2b2e;
 	--secondaryColor: #e84e4f;
+	--tertiaryColor: white;
 }
 
 .warning {
 	--primaryColor: #9c9a2b;
 	--secondaryColor: #dee84e;
+	--tertiaryColor: black;
 }
 </style>

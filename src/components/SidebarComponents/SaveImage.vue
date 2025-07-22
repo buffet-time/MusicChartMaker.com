@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, onMounted, ref } from 'vue'
+import { type Ref, nextTick, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
 import { ToasterStore } from '#stores/toaster'
 
@@ -90,9 +90,32 @@ async function saveImage() {
 	}
 }
 
-onMounted(() => {
+onMounted(async () => {
 	validFormats.value = getValidFormats()
 	renderImageSelect.value = true
+	await nextTick
+
+	toasterStore.newToast({
+		text: 'There was an error importing the file,',
+		status: 'error',
+		timeout: 9999999,
+	})
+
+	toasterStore.newToast({
+		text: 'There was an error importing the file, fenfo.',
+		status: 'info',
+		timeout: 800000,
+	})
+	toasterStore.newToast({
+		text: 'There was an error importi.',
+		status: 'success',
+		timeout: 800000,
+	})
+	toasterStore.newToast({
+		text: 'There was an error importing the file, fo.',
+		status: 'warning',
+		timeout: 800000,
+	})
 })
 </script>
 
