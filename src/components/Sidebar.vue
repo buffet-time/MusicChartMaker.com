@@ -88,7 +88,10 @@ onMounted(async () => {
 			<SiteInfo />
 		</div>
 
-		<div class="hidden md:block" :style="{ 'max-height': searchHeight }">
+		<div
+			class="hidden md:block md:mt-2"
+			:style="{ 'max-height': searchHeight }"
+		>
 			<Search />
 		</div>
 	</div>
