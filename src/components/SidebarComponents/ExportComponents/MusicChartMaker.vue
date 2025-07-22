@@ -10,6 +10,9 @@ import {
 	ExportSingleChart,
 } from '#utils/importExport/export'
 import { ImportExportTypes } from '#utils/importExport/types'
+import { ToasterStore } from '#stores/toaster'
+
+const toasterStore = ToasterStore()
 
 const importExportTypes: ImportExportTypes[] = [
 	'Everything',
@@ -22,10 +25,6 @@ const chartSelectLabel = 'singleChartSelect'
 
 const filePicker = useTemplateRef<HTMLInputElement>('filePicker')
 const selectedImportExportType = ref<ImportExportTypes>('Everything')
-
-const renderImportStarted = ref(false)
-const renderImportFailure = ref(false)
-const renderImportSuccessful = ref(false)
 
 const singleChartSelectArray = computed(() => {
 	return StoredChartNames.value.slice()
@@ -50,10 +49,6 @@ function onExportPressed() {
 }
 
 function onImportPressed() {
-	renderImportSuccessful.value = false
-	renderImportFailure.value = false
-	renderImportStarted.value = true
-
 	try {
 		if (!filePicker.value || !filePicker.value.files) {
 			throw new Error()
@@ -66,22 +61,21 @@ function onImportPressed() {
 			'Extra info on error (if available): ',
 			filePicker.value?.files?.item(0),
 		)
-		renderImportStarted.value = false
-		renderImportFailure.value = true
 
-		setTimeout(() => {
-			renderImportFailure.value = false
-		}, 5000)
+		toasterStore.newToast({
+			text: 'There was an error importing the file, feel free to check the browser Console for more info.',
+			status: 'error',
+			timeout: 8000,
+		})
+
 		return
 	}
 
 	filePicker.value.value = ''
-	renderImportStarted.value = false
-	renderImportSuccessful.value = true
-
-	setTimeout(() => {
-		renderImportSuccessful.value = false
-	}, 5000)
+	toasterStore.newToast({
+		text: 'File imported successful!',
+		status: 'success',
+	})
 }
 </script>
 
@@ -102,17 +96,6 @@ function onImportPressed() {
 						@input="onImportPressed"
 					/>
 				</label>
-
-				<p v-if="renderImportStarted" class="mb-2">
-					Started to import the file!
-				</p>
-				<p v-else-if="renderImportFailure" class="mb-2">
-					There was an error importing the file, feel free to check the browser
-					Console for more info.
-				</p>
-				<p v-else-if="renderImportSuccessful" class="mb-2">
-					File imported successful!
-				</p>
 			</div>
 			<div class="uno-flex-center flex-col">
 				<label :for="exportTypeSelectLabel" class="mb-1"

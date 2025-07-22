@@ -5,19 +5,28 @@
 - Features/ Enhancements
   - Investigate having folder structure for selected charts.
   - Add Import from Topsters 3 (topsters.org)
-  - Add Import from Topchart (topchart.amanharwara.com)
   - Add Games charts
   - Add books Charts
   - Add movies/ TV charts
 
 ---
 
-## Next Updates Planned changes
+## Planned changes for the next version, subject to change
+
+- Add Import from Topchart (topchart.amanharwara.com)
+
+---
+
+## Version 1.5.0 - July ##, 2025
 
 - Features/ Enhancements
-  - Add `buefy` and use some of it's components to make the UI a tad less ugly.
+  - Created new Core Component Toast to have much prettier information being shown to the user
   - Add user site level customizations
     - To allow users to make it less boring if they so choose.
+- Dev
+  - Added Knip command to use to keep the project clean
+  - Added command for Bundle Analysis
+    - This was used to decide not to use `buefy` due to it's large bundle size even for a single component.
 
 ---
 

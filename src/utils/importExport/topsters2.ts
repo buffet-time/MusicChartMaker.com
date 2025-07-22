@@ -13,6 +13,9 @@ import {
 
 import { setCurrentChart, setStoredChart } from '#utils/storage'
 import type { AlbumTile } from '#types'
+import { ToasterStore } from '#stores/toaster'
+
+const toasterStore = ToasterStore()
 
 type BooleanButStrings = 'true' | 'false'
 
@@ -91,144 +94,158 @@ export function importFromTopsters2(event: Event) {
 		const fileReader = new FileReader()
 
 		fileReader.onload = async (event) => {
-			const encodedTopsters2 = event.target?.result
+			try {
+				const encodedTopsters2 = event.target?.result
 
-			if (!encodedTopsters2) {
-				// BAD PATH REACHED!
-				// TODO handle this
-				return
-			}
+				if (!encodedTopsters2) {
+					throw new Error('Invalid event target.)')
+				}
 
-			const decodedTopsters2 = JSON.parse(
-				atob(
-					(encodedTopsters2 as string)
-						.split('')
-						.map((currentCharacter) =>
-							// Base64 characters that are shifted by 17
-							String.fromCharCode(currentCharacter.charCodeAt(0) - 17),
-						)
-						.join(''),
-				),
-			)[0] as Topsters2DecodedJson
+				const decodedTopsters2 = JSON.parse(
+					atob(
+						(encodedTopsters2 as string)
+							.split('')
+							.map((currentCharacter) =>
+								// Base64 characters that are shifted by 17
+								String.fromCharCode(currentCharacter.charCodeAt(0) - 17),
+							)
+							.join(''),
+					),
+				)[0] as Topsters2DecodedJson
 
-			const topsters2Keys = Object.keys(decodedTopsters2)
+				const topsters2Keys = Object.keys(decodedTopsters2)
 
-			const namedCardsProperty = topsters2Keys.find((value) =>
-				value.includes('cards-cards'),
-			)
-			let partiallyDecodedTopsters2Cards: Uint8Array
-			let decodedTopsters2CardsArray: Topsters2ChartArray
-
-			if (
-				namedCardsProperty &&
-				decodedTopsters2[namedCardsProperty].length >
-					decodedTopsters2.cards.length
-			) {
-				partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
-					propertyName: namedCardsProperty,
-					decodedTopsters2,
-				})
-
-				decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
-					partiallyDecodedTopsters2Cards,
+				const namedCardsProperty = topsters2Keys.find((value) =>
+					value.includes('cards-cards'),
 				)
-			} else {
-				partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
-					propertyName: 'cards',
-					decodedTopsters2,
-				})
+				let partiallyDecodedTopsters2Cards: Uint8Array
+				let decodedTopsters2CardsArray: Topsters2ChartArray
 
-				decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
-					partiallyDecodedTopsters2Cards,
-				)
-			}
-
-			decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
-
-			const newAlbumTileArray: AlbumTile[][] = []
-			let usedRowSizes: number[] = []
-
-			const chartSize = Number(decodedTopsters2.size)
-
-			switch (chartSize) {
-				case 100: {
-					topsters2CardsArrayToAlbumTileArrayArray({
-						decodedTopsters2CardsArray,
-						newAlbumTileArray,
-						rowSizes: top100.rowSizes,
+				if (
+					namedCardsProperty &&
+					decodedTopsters2[namedCardsProperty].length >
+						decodedTopsters2.cards.length
+				) {
+					partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
+						propertyName: namedCardsProperty,
+						decodedTopsters2,
 					})
-					usedRowSizes = top100.rowSizes
-					break
-				}
-				case 42: {
-					topsters2CardsArrayToAlbumTileArrayArray({
-						decodedTopsters2CardsArray,
-						newAlbumTileArray,
-						rowSizes: top42.rowSizes,
+
+					decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
+						partiallyDecodedTopsters2Cards,
+					)
+				} else {
+					partiallyDecodedTopsters2Cards = getPartiallyDecodedTopsters2Cards({
+						propertyName: 'cards',
+						decodedTopsters2,
 					})
-					usedRowSizes = top42.rowSizes
-					break
-				}
-				case 40: {
-					// 40 = 5 x 8
-					const rowSizesFor40 = [8, 8, 8, 8, 8]
-					topsters2CardsArrayToAlbumTileArrayArray({
-						decodedTopsters2CardsArray,
-						newAlbumTileArray,
-						rowSizes: rowSizesFor40,
-					})
-					usedRowSizes = rowSizesFor40
-					break
+
+					decodedTopsters2CardsArray = await getDecodedTopsters2CardsArray(
+						partiallyDecodedTopsters2Cards,
+					)
 				}
 
-				default: {
-					const factorsForRowSizes = getFactorsFromLength(chartSize)
-					const generatedRowSizes: number[] = []
-					for (let index = 0; index < factorsForRowSizes[0]; index++) {
-						generatedRowSizes.push(factorsForRowSizes[1])
-						index++
+				decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
+
+				const newAlbumTileArray: AlbumTile[][] = []
+				let usedRowSizes: number[] = []
+
+				const chartSize = Number(decodedTopsters2.size)
+
+				switch (chartSize) {
+					case 100: {
+						topsters2CardsArrayToAlbumTileArrayArray({
+							decodedTopsters2CardsArray,
+							newAlbumTileArray,
+							rowSizes: top100.rowSizes,
+						})
+						usedRowSizes = top100.rowSizes
+						break
+					}
+					case 42: {
+						topsters2CardsArrayToAlbumTileArrayArray({
+							decodedTopsters2CardsArray,
+							newAlbumTileArray,
+							rowSizes: top42.rowSizes,
+						})
+						usedRowSizes = top42.rowSizes
+						break
+					}
+					case 40: {
+						// 40 = 5 x 8
+						const rowSizesFor40 = [8, 8, 8, 8, 8]
+						topsters2CardsArrayToAlbumTileArrayArray({
+							decodedTopsters2CardsArray,
+							newAlbumTileArray,
+							rowSizes: rowSizesFor40,
+						})
+						usedRowSizes = rowSizesFor40
+						break
 					}
 
-					topsters2CardsArrayToAlbumTileArrayArray({
-						decodedTopsters2CardsArray,
-						newAlbumTileArray,
-						rowSizes: generatedRowSizes,
-					})
-					usedRowSizes = generatedRowSizes
-					break
+					default: {
+						const factorsForRowSizes = getFactorsFromLength(chartSize)
+						const generatedRowSizes: number[] = []
+						for (let index = 0; index < factorsForRowSizes[0]; index++) {
+							generatedRowSizes.push(factorsForRowSizes[1])
+							index++
+						}
+
+						topsters2CardsArrayToAlbumTileArrayArray({
+							decodedTopsters2CardsArray,
+							newAlbumTileArray,
+							rowSizes: generatedRowSizes,
+						})
+						usedRowSizes = generatedRowSizes
+						break
+					}
 				}
+
+				const pulledNameFromJson = topsters2Keys
+					.filter((value) => value.includes('titled'))
+					.find((value) => value.includes('cards'))
+					?.replace('-cards-titled', '')
+
+				const newChartNameToSave = PreventNameCollision(
+					pulledNameFromJson ? pulledNameFromJson : 'FailedToImportChartName',
+				)
+
+				// TODO: look into changing the default options
+				const newChart = GenerateChartWithValues(
+					newChartNameToSave,
+					newAlbumTileArray,
+					{
+						default: false,
+						rowSizes: usedRowSizes,
+						presetName: 'Topsters2Import',
+					},
+				)
+
+				// TODO: Look into extracting this out!
+				StoredChartNames.value.unshift(newChartNameToSave)
+				selectedChartTitle.value = newChartNameToSave
+				setCurrentChart(newChartNameToSave)
+				setStoredChart(newChartNameToSave, newChart)
+				GlobalChartState.value = newChart
+			} catch (error: any) {
+				console.error(
+					`Error occurred importing from Topsters2, if this seems incorrect please report a bug (see site info!): ${error}`,
+				)
+				toasterStore.newToast({
+					text: 'Error occurred importing from Topsters2, see console.',
+					status: 'error',
+				})
 			}
-
-			const pulledNameFromJson = topsters2Keys
-				.filter((value) => value.includes('titled'))
-				.find((value) => value.includes('cards'))
-				?.replace('-cards-titled', '')
-
-			const newChartNameToSave = PreventNameCollision(
-				pulledNameFromJson ? pulledNameFromJson : 'FailedToImportChartName',
-			)
-
-			// TODO: look into changing the default options
-			const newChart = GenerateChartWithValues(
-				newChartNameToSave,
-				newAlbumTileArray,
-				{
-					default: false,
-					rowSizes: usedRowSizes,
-					presetName: 'Topsters2Import',
-				},
-			)
-
-			// TODO: Look into extracting this out!
-			StoredChartNames.value.unshift(newChartNameToSave)
-			selectedChartTitle.value = newChartNameToSave
-			setCurrentChart(newChartNameToSave)
-			setStoredChart(newChartNameToSave, newChart)
-			GlobalChartState.value = newChart
 		}
 		fileReader.readAsText(topsters2ExportFile)
 	} catch (error: any) {
-		console.error(`Error: ${error}`)
+		console.error(
+			`Error occurred importing from Topsters2, if this seems incorrect please report a bug (see site info!): ${error}`,
+		)
+		toasterStore.newToast({
+			text: 'Error occurred importing from Topsters2, see console.',
+			status: 'error',
+		})
 	}
 }
 

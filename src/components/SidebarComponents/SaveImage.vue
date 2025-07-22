@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { type Ref, onMounted, ref } from 'vue'
+import { type Ref, nextTick, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
+import { ToasterStore } from '#stores/toaster'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
 import SidebarButton from '#core/SidebarButton.vue'
+
+const toasterStore = ToasterStore()
 
 const saveImageId = 'saveImage'
 
@@ -13,9 +16,6 @@ const validFormats = ref<string[]>()
 const selectedFormat: Ref<ImageTypes> = ref('png')
 const renderImageSelect = ref(false)
 const scale = ref(2)
-const renderImagePrep = ref(false)
-const renderImageSuccess = ref(false)
-const renderImageError = ref(false)
 
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
@@ -41,9 +41,10 @@ function getValidFormats() {
 }
 
 async function saveImage() {
-	renderImagePrep.value = true
-	renderImageError.value = false
-	renderImageSuccess.value = false
+	toasterStore.newToast({
+		text: 'Image is being prepared to be saved!',
+		status: 'info',
+	})
 
 	try {
 		const { default: HTML2Canvas } = await import('html2canvas')
@@ -74,19 +75,47 @@ async function saveImage() {
 		anchor.click()
 		anchor.remove()
 
-		renderImagePrep.value = false
-		renderImageSuccess.value = true
+		toasterStore.newToast({
+			text: 'Image successfully generated, download should start automatically.',
+			status: 'success',
+			timeout: 6000,
+		})
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
 
-		renderImagePrep.value = false
-		renderImageError.value = true
+		toasterStore.newToast({
+			text: 'Image failed to be generated :(',
+			status: 'error',
+		})
 	}
 }
 
-onMounted(() => {
+onMounted(async () => {
 	validFormats.value = getValidFormats()
 	renderImageSelect.value = true
+	await nextTick
+
+	toasterStore.newToast({
+		text: 'There was an error importing the file,',
+		status: 'error',
+		timeout: 9999999,
+	})
+
+	toasterStore.newToast({
+		text: 'There was an error importing the file, fenfo.',
+		status: 'info',
+		timeout: 800000,
+	})
+	toasterStore.newToast({
+		text: 'There was an error importi.',
+		status: 'success',
+		timeout: 800000,
+	})
+	toasterStore.newToast({
+		text: 'There was an error importing the file, fo.',
+		status: 'warning',
+		timeout: 800000,
+	})
 })
 </script>
 
@@ -144,20 +173,6 @@ onMounted(() => {
 					</div>
 
 					<button class="uno-button mb-1" @click="saveImage">Save Image</button>
-
-					<div v-if="renderImagePrep">
-						<p>Image is being prepared to be saved!</p>
-					</div>
-
-					<div v-if="renderImageSuccess">
-						<p>
-							Image successfully generated, download should start automatically.
-						</p>
-					</div>
-
-					<div v-if="renderImageError">
-						<p>Image failed to be generated :(</p>
-					</div>
 				</div>
 			</template>
 		</Dialog>

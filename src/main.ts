@@ -1,13 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { createPinia } from 'pinia'
 import { version as PackageVersion } from '#root/package.json'
-// import { Toast } from 'buefy'
 import './uno.css'
 import './global.css'
 import 'virtual:uno.css'
 
 const app = createApp(App)
-// app.use(Toast)
+const pinia = createPinia()
+app.use(pinia)
 app.mount('#app')
 addVersionMetaTag()
 

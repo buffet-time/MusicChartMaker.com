@@ -26,6 +26,7 @@ export default defineConfig({
 			'#core': resolve(__dirname, './src/components/CoreComponents'),
 			'#utils': resolve(__dirname, './src/utils'),
 			'#lastfm': resolve(__dirname, './src/lastfm'),
+			'#stores': resolve(__dirname, './src/stores'),
 		},
 	},
 })

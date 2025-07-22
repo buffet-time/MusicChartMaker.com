@@ -1,5 +1,17 @@
 <script setup lang="ts">
-import { importFromTopsters2 } from '#utils/importExport/topsters2'
+import { nextTick, onMounted } from 'vue'
+
+let callImportFromTopsters2AfterPiniaIsReady: (event: Event) => void
+
+onMounted(async () => {
+	await nextTick()
+	const { importFromTopsters2 } = await import('#utils/importExport/topsters2')
+	callImportFromTopsters2AfterPiniaIsReady = importFromTopsters2
+})
+
+function handleImport(event: Event) {
+	callImportFromTopsters2AfterPiniaIsReady(event)
+}
 </script>
 
 <template>
@@ -13,7 +25,7 @@ import { importFromTopsters2 } from '#utils/importExport/topsters2'
 				type="file"
 				accept=".json"
 				class="hidden"
-				@input="importFromTopsters2"
+				@input="(event) => handleImport(event)"
 			/>
 		</label>
 	</section>

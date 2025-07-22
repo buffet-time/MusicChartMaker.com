@@ -21,7 +21,8 @@
 			"#types": ["./src/types/types.ts"],
 			"#core/*": ["./src/components/CoreComponents/*"],
 			"#utils/*": ["./src/utils/*"],
-			"#lastfm/*": ["./src/lastfm/*"]
+			"#lastfm/*": ["./src/lastfm/*"],
+			"#stores/*": ["./src/stores/*"]
 		}
 	},
 	"include": [
