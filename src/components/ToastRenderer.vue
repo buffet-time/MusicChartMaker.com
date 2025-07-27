@@ -32,12 +32,12 @@ function getIconSrc(toast: ToastOptions) {
 	<Teleport to="body">
 		<ul
 			v-if="toastStore.toasts.length"
-			class="toastContainer fixed z-36 flex flex-col gap-4"
+			class="fixed z-36 flex flex-col gap-2 pos-bottom-2xl pos-right-2xl mb-0"
 		>
 			<li
 				v-for="(toast, index) in toastStore.toasts"
 				@click="toastStore.removeToast(toast.id)"
-				class="toast flex items-center gap-2 p-4"
+				class="toast flex items-center gap-2 p-3"
 				:class="[[toastStatusClassMap[toast.status]]]"
 				:key="index"
 			>
@@ -50,7 +50,7 @@ function getIconSrc(toast: ToastOptions) {
 					loading="lazy"
 				/>
 
-				<span class="font-400 color-white text-size-base">
+				<span class="toastText font-400 text-size-base">
 					{{ toast.text }}
 				</span>
 			</li>
@@ -64,11 +64,6 @@ img {
 	background-color: var(--tertiaryColor);
 }
 
-.toastContainer {
-	bottom: 3%;
-	right: 5%;
-}
-
 .toast {
 	border-radius: 0.5rem;
 	border: 1px solid transparent;
@@ -76,27 +71,35 @@ img {
 	border-color: var(--secondaryColor);
 }
 
+.toastText {
+	color: var(--quaternaryColor);
+}
+
 .success {
 	--primaryColor: #3a9c2b;
 	--secondaryColor: #68e84e;
 	--tertiaryColor: black;
+	--quaternaryColor: white;
 }
 
 .info {
 	--primaryColor: #a3a3a3;
 	--secondaryColor: #e8e8e8;
 	--tertiaryColor: white;
+	--quaternaryColor: black;
 }
 
 .error {
 	--primaryColor: #9c2b2e;
 	--secondaryColor: #e84e4f;
-	--tertiaryColor: white;
+	--tertiaryColor: black;
+	--quaternaryColor: white;
 }
 
 .warning {
 	--primaryColor: #9c9a2b;
 	--secondaryColor: #dee84e;
 	--tertiaryColor: black;
+	--quaternaryColor: white;
 }
 </style>

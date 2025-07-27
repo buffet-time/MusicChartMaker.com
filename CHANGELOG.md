@@ -8,6 +8,9 @@
   - Add Games charts
   - Add books Charts
   - Add movies/ TV charts
+  - Define a strict browser support w/ Browserlist & make that available to end users.
+  - Create a version of the popover that uses the new native component
+  - Add user site level customizations
 
 ---
 
@@ -21,8 +24,7 @@
 
 - Features/ Enhancements
   - Created new Core Component Toast to have much prettier information being shown to the user
-  - Add user site level customizations
-    - To allow users to make it less boring if they so choose.
+
 - Dev
   - Added Knip command to use to keep the project clean
   - Added command for Bundle Analysis

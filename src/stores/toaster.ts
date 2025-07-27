@@ -37,9 +37,11 @@ export const ToasterStore = defineStore('toaster-store', () => {
 			id: toastId,
 		})
 
-		setTimeout(() => {
-			toasts.value.splice(getToastById(toastId), 1)
-		}, options.timeout ?? defaultTimeout)
+		if (options.timeout) {
+			setTimeout(() => {
+				toasts.value.splice(getToastById(toastId), 1)
+			}, options.timeout ?? defaultTimeout)
+		}
 	}
 
 	function newToast(options: ToastOptions) {

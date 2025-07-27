@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, nextTick, onMounted, ref } from 'vue'
+import { type Ref, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
 import { ToasterStore } from '#stores/toaster'
 
@@ -20,8 +20,8 @@ const scale = ref(2)
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
 function openSaveImage() {
-	const saveimage = document.getElementById(saveImageId) as HTMLDialogElement
-	saveimage.showModal()
+	const saveImage = document.getElementById(saveImageId) as HTMLDialogElement
+	saveImage.showModal()
 }
 
 function getValidFormats() {
@@ -90,32 +90,9 @@ async function saveImage() {
 	}
 }
 
-onMounted(async () => {
+onMounted(() => {
 	validFormats.value = getValidFormats()
 	renderImageSelect.value = true
-	await nextTick
-
-	toasterStore.newToast({
-		text: 'There was an error importing the file,',
-		status: 'error',
-		timeout: 9999999,
-	})
-
-	toasterStore.newToast({
-		text: 'There was an error importing the file, fenfo.',
-		status: 'info',
-		timeout: 800000,
-	})
-	toasterStore.newToast({
-		text: 'There was an error importi.',
-		status: 'success',
-		timeout: 800000,
-	})
-	toasterStore.newToast({
-		text: 'There was an error importing the file, fo.',
-		status: 'warning',
-		timeout: 800000,
-	})
 })
 </script>
 
