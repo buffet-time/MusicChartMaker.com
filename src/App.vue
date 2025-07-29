@@ -7,6 +7,7 @@ import { SaveSiteOptions } from '#utils/storage'
 
 import Chart from '#components/Chart.vue'
 import Sidebar from '#components/Sidebar.vue'
+import ToastRenderer from '#components/ToastRenderer.vue'
 
 const renderChart = ref(false)
 
@@ -37,6 +38,7 @@ watchDebounced(
 			<Chart v-if="renderChart" />
 		</div>
 	</div>
+	<ToastRenderer />
 </template>
 
 <style>

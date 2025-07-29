@@ -27,11 +27,10 @@ export interface ChartPreset {
 	rowSizes: number[]
 }
 
-export interface ChartOptions {
+interface ChartOptions {
 	// not changing property name for backwards compat
 	// but the name was naive on my part
 	chartSize: ChartPreset
-
 	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean
