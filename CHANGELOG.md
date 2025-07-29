@@ -20,7 +20,7 @@
 
 ---
 
-## Version 1.5.0 - July ##, 2025
+## Version 1.5.0 - July 29, 2025
 
 - Features/ Enhancements
   - Created new Core Component Toast to have much prettier information being shown to the user
