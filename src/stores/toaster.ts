@@ -6,7 +6,7 @@ export type ToastType = 'success' | 'warning' | 'error' | 'info'
 export interface ToastOptions {
 	text: string
 	status?: ToastType
-	timeout?: number
+	timeout?: number | 'none'
 }
 
 interface Toast {
@@ -37,7 +37,7 @@ export const ToasterStore = defineStore('toaster-store', () => {
 			id: toastId,
 		})
 
-		if (options.timeout) {
+		if (options.timeout !== 'none') {
 			setTimeout(() => {
 				toasts.value.splice(getToastById(toastId), 1)
 			}, options.timeout ?? defaultTimeout)
