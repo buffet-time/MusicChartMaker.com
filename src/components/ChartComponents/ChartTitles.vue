@@ -25,6 +25,7 @@ onMounted(async () => {
 	window.addEventListener('resize', () => void getFontSize())
 
 	// This is hacky, sloppy, maybe i'll fix it eventually???
+	// the bro above said this 5+ months ago lmao
 	await delay(1)
 	await nextTick()
 	await getFontSize()
@@ -103,7 +104,7 @@ function isOverflowing() {
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"
-						@input="(event) => albumArtistEdited(event, index, index2)"
+						@blur="(event) => albumArtistEdited(event, index, index2)"
 					>
 						{{ album.artist }}
 					</span>
@@ -116,7 +117,7 @@ function isOverflowing() {
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"
-						@input="(event) => albumNameEdited(event, index, index2)"
+						@blur="(event) => albumNameEdited(event, index, index2)"
 					>
 						{{ album.name }}
 					</span>

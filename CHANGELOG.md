@@ -20,6 +20,13 @@
 
 ---
 
+## Version 1.5.1 - December 9th, 2025
+
+- Bug Fixes
+  - Fix issue with editing the album title and name
+- Dev
+  - bumped most packages
+
 ## Version 1.5.0 - July 29, 2025
 
 - Features/ Enhancements
