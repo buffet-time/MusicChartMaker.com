@@ -5,7 +5,7 @@ import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { DragSetData, onTouchStart } from '#utils/drag'
 import {
 	IsImage,
-	GrayBoxImgFromLastFm,
+	GrayBoxImgFromApi,
 	GrayBoxImgForPlaceholder,
 } from '#utils/misc'
 
@@ -221,7 +221,7 @@ function handleClick(album: AlbumSearchResult) {
 						/>
 
 						<div
-							v-if="album.image === GrayBoxImgFromLastFm"
+							v-if="album.image === GrayBoxImgFromApi"
 							class="uno-album-image-text-overlay w-full overflow-clip text-ellipsis"
 						>
 							{{ album.artist }} - {{ album.name }}

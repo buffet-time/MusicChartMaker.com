@@ -49,7 +49,6 @@
 		"@testing-library/vue": "^8.1.0",
 		"@types/node": "^24.10.4",
 		"@types/pako": "^2.0.4",
-		"@unocss/transformer-directives": "^66.5.11",
 		"@vitejs/plugin-vue": "^6.0.3",
 		"happy-dom": "^20.0.11",
 		"husky": "^9.1.7",

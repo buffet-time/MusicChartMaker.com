@@ -38,9 +38,7 @@ export function ImportFile(importFile: File | null) {
 
 			if (exportType !== 'Site Config') {
 				const data: ChartState[] = parsed.chartData!
-				data.forEach((state) => {
-					Boolean(state) && setStoredChart(state.options.chartTitle, state)
-				})
+				data.forEach((state) => setStoredChart(state.options.chartTitle, state))
 
 				StoredChartNames.value = getAllSavedKeys()
 			}
