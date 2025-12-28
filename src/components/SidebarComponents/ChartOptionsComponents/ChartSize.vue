@@ -97,7 +97,7 @@ watch(
 		class="cursor-pointer"
 		type="range"
 		min="0"
-		max="3"
-		step="0.1"
+		max="5"
+		step="0.05"
 	/>
 </template>

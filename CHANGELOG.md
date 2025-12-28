@@ -7,18 +7,34 @@
   - Add Import from Topsters 3 (topsters.org)
   - Add Games charts
   - Add books Charts
-  - Add movies/ TV charts
   - Define a strict browser support w/ Browserlist & make that available to end users.
   - Create a version of the popover that uses the new native component
   - Add user site level customizations
+  - Add Import from Topchart (topchart.amanharwara.com)
 
 ---
 
 ## Planned changes for the next version, subject to change
 
-- Add Import from Topchart (topchart.amanharwara.com)
+- Add movies/ TV charts
 
 ---
+
+## Version 1.5.2 - December 27, 2025
+
+- Features/ Bug Fixes
+  - New feature to toggle between Titles taking up space irrespective of the chart and following the constrains of the row.
+    - and centering it
+  - Fixed some completely broken UI on Mobile
+  - Fixed text overflowing when no image returned by Last.FM
+  - Massive re-work to how Album Title resizing works to hopefully be a little bit less janky and look better :)
+- UX/UI
+  - Many small tweaks to help make less obvious things more obvious
+    - Adding tooltips, updating helper text, adding more auto disabling of buttons
+  - Really trying to drive home to all users that the search is just Last.fm, so they can verify issues by crosschecking!
+- Dev
+  - More small tweaks and keeping packages up to date and addressing small performance wins
+  - Changed from using imgur to store the grayBox, to just having it in this repo. Not sure what the logic really was to have it on imgur in the first place.
 
 ## Version 1.5.1 - December 9th, 2025
 

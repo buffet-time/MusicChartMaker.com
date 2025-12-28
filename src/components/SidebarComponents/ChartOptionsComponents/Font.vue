@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { PossibleFonts } from '#utils/fonts'
+import Tooltip from '../../CoreComponents/Tooltip.vue'
 
 const fonts = ref<string[]>()
 const fontsLoaded = ref(false)
@@ -24,16 +25,30 @@ onMounted(async () => {
 <template>
 	<div class="flex flex-col">
 		<div class="items-center justify-center">
-			<select
-				v-if="fontsLoaded"
-				aria-label="A Select Element with all available fonts to the current browser"
-				v-model="GlobalChartState!.options.font"
-				class="uno-input global-select uno-select"
+			<Tooltip
+				:tooltip-name="`font-selector`"
+				:offset="[0, 0]"
+				:delay="250"
+				:placement="'right'"
 			>
-				<option v-for="(name, index) in fonts" :key="index">
-					{{ name }}
-				</option>
-			</select>
+				<template #content>
+					<select
+						v-if="fontsLoaded"
+						aria-label="A Select Element with all available fonts to the current browser"
+						v-model="GlobalChartState!.options.font"
+						class="uno-input global-select uno-select"
+					>
+						<option v-for="(name, index) in fonts" :key="index">
+							{{ name }}
+						</option>
+					</select>
+				</template>
+
+				<template #tooltip>
+					Checks your browser for every available font <br />
+					To see more, download more to your browser.
+				</template>
+			</Tooltip>
 		</div>
 
 		<label for="textSpacingAmount" class="mt-2">

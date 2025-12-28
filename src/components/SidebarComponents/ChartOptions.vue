@@ -53,6 +53,8 @@ function resetOptionsToDefault() {
 		backgroundImage: undefined,
 		padding: 0.2,
 		lockChart: false,
+		constrainTitles: false,
+		constrainTitlesCentered: false,
 	}
 
 	GlobalSiteOptions.value = {

@@ -2,12 +2,12 @@ import type { AlbumTile, JSONReturnType, SiteOptions } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { top42, top100 } from '#utils/chart'
 
-// This is weird looking but streamlines functionality tbh
-const grayBoxImgur = 'https://i.imgur.com/5IYcmZz'
+// These are seperate to trivialize knowing whether its a placeholder box or just no image.
+const grayBoxFile = 'grayBox.jp'
 // for usage as the placeholder boxes
-export const GrayBoxImgForPlaceholder = `${grayBoxImgur}.jpg`
+export const GrayBoxImgForPlaceholder = `${grayBoxFile}g`
 // Comes back from the API
-export const GrayBoxImgFromApi = `${grayBoxImgur}.jpeg`
+export const GrayBoxImgFromApi = `${grayBoxFile}eg`
 
 export const FillerAlbum: AlbumTile = {
 	artist: 'Artist',
@@ -74,4 +74,9 @@ export async function ProperFetch(
 
 export function delay(t: number) {
 	return new Promise((resolve) => setTimeout(resolve, t))
+}
+
+export function isMobile() {
+	// If anyone else sees this, trust me. Its ok in this case, it isn't a SAAS product being sold <3
+	return document.body.clientWidth < 768
 }

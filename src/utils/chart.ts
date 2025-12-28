@@ -1,4 +1,4 @@
-import type { ChartPreset, ChartState, AlbumTile } from '#types'
+import type { ChartPreset, ChartState, AlbumTile, ChartOptions } from '#types'
 import { FillerAlbum } from '#utils/misc'
 import { getAllSavedKeys } from '#utils/storage'
 
@@ -14,6 +14,12 @@ export const top100: ChartPreset = {
 }
 const numberInParensRegex = /\s\((\d+)\)$/
 
+const defaultChartSize: ChartPreset = {
+	default: true,
+	presetName: 'Dynamic',
+	rowSizes: [3, 3, 3],
+}
+
 const defaultChartName = 'New Album Chart'
 const baseOptionsDefault = {
 	displayNumberRank: true,
@@ -27,16 +33,12 @@ const baseOptionsDefault = {
 	padding: 0.2,
 	backgroundImage: undefined,
 	textShadow: '0px 0px 0px #FFFFFF',
-}
+	constrainTitles: false,
+	constrainTitlesCentered: false,
+} satisfies Partial<ChartOptions>
 
 export function GenerateDefaultChart(title?: string): ChartState {
 	const albumArray = [] as AlbumTile[][]
-	const defaultChartSize: ChartPreset = {
-		default: true,
-		presetName: 'Dynamic',
-		rowSizes: [3, 3, 3],
-	}
-
 	defaultChartSize.rowSizes.forEach((size, index) => {
 		albumArray.push([])
 		for (let x = 0; x < size; x++) {
@@ -118,4 +120,12 @@ export function GenerateChartWithValues(
 		},
 		chartTiles: chartValues,
 	}
+}
+
+export const idForFirstImage = 'fistImageId'
+export function GetHeightOfImages() {
+	const firstImage = document.getElementById(idForFirstImage)
+	const heightOfImages = firstImage?.getBoundingClientRect().height
+
+	return heightOfImages ?? 300
 }

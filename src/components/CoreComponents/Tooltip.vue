@@ -21,6 +21,7 @@ onMounted(async () => {
 	const { createPopper } = await import('@popperjs/core')
 	popperInstance = createPopper(contentSlot.value, tooltipSlot.value, {
 		placement: placement,
+		strategy: 'fixed',
 		modifiers: [
 			{
 				name: 'offset',

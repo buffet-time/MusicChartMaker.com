@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
 import { IsImage } from '#utils/misc'
+import { ToasterStore } from '#stores/toaster'
+
+const toasterStore = ToasterStore()
 
 const bgImage = ref(
 	GlobalChartState.value.options.backgroundImage
@@ -16,7 +19,11 @@ async function onBgImageInput() {
 		return
 	}
 
-	bgImage.value = 'Not a valid Image URL'
+	toasterStore.newToast({
+		text: 'Not a valid Image URL, please try again.',
+		status: 'error',
+		timeout: 6000,
+	})
 }
 
 function clearBackground() {
@@ -47,10 +54,20 @@ function clearBackground() {
 			@keyup.enter="onBgImageInput"
 		/>
 		<div class="uno-flex-center gap-1 mt-1">
-			<button type="button" class="uno-button" @click="onBgImageInput">
+			<button
+				type="button"
+				class="uno-button"
+				@click="onBgImageInput"
+				:disabled="bgImage === ''"
+			>
 				Set BG
 			</button>
-			<button type="button" class="uno-button" @click="clearBackground">
+			<button
+				type="button"
+				class="uno-button"
+				@click="clearBackground"
+				:disabled="!GlobalChartState.options.backgroundImage"
+			>
 				Clear BG
 			</button>
 		</div>

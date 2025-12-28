@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { GlobalChartState } from '#utils/globals'
-import { getAlbumNumber, GrayBoxImgForPlaceholder } from '#utils/misc'
-import { onMounted, ref, nextTick } from 'vue'
-import { delay } from '#utils/misc'
+import {
+	delay,
+	getAlbumNumber,
+	GrayBoxImgForPlaceholder,
+	isMobile,
+} from '#utils/misc'
+import { onMounted, ref, nextTick, watch } from 'vue'
+import { GetHeightOfImages } from '#utils/chart'
+import { useDebounceFn } from '@vueuse/core'
 
 const props = defineProps<{
 	heightOfChartImages: number | undefined
 }>()
 
 const chartTitlesRef = ref<HTMLDivElement>()
+
 function albumArtistEdited(event: Event, index: number, index2: number) {
 	GlobalChartState.value.chartTiles[index][index2].artist = (
 		event.target as HTMLSpanElement
@@ -21,71 +28,133 @@ function albumNameEdited(event: Event, index: number, index2: number) {
 	).innerText
 }
 
-onMounted(async () => {
-	window.addEventListener('resize', () => void getFontSize())
+const debouncedGetFontSize = useDebounceFn(async () => {
+	await getFontSize()
+}, 25)
 
-	// This is hacky, sloppy, maybe i'll fix it eventually???
-	// the bro above said this 5+ months ago lmao
+watch(
+	() => GlobalChartState.value.options.displayTitles,
+	async () => {
+		await nextTick()
+		getFontSize()
+	},
+)
+
+watch(
+	() => GlobalChartState.value.options.constrainTitles,
+	async () => {
+		await nextTick()
+		getFontSize()
+	},
+)
+
+onMounted(async () => {
+	window.addEventListener('resize', () => debouncedGetFontSize())
 	await delay(1)
 	await nextTick()
 	await getFontSize()
-	await delay(1)
+	// TODO:
+	// Seriously this shit is so janky, fix it!!!
+	await delay(100)
 	await nextTick()
-	await getFontSize()
+	getFontSize()
 })
 
 async function getFontSize() {
 	if (isOverflowing()) {
-		async function reduceFontSize() {
-			if (isOverflowing()) {
-				GlobalChartState.value.options.fontSize! -= 0.05
-				await nextTick()
-				await reduceFontSize()
-			}
-		}
-
 		await reduceFontSize()
 	} else {
-		async function increaseFontSize() {
-			if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
-				GlobalChartState.value.options.fontSize! += 0.05
-				await nextTick()
-				await increaseFontSize()
-			}
-		}
-
 		await increaseFontSize()
 	}
 }
 
+async function reduceFontSize() {
+	if (isOverflowing()) {
+		GlobalChartState.value.options.fontSize! -= 1
+		await nextTick()
+		reduceFontSize()
+	} else {
+		// once it's no longer overflowing, quickly check to see if we can make it a bit bigger :)
+		await increaseFontSize()
+	}
+}
+
+async function increaseFontSize() {
+	if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
+		GlobalChartState.value.options.fontSize! += 0.05
+		await nextTick()
+		increaseFontSize()
+	}
+}
+
 function isOverflowing() {
-	if (chartTitlesRef?.value) {
-		return chartTitlesRef.value.scrollHeight > chartTitlesRef.value.clientHeight
+	if (GlobalChartState.value.options.constrainTitles) {
+		const chartTitlesRow = document.getElementById('chartTitlesRow')
+		if (chartTitlesRow) {
+			return chartTitlesRow.scrollHeight > chartTitlesRow.clientHeight
+		}
+
+		return false
 	}
 
-	return false
+	if (document.body.clientWidth < 768) {
+		if (!chartTitlesRef.value) {
+			return false
+		}
+		console.log(
+			1,
+			chartTitlesRef.value.scrollWidth,
+			chartTitlesRef.value.clientWidth,
+
+			chartTitlesRef.value.offsetWidth,
+		)
+
+		return chartTitlesRef.value.scrollWidth > chartTitlesRef.value.clientWidth
+	} else {
+		if (!chartTitlesRef.value) {
+			return false
+		}
+
+		return chartTitlesRef.value.scrollHeight > chartTitlesRef.value.clientHeight
+	}
 }
 </script>
 
 <template>
 	<div
 		ref="chartTitlesRef"
-		class="min-w-[200px] text-left text-sm line-height-tight"
+		class="min-w-[200px] text-left flex flex-col"
 		:style="{
 			height: `${props.heightOfChartImages}px`,
 			fontSize: GlobalChartState.options.fontSize + 'px',
+		}"
+		:class="{
+			'w-full': isMobile(),
 		}"
 	>
 		<div
 			v-for="(albumRow, index) in GlobalChartState.chartTiles"
 			:key="index"
+			:id="index === 0 ? 'chartTitlesRow' : undefined"
 			class="flex flex-col"
-			:class="{ 'mb-[2px]': index !== GlobalChartState.chartTiles.length - 1 }"
+			:class="{
+				'justify-center': GlobalChartState.options.constrainTitlesCentered,
+			}"
+			:style="{
+				height:
+					GlobalChartState.options.constrainTitles &&
+					!GlobalChartState.options.preset
+						? `${GetHeightOfImages()}px`
+						: undefined,
+				marginBottom: GlobalChartState.options.constrainTitles
+					? `${GlobalChartState?.options.padding}rem`
+					: undefined,
+			}"
 		>
 			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
 				<p
 					v-if="album.image !== GrayBoxImgForPlaceholder"
-					class="overflow-hidden text-ellipsis pointer-events-none whitespace-nowrap"
+					class="overflow-x-clip text-ellipsis pointer-events-none whitespace-nowrap"
 					:style="{
 						color: GlobalChartState.options.textColor,
 						textShadow: GlobalChartState.options.textShadow,
@@ -122,10 +191,16 @@ function isOverflowing() {
 						{{ album.name }}
 					</span>
 				</p>
+				<template
+					v-if="
+						index === GlobalChartState.chartTiles.length - 1 &&
+						index2 === albumRow.length - 1
+					"
+				>
+					<!-- To prevent erroneous edits to the bottom album/ artist -->
+					‎
+				</template>
 			</template>
 		</div>
-
-		<!-- To prevent erroneous edits to the bottom album/ artist -->
-		‎
 	</div>
 </template>
