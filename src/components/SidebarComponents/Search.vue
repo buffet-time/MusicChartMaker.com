@@ -5,7 +5,7 @@ import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { DragSetData, onTouchStart } from '#utils/drag'
 import {
 	IsImage,
-	GrayBoxImgFromApi,
+	GrayBoxImgFromLastFm,
 	GrayBoxImgForPlaceholder,
 } from '#utils/misc'
 
@@ -99,12 +99,12 @@ function handleClick(album: AlbumSearchResult) {
 			<Tooltip
 				:tooltip-name="`search-input`"
 				:offset="[0, 4]"
-				:delay="500"
+				:delay="50"
 				:placement="'auto'"
 			>
 				<template #content>
 					<div>
-						<label>Search: </label>
+						<label>Search/ Image URL: </label>
 						<div class="uno-flex-center flex-col gap-2">
 							<input
 								v-model="searchInput"
@@ -135,15 +135,16 @@ function handleClick(album: AlbumSearchResult) {
 					</div>
 				</template>
 				<template #tooltip>
-					Uses Last.fm search<br />
-					Also accepts image url
+					Uses <b>Last.fm</b> search, if an issue occurs check Last.fm first!<br />
+					You can also put an Image URL and press enter!<br />
+					Disable this tooltip in Site Options!
 				</template>
 			</Tooltip>
 		</template>
 
 		<template v-else>
 			<div>
-				<label>Search: </label>
+				<label>Search/ Image URL: </label>
 				<div class="uno-flex-center flex-col gap-2">
 					<input
 						v-model="searchInput"
@@ -177,12 +178,23 @@ function handleClick(album: AlbumSearchResult) {
 		<div
 			v-if="showSearchResults"
 			class="uno-flex-center uno-search-results-div results-div"
-			:class="{ 'items-start': getSearchResultsLength() < 1 }"
+			:class="{
+				'items-start': getSearchResultsLength() < 1,
+				'overflow-hidden': getSearchResultsLength() < 1,
+			}"
 		>
-			<div v-if="getSearchResultsLength() < 1" class="flex">
-				No valid results or the API is down. Try again in a few seconds or
-				change the input.
-			</div>
+			<ul
+				class="flex flex-col gap-2 overflow-hidden pr-2 ml-[-12px]"
+				v-if="getSearchResultsLength() < 1"
+			>
+				<li>No valid results or the API is down.</li>
+				<li>Try changing your input.</li>
+				<li>
+					Remember, check to see if this is on
+					<a class="text-green-400" href="https://www.last.fm/search">Last.fm</a
+					>!
+				</li>
+			</ul>
 			<Tooltip
 				v-for="(album, index) in searchResults"
 				v-else
@@ -209,8 +221,8 @@ function handleClick(album: AlbumSearchResult) {
 						/>
 
 						<div
-							v-if="album.image === GrayBoxImgFromApi"
-							class="uno-album-image-text-overlay"
+							v-if="album.image === GrayBoxImgFromLastFm"
+							class="uno-album-image-text-overlay w-full overflow-clip text-ellipsis"
 						>
 							{{ album.artist }} - {{ album.name }}
 						</div>

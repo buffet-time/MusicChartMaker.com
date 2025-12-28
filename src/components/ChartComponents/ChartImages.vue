@@ -11,6 +11,7 @@ import {
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
+import { idForFirstImage } from '#utils/chart'
 
 const dialogId = 'DragLongHoldId'
 let selectedAlbumIndices: IndicesObject
@@ -144,6 +145,7 @@ function chartTitle(
 		>
 			<div
 				v-for="(album, index2) in albumArray"
+				:id="index1 === 0 && index2 === 0 ? idForFirstImage : undefined"
 				:key="`img-${index1}-${index2}`"
 				class="group"
 			>

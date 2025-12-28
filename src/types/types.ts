@@ -27,7 +27,7 @@ export interface ChartPreset {
 	rowSizes: number[]
 }
 
-interface ChartOptions {
+export interface ChartOptions {
 	// not changing property name for backwards compat
 	// but the name was naive on my part
 	chartSize: ChartPreset
@@ -45,6 +45,8 @@ interface ChartOptions {
 	textSpacing?: number
 	lockChart?: boolean
 	textShadow?: string
+	constrainTitles?: boolean
+	constrainTitlesCentered?: boolean
 }
 
 export type OrderOptions =
