@@ -1,5 +1,9 @@
-import type { AlbumTile, JSONReturnType, SiteOptions } from '#types'
-import { GlobalChartState } from '#utils/globals'
+import type {
+	AlbumSearchResult,
+	JSONReturnType,
+	MovieAndTvSearchResult,
+	SiteOptions,
+} from '#types'
 import { top42, top100 } from '#utils/chart'
 
 // These are seperate to trivialize knowing whether its a placeholder box or just no image.
@@ -9,10 +13,16 @@ export const GrayBoxImgForPlaceholder = `${grayBoxFile}g`
 // Comes back from the API
 export const GrayBoxImgFromApi = `${grayBoxFile}eg`
 
-export const FillerAlbum: AlbumTile = {
+export const FillerAlbum: AlbumSearchResult = {
+	image: GrayBoxImgForPlaceholder,
 	artist: 'Artist',
 	name: 'Album',
+}
+
+export const FillerMedia: MovieAndTvSearchResult = {
 	image: GrayBoxImgForPlaceholder,
+	title: 'TV/ Movie Name',
+	year: '2019',
 }
 
 export function GenerateDefaultSiteOptions(): SiteOptions {
@@ -31,23 +41,6 @@ export function IsImage(url: string): Promise<boolean> {
 		image.onload = () => resolve(true)
 		image.src = url
 	})
-}
-
-export function getAlbumNumber(indexOne: number, indexTwo: number): number {
-	if (!GlobalChartState) {
-		console.error(
-			'Error getting GlobalChartState in getAlbumNumber()',
-			GlobalChartState,
-		)
-		return 0
-	}
-	let returnValue = 0
-
-	for (let x = 0; x < indexOne; x++) {
-		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
-	}
-
-	return returnValue + 1 + indexTwo
 }
 
 // This is a wrapper around the Fetch() WebAPI to handle errors without any fuss

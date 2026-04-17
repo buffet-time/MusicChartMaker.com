@@ -16,9 +16,18 @@
 
 ## Planned changes for the next version, subject to change
 
-- Add movies/ TV charts
+- Add TV Charts
 
 ---
+
+## Version 2.0.0 - December ##, 2025
+
+- Features
+  - Added ability to make Movie Charts
+- Dev
+  - Keeping thinks tidy
+  - New Node API written w/ Fastify, TypeScript, and Parcel to handle the usage of the TMDB API
+  - Some small tweaks around the edges of the repo for better devex
 
 ## Version 1.5.2 - December 27, 2025
 

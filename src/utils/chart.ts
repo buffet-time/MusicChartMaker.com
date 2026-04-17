@@ -1,6 +1,13 @@
-import type { ChartPreset, ChartState, AlbumTile, ChartOptions } from '#types'
-import { FillerAlbum } from '#utils/misc'
+import type {
+	ChartPreset,
+	ChartState,
+	ChartOptions,
+	AlbumSearchResult,
+	MovieAndTvSearchResult,
+} from '#types'
+import { FillerAlbum, FillerMedia } from '#utils/misc'
 import { getAllSavedKeys } from '#utils/storage'
+import { GlobalChartState } from './globals'
 
 export const top42: ChartPreset = {
 	default: true,
@@ -24,7 +31,6 @@ const defaultChartName = 'New Album Chart'
 const baseOptionsDefault = {
 	displayNumberRank: true,
 	displayTitles: false,
-	displayPlaycount: false,
 	background: '#303030',
 	textColor: '#FFFFFF',
 	fontSize: 16,
@@ -35,14 +41,25 @@ const baseOptionsDefault = {
 	textShadow: '0px 0px 0px #FFFFFF',
 	constrainTitles: false,
 	constrainTitlesCentered: false,
+	mediaType: 'album',
 } satisfies Partial<ChartOptions>
 
 export function GenerateDefaultChart(title?: string): ChartState {
-	const albumArray = [] as AlbumTile[][]
+	const mediaArray = [] as AlbumSearchResult[][] | MovieAndTvSearchResult[][]
 	defaultChartSize.rowSizes.forEach((size, index) => {
-		albumArray.push([])
+		mediaArray.push([])
 		for (let x = 0; x < size; x++) {
-			albumArray[index].push(FillerAlbum)
+			switch (GlobalChartState.value.options.mediaType) {
+				case 'media':
+					// @ts-expect-error - the media type determines.
+					mediaArray[index].push(FillerAlbum)
+					break
+				case 'album':
+				default:
+					// @ts-expect-error - the media type determines.
+					mediaArray[index].push(FillerMedia)
+					break
+			}
 		}
 	})
 
@@ -53,7 +70,7 @@ export function GenerateDefaultChart(title?: string): ChartState {
 			chartTitle: title ? title : defaultChartName,
 			preset: undefined,
 		},
-		chartTiles: albumArray,
+		chartTiles: mediaArray,
 	}
 }
 
@@ -80,12 +97,22 @@ export function GeneratePresetChart(
 	title: string,
 	preset: ChartPreset,
 ): ChartState {
-	const albumArray: AlbumTile[][] = []
+	const mediaArray: AlbumSearchResult[][] | MovieAndTvSearchResult[][] = []
 
 	preset.rowSizes.forEach((size, index) => {
-		albumArray.push([])
+		mediaArray.push([])
 		for (let x = 0; x < size; x++) {
-			albumArray[index].push(FillerAlbum)
+			switch (GlobalChartState.value.options.mediaType) {
+				case 'media':
+					// @ts-expect-error - the media type determines.
+					mediaArray[index].push(FillerAlbum)
+					break
+				case 'album':
+				default:
+					// @ts-expect-error - the media type determines.
+					mediaArray[index].push(FillerMedia)
+					break
+			}
 		}
 	})
 
@@ -96,13 +123,13 @@ export function GeneratePresetChart(
 			chartTitle: title ? title : defaultChartName,
 			preset: true,
 		},
-		chartTiles: albumArray,
+		chartTiles: mediaArray,
 	}
 }
 
 export function GenerateChartWithValues(
 	title: string,
-	chartValues: AlbumTile[][],
+	chartValues: AlbumSearchResult[][] | MovieAndTvSearchResult[][],
 	preset?: ChartPreset,
 ): ChartState {
 	return {
@@ -128,4 +155,53 @@ export function GetHeightOfImages() {
 	const heightOfImages = firstImage?.getBoundingClientRect().height
 
 	return heightOfImages ?? 300
+}
+
+export function getAlbumNumber(indexOne: number, indexTwo: number): number {
+	if (!GlobalChartState) {
+		console.error(
+			'Error getting GlobalChartState in getAlbumNumber()',
+			GlobalChartState,
+		)
+		return 0
+	}
+	let returnValue = 0
+
+	for (let x = 0; x < indexOne; x++) {
+		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
+	}
+
+	return returnValue + 1 + indexTwo
+}
+
+export function getMediaNameWithNumber({
+	index1,
+	index2,
+	media,
+}: {
+	index1: number
+	index2: number
+	media: AlbumSearchResult | MovieAndTvSearchResult
+}): string | undefined {
+	const albumNumber = getAlbumNumber(index1, index2)
+
+	if ('title' in media) {
+		return media.title === 'Title' && media.year === '2019'
+			? undefined
+			: `${albumNumber}: ${media.title} (${media.year})`
+	}
+
+	return media.artist === 'Artist' && media.name === 'Album'
+		? undefined
+		: `${albumNumber}: ${media.artist} - ${media.name}`
+}
+
+export function getMediaNameWithoutNumber(
+	media: AlbumSearchResult | MovieAndTvSearchResult,
+) {
+	if ('artist' in media) {
+		return `${media.artist} - ${media.name}`
+	}
+
+	return `${media.title} (${media.year})`
 }

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
 
@@ -16,7 +16,7 @@ export default defineConfig({
 		},
 	},
 
-	plugins: [vue(), UnoCSS()],
+	plugins: [Vue(), UnoCSS()],
 	resolve: {
 		alias: {
 			'#root': resolve(__dirname),
@@ -27,6 +27,7 @@ export default defineConfig({
 			'#utils': resolve(__dirname, './src/utils'),
 			'#lastfm': resolve(__dirname, './src/lastfm'),
 			'#stores': resolve(__dirname, './src/stores'),
+			'#tmdb': resolve(__dirname, './src/tmdb'),
 		},
 	},
 })

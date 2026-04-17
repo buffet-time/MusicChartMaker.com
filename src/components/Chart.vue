@@ -7,7 +7,7 @@ import { setStoredChart } from '#utils/storage'
 
 import ChartTitles from './ChartComponents/ChartTitles.vue'
 import ChartImages from './ChartComponents/ChartImages.vue'
-import Search from './SidebarComponents/Search.vue'
+import Search from './SidebarComponents/SearchComponents/Search.vue'
 
 const chartImagesRef =
 	useTemplateRef<InstanceType<typeof ChartImages>>('chartImagesRef')

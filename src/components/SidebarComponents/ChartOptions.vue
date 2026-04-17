@@ -43,7 +43,6 @@ function resetOptionsToDefault() {
 		preset: GlobalChartState.value.options.preset,
 		displayNumberRank: defaultChartOptions.displayNumberRank,
 		displayTitles: defaultChartOptions.displayTitles,
-		displayPlaycount: defaultChartOptions.displayPlaycount,
 		background: defaultChartOptions.background,
 		textColor: defaultChartOptions.textColor,
 		textShadow: defaultChartOptions.textShadow,

@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { GlobalChartState } from '#utils/globals'
-import {
-	delay,
-	getAlbumNumber,
-	GrayBoxImgForPlaceholder,
-	isMobile,
-} from '#utils/misc'
+import { delay, GrayBoxImgForPlaceholder, isMobile } from '#utils/misc'
 import { onMounted, ref, nextTick, watch } from 'vue'
-import { GetHeightOfImages } from '#utils/chart'
+import { getAlbumNumber, GetHeightOfImages } from '#utils/chart'
 import { useDebounceFn } from '@vueuse/core'
 
 const props = defineProps<{
@@ -16,16 +11,24 @@ const props = defineProps<{
 
 const chartTitlesRef = ref<HTMLDivElement>()
 
-function albumArtistEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value.chartTiles[index][index2].artist = (
-		event.target as HTMLSpanElement
-	).innerText
+function mediaFirstTextEdited(event: Event, index: number, index2: number) {
+	const tileEdited = GlobalChartState.value.chartTiles[index][index2]
+
+	if ('artist' in tileEdited) {
+		tileEdited.artist = (event.target as HTMLSpanElement).innerText
+	} else {
+		tileEdited.title = (event.target as HTMLSpanElement).innerText
+	}
 }
 
-function albumNameEdited(event: Event, index: number, index2: number) {
-	GlobalChartState.value.chartTiles[index][index2].name = (
-		event.target as HTMLSpanElement
-	).innerText
+function mediaSecondTextEdited(event: Event, index: number, index2: number) {
+	const tileEdited = GlobalChartState.value.chartTiles[index][index2]
+
+	if ('artist' in tileEdited) {
+		tileEdited.name = (event.target as HTMLSpanElement).innerText
+	} else {
+		tileEdited.year = (event.target as HTMLSpanElement).innerText
+	}
 }
 
 const debouncedGetFontSize = useDebounceFn(async () => {
@@ -133,7 +136,7 @@ function isOverflowing() {
 		}"
 	>
 		<div
-			v-for="(albumRow, index) in GlobalChartState.chartTiles"
+			v-for="(mediaRow, index) in GlobalChartState.chartTiles"
 			:key="index"
 			:id="index === 0 ? 'chartTitlesRow' : undefined"
 			class="flex flex-col"
@@ -151,9 +154,12 @@ function isOverflowing() {
 					: undefined,
 			}"
 		>
-			<template v-for="(album, index2) in albumRow" :key="`${index}-${index2}`">
+			<template
+				v-for="(mediaTile, index2) in mediaRow"
+				:key="`${index}-${index2}`"
+			>
 				<p
-					v-if="album.image !== GrayBoxImgForPlaceholder"
+					v-if="mediaTile.image !== GrayBoxImgForPlaceholder"
 					class="overflow-x-clip text-ellipsis pointer-events-none whitespace-nowrap"
 					:style="{
 						color: GlobalChartState.options.textColor,
@@ -173,9 +179,9 @@ function isOverflowing() {
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"
-						@blur="(event) => albumArtistEdited(event, index, index2)"
+						@blur="(event) => mediaFirstTextEdited(event, index, index2)"
 					>
-						{{ album.artist }}
+						{{ 'artist' in mediaTile ? mediaTile.artist : mediaTile.title }}
 					</span>
 					-
 					<span
@@ -186,15 +192,15 @@ function isOverflowing() {
 						class="pointer-events-auto"
 						@dragover.prevent="() => false"
 						@drop.prevent="() => false"
-						@blur="(event) => albumNameEdited(event, index, index2)"
+						@blur="(event) => mediaSecondTextEdited(event, index, index2)"
 					>
-						{{ album.name }}
+						{{ 'artist' in mediaTile ? mediaTile.name : mediaTile.year }}
 					</span>
 				</p>
 				<template
 					v-if="
 						index === GlobalChartState.chartTiles.length - 1 &&
-						index2 === albumRow.length - 1
+						index2 === mediaRow.length - 1
 					"
 				>
 					<!-- To prevent erroneous edits to the bottom album/ artist -->

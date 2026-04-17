@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
+import type { DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { DragSetData, RearrangeChart, onTouchStart } from '#utils/drag'
 import {
 	FillerAlbum,
 	GrayBoxImgForPlaceholder,
 	GrayBoxImgFromApi,
-	getAlbumNumber,
 } from '#utils/misc'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
-import { idForFirstImage } from '#utils/chart'
+import {
+	getMediaNameWithNumber,
+	getMediaNameWithoutNumber,
+	idForFirstImage,
+} from '#utils/chart'
 
 const dialogId = 'DragLongHoldId'
 let selectedAlbumIndices: IndicesObject
@@ -55,13 +58,13 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
 	}
 
-	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
+	const mediaDraggedIn = JSON.parse(data) as DragDataTransfer
 
-	if (albumDraggedIn.dragSource === 'Chart') {
+	if (mediaDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
 		return RearrangeChart(
 			{ index1, index2 },
-			albumDraggedIn.originatingIndices,
+			mediaDraggedIn.originatingIndices,
 			GlobalChartState.value.chartTiles[index1][index2].image ===
 				GrayBoxImgForPlaceholder,
 		)
@@ -70,16 +73,29 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	// from search replace current dropped
 	const currentElement = dragEvent.currentTarget as HTMLImageElement
 
+	const mediaObject = mediaDraggedIn?.albumObject
+		? mediaDraggedIn.albumObject
+		: mediaDraggedIn.mediaObject!
+
 	GlobalChartState.value.chartTiles[index1].splice(
 		index2,
 		1,
-		albumDraggedIn.albumObject,
+		// @ts-expect-error - it is only one or the other.
+		mediaDraggedIn.albumObject
+			? mediaDraggedIn.albumObject
+			: mediaDraggedIn.mediaObject,
 	)
-	currentElement.src = albumDraggedIn.albumObject.image
-	currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
+	currentElement.src = mediaObject.image
+	currentElement.alt = getMediaNameWithoutNumber(mediaObject)
 }
 
-function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
+function onDragStart({
+	dragEvent,
+	indexes,
+}: {
+	dragEvent: DragEvent
+	indexes: IndicesObject
+}) {
 	if (!GlobalChartState) {
 		return console.error(
 			'Error getting GlobalChartState in onDragStart()',
@@ -88,11 +104,20 @@ function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 	}
 
 	DragSetData(dragEvent, {
-		albumObject: GlobalChartState.value.chartTiles[index1][index2],
+		// @ts-expect-error -this is fine.
+		albumObject:
+			GlobalChartState.value.options.mediaType === 'album'
+				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
+				: undefined,
+		// @ts-expect-error -this is fine.
+		mediaObject:
+			GlobalChartState.value.options.mediaType === 'media'
+				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
+				: undefined,
 		dragSource: 'Chart',
 		originatingIndices: {
-			index1: index1,
-			index2: index2,
+			index1: indexes.index1,
+			index2: indexes.index2,
 		},
 	})
 
@@ -110,16 +135,6 @@ function deleteCurrent(indices: IndicesObject) {
 		FillerAlbum,
 	)
 }
-
-function chartTitle(
-	index1: number,
-	index2: number,
-	album: AlbumTile,
-): string | undefined {
-	return album.artist === 'Artist' && album.name === 'Album'
-		? undefined
-		: `${getAlbumNumber(index1, index2)}: ${album.artist} - ${album.name}`
-}
 </script>
 
 <template>
@@ -136,7 +151,7 @@ function chartTitle(
 	>
 		<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
 		<div
-			v-for="(albumArray, index1) in GlobalChartState?.chartTiles"
+			v-for="(mediaTilesArray, index1) in GlobalChartState?.chartTiles"
 			:key="`img-${index1}`"
 			class="flex flex-row"
 			:style="{
@@ -144,17 +159,20 @@ function chartTitle(
 			}"
 		>
 			<div
-				v-for="(album, index2) in albumArray"
+				v-for="(mediaTile, index2) in mediaTilesArray"
 				:id="index1 === 0 && index2 === 0 ? idForFirstImage : undefined"
 				:key="`img-${index1}-${index2}`"
 				class="group"
 			>
 				<!-- Genuinely not sure where the extra 4px is coming from for these -->
-				<div v-if="album.image === GrayBoxImgForPlaceholder" class="mb-[-4px]">
+				<div
+					v-if="mediaTile.image === GrayBoxImgForPlaceholder"
+					class="mb-[-4px]"
+				>
 					<img
 						:firstIndex="index1"
 						:secondIndex="index2"
-						:src="`${album.image}`"
+						:src="`${mediaTile.image}`"
 						:alt="'placeholder square'"
 						loading="lazy"
 						draggable="false"
@@ -180,7 +198,7 @@ function chartTitle(
 					<template #content>
 						<div class="uno-album-image-div-wrapper">
 							<img
-								v-show="album && !GlobalChartState.options.lockChart"
+								v-show="mediaTile && !GlobalChartState.options.lockChart"
 								src="/blackClose.svg"
 								loading="lazy"
 								class="hidden absolute left-0 top-0 m-1 cursor-pointer group-hover:block group-hover:bg-white"
@@ -190,8 +208,8 @@ function chartTitle(
 							<img
 								:firstIndex="index1"
 								:secondIndex="index2"
-								:src="`${album.image}`"
-								:alt="`${album.artist} - ${album.name}`"
+								:src="`${mediaTile.image}`"
+								:alt="getMediaNameWithoutNumber(mediaTile)"
 								loading="lazy"
 								class="uno-chart-image-size select-none"
 								:class="{
@@ -200,7 +218,10 @@ function chartTitle(
 								:draggable="GlobalChartState.options.lockChart ? false : true"
 								@dragstart="
 									(dragEvent) =>
-										onDragStart(dragEvent, { index1: index1, index2: index2 })
+										onDragStart({
+											dragEvent,
+											indexes: { index1: index1, index2: index2 },
+										})
 								"
 								@dragover.prevent="
 									() => {
@@ -217,26 +238,28 @@ function chartTitle(
 								@touchstart.prevent="
 									(touchEvent) => {
 										if (GlobalChartState.options.lockChart) return
-										onTouchStart(
+										// TODO: check here!
+										onTouchStart({
 											touchEvent,
-											album,
-											'Chart',
-											{ index1, index2 },
+											album: 'artist' in mediaTile ? mediaTile : undefined,
+											media: 'year' in mediaTile ? mediaTile : undefined,
+											source: 'Chart',
+											originatingIndices: { index1, index2 },
 											openDialog,
-										)
+										})
 									}
 								"
 							/>
 							<div
-								v-if="album.image === GrayBoxImgFromApi"
+								v-if="mediaTile.image === GrayBoxImgFromApi"
 								class="uno-flex-center uno-album-image-text-overlay overflow-hidden text-ellipsis chartImages"
 							>
-								{{ album.artist }} - {{ album.name }}
+								{{ getMediaNameWithoutNumber(mediaTile) }}
 							</div>
 						</div>
 					</template>
 					<template #tooltip>
-						{{ chartTitle(index1, index2, album) }}
+						{{ getMediaNameWithNumber({ index1, index2, media: mediaTile }) }}
 					</template>
 				</Tooltip>
 			</div>

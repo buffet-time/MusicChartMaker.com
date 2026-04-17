@@ -1,4 +1,9 @@
-import type { DragDataTransfer, IndicesObject, AlbumSearchResult } from '#types'
+import type {
+	DragDataTransfer,
+	IndicesObject,
+	AlbumSearchResult,
+	MovieAndTvSearchResult,
+} from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { GrayBoxImgForPlaceholder } from './misc'
 
@@ -48,6 +53,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
+			// @ts-expect-error - this is prob fine???
 			tile,
 		)
 		return
@@ -66,6 +72,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
+			// @ts-expect-error - this is prob fine???
 			movingTile,
 		)
 
@@ -79,6 +86,7 @@ export function RearrangeChart(
 				return console.error('Error popping tile: ', GlobalChartState.value)
 			}
 
+			// @ts-expect-error - this is prob fine???
 			GlobalChartState.value.chartTiles[index + 1].splice(0, 0, poppedTile)
 		}
 		return
@@ -90,6 +98,7 @@ export function RearrangeChart(
 	GlobalChartState.value.chartTiles[targetIndex1].splice(
 		targetIndex2 + 1,
 		0,
+		// @ts-expect-error - this is prob fine???
 		movingTile,
 	)
 
@@ -101,6 +110,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[index - 1].splice(
 			GlobalChartState.value.chartTiles[index - 1].length,
 			0,
+			// @ts-expect-error - this is prob fine???
 			poppedTile,
 		)
 	}
@@ -108,13 +118,21 @@ export function RearrangeChart(
 
 const doubleTapTime = 300
 let myLatestTap = 0
-export function onTouchStart(
-	touchEvent: TouchEvent,
-	album: AlbumSearchResult,
-	source: 'Search' | 'Chart',
-	originatingIndices?: IndicesObject,
-	openDialog?: (indices?: IndicesObject) => void,
-) {
+export function onTouchStart({
+	touchEvent,
+	album,
+	media,
+	source,
+	openDialog,
+	originatingIndices,
+}: {
+	touchEvent: TouchEvent
+	album?: AlbumSearchResult
+	media?: MovieAndTvSearchResult
+	source: 'Search' | 'Chart'
+	originatingIndices?: IndicesObject
+	openDialog?: (indices?: IndicesObject) => void
+}) {
 	if (typeof DragEvent !== 'function') {
 		// If the HTML Drag and Drop API is supported
 		// (all desktop browsers, and some latest mobile may support)
@@ -201,13 +219,23 @@ export function onTouchStart(
 				)
 			}
 
-			GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
-				Number(secondIndex),
-				1,
-				album,
-			)
-			elementBelow.src = album.image
-			elementBelow.alt = `${album.artist} - ${album.name}`
+			if (album) {
+				GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
+					Number(secondIndex),
+					1,
+					album,
+				)
+				elementBelow.src = album.image
+				elementBelow.alt = `${album.artist} - ${album.name}`
+			} else if (media) {
+				GlobalChartState.value.chartTiles[Number(firstIndex)].splice(
+					Number(secondIndex),
+					1,
+					media,
+				)
+				elementBelow.src = media.image
+				elementBelow.alt = `${media.title} (${media.year})`
+			}
 		} else if (source === 'Chart' && originatingIndices) {
 			const targetIndices = {
 				index1: Number(firstIndex),

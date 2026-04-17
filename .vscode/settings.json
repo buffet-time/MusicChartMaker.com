@@ -18,16 +18,16 @@
 	},
 	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"[vue]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"[json]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"oxc.enable": true,
 	"cSpell.words": [
@@ -36,6 +36,7 @@
 		"musicchartmaker",
 		"musicchartsite",
 		"oxlint",
+		"tmdb",
 		"Topchart",
 		"Topsters",
 		"unocss"

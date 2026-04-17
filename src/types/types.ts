@@ -1,7 +1,8 @@
 import type { TopAlbumsResult } from '#lastfm/types'
 
 export interface DragDataTransfer {
-	albumObject: AlbumSearchResult
+	albumObject?: AlbumSearchResult
+	mediaObject?: MovieAndTvSearchResult
 	dragSource: 'Search' | 'Chart'
 	originatingIndices: IndicesObject
 }
@@ -11,14 +12,26 @@ export interface IndicesObject {
 	index2: number
 }
 
+export type SearchTypes = 'album' | 'media'
+
+export type SearchResults =
+	| { type: 'media'; results: MovieAndTvSearchResult[] }
+	| { type: 'album'; results: AlbumSearchResult[] }
+
+export type SearchResult =
+	| { type: 'media'; result: MovieAndTvSearchResult }
+	| { type: 'album'; result: AlbumSearchResult }
+
+export interface MovieAndTvSearchResult {
+	image: string
+	title: string
+	year: string
+}
+
 export interface AlbumSearchResult {
 	image: string
 	name: string
 	artist: string
-}
-
-export interface AlbumTile extends AlbumSearchResult {
-	timesPlayed?: string
 }
 
 export interface ChartPreset {
@@ -34,7 +47,6 @@ export interface ChartOptions {
 	chartTitle: string
 	displayTitles: boolean
 	displayNumberRank: boolean
-	displayPlaycount: boolean
 	background: string
 	textColor: string
 	font?: string
@@ -47,6 +59,7 @@ export interface ChartOptions {
 	textShadow?: string
 	constrainTitles?: boolean
 	constrainTitlesCentered?: boolean
+	mediaType?: SearchTypes
 }
 
 export type OrderOptions =
@@ -67,7 +80,7 @@ export interface SiteOptions {
 export interface ChartState {
 	options: ChartOptions
 	// I genuinely have no idea why I decided making this a matrix when it could have been single dimensional array :/
-	chartTiles: AlbumTile[][]
+	chartTiles: AlbumSearchResult[][] | MovieAndTvSearchResult[][]
 }
 
 export type LastfmPeriod =
@@ -88,5 +101,5 @@ export type JSONReturnType =
 	| JSONReturnType[]
 	| null
 	| AlbumSearchResult[]
-	| AlbumTile[]
+	| MovieAndTvSearchResult[]
 	| TopAlbumsResult[]

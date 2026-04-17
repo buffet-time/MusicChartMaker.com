@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue'
-import type { AlbumTile, ChartPreset, ChartState, ChartType } from '#types'
+import type {
+	AlbumSearchResult,
+	ChartPreset,
+	ChartState,
+	ChartType,
+} from '#types'
 import {
 	GenerateChartWithValues,
 	GenerateDefaultChart,
@@ -23,7 +28,7 @@ import Lastfm from './NewComponents/Lastfm.vue'
 interface NewChartParams {
 	type: ChartType
 	lastfm?: boolean
-	chartValues?: AlbumTile[][]
+	chartValues?: AlbumSearchResult[][]
 	preset?: ChartPreset
 }
 
@@ -115,13 +120,13 @@ onMounted(() => {
 				type="text"
 				class="uno-input"
 				title="Any name but can't just be a number."
-				pattern="(?!GlobalSiteOptions$).*"
+				pattern="^(?!(?:session|GlobalSiteOptions)?$|^\s+$).+"
 			/>
 			<p
 				v-if="chartNameInput === '' || !chartInput?.validity.valid"
 				class="pt-1"
 			>
-				The name must not be empty, session or {{ SiteOptionsKey }}
+				The name must not be empty, "session" or "{{ SiteOptionsKey }}"
 			</p>
 
 			<template v-else>
