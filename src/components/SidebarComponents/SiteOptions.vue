@@ -90,6 +90,16 @@ const selectedOrder = ref<OrderOptions>(
 					/>
 				</div>
 
+				<div class="uno-options-div">
+					<label for="hideToolTips">Allow Adult search results</label>
+					<input
+						id="allowAdultSearch"
+						v-model="GlobalSiteOptions.allowAdultSearch"
+						type="checkbox"
+						class="uno-checkbox cursor-pointer"
+					/>
+				</div>
+
 				<DevTools />
 			</div>
 		</div>

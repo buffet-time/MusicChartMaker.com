@@ -23,6 +23,7 @@ const searchRequestMinimum = 1
 const topAlbumRequestMax = 100
 const topAlbumRequestMinimum = 1
 
+// ADD toggle for adult results
 export async function searchAlbum(limit: number, album: string) {
 	try {
 		let requestLimit = searchRequestMinimum

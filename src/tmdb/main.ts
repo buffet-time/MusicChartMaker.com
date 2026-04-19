@@ -1,10 +1,10 @@
 import type { MovieAndTvSearchResult } from '../types/types'
+import { GlobalSiteOptions } from '../utils/globals'
 import { ProperFetch } from '../utils/misc'
 import type { SearchMovieReturnType, SearchTVReturnType } from './types'
 
 interface MovieAndTvSearch {
 	term: string
-	adult?: boolean
 	year?: number
 }
 
@@ -17,16 +17,20 @@ const TV_URL = API_BASE_URL + TV_SUB_DIR
 
 export async function searchMovie({
 	term,
-	adult,
 	year,
 }: MovieAndTvSearch): Promise<MovieAndTvSearchResult[]> {
 	let requestUrl = MOVIE_URL + `?term=${term}`
 
-	requestUrl += adult ? '&adult=true' : '&adult=false'
+	// TODO: seems like this is not working!
+	requestUrl += GlobalSiteOptions.value.allowAdultSearch
+		? '&adult=true'
+		: '&adult=false'
 
 	if (year) {
 		requestUrl += `&year=${year}`
 	}
+
+	console.log(67, requestUrl)
 
 	const returnResults = (await ProperFetch(
 		requestUrl,
@@ -43,12 +47,14 @@ export async function searchMovie({
 
 export async function searchTV({
 	term,
-	adult,
 	year,
 }: MovieAndTvSearch): Promise<MovieAndTvSearchResult[]> {
 	let requestUrl = TV_URL + `?term=${term}`
 
-	requestUrl += adult ? '&adult=true' : '&adult=false'
+	// TODO: seems like this is not working!
+	requestUrl += GlobalSiteOptions.value.allowAdultSearch
+		? '&adult=true'
+		: '&adult=false'
 
 	if (year) {
 		requestUrl += `&year=${year}`

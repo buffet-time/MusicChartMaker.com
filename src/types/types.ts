@@ -75,6 +75,7 @@ export interface SiteOptions {
 	presets?: ChartPreset[]
 	hideTooltip?: boolean
 	chartTitleSortingMethod?: OrderOptions
+	allowAdultSearch?: boolean
 }
 
 export interface ChartState {
