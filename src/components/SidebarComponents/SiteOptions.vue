@@ -6,6 +6,7 @@ import type { OrderOptions } from '#types'
 import DevTools from './SiteOptionsComponents/DevTools.vue'
 import BackButton from '../CoreComponents/BackButton.vue'
 import SidebarButton from '../CoreComponents/SidebarButton.vue'
+import Tooltip from '#core/Tooltip.vue'
 
 const showChartOptions = ref(false)
 const sectionName = 'Site Options'
@@ -91,13 +92,26 @@ const selectedOrder = ref<OrderOptions>(
 				</div>
 
 				<div class="uno-options-div">
-					<label for="hideToolTips">Allow Adult search results</label>
-					<input
-						id="allowAdultSearch"
-						v-model="GlobalSiteOptions.allowAdultSearch"
-						type="checkbox"
-						class="uno-checkbox cursor-pointer"
-					/>
+					<Tooltip
+						:tooltip-name="`discord-logo`"
+						:offset="[0, 0]"
+						:delay="250"
+						:placement="'bottom'"
+					>
+						<template #content>
+							<label for="hideToolTips">Allow Adult search results</label>
+							<input
+								id="allowAdultSearch"
+								v-model="GlobalSiteOptions.allowAdultSearch"
+								type="checkbox"
+								class="uno-checkbox cursor-pointer"
+							/>
+						</template>
+						<template #tooltip>
+							Only applies to TV and Movie searches, Last.fm doesn't support
+							adult filtering yet.
+						</template>
+					</Tooltip>
 				</div>
 
 				<DevTools />

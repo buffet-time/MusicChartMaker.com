@@ -5,7 +5,9 @@ import type {
 	MovieAndTvSearchResult,
 } from '#types'
 import { GlobalChartState } from '#utils/globals'
-import { GrayBoxImgForPlaceholder } from './misc'
+import { GrayBoxImgForPlaceholderForMusic } from './misc'
+
+export const dragDialogId = 'DragLongHoldId'
 
 export function DragSetData(
 	dragEvent: DragEvent,
@@ -247,7 +249,7 @@ export function onTouchStart({
 				originatingIndices,
 				GlobalChartState.value.chartTiles[targetIndices.index1][
 					targetIndices.index2
-				].image === GrayBoxImgForPlaceholder,
+				].image === GrayBoxImgForPlaceholderForMusic,
 			)
 		}
 	}

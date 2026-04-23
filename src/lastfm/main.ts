@@ -1,5 +1,5 @@
 import type { AlbumResults, AlbumReturn, TopAlbumsResult } from '#lastfm/types'
-import { GrayBoxImgFromApi, ProperFetch } from '#utils/misc'
+import { GrayBoxImgFromApiForMusic, ProperFetch } from '#utils/misc'
 
 type LastfmPeriod =
 	| 'overall'
@@ -43,7 +43,7 @@ export async function searchAlbum(limit: number, album: string) {
 			return {
 				image: album.image[3]['#text']
 					? album.image[3]['#text']
-					: GrayBoxImgFromApi,
+					: GrayBoxImgFromApiForMusic,
 				artist: album.artist ? album.artist : 'Placeholder Artist',
 				name: album.name ? album.name : 'Placeholder Album',
 			}
@@ -81,7 +81,7 @@ export async function getTopAlbums(
 			return {
 				image: album.image[album.image.length - 1]['#text']
 					? album.image[album.image.length - 1]['#text']
-					: GrayBoxImgFromApi,
+					: GrayBoxImgFromApiForMusic,
 				name: album.name,
 				artist: album.artist.name,
 			} as AlbumReturn

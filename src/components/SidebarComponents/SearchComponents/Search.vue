@@ -9,8 +9,9 @@ import type {
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { DragSetData, onTouchStart } from '#utils/drag'
 import {
-	GrayBoxImgFromApi,
-	GrayBoxImgForPlaceholder,
+	GrayBoxImgFromApiForMusic,
+	GrayBoxImgForPlaceholderForMusic,
+	GrayBoxImgFromApiForMedia,
 	IsImage,
 } from '#utils/misc'
 
@@ -65,7 +66,7 @@ function handleClick(result: SearchResult) {
 		) {
 			if (
 				GlobalChartState.value.chartTiles[rowIndex][elementIndex].image ===
-				GrayBoxImgForPlaceholder
+				GrayBoxImgForPlaceholderForMusic
 			) {
 				switch (result.type) {
 					case 'album':
@@ -179,35 +180,38 @@ async function searchMovies(searchString: string) {
 	}
 }
 
-async function searchTv(searchString: string) {
-	await searchTV({ term: searchString })
-	// showSearchResults.value = false
-	// if (searchString === '') {
-	// 	return
-	// }
+async function searchTvShows(searchString: string) {
+	showSearchResults.value = false
+	if (searchString === '') {
+		return
+	}
 
-	// if (previousSearch === searchString) {
-	// 	showSearchResults.value = true
-	// 	return
-	// }
+	if (previousSearch === searchString) {
+		showSearchResults.value = true
+		return
+	}
 
-	// previousSearch = searchString
+	previousSearch = searchString
 
-	// if (await IsImage(searchString)) {
-	// 	searchResults.value = [
-	// 		{ artist: 'Artist Name', name: 'Album Name', image: searchString },
-	// 	]
-	// 	showSearchResults.value = true
-	// 	return
-	// }
+	if (await IsImage(searchString)) {
+		searchResults.value = {
+			type: 'media',
+			results: [{ title: 'TV/ Movie Name', year: '2019', image: searchString }],
+		}
+		showSearchResults.value = true
+		return
+	}
 
-	// const albumSearchResults = (await searchMovie(searchString)) ?? []
+	const movieSearchResults = (await searchTV({ term: searchString })) ?? []
 
-	// searchResults.value = albumSearchResults
+	searchResults.value = {
+		type: 'media',
+		results: movieSearchResults,
+	}
 
-	// if (!showSearchResults.value) {
-	// 	showSearchResults.value = true
-	// }
+	if (!showSearchResults.value) {
+		showSearchResults.value = true
+	}
 }
 </script>
 
@@ -247,7 +251,11 @@ async function searchTv(searchString: string) {
 
 		<template v-if="activeTab === 'TV'">
 			<SearchProviderAttribution search-provider="tmdb" />
-			tv!!!!
+			<SearchInput
+				:show-search-results="showSearchResults"
+				@search="(value) => searchTvShows(value)"
+				@update-show-search-results="(value) => (showSearchResults = value)"
+			/>
 		</template>
 
 		<div
@@ -280,12 +288,18 @@ async function searchTv(searchString: string) {
 				placement="top-start"
 			>
 				<template #content>
-					<div class="uno-album-image-div-wrapper">
+					<div class="uno-album-image-div-wrapper items-center">
 						<img
 							width="100"
+							:height="'artist' in result ? 100 : 150"
 							class="cursor-grab"
 							:src="`${result.image}`"
 							:alt="getMediaNameWithoutNumber(result)"
+							@error="
+								(event) =>
+									((event.target as HTMLImageElement).src =
+										`/placeholders/${'artist' in result ? GrayBoxImgFromApiForMusic : GrayBoxImgFromApiForMedia}`)
+							"
 							loading="lazy"
 							draggable="true"
 							@click="
@@ -328,7 +342,9 @@ async function searchTv(searchString: string) {
 						/>
 
 						<div
-							v-if="result.image === GrayBoxImgFromApi"
+							v-if="
+								result.image.split('.').find((current) => current === 'jpg')
+							"
 							class="uno-album-image-text-overlay w-full overflow-clip text-ellipsis"
 						>
 							<template v-if="searchResults?.type === 'album'">

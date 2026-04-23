@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { GlobalChartState } from '#utils/globals'
-import { delay, GrayBoxImgForPlaceholder, isMobile } from '#utils/misc'
+import { delay, GrayBoxImgForPlaceholderForMusic, isMobile } from '#utils/misc'
 import { onMounted, ref, nextTick, watch } from 'vue'
 import { getAlbumNumber, GetHeightOfImages } from '#utils/chart'
 import { useDebounceFn } from '@vueuse/core'
@@ -159,7 +159,7 @@ function isOverflowing() {
 				:key="`${index}-${index2}`"
 			>
 				<p
-					v-if="mediaTile.image !== GrayBoxImgForPlaceholder"
+					v-if="mediaTile.image !== GrayBoxImgForPlaceholderForMusic"
 					class="overflow-x-clip text-ellipsis pointer-events-none whitespace-nowrap"
 					:style="{
 						color: GlobalChartState.options.textColor,
@@ -171,31 +171,59 @@ function isOverflowing() {
 					<template v-if="GlobalChartState.options.displayNumberRank">
 						{{ getAlbumNumber(index, index2) }})
 					</template>
-					<span
-						role="textbox"
-						:contenteditable="
-							GlobalChartState.options.lockChart ? undefined : true
-						"
-						class="pointer-events-auto"
-						@dragover.prevent="() => false"
-						@drop.prevent="() => false"
-						@blur="(event) => mediaFirstTextEdited(event, index, index2)"
-					>
-						{{ 'artist' in mediaTile ? mediaTile.artist : mediaTile.title }}
-					</span>
-					-
-					<span
-						role="textbox"
-						:contenteditable="
-							GlobalChartState.options.lockChart ? undefined : true
-						"
-						class="pointer-events-auto"
-						@dragover.prevent="() => false"
-						@drop.prevent="() => false"
-						@blur="(event) => mediaSecondTextEdited(event, index, index2)"
-					>
-						{{ 'artist' in mediaTile ? mediaTile.name : mediaTile.year }}
-					</span>
+					<template v-if="'artist' in mediaTile">
+						<span
+							role="textbox"
+							:contenteditable="
+								GlobalChartState.options.lockChart ? undefined : true
+							"
+							class="pointer-events-auto"
+							@dragover.prevent="() => false"
+							@drop.prevent="() => false"
+							@blur="(event) => mediaFirstTextEdited(event, index, index2)"
+						>
+							{{ mediaTile.artist }}
+						</span>
+						-
+						<span
+							role="textbox"
+							:contenteditable="
+								GlobalChartState.options.lockChart ? undefined : true
+							"
+							class="pointer-events-auto"
+							@dragover.prevent="() => false"
+							@drop.prevent="() => false"
+							@blur="(event) => mediaSecondTextEdited(event, index, index2)"
+						>
+							{{ mediaTile.name }}
+						</span>
+					</template>
+					<template v-else>
+						<span
+							role="textbox"
+							:contenteditable="
+								GlobalChartState.options.lockChart ? undefined : true
+							"
+							class="pointer-events-auto"
+							@dragover.prevent="() => false"
+							@drop.prevent="() => false"
+							@blur="(event) => mediaFirstTextEdited(event, index, index2)"
+						>
+							{{ mediaTile.title }}
+						</span>
+						<span
+							role="textbox"
+							:contenteditable="
+								GlobalChartState.options.lockChart ? undefined : true
+							"
+							class="pointer-events-auto"
+							@dragover.prevent="() => false"
+							@drop.prevent="() => false"
+							@blur="(event) => mediaSecondTextEdited(event, index, index2)"
+						>
+							({{ mediaTile.year }})
+						</span>
+					</template>
 				</p>
 				<template
 					v-if="

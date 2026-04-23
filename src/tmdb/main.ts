@@ -30,8 +30,6 @@ export async function searchMovie({
 		requestUrl += `&year=${year}`
 	}
 
-	console.log(67, requestUrl)
-
 	const returnResults = (await ProperFetch(
 		requestUrl,
 	)) as unknown as SearchMovieReturnType[]

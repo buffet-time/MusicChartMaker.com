@@ -1,7 +1,7 @@
 import type { AlbumSearchResult } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { FillerAlbum } from '#utils/misc'
-import { GrayBoxImgForPlaceholder } from '#utils/misc'
+import { GrayBoxImgForPlaceholderForMusic } from '#utils/misc'
 import { watch } from 'vue'
 
 const tempChartTileUnderflowArray = [] as AlbumSearchResult[]
@@ -74,7 +74,7 @@ function getOneDimensionalArrayFromChartState() {
 
 	for (const outerArray of GlobalChartState.value.chartTiles) {
 		for (const givenTile of outerArray) {
-			if (givenTile.image !== GrayBoxImgForPlaceholder) {
+			if (givenTile.image !== GrayBoxImgForPlaceholderForMusic) {
 				tempArray.push(givenTile)
 			}
 		}
@@ -87,7 +87,7 @@ function containsNonPlaceholder(array: AlbumSearchResult[]) {
 	// Regular for loop is fine eslint.
 	// eslint-disable-next-line @typescript-eslint/prefer-for-of
 	for (let index = 0; index < array.length; index++) {
-		if (array[index].image !== GrayBoxImgForPlaceholder) {
+		if (array[index].image !== GrayBoxImgForPlaceholderForMusic) {
 			return true
 		}
 	}
