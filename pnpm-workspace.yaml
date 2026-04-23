@@ -1,0 +1,12 @@
+
+
+minimumReleaseAge: 2880
+
+minimumReleaseAgeExclude:
+# - webpack
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - 'chokidar@4.0.3'
+
+blockExoticSubdeps: true

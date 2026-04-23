@@ -12,7 +12,7 @@ import {
 } from '#utils/chart'
 
 import { setCurrentChart, setStoredChart } from '#utils/storage'
-import type { AlbumTile } from '#types'
+import type { AlbumSearchResult } from '#types'
 import { ToasterStore } from '#stores/toaster'
 
 const toasterStore = ToasterStore()
@@ -147,7 +147,7 @@ export function importFromTopsters2(event: Event) {
 
 				decodedTopsters2CardsArray.splice(Number(decodedTopsters2.size))
 
-				const newAlbumTileArray: AlbumTile[][] = []
+				const newAlbumTileArray: AlbumSearchResult[][] = []
 				let usedRowSizes: number[] = []
 
 				const chartSize = Number(decodedTopsters2.size)
@@ -272,7 +272,7 @@ function topsters2CardsArrayToAlbumTileArrayArray({
 	decodedTopsters2CardsArray,
 }: {
 	rowSizes: number[]
-	newAlbumTileArray: AlbumTile[][]
+	newAlbumTileArray: AlbumSearchResult[][]
 	decodedTopsters2CardsArray: Topsters2ChartArray
 }) {
 	for (const rowSize of rowSizes) {

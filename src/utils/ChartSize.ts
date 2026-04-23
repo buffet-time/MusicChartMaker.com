@@ -1,10 +1,10 @@
-import type { AlbumTile } from '#types'
+import type { AlbumSearchResult } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { FillerAlbum } from '#utils/misc'
-import { GrayBoxImgForPlaceholder } from '#utils/misc'
+import { GrayBoxImgForPlaceholderForMusic } from '#utils/misc'
 import { watch } from 'vue'
 
-const tempChartTileUnderflowArray = [] as AlbumTile[]
+const tempChartTileUnderflowArray = [] as AlbumSearchResult[]
 
 watch(GlobalChartState, () => {
 	tempChartTileUnderflowArray.length = 0
@@ -70,11 +70,11 @@ function addRow(difference: number) {
 // =====
 // Shared between row and column removal.
 function getOneDimensionalArrayFromChartState() {
-	const tempArray: AlbumTile[] = []
+	const tempArray: AlbumSearchResult[] = []
 
 	for (const outerArray of GlobalChartState.value.chartTiles) {
 		for (const givenTile of outerArray) {
-			if (givenTile.image !== GrayBoxImgForPlaceholder) {
+			if (givenTile.image !== GrayBoxImgForPlaceholderForMusic) {
 				tempArray.push(givenTile)
 			}
 		}
@@ -83,11 +83,11 @@ function getOneDimensionalArrayFromChartState() {
 	return tempArray
 }
 
-function containsNonPlaceholder(array: AlbumTile[]) {
+function containsNonPlaceholder(array: AlbumSearchResult[]) {
 	// Regular for loop is fine eslint.
 	// eslint-disable-next-line @typescript-eslint/prefer-for-of
 	for (let index = 0; index < array.length; index++) {
-		if (array[index].image !== GrayBoxImgForPlaceholder) {
+		if (array[index].image !== GrayBoxImgForPlaceholderForMusic) {
 			return true
 		}
 	}
@@ -100,7 +100,7 @@ function createNewMatrix(
 ) {
 	const oneDimensionalArray = getOneDimensionalArrayFromChartState()
 
-	const newAlbumTilesMatrix: AlbumTile[][] = []
+	const newAlbumTilesMatrix: AlbumSearchResult[][] = []
 
 	for (let outerIndex = 0; outerIndex < rowsAfterRemoval; outerIndex++) {
 		// create an empty array for the given row to add elements into
@@ -161,7 +161,7 @@ function removeColumn(nonAbsoluteDifference: number) {
 }
 
 function checkToSeeIfTheColumnsCanBeTriviallyRemoved(difference: number) {
-	const tempArray: AlbumTile[] = []
+	const tempArray: AlbumSearchResult[] = []
 
 	for (const tileArray of GlobalChartState.value.chartTiles) {
 		tileArray

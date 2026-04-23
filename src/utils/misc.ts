@@ -1,18 +1,30 @@
-import type { AlbumTile, JSONReturnType, SiteOptions } from '#types'
-import { GlobalChartState } from '#utils/globals'
+import type {
+	AlbumSearchResult,
+	JSONReturnType,
+	MovieAndTvSearchResult,
+	SiteOptions,
+} from '#types'
 import { top42, top100 } from '#utils/chart'
 
-// These are seperate to trivialize knowing whether its a placeholder box or just no image.
-const grayBoxFile = 'grayBox.jp'
-// for usage as the placeholder boxes
-export const GrayBoxImgForPlaceholder = `${grayBoxFile}g`
-// Comes back from the API
-export const GrayBoxImgFromApi = `${grayBoxFile}eg`
+// These are separate to trivialize knowing whether its a placeholder box or just no image.
+const grayBoxFileBase = 'grayBox'
+const grayBox2to3 = `${grayBoxFileBase}-200300`
+const grayBox1to1 = `${grayBoxFileBase}-300300`
+export const GrayBoxImgForPlaceholderForMusic = `${grayBox1to1}.jpg`
+export const GrayBoxImgFromApiForMusic = `${grayBox1to1}.jpeg`
+export const GrayBoxImgForPlaceholderForMedia = `${grayBox2to3}.jpeg`
+export const GrayBoxImgFromApiForMedia = `${grayBox2to3}.jpg`
 
-export const FillerAlbum: AlbumTile = {
+export const FillerAlbum: AlbumSearchResult = {
+	image: GrayBoxImgForPlaceholderForMusic,
 	artist: 'Artist',
 	name: 'Album',
-	image: GrayBoxImgForPlaceholder,
+}
+
+export const FillerMedia: MovieAndTvSearchResult = {
+	image: GrayBoxImgForPlaceholderForMusic,
+	title: 'TV/ Movie Name',
+	year: '2019',
 }
 
 export function GenerateDefaultSiteOptions(): SiteOptions {
@@ -31,23 +43,6 @@ export function IsImage(url: string): Promise<boolean> {
 		image.onload = () => resolve(true)
 		image.src = url
 	})
-}
-
-export function getAlbumNumber(indexOne: number, indexTwo: number): number {
-	if (!GlobalChartState) {
-		console.error(
-			'Error getting GlobalChartState in getAlbumNumber()',
-			GlobalChartState,
-		)
-		return 0
-	}
-	let returnValue = 0
-
-	for (let x = 0; x < indexOne; x++) {
-		returnValue += GlobalChartState.value.options.chartSize.rowSizes[x]
-	}
-
-	return returnValue + 1 + indexTwo
 }
 
 // This is a wrapper around the Fetch() WebAPI to handle errors without any fuss

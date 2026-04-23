@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import { GlobalSiteOptions } from '#utils/globals'
-import type { AlbumTile, ChartPreset, ChartType, LastfmPeriod } from '#types'
+import type {
+	AlbumSearchResult,
+	ChartPreset,
+	ChartType,
+	LastfmPeriod,
+} from '#types'
 import { getTopAlbums } from '#lastfm/main'
 import BackButton from '#core/BackButton.vue'
 
@@ -26,7 +31,7 @@ const emit = defineEmits<{
 		val: {
 			type: ChartType
 			lastfm: boolean
-			chartValues: AlbumTile[][]
+			chartValues: AlbumSearchResult[][]
 			preset?: ChartPreset
 		},
 	]
@@ -38,6 +43,7 @@ const selectedChartType: Ref<ChartType> = ref('Dynamic')
 const rows = ref(3)
 const columns = ref(3)
 
+// TODO: Disallow LastFm creation in non music contexts!
 async function createChart({ type, lastfm, preset }: CreateChartParams) {
 	const response = await getTopAlbums(
 		selectedPeriod.value,
@@ -52,7 +58,7 @@ async function createChart({ type, lastfm, preset }: CreateChartParams) {
 		return
 	}
 
-	let returnArray: AlbumTile[][] = []
+	let returnArray: AlbumSearchResult[][] = []
 
 	if (preset) {
 		returnArray = preset.rowSizes.map((rowSize) => response.splice(0, rowSize))

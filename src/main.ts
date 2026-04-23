@@ -8,8 +8,7 @@ import 'virtual:uno.css'
 
 const app = createApp(App)
 const pinia = createPinia()
-app.use(pinia)
-app.mount('#app')
+app.use(pinia).mount('#app')
 addVersionMetaTag()
 
 function addVersionMetaTag() {
