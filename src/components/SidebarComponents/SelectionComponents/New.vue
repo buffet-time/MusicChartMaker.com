@@ -69,14 +69,14 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 		case 'Dynamic':
 			tempChart = lastfm
 				? GenerateChartWithValues(nameToSave, chartValues!)
-				: GenerateDefaultChart(nameToSave)
+				: GenerateDefaultChart({ title: nameToSave })
 
 			break
 
 		case 'Preset':
 			tempChart = lastfm
 				? GenerateChartWithValues(nameToSave, chartValues!, preset)
-				: GeneratePresetChart(nameToSave, preset!)
+				: GeneratePresetChart({ title: nameToSave, preset: preset! })
 			break
 
 		default:

@@ -11,7 +11,7 @@ const storedOptions = GetSiteOptions()
 const loadOptions = storedOptions ? storedOptions : GenerateDefaultSiteOptions()
 
 const storedChart = getStoredChart(loadOptions.currentChart)
-const loadChartState = storedChart ? storedChart : GenerateDefaultChart()
+const loadChartState = storedChart ? storedChart : GenerateDefaultChart({})
 
 export const GlobalSiteOptions: Ref<SiteOptions> = ref(loadOptions)
 export const GlobalChartState: Ref<ChartState> = ref(loadChartState)

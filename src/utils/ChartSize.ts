@@ -39,6 +39,7 @@ function addColumn(difference: number) {
 	GlobalChartState.value.chartTiles.forEach((row, index) => {
 		for (let x = 0; x < difference; x++) {
 			row.push(
+				// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 				tempChartTileUnderflowArray.length > 0
 					? // Non-Null because we check to see if there is an item in the array first
 						tempChartTileUnderflowArray.shift()!
@@ -61,6 +62,7 @@ function addRow(difference: number) {
 		)
 
 		GlobalChartState.value.options.chartSize.rowSizes.push(newRow.length)
+		// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 		GlobalChartState.value.chartTiles.push(newRow)
 	}
 }
@@ -75,6 +77,7 @@ function getOneDimensionalArrayFromChartState() {
 	for (const outerArray of GlobalChartState.value.chartTiles) {
 		for (const givenTile of outerArray) {
 			if (givenTile.image !== GrayBoxImgForPlaceholderForMusic) {
+				// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 				tempArray.push(givenTile)
 			}
 		}
@@ -166,6 +169,7 @@ function checkToSeeIfTheColumnsCanBeTriviallyRemoved(difference: number) {
 	for (const tileArray of GlobalChartState.value.chartTiles) {
 		tileArray
 			.slice(GlobalChartState.value.options.chartSize.rowSizes[0] - difference)
+			// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 			.forEach((value) => tempArray.push(value))
 	}
 
@@ -210,6 +214,7 @@ function checkToSeeIfTheRowsCanBeTriviallyRemoved(difference: number) {
 	for (let index = 0; index < difference; index++) {
 		if (
 			!containsNonPlaceholder(
+				// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 				GlobalChartState.value.chartTiles[
 					GlobalChartState.value.chartTiles.length - 1 - index
 				],

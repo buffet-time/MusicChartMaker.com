@@ -35,7 +35,7 @@ export function GenerateDefaultSiteOptions(): SiteOptions {
 	}
 }
 
-export function IsImage(url: string): Promise<boolean> {
+export async function IsImage(url: string): Promise<boolean> {
 	// returns a Promise that'll resolve to a boolean whether or not a url is an image
 	return new Promise((resolve) => {
 		const image = new Image()

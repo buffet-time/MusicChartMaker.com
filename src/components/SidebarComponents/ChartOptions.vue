@@ -33,7 +33,7 @@ function closeResetOptionModal() {
 }
 
 function resetOptionsToDefault() {
-	const defaultChartOptions = GenerateDefaultChart().options
+	const defaultChartOptions = GenerateDefaultChart({}).options
 	const defaultSearchResults =
 		GenerateDefaultSiteOptions().numberOfSearchResults
 

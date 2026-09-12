@@ -4,6 +4,7 @@ import type {
 	ChartOptions,
 	AlbumSearchResult,
 	MovieAndTvSearchResult,
+	SearchTypes,
 } from '#types'
 import { FillerAlbum, FillerMedia } from '#utils/misc'
 import { getAllSavedKeys } from '#utils/storage'
@@ -44,12 +45,21 @@ const baseOptionsDefault = {
 	mediaType: 'album',
 } satisfies Partial<ChartOptions>
 
-export function GenerateDefaultChart(title?: string): ChartState {
+interface GenerateDefaultChartParams {
+	title?: string
+	mediaType?: SearchTypes
+}
+
+export function GenerateDefaultChart({
+	title,
+	mediaType,
+}: GenerateDefaultChartParams): ChartState {
 	const mediaArray = [] as AlbumSearchResult[][] | MovieAndTvSearchResult[][]
+
 	defaultChartSize.rowSizes.forEach((size, index) => {
 		mediaArray.push([])
 		for (let x = 0; x < size; x++) {
-			switch (GlobalChartState.value.options.mediaType) {
+			switch (mediaType ?? 'album') {
 				case 'media':
 					// @ts-expect-error - the media type determines.
 					mediaArray[index].push(FillerAlbum)
@@ -93,16 +103,23 @@ export function PreventNameCollision(name: string): string {
 	return GetUnusedName(name)
 }
 
-export function GeneratePresetChart(
-	title: string,
-	preset: ChartPreset,
-): ChartState {
+interface GeneratePresetChartParams {
+	title: string
+	preset: ChartPreset
+	mediaType?: SearchTypes
+}
+
+export function GeneratePresetChart({
+	title,
+	preset,
+	mediaType,
+}: GeneratePresetChartParams): ChartState {
 	const mediaArray: AlbumSearchResult[][] | MovieAndTvSearchResult[][] = []
 
 	preset.rowSizes.forEach((size, index) => {
 		mediaArray.push([])
 		for (let x = 0; x < size; x++) {
-			switch (GlobalChartState.value.options.mediaType) {
+			switch (mediaType ?? 'album') {
 				case 'media':
 					// @ts-expect-error - the media type determines.
 					mediaArray[index].push(FillerAlbum)

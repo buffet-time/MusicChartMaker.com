@@ -1,6 +1,6 @@
 import type { MovieAndTvSearchResult } from '../types/types'
 import { GlobalSiteOptions } from '../utils/globals'
-import { ProperFetch } from '../utils/misc'
+import { GrayBoxImgFromApiForMedia, ProperFetch } from '../utils/misc'
 import type { SearchMovieReturnType, SearchTVReturnType } from './types'
 
 interface MovieAndTvSearch {
@@ -36,7 +36,7 @@ export async function searchMovie({
 
 	return returnResults.map((result) => {
 		return {
-			image: result.moviePosterUrl ?? '',
+			image: result.moviePosterUrl ?? GrayBoxImgFromApiForMedia,
 			title: result.title,
 			year: result.year?.toString() ?? '',
 		}
@@ -64,7 +64,7 @@ export async function searchTV({
 
 	return returnResults.map((result) => {
 		return {
-			image: result.tvPosterUrl ?? '',
+			image: result.tvPosterUrl ?? GrayBoxImgFromApiForMedia,
 			title: result.title,
 			year: result.year?.toString() ?? '',
 		}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch, nextTick } from 'vue'
 import type {
 	AlbumSearchResult,
 	MovieAndTvSearchResult,
@@ -10,8 +10,9 @@ import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { DragSetData, onTouchStart } from '#utils/drag'
 import {
 	GrayBoxImgFromApiForMusic,
-	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgFromApiForMedia,
+	GrayBoxImgForPlaceholderForMusic,
+	GrayBoxImgForPlaceholderForMedia,
 	IsImage,
 } from '#utils/misc'
 
@@ -21,18 +22,66 @@ import { searchAlbum } from '#lastfm/main'
 import { searchMovie, searchTV } from '#tmdb/main'
 import SearchProviderAttribution from './SearchProviderAttribution.vue'
 import { getMediaNameWithoutNumber } from '#root/src/utils/chart'
+import { watchDeep } from '@vueuse/core'
 
 let previousSearch = ''
 const searchResults = ref<SearchResults>()
 const showSearchResults = ref(false)
 const activeTab = ref<Tabs>('Music')
+const currentTabs = ref<Tabs[]>([])
 
 type Tabs = 'Music' | 'Movies' | 'TV'
-const tabs: Tabs[] = ['Music', 'Movies', 'TV']
+const allTabs: Tabs[] = ['Music', 'Movies', 'TV']
+const musicTabs: Tabs[] = ['Music']
+const mediaTabs: Tabs[] = ['Movies', 'TV']
+
+const PLACEHOLDERS = [
+	GrayBoxImgFromApiForMusic,
+	GrayBoxImgFromApiForMedia,
+	GrayBoxImgForPlaceholderForMusic,
+	GrayBoxImgForPlaceholderForMedia,
+]
 
 watch(activeTab, () => {
+	previousSearch = ''
 	showSearchResults.value = false
+	searchResults.value = undefined
 })
+
+watchDeep(
+	() => GlobalChartState.value.chartTiles,
+	() => setWhichTabsAreAvailable(),
+)
+
+onMounted(() => {
+	setWhichTabsAreAvailable()
+})
+
+function setWhichTabsAreAvailable() {
+	for (let x = 0; x < GlobalChartState.value.chartTiles.length; x++) {
+		for (let y = 0; y < GlobalChartState.value.chartTiles[x].length; y++) {
+			if (
+				!PLACEHOLDERS.includes(GlobalChartState.value.chartTiles[x][y].image)
+			) {
+				const mediaTypeIsMusic =
+					'artist' in GlobalChartState.value.chartTiles[x][y]
+
+				GlobalChartState.value.options.mediaType = mediaTypeIsMusic
+					? 'album'
+					: 'media'
+
+				currentTabs.value = mediaTypeIsMusic ? musicTabs : mediaTabs
+
+				activeTab.value = mediaTypeIsMusic ? 'Music' : 'Movies'
+
+				return
+			}
+		}
+	}
+
+	currentTabs.value = allTabs
+	activeTab.value = 'Music'
+}
 
 function onDragStart(dragEvent: DragEvent, search: SearchResult) {
 	DragSetData(dragEvent, {
@@ -82,13 +131,6 @@ function handleClick(result: SearchResult) {
 						break
 
 					case 'media':
-						//
-						//
-						//
-						//
-						//
-						//
-						// TODO DO STUFF HERE
 						GlobalChartState.value.options.mediaType = 'media'
 						GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
 							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
@@ -219,12 +261,12 @@ async function searchTvShows(searchString: string) {
 	<div class="flex-col h-full gap-4 mt-1">
 		<div class="flex w-full justify-between tab-container mb-1">
 			<a
-				v-for="tabName in tabs"
+				v-for="(tabName, index) in currentTabs"
+				:key="`${index}-${currentTabs.length}`"
 				role="button"
-				:id="tabName"
-				class="flex w-[] h-8 justify-center items-center bg-neutral-500 cursor-pointer"
+				class="flex h-8 justify-center items-center bg-neutral-500 cursor-pointer"
 				:class="{ 'tab-active': activeTab === tabName }"
-				:style="{ width: 100 / tabs.length + '%' }"
+				:style="{ width: 100 / currentTabs.length + '%' }"
 				@click="() => (activeTab = tabName)"
 			>
 				{{ tabName }}
@@ -343,7 +385,8 @@ async function searchTvShows(searchString: string) {
 
 						<div
 							v-if="
-								result.image.split('.').find((current) => current === 'jpg')
+								PLACEHOLDERS.includes(result.image) ||
+								result.image === undefined
 							"
 							class="uno-album-image-text-overlay w-full overflow-clip text-ellipsis"
 						>
@@ -353,7 +396,7 @@ async function searchTvShows(searchString: string) {
 							</template>
 
 							<template v-if="searchResults?.type === 'media'">
-								{{ (result as MovieAndTvSearchResult).title }} ({{
+								asdasdasd {{ (result as MovieAndTvSearchResult).title }} ({{
 									(result as MovieAndTvSearchResult).year
 								}})
 							</template>

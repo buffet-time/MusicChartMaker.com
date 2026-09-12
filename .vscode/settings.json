@@ -40,5 +40,6 @@
 		"Topchart",
 		"Topsters",
 		"unocss"
-	]
+	],
+	"js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

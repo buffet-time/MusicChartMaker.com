@@ -50,7 +50,7 @@ function deleteChart() {
 	if (firstChartReturn) {
 		chartToSet = firstChartReturn
 	} else {
-		chartToSet = GenerateDefaultChart()
+		chartToSet = GenerateDefaultChart({})
 		StoredChartNames.value.push(chartToSet.options.chartTitle)
 	}
 
