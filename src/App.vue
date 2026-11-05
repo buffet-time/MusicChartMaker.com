@@ -16,7 +16,7 @@ watchDebounced(
 	() => {
 		if (!GlobalSiteOptions.value) {
 			return console.error(
-				'Error getting GlobalChartState in watch(GlobalChartState)',
+				'Error getting GlobalSiteOptions in watch(GlobalSiteOptions)',
 				GlobalSiteOptions.value,
 			)
 		}

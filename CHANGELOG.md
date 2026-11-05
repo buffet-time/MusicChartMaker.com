@@ -2,25 +2,28 @@
 
 ## Future Version changes planned
 
-- Features/ Enhancements
+- Possible (see ?) and future Features/ Enhancements
   - Investigate having folder structure for selected charts.
-  - Add Import from Topsters 3 (topsters.org)
-  - Add Games charts
-  - Add books Charts
+  - Add Import from Topsters 3 (topsters.org)?
+  - Add Games charts?
+  - Add books Charts?
   - Define a strict browser support w/ Browserlist & make that available to end users.
   - Create a version of the popover that uses the new native component
   - Add user site level customizations
-  - Add Import from Topchart (topchart.amanharwara.com)
+  - Add Import from Topchart (topchart.amanharwara.com)?
 
 ---
 
-## Planned changes for the next version, subject to change
+## Version 2.0.0 - November 4th, 2026
 
-- Add movies/ TV charts
+- Features
+  - Added ability to make Movie and TV Charts
+- Dev
+  - Keeping things tidy
+  - New Node API written w/ Fastify, TypeScript, and Parcel to handle the usage of the TMDB API
+  - Some small tweaks around the edges of the repo for better devex
 
----
-
-## Version 1.5.2 - December 27, 2025
+## Version 1.5.2 - December 27th, 2025
 
 - Features/ Bug Fixes
   - New feature to toggle between Titles taking up space irrespective of the chart and following the constrains of the row.

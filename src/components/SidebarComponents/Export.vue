@@ -36,11 +36,11 @@ const sectionName = 'Import/ Export'
 
 			<Topsters2 />
 
-			<section class="my-2 flex flex-col gap-2">
+			<!-- <section class="my-2 flex flex-col gap-2">
 				<h1 class="text-xl m-0">From Topsters 3</h1>
 
 				<p class="m-0">Will be added in a future release!</p>
-				<!-- <label for="topsters2-file-picker" class="uno-button block">
+				<label for="topsters2-file-picker" class="uno-button block">
 				Import a Chart
 				<input
 					id="topsters2-file-picker"
@@ -50,14 +50,14 @@ const sectionName = 'Import/ Export'
 					class="hidden"
 					@input="importFromTopsters2"
 				/>
-			</label> -->
-			</section>
+			</label>
+			</section> -->
 
-			<section class="my-2 flex flex-col gap-2 m-0">
+			<!-- <section class="my-2 flex flex-col gap-2 m-0">
 				<h1 class="text-xl m-0">From Chartr or Topchart</h1>
 
-				<p class="m-0">Will be added in a future release!</p>
-				<!-- <label for="topsters2-file-picker" class="uno-button block">
+				<p class="m-0">Will be added in a future release!</p> -->
+			<!-- <label for="topsters2-file-picker" class="uno-button block">
 				Import a Chart
 				<input
 					id="topsters2-file-picker"
@@ -68,7 +68,7 @@ const sectionName = 'Import/ Export'
 					@input="importFromTopsters2"
 				/>
 			</label> -->
-			</section>
+			<!-- </section> -->
 		</div>
 	</div>
 </template>

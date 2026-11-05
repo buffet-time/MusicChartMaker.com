@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
 
-import Search from './SidebarComponents/Search.vue'
+import Search from './SidebarComponents/SearchComponents/Search.vue'
 import ChartOptions from './SidebarComponents/ChartOptions.vue'
 import SiteOptions from './SidebarComponents/SiteOptions.vue'
 import Selection from './SidebarComponents/Selection.vue'

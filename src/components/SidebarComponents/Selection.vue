@@ -47,7 +47,7 @@ onMounted(() => {
 		GlobalChartState.value = getStoredChart(storedLastChart)!
 	}
 	if (!storedLastChart || !GlobalChartState.value) {
-		const newDefaultChart = GenerateDefaultChart()
+		const newDefaultChart = GenerateDefaultChart({})
 		setStoredChart(newDefaultChart.options.chartTitle, newDefaultChart)
 		GlobalChartState.value = newDefaultChart
 	}

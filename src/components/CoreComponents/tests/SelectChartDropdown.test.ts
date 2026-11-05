@@ -15,8 +15,6 @@ describe('Back button should render without issue', () => {
 			},
 		})
 
-		screen.debug()
-
 		testArray.forEach((name) => {
 			expect(screen.getByText(name)).toBeTruthy()
 		})

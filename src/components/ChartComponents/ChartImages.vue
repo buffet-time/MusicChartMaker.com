@@ -1,51 +1,34 @@
 <script setup lang="ts">
-import type { AlbumTile, DragDataTransfer, IndicesObject } from '#types'
+import type { DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
-import { DragSetData, RearrangeChart, onTouchStart } from '#utils/drag'
+import { dragDialogId, RearrangeChart } from '#utils/drag'
 import {
 	FillerAlbum,
-	GrayBoxImgForPlaceholder,
-	GrayBoxImgFromApi,
-	getAlbumNumber,
+	GrayBoxImgForPlaceholderForMusic,
+	GrayBoxImgForPlaceholderForMedia,
 } from '#utils/misc'
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
-import { idForFirstImage } from '#utils/chart'
+import {
+	getMediaNameWithNumber,
+	getMediaNameWithoutNumber,
+	idForFirstImage,
+} from '#utils/chart'
+import ChartNonPlaceHolderImage from './ChartNonPlaceHolderImage.vue'
 
-const dialogId = 'DragLongHoldId'
+// oxlint-disable-next-line no-unassigned-vars
 let selectedAlbumIndices: IndicesObject
 
-function openDialog(indices?: IndicesObject) {
-	const dialog = document.getElementById(dialogId) as HTMLDialogElement
-	dialog.showModal()
-
-	if (!indices) {
-		return console.error('Error indices not defined in openDialog()')
-	}
-
-	selectedAlbumIndices = indices
-}
-
 function closeDialog() {
-	const dialog = document.getElementById(dialogId) as HTMLDialogElement
+	const dialog = document.getElementById(dragDialogId) as HTMLDialogElement
 	dialog.close()
 }
 
 function deleteSelectedAlbum() {
+	// @ts-expect-error - this is being defined in sub component
 	deleteCurrent(selectedAlbumIndices)
 	closeDialog()
-}
-
-function onDragOver(dragEvent: DragEvent) {
-	if (!dragEvent.dataTransfer) {
-		return console.error(
-			'Error dragEvent.dataTransfer not defined in onDragOver',
-			dragEvent,
-		)
-	}
-
-	dragEvent.dataTransfer.dropEffect = 'move'
 }
 
 function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
@@ -55,52 +38,35 @@ function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
 		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
 	}
 
-	const albumDraggedIn = JSON.parse(data) as DragDataTransfer
+	const mediaDraggedIn = JSON.parse(data) as DragDataTransfer
 
-	if (albumDraggedIn.dragSource === 'Chart') {
+	if (mediaDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
 		return RearrangeChart(
 			{ index1, index2 },
-			albumDraggedIn.originatingIndices,
+			mediaDraggedIn.originatingIndices,
 			GlobalChartState.value.chartTiles[index1][index2].image ===
-				GrayBoxImgForPlaceholder,
+				GrayBoxImgForPlaceholderForMusic,
 		)
 	}
 
 	// from search replace current dropped
 	const currentElement = dragEvent.currentTarget as HTMLImageElement
 
+	const mediaObject = mediaDraggedIn?.albumObject
+		? mediaDraggedIn.albumObject
+		: mediaDraggedIn.mediaObject!
+
 	GlobalChartState.value.chartTiles[index1].splice(
 		index2,
 		1,
-		albumDraggedIn.albumObject,
+		// @ts-expect-error - it is only one or the other.
+		mediaDraggedIn.albumObject
+			? mediaDraggedIn.albumObject
+			: mediaDraggedIn.mediaObject,
 	)
-	currentElement.src = albumDraggedIn.albumObject.image
-	currentElement.alt = `${albumDraggedIn.albumObject.artist} - ${albumDraggedIn.albumObject.name}`
-}
-
-function onDragStart(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
-	if (!GlobalChartState) {
-		return console.error(
-			'Error getting GlobalChartState in onDragStart()',
-			GlobalChartState,
-		)
-	}
-
-	DragSetData(dragEvent, {
-		albumObject: GlobalChartState.value.chartTiles[index1][index2],
-		dragSource: 'Chart',
-		originatingIndices: {
-			index1: index1,
-			index2: index2,
-		},
-	})
-
-	if (!dragEvent.dataTransfer) {
-		return console.error('Error dragEvent.dataTransfer not defined in onDrop()')
-	}
-
-	dragEvent.dataTransfer.dropEffect = 'copy'
+	currentElement.src = mediaObject.image
+	currentElement.alt = getMediaNameWithoutNumber(mediaObject)
 }
 
 function deleteCurrent(indices: IndicesObject) {
@@ -109,16 +75,6 @@ function deleteCurrent(indices: IndicesObject) {
 		1,
 		FillerAlbum,
 	)
-}
-
-function chartTitle(
-	index1: number,
-	index2: number,
-	album: AlbumTile,
-): string | undefined {
-	return album.artist === 'Artist' && album.name === 'Album'
-		? undefined
-		: `${getAlbumNumber(index1, index2)}: ${album.artist} - ${album.name}`
 }
 </script>
 
@@ -136,7 +92,7 @@ function chartTitle(
 	>
 		<!-- update the above to adjust to the gap size instead of hardcoded to 0.25rem (4px) -->
 		<div
-			v-for="(albumArray, index1) in GlobalChartState?.chartTiles"
+			v-for="(mediaTilesArray, index1) in GlobalChartState?.chartTiles"
 			:key="`img-${index1}`"
 			class="flex flex-row"
 			:style="{
@@ -144,17 +100,23 @@ function chartTitle(
 			}"
 		>
 			<div
-				v-for="(album, index2) in albumArray"
+				v-for="(mediaTile, index2) in mediaTilesArray"
 				:id="index1 === 0 && index2 === 0 ? idForFirstImage : undefined"
 				:key="`img-${index1}-${index2}`"
 				class="group"
 			>
 				<!-- Genuinely not sure where the extra 4px is coming from for these -->
-				<div v-if="album.image === GrayBoxImgForPlaceholder" class="mb-[-4px]">
+				<div
+					v-if="
+						mediaTile.image.includes(GrayBoxImgForPlaceholderForMusic) ||
+						mediaTile.image.includes(GrayBoxImgForPlaceholderForMedia)
+					"
+					class="mb-[-4px]"
+				>
 					<img
 						:firstIndex="index1"
 						:secondIndex="index2"
-						:src="`${album.image}`"
+						:src="`/placeholders/${GlobalChartState.options.mediaType === 'album' ? GrayBoxImgForPlaceholderForMusic : GrayBoxImgForPlaceholderForMedia}`"
 						:alt="'placeholder square'"
 						loading="lazy"
 						draggable="false"
@@ -178,70 +140,25 @@ function chartTitle(
 					:placement="'bottom-start'"
 				>
 					<template #content>
-						<div class="uno-album-image-div-wrapper">
-							<img
-								v-show="album && !GlobalChartState.options.lockChart"
-								src="/blackClose.svg"
-								loading="lazy"
-								class="hidden absolute left-0 top-0 m-1 cursor-pointer group-hover:block group-hover:bg-white"
-								@click="deleteCurrent({ index1, index2 })"
-							/>
-
-							<img
-								:firstIndex="index1"
-								:secondIndex="index2"
-								:src="`${album.image}`"
-								:alt="`${album.artist} - ${album.name}`"
-								loading="lazy"
-								class="uno-chart-image-size select-none"
-								:class="{
-									'cursor-grab': !GlobalChartState.options.lockChart,
-								}"
-								:draggable="GlobalChartState.options.lockChart ? false : true"
-								@dragstart="
-									(dragEvent) =>
-										onDragStart(dragEvent, { index1: index1, index2: index2 })
-								"
-								@dragover.prevent="
-									() => {
-										if (GlobalChartState.options.lockChart) return
-										onDragOver
-									}
-								"
-								@drop.prevent="
-									(dragEvent) => {
-										if (GlobalChartState.options.lockChart) return
-										onDrop(dragEvent, { index1: index1, index2: index2 })
-									}
-								"
-								@touchstart.prevent="
-									(touchEvent) => {
-										if (GlobalChartState.options.lockChart) return
-										onTouchStart(
-											touchEvent,
-											album,
-											'Chart',
-											{ index1, index2 },
-											openDialog,
-										)
-									}
-								"
-							/>
-							<div
-								v-if="album.image === GrayBoxImgFromApi"
-								class="uno-flex-center uno-album-image-text-overlay overflow-hidden text-ellipsis chartImages"
-							>
-								{{ album.artist }} - {{ album.name }}
-							</div>
-						</div>
+						<ChartNonPlaceHolderImage
+							:index1="index1"
+							:index2="index2"
+							:media-tile="mediaTile"
+							:selectedAlbumIndices="selectedAlbumIndices"
+							:delete-current="deleteCurrent"
+							:on-drop="onDrop"
+							@updateSelectedAlbumIndices="
+								(newVal: IndicesObject) => (selectedAlbumIndices = newVal)
+							"
+						/>
 					</template>
 					<template #tooltip>
-						{{ chartTitle(index1, index2, album) }}
+						{{ getMediaNameWithNumber({ index1, index2, media: mediaTile }) }}
 					</template>
 				</Tooltip>
 			</div>
 		</div>
-		<Dialog :dialog-id="dialogId" :close-button="false">
+		<Dialog :dialog-id="dragDialogId" :close-button="false">
 			<template #content>
 				Delete the selected album?
 				<div class="flex gap-2">
@@ -252,15 +169,3 @@ function chartTitle(
 		</Dialog>
 	</div>
 </template>
-
-<style scoped>
-.chartImages {
-	width: 100%;
-	width: -moz-available; /* WebKit-based browsers will ignore this. */
-	width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-
-	height: 100%;
-	height: -moz-available; /* WebKit-based browsers will ignore this. */
-	height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-}
-</style>

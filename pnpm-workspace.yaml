@@ -1,0 +1,11 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+
+blockExoticSubdeps: true
+minimumReleaseAge: 1440
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - 'chokidar@4.0.3'

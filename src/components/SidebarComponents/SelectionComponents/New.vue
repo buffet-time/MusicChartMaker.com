@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue'
-import type { AlbumTile, ChartPreset, ChartState, ChartType } from '#types'
+import type {
+	AlbumSearchResult,
+	ChartPreset,
+	ChartState,
+	ChartType,
+} from '#types'
 import {
 	GenerateChartWithValues,
 	GenerateDefaultChart,
@@ -23,7 +28,7 @@ import Lastfm from './NewComponents/Lastfm.vue'
 interface NewChartParams {
 	type: ChartType
 	lastfm?: boolean
-	chartValues?: AlbumTile[][]
+	chartValues?: AlbumSearchResult[][]
 	preset?: ChartPreset
 }
 
@@ -62,16 +67,27 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 
 	switch (type) {
 		case 'Dynamic':
+			// mark generated chart as music!
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!)
-				: GenerateDefaultChart(nameToSave)
+				? GenerateChartWithValues({
+						title: nameToSave,
+						chartValues: chartValues!,
+						mediaType: 'album',
+					})
+				: GenerateDefaultChart({ title: nameToSave })
 
 			break
 
 		case 'Preset':
+			// mark generated chart as music!
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!, preset)
-				: GeneratePresetChart(nameToSave, preset!)
+				? GenerateChartWithValues({
+						title: nameToSave,
+						chartValues: chartValues!,
+						preset,
+						mediaType: 'album',
+					})
+				: GeneratePresetChart({ title: nameToSave, preset: preset! })
 			break
 
 		default:
@@ -115,13 +131,13 @@ onMounted(() => {
 				type="text"
 				class="uno-input"
 				title="Any name but can't just be a number."
-				pattern="(?!GlobalSiteOptions$).*"
+				pattern="^(?!(?:session|GlobalSiteOptions)?$|^\s+$).+"
 			/>
 			<p
 				v-if="chartNameInput === '' || !chartInput?.validity.valid"
 				class="pt-1"
 			>
-				The name must not be empty, session or {{ SiteOptionsKey }}
+				The name must not be empty, "session" or "{{ SiteOptionsKey }}"
 			</p>
 
 			<template v-else>

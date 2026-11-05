@@ -22,7 +22,8 @@
 			"#core/*": ["./src/components/CoreComponents/*"],
 			"#utils/*": ["./src/utils/*"],
 			"#lastfm/*": ["./src/lastfm/*"],
-			"#stores/*": ["./src/stores/*"]
+			"#stores/*": ["./src/stores/*"],
+			"#tmdb/*": ["./src/tmdb/*"]
 		}
 	},
 	"include": [

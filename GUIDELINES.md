@@ -2,7 +2,7 @@
 
 General guidelines for contributing
 
-Heavily preferred for you to use VSCode so Oxlint, Prettier, and Vue Devtools extensions can run.
+Heavily preferred for you to use VSCode so Oxlint, Oxfmt, and Vue Devtools extensions can run.
 
 ## JS
 
