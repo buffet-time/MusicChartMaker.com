@@ -67,15 +67,26 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 
 	switch (type) {
 		case 'Dynamic':
+			// mark generated chart as music!
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!)
+				? GenerateChartWithValues({
+						title: nameToSave,
+						chartValues: chartValues!,
+						mediaType: 'album',
+					})
 				: GenerateDefaultChart({ title: nameToSave })
 
 			break
 
 		case 'Preset':
+			// mark generated chart as music!
 			tempChart = lastfm
-				? GenerateChartWithValues(nameToSave, chartValues!, preset)
+				? GenerateChartWithValues({
+						title: nameToSave,
+						chartValues: chartValues!,
+						preset,
+						mediaType: 'album',
+					})
 				: GeneratePresetChart({ title: nameToSave, preset: preset! })
 			break
 

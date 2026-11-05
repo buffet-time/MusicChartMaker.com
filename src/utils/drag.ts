@@ -55,7 +55,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
-			// @ts-expect-error - this is prob fine???
+			// @ts-expect-error - this is fine.
 			tile,
 		)
 		return
@@ -74,7 +74,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[targetIndex1].splice(
 			targetIndex2,
 			0,
-			// @ts-expect-error - this is prob fine???
+			// @ts-expect-error - this is fine.
 			movingTile,
 		)
 
@@ -88,7 +88,7 @@ export function RearrangeChart(
 				return console.error('Error popping tile: ', GlobalChartState.value)
 			}
 
-			// @ts-expect-error - this is prob fine???
+			// @ts-expect-error - this is fine.
 			GlobalChartState.value.chartTiles[index + 1].splice(0, 0, poppedTile)
 		}
 		return
@@ -100,7 +100,7 @@ export function RearrangeChart(
 	GlobalChartState.value.chartTiles[targetIndex1].splice(
 		targetIndex2 + 1,
 		0,
-		// @ts-expect-error - this is prob fine???
+		// @ts-expect-error - this is fine.
 		movingTile,
 	)
 
@@ -112,7 +112,7 @@ export function RearrangeChart(
 		GlobalChartState.value.chartTiles[index - 1].splice(
 			GlobalChartState.value.chartTiles[index - 1].length,
 			0,
-			// @ts-expect-error - this is prob fine???
+			// @ts-expect-error - this is fine.
 			poppedTile,
 		)
 	}

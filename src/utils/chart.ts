@@ -144,14 +144,21 @@ export function GeneratePresetChart({
 	}
 }
 
-export function GenerateChartWithValues(
-	title: string,
-	chartValues: AlbumSearchResult[][] | MovieAndTvSearchResult[][],
-	preset?: ChartPreset,
-): ChartState {
+export function GenerateChartWithValues({
+	title,
+	chartValues,
+	preset,
+	mediaType,
+}: {
+	title: string
+	chartValues: AlbumSearchResult[][] | MovieAndTvSearchResult[][]
+	preset?: ChartPreset
+	mediaType: SearchTypes
+}): ChartState {
 	return {
 		options: {
 			...baseOptionsDefault,
+			mediaType: mediaType,
 			chartSize: preset
 				? preset
 				: {

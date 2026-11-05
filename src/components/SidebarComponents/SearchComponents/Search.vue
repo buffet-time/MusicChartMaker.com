@@ -340,7 +340,7 @@ async function searchTvShows(searchString: string) {
 							@error="
 								(event) =>
 									((event.target as HTMLImageElement).src =
-										`/placeholders/${'artist' in result ? GrayBoxImgFromApiForMusic : GrayBoxImgFromApiForMedia}`)
+										`./placeholders/${'artist' in result ? GrayBoxImgFromApiForMusic : GrayBoxImgFromApiForMedia}`)
 							"
 							loading="lazy"
 							draggable="true"

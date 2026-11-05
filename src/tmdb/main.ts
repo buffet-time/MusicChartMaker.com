@@ -21,7 +21,6 @@ export async function searchMovie({
 }: MovieAndTvSearch): Promise<MovieAndTvSearchResult[]> {
 	let requestUrl = MOVIE_URL + `?term=${term}`
 
-	// TODO: seems like this is not working!
 	requestUrl += GlobalSiteOptions.value.allowAdultSearch
 		? '&adult=true'
 		: '&adult=false'
@@ -49,7 +48,6 @@ export async function searchTV({
 }: MovieAndTvSearch): Promise<MovieAndTvSearchResult[]> {
 	let requestUrl = TV_URL + `?term=${term}`
 
-	// TODO: seems like this is not working!
 	requestUrl += GlobalSiteOptions.value.allowAdultSearch
 		? '&adult=true'
 		: '&adult=false'

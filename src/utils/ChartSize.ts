@@ -87,8 +87,6 @@ function getOneDimensionalArrayFromChartState() {
 }
 
 function containsNonPlaceholder(array: AlbumSearchResult[]) {
-	// Regular for loop is fine eslint.
-	// eslint-disable-next-line @typescript-eslint/prefer-for-of
 	for (let index = 0; index < array.length; index++) {
 		if (array[index].image !== GrayBoxImgForPlaceholderForMusic) {
 			return true

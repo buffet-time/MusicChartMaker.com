@@ -16,7 +16,6 @@
 	"[svg]": {
 		"editor.defaultFormatter": "jock.svg"
 	},
-	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[typescript]": {
 		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},

@@ -43,7 +43,6 @@ const selectedChartType: Ref<ChartType> = ref('Dynamic')
 const rows = ref(3)
 const columns = ref(3)
 
-// TODO: Disallow LastFm creation in non music contexts!
 async function createChart({ type, lastfm, preset }: CreateChartParams) {
 	const response = await getTopAlbums(
 		selectedPeriod.value,

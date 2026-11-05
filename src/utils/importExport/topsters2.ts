@@ -211,15 +211,16 @@ export function importFromTopsters2(event: Event) {
 				)
 
 				// TODO: look into changing the default options
-				const newChart = GenerateChartWithValues(
-					newChartNameToSave,
-					newAlbumTileArray,
-					{
+				const newChart = GenerateChartWithValues({
+					title: newChartNameToSave,
+					chartValues: newAlbumTileArray,
+					preset: {
 						default: false,
 						rowSizes: usedRowSizes,
 						presetName: 'Topsters2Import',
 					},
-				)
+					mediaType: 'album',
+				})
 
 				// TODO: Look into extracting this out!
 				StoredChartNames.value.unshift(newChartNameToSave)
