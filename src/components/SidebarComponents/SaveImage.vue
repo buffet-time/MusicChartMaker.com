@@ -47,7 +47,7 @@ async function saveImage() {
 	})
 
 	try {
-		const { default: HTML2Canvas } = await import('html2canvas')
+		const { default: HTML2Canvas } = await import('html2canvas-pro')
 		const chartElement = GlobalChartState.value.options.displayTitles
 			? document.getElementById('Chart')
 			: document.getElementById('chartImages')
@@ -60,26 +60,46 @@ async function saveImage() {
 			// scale 1 = 96 dpi, each increment is a multiplier on that
 			scale: scale.value,
 			allowTaint: true,
-			useCORS: true,
+			useCORS: GlobalChartState.value.options.mediaType !== 'media',
+			proxy:
+				GlobalChartState.value.options.mediaType === 'media'
+					? 'https://api.musicchartmaker.com/TmdbImageProxy'
+					: undefined,
 			backgroundColor: GlobalChartState.value.options.background,
 		})
-		const anchor = document.createElement('a')
 
 		let formatToSaveAs: string = selectedFormat.value
 		if (formatToSaveAs === 'jpeg') {
 			formatToSaveAs = 'jpg'
 		}
 
-		anchor.href = canvas.toDataURL(`image/${formatToSaveAs}`)
-		anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
-		anchor.click()
-		anchor.remove()
+		const mimeType = `image/${formatToSaveAs}`
 
-		toasterStore.newToast({
-			text: 'Image successfully generated, download should start automatically.',
-			status: 'success',
-			timeout: 6000,
-		})
+		// Because of iOS Safari we can't download DATA urls programatically,
+		// we can for OBject URLs which Blobs lets us do, so we're doing that.
+		canvas.toBlob((blob) => {
+			if (!blob) {
+				console.error('Canvas toBlob failed')
+				return
+			}
+
+			const blobUrl = URL.createObjectURL(blob)
+			const anchor = document.createElement('a')
+			anchor.href = blobUrl
+			anchor.download = `${GlobalChartState.value.options.chartTitle}.${formatToSaveAs}`
+
+			document.body.appendChild(anchor)
+			anchor.click()
+			document.body.removeChild(anchor)
+
+			setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
+
+			toasterStore.newToast({
+				text: 'Image successfully generated, download should start automatically.',
+				status: 'success',
+				timeout: 6000,
+			})
+		}, mimeType)
 	} catch (error: any) {
 		console.error(`Error in Save Image: ${error}`)
 

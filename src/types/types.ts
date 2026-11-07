@@ -60,6 +60,8 @@ export interface ChartOptions {
 	constrainTitles?: boolean
 	constrainTitlesCentered?: boolean
 	mediaType?: SearchTypes
+	boldText?: boolean
+	italicsText?: boolean
 }
 
 export type OrderOptions =

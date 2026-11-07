@@ -166,6 +166,10 @@ function isOverflowing() {
 						textShadow: GlobalChartState.options.textShadow,
 						letterSpacing: `${GlobalChartState.options.textSpacing}px`,
 						fontFamily: GlobalChartState.options.font,
+						fontWeight: GlobalChartState.options.boldText ? 'bold' : undefined,
+						fontStyle: GlobalChartState.options.italicsText
+							? 'italic'
+							: undefined,
 					}"
 				>
 					<template v-if="GlobalChartState.options.displayNumberRank">

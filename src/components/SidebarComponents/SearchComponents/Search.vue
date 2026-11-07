@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, nextTick } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type {
 	AlbumSearchResult,
 	MovieAndTvSearchResult,
@@ -50,14 +50,21 @@ watch(activeTab, () => {
 
 watchDeep(
 	() => GlobalChartState.value.chartTiles,
-	() => setWhichTabsAreAvailable(),
+	() => setWhichTabsAreAvailable(false),
+)
+
+watch(
+	() => GlobalSiteOptions.value.currentChart,
+	() => {
+		setWhichTabsAreAvailable(true)
+	},
 )
 
 onMounted(() => {
-	setWhichTabsAreAvailable()
+	setWhichTabsAreAvailable(true)
 })
 
-function setWhichTabsAreAvailable() {
+function setWhichTabsAreAvailable(adjustAvailableTabs: boolean) {
 	for (let x = 0; x < GlobalChartState.value.chartTiles.length; x++) {
 		for (let y = 0; y < GlobalChartState.value.chartTiles[x].length; y++) {
 			if (
@@ -70,9 +77,10 @@ function setWhichTabsAreAvailable() {
 					? 'album'
 					: 'media'
 
-				currentTabs.value = mediaTypeIsMusic ? musicTabs : mediaTabs
-
-				activeTab.value = mediaTypeIsMusic ? 'Music' : 'Movies'
+				if (adjustAvailableTabs) {
+					activeTab.value = mediaTypeIsMusic ? 'Music' : 'Movies'
+					currentTabs.value = mediaTypeIsMusic ? musicTabs : mediaTabs
+				}
 
 				return
 			}
