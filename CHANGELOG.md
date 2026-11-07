@@ -11,8 +11,20 @@
   - Create a version of the popover that uses the new native component
   - Add user site level customizations
   - Add Import from Topchart (topchart.amanharwara.com)?
+  - Re-adding neatly spacing text in side bar
 
 ---
+
+## Version 2.0.1 - November 6th, 2026
+
+- Features
+  - Added Bold and italics global text options
+- Bug Fixes
+  - Resetting of active tab from TV -> Movie when dropping a TV item.
+  - Image Saving
+    - Image saving issues w/ TV and Movies due to CORS
+    - Image not saving on iOS (because of DATA URL being blocked)
+    - it capturing deadspace above and below
 
 ## Version 2.0.0 - November 4th, 2026
 

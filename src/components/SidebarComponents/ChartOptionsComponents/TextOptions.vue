@@ -88,4 +88,24 @@ import Tooltip from '../../CoreComponents/Tooltip.vue'
 			:disabled="!GlobalChartState?.options.displayTitles"
 		/>
 	</div>
+
+	<div class="uno-options-div">
+		<label for="textColor">Bold Text</label>
+		<input
+			id="constrainTitlesCentered"
+			v-model="GlobalChartState!.options.boldText"
+			type="checkbox"
+			class="uno-checkbox border-none cursor-pointer"
+		/>
+	</div>
+
+	<div class="uno-options-div">
+		<label for="textColor">Italacize Text</label>
+		<input
+			id="constrainTitlesCentered"
+			v-model="GlobalChartState!.options.italicsText"
+			type="checkbox"
+			class="uno-checkbox border-none cursor-pointer"
+		/>
+	</div>
 </template>
