@@ -7,13 +7,14 @@ import type {
 	SearchResults,
 } from '#types'
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
-import { DragSetData, onTouchStart } from '#utils/drag'
+import { onDragStart, onTouchStart } from '#utils/drag'
 import {
 	GrayBoxImgFromApiForMusic,
 	GrayBoxImgFromApiForMedia,
 	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgForPlaceholderForMedia,
 	IsImage,
+	isMobile,
 } from '#utils/misc'
 
 import Tooltip from '#core/Tooltip.vue'
@@ -35,6 +36,7 @@ const allTabs: Tabs[] = ['Music', 'Movies', 'TV']
 const musicTabs: Tabs[] = ['Music']
 const mediaTabs: Tabs[] = ['Movies', 'TV']
 
+// oxlint-disable-next-line unicorn/prefer-set-has
 const PLACEHOLDERS = [
 	GrayBoxImgFromApiForMusic,
 	GrayBoxImgFromApiForMedia,
@@ -50,20 +52,24 @@ watch(activeTab, () => {
 
 watchDeep(
 	() => GlobalChartState.value.chartTiles,
-	() => setWhichTabsAreAvailable(false),
+	// oxlint-disable-next-line no-use-before-define
+	() => setWhichTabsAreAvailable(true),
 )
 
 watch(
 	() => GlobalSiteOptions.value.currentChart,
 	() => {
+		// oxlint-disable-next-line no-use-before-define
 		setWhichTabsAreAvailable(true)
 	},
 )
 
 onMounted(() => {
+	// oxlint-disable-next-line no-use-before-define
 	setWhichTabsAreAvailable(true)
 })
 
+// remove the boolean, and fix this not updating properly.
 function setWhichTabsAreAvailable(adjustAvailableTabs: boolean) {
 	for (let x = 0; x < GlobalChartState.value.chartTiles.length; x++) {
 		for (let y = 0; y < GlobalChartState.value.chartTiles[x].length; y++) {
@@ -91,21 +97,6 @@ function setWhichTabsAreAvailable(adjustAvailableTabs: boolean) {
 	activeTab.value = 'Music'
 }
 
-function onDragStart(dragEvent: DragEvent, search: SearchResult) {
-	DragSetData(dragEvent, {
-		albumObject: search.type === 'album' ? search.result : undefined,
-		mediaObject: search.type === 'media' ? search.result : undefined,
-		dragSource: 'Search',
-		originatingIndices: { index1: 0, index2: 0 },
-	})
-
-	if (!dragEvent.dataTransfer) {
-		return console.error('Error in onDragStart(): ', dragEvent, search)
-	}
-
-	dragEvent.dataTransfer.dropEffect = 'copy'
-}
-
 function getSearchResultsLength() {
 	return searchResults.value ? searchResults.value.results.length : 0
 }
@@ -114,17 +105,18 @@ function handleClick(result: SearchResult) {
 	for (
 		let rowIndex = 0;
 		rowIndex < GlobalChartState.value.chartTiles.length;
-		rowIndex++
+		rowIndex += 1
 	) {
 		for (
 			let elementIndex = 0;
 			elementIndex < GlobalChartState.value.chartTiles[rowIndex].length;
-			elementIndex++
+			elementIndex += 1
 		) {
 			if (
 				GlobalChartState.value.chartTiles[rowIndex][elementIndex].image ===
 				GrayBoxImgForPlaceholderForMusic
 			) {
+				// oxlint-disable-next-line default-case
 				switch (result.type) {
 					case 'album':
 						GlobalChartState.value.options.mediaType = 'album'
@@ -314,6 +306,10 @@ async function searchTvShows(searchString: string) {
 			:class="{
 				'items-start': getSearchResultsLength() < 1,
 				'overflow-hidden': getSearchResultsLength() < 1,
+				'bg-[rgba(100,100,100,0.5)]': isMobile(),
+				absolute: isMobile(),
+				'top-0': isMobile(),
+				'left-0': isMobile(),
 			}"
 		>
 			<ul
@@ -379,6 +375,7 @@ async function searchTvShows(searchString: string) {
 									onTouchStart({
 										touchEvent,
 										album:
+											// BUG!!! - touch dropping doesn't
 											searchResults?.type === 'album'
 												? (result as AlbumSearchResult)
 												: undefined,
@@ -432,9 +429,6 @@ async function searchTvShows(searchString: string) {
 .results-div {
 	scrollbar-width: thin;
 	scrollbar-color: gray dimgray;
-	/* 96.8px is the height of the search box */
-	max-height: calc(100% - 96.8px - 120px);
-	height: 100%;
 }
 
 .tab-container {

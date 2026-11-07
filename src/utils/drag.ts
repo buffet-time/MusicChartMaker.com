@@ -1,12 +1,15 @@
 import type {
+	AlbumSearchResult,
 	DragDataTransfer,
 	IndicesObject,
-	AlbumSearchResult,
 	MovieAndTvSearchResult,
+	SearchResult,
 } from '#types'
 import { GlobalChartState } from '#utils/globals'
+import { getMediaNameWithoutNumber } from './chart'
 import { GrayBoxImgForPlaceholderForMusic } from './misc'
 
+const DOUBLE_TAP_TIME = 300
 export const dragDialogId = 'DragLongHoldId'
 
 export function DragSetData(
@@ -81,7 +84,7 @@ export function RearrangeChart(
 		// now iteratively move through all arrays
 		// popping the last one in the array and splicing it to the front of the next array
 		// until we see that we're in the array that it was originally moved from
-		for (let index = targetIndex1; index < originIndex1; index++) {
+		for (let index = targetIndex1; index < originIndex1; index += 1) {
 			const poppedTile = GlobalChartState.value.chartTiles[index].pop()
 
 			if (!poppedTile) {
@@ -107,7 +110,7 @@ export function RearrangeChart(
 	// now iteratively move through all arrays
 	// popping the first one in the array and splicing it to the back of the previous array
 	// until we see that we're in the array that it was originally moved from
-	for (let index = targetIndex1; index > originIndex1; index--) {
+	for (let index = targetIndex1; index > originIndex1; index -= 1) {
 		const poppedTile = GlobalChartState.value.chartTiles[index].splice(0, 1)[0]
 		GlobalChartState.value.chartTiles[index - 1].splice(
 			GlobalChartState.value.chartTiles[index - 1].length,
@@ -118,7 +121,6 @@ export function RearrangeChart(
 	}
 }
 
-const doubleTapTime = 300
 let myLatestTap = 0
 export function onTouchStart({
 	touchEvent,
@@ -145,7 +147,7 @@ export function onTouchStart({
 	const now = new Date().getTime()
 	const timeSince = now - myLatestTap
 	if (
-		timeSince < doubleTapTime &&
+		timeSince < DOUBLE_TAP_TIME &&
 		timeSince > 0 &&
 		openDialog &&
 		originatingIndices
@@ -184,21 +186,21 @@ export function onTouchStart({
 		touchEvent.targetTouches[0].clientY,
 	)
 
-	function onTouchMove(touchEvent: TouchEvent) {
+	function onTouchMove(onTouchMoveEvent: TouchEvent) {
 		moveImageToCursor(
-			touchEvent.targetTouches[0].clientX,
-			touchEvent.targetTouches[0].clientY,
+			onTouchMoveEvent.targetTouches[0].clientX,
+			onTouchMoveEvent.targetTouches[0].clientY,
 		)
 	}
 
-	function onTouchEnd(touchEvent: TouchEvent) {
+	function onTouchEnd(onTouchEndEvent: TouchEvent) {
 		movingCopy.remove()
 		document.removeEventListener('touchmove', onTouchMove)
 		document.removeEventListener('touchend', onTouchEnd)
 
 		const elementBelow = document.elementFromPoint(
-			touchEvent.changedTouches[0].clientX,
-			touchEvent.changedTouches[0].clientY,
+			onTouchEndEvent.changedTouches[0].clientX,
+			onTouchEndEvent.changedTouches[0].clientY,
 		) as HTMLImageElement | null
 
 		if (!elementBelow) {
@@ -256,4 +258,64 @@ export function onTouchStart({
 
 	document.addEventListener('touchmove', onTouchMove)
 	document.addEventListener('touchend', onTouchEnd)
+}
+
+export function onDragStart(dragEvent: DragEvent, search: SearchResult) {
+	DragSetData(dragEvent, {
+		// oxlint-disable-next-line no-undefined
+		albumObject: search.type === 'album' ? search.result : undefined,
+		// oxlint-disable-next-line no-undefined
+		mediaObject: search.type === 'media' ? search.result : undefined,
+		dragSource: 'Search',
+		originatingIndices: { index1: 0, index2: 0 },
+	})
+
+	if (!dragEvent.dataTransfer) {
+		// oxlint-disable-next-line no-console
+		return console.error('Error in onDragStart(): ', dragEvent, search)
+	}
+
+	dragEvent.dataTransfer.dropEffect = 'copy'
+}
+
+export function onDrop(
+	dragEvent: DragEvent,
+	{ index1, index2 }: IndicesObject,
+) {
+	const data = dragEvent.dataTransfer?.getData('text/plain')
+
+	if (!data) {
+		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
+	}
+
+	const mediaDraggedIn = JSON.parse(data) as DragDataTransfer
+
+	if (mediaDraggedIn.dragSource === 'Chart') {
+		// If in chart move the dragged element to the position you drop and push everything else back one
+		return RearrangeChart(
+			{ index1, index2 },
+			mediaDraggedIn.originatingIndices,
+			GlobalChartState.value.chartTiles[index1][index2].image ===
+				GrayBoxImgForPlaceholderForMusic,
+		)
+	}
+
+	// from search replace current dropped
+	const currentElement = dragEvent.currentTarget as HTMLImageElement
+
+	const mediaObject = mediaDraggedIn?.albumObject
+		? mediaDraggedIn.albumObject
+		: // oxlint-disable-next-line typescript/no-non-null-assertion
+			mediaDraggedIn.mediaObject!
+
+	GlobalChartState.value.chartTiles[index1].splice(
+		index2,
+		1,
+		// @ts-expect-error - it is only one or the other.
+		mediaDraggedIn.albumObject
+			? mediaDraggedIn.albumObject
+			: mediaDraggedIn.mediaObject,
+	)
+	currentElement.src = mediaObject.image
+	currentElement.alt = getMediaNameWithoutNumber(mediaObject)
 }

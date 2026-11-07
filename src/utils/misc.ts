@@ -39,7 +39,9 @@ export async function IsImage(url: string): Promise<boolean> {
 	// returns a Promise that'll resolve to a boolean whether or not a url is an image
 	return new Promise((resolve) => {
 		const image = new Image()
+		// oxlint-disable-next-line unicorn/prefer-add-event-listener
 		image.onerror = image.onabort = () => resolve(false)
+		// oxlint-disable-next-line unicorn/prefer-add-event-listener
 		image.onload = () => resolve(true)
 		image.src = url
 	})

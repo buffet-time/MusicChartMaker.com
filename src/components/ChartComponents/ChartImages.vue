@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DragDataTransfer, IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
-import { dragDialogId, RearrangeChart } from '#utils/drag'
+import { dragDialogId, onDrop } from '#utils/drag'
 import {
 	FillerAlbum,
 	GrayBoxImgForPlaceholderForMusic,
@@ -10,11 +10,7 @@ import {
 
 import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
-import {
-	getMediaNameWithNumber,
-	getMediaNameWithoutNumber,
-	idForFirstImage,
-} from '#utils/chart'
+import { getMediaNameWithNumber, idForFirstImage } from '#utils/chart'
 import ChartNonPlaceHolderImage from './ChartNonPlaceHolderImage.vue'
 
 // oxlint-disable-next-line no-unassigned-vars
@@ -27,46 +23,9 @@ function closeDialog() {
 
 function deleteSelectedAlbum() {
 	// @ts-expect-error - this is being defined in sub component
+	// oxlint-disable-next-line no-use-before-define
 	deleteCurrent(selectedAlbumIndices)
 	closeDialog()
-}
-
-function onDrop(dragEvent: DragEvent, { index1, index2 }: IndicesObject) {
-	const data = dragEvent.dataTransfer?.getData('text/plain')
-
-	if (!data) {
-		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
-	}
-
-	const mediaDraggedIn = JSON.parse(data) as DragDataTransfer
-
-	if (mediaDraggedIn.dragSource === 'Chart') {
-		// If in chart move the dragged element to the position you drop and push everything else back one
-		return RearrangeChart(
-			{ index1, index2 },
-			mediaDraggedIn.originatingIndices,
-			GlobalChartState.value.chartTiles[index1][index2].image ===
-				GrayBoxImgForPlaceholderForMusic,
-		)
-	}
-
-	// from search replace current dropped
-	const currentElement = dragEvent.currentTarget as HTMLImageElement
-
-	const mediaObject = mediaDraggedIn?.albumObject
-		? mediaDraggedIn.albumObject
-		: mediaDraggedIn.mediaObject!
-
-	GlobalChartState.value.chartTiles[index1].splice(
-		index2,
-		1,
-		// @ts-expect-error - it is only one or the other.
-		mediaDraggedIn.albumObject
-			? mediaDraggedIn.albumObject
-			: mediaDraggedIn.mediaObject,
-	)
-	currentElement.src = mediaObject.image
-	currentElement.alt = getMediaNameWithoutNumber(mediaObject)
 }
 
 function deleteCurrent(indices: IndicesObject) {

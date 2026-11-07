@@ -11,10 +11,12 @@ export function ImportFile(importFile: File | null) {
 
 	const reader = new FileReader()
 
+	// oxlint-disable-next-line unicorn/prefer-add-event-listener
 	reader.onerror = (errorEvt) => {
 		throw errorEvt.target?.error
 	}
 
+	// oxlint-disable-next-line unicorn/prefer-add-event-listener
 	reader.onload = (fileEvent) => {
 		if (importFile.type !== 'application/json') {
 			console.error(

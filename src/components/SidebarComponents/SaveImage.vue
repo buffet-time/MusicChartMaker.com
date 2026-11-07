@@ -20,6 +20,7 @@ const scale = ref(2)
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
 function openSaveImage() {
+	// oxlint-disable-next-line no-shadow
 	const saveImage = document.getElementById(saveImageId) as HTMLDialogElement
 	saveImage.showModal()
 }

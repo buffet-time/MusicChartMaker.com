@@ -87,6 +87,7 @@ export function GenerateDefaultChart({
 export function PreventNameCollision(name: string): string {
 	const storedCharts = getAllSavedKeys()
 
+	// oxlint-disable-next-line no-shadow
 	function GetUnusedName(name: string): string {
 		if (storedCharts.some((storedName) => storedName === name)) {
 			const matchArray = numberInParensRegex.exec(name)

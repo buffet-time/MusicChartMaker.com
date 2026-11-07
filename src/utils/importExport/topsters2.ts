@@ -93,6 +93,7 @@ export function importFromTopsters2(event: Event) {
 		}
 		const fileReader = new FileReader()
 
+		// oxlint-disable-next-line unicorn/prefer-add-event-listener no-shadow
 		fileReader.onload = async (event) => {
 			try {
 				const encodedTopsters2 = event.target?.result
