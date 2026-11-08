@@ -28,7 +28,7 @@ export function DragSetData(
 	dragEvent.dataTransfer.setData('text/plain', JSON.stringify(objectToTransfer))
 }
 
-export function RearrangeChart(
+function RearrangeChart(
 	{ index1: targetIndex1, index2: targetIndex2 }: IndicesObject,
 	{ index1: originIndex1, index2: originIndex2 }: IndicesObject,
 	swap?: boolean,

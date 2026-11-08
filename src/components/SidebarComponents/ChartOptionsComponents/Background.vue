@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
 import { IsImage } from '#utils/misc'

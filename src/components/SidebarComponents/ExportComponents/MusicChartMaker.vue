@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { useTemplateRef, ref, computed } from 'vue'
 import { singleChartSelectedChartTitle, StoredChartNames } from '#utils/globals'
 import SelectChartDropdown from '#core/SelectChartDropdown.vue'

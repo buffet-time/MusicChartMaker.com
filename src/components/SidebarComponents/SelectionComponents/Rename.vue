@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { ref, useTemplateRef } from 'vue'
 import type { ChartState } from '#types'
 import { StoredChartNames } from '#utils/globals'

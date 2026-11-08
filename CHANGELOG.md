@@ -18,6 +18,17 @@
 
 ---
 
+## Version 2.0.3 - November ##th, 2026
+
+- Bug Fixes
+  - Changing text color not clearly disabled when text is not rendered
+    - Also some off spacing
+  - Text alignment on chart centering a bit off (not accoungint for margins)
+- Performance
+  - Initial usage of Vue Vapor on certain components to reduce bundle size and faster rendering.
+- Dev
+  -
+
 ## Version 2.0.2 - November 8th, 2026
 
 - Bug Fixes

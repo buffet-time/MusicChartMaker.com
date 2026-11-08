@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import Dialog from '#core/Dialog.vue'
 import { GlobalSiteOptions } from '#utils/globals'
 import { SaveSiteOptions } from '#utils/storage'

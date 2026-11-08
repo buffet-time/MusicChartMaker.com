@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { ref, watch } from 'vue'
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
 import { rowsChanged, colsChanged } from '#src/utils/ChartSize'

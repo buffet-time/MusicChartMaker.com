@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script vapor setup lang="ts">
 const emit = defineEmits(['clickHandler'])
 const { origin } = defineProps<{
 	origin: 'Modal' | 'Overlay'
