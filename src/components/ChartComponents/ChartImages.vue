@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { DragDataTransfer, IndicesObject } from '#types'
+import type { IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { dragDialogId, onDrop } from '#utils/drag'
 import {
 	FillerAlbum,
 	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgForPlaceholderForMedia,
+	LegacyPlaceholder,
 } from '#utils/misc'
 
 import Dialog from '#core/Dialog.vue'
@@ -67,15 +68,16 @@ function deleteCurrent(indices: IndicesObject) {
 				<!-- Genuinely not sure where the extra 4px is coming from for these -->
 				<div
 					v-if="
-						mediaTile.image.includes(GrayBoxImgForPlaceholderForMusic) ||
-						mediaTile.image.includes(GrayBoxImgForPlaceholderForMedia)
+						mediaTile.image?.includes(GrayBoxImgForPlaceholderForMusic) ||
+						mediaTile.image?.includes(GrayBoxImgForPlaceholderForMedia) ||
+						mediaTile.image?.includes(LegacyPlaceholder)
 					"
 					class="mb-[-4px]"
 				>
 					<img
 						:firstIndex="index1"
 						:secondIndex="index2"
-						:src="`/placeholders/${GlobalChartState.options.mediaType === 'album' ? GrayBoxImgForPlaceholderForMusic : GrayBoxImgForPlaceholderForMedia}`"
+						:src="`/placeholders/${GlobalChartState.options.mediaType === 'Music' ? GrayBoxImgForPlaceholderForMusic : GrayBoxImgForPlaceholderForMedia}`"
 						:alt="'placeholder square'"
 						loading="lazy"
 						draggable="false"
@@ -85,7 +87,10 @@ function deleteCurrent(indices: IndicesObject) {
 						@drop.prevent="
 							(dragEvent) => {
 								if (GlobalChartState.options.lockChart) return
-								onDrop(dragEvent, { index1: index1, index2: index2 })
+								onDrop({
+									dragEvent,
+									indices: { index1: index1, index2: index2 },
+								})
 							}
 						"
 					/>
@@ -105,7 +110,10 @@ function deleteCurrent(indices: IndicesObject) {
 							:media-tile="mediaTile"
 							:selectedAlbumIndices="selectedAlbumIndices"
 							:delete-current="deleteCurrent"
-							:on-drop="onDrop"
+							:on-drop="
+								(dragEvent) =>
+									onDrop({ dragEvent, indices: { index1, index2 } })
+							"
 							@updateSelectedAlbumIndices="
 								(newVal: IndicesObject) => (selectedAlbumIndices = newVal)
 							"

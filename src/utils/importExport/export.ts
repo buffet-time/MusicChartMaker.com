@@ -62,6 +62,7 @@ export function ExportSingleChart(chartName: string) {
 		exportName: chartName,
 		exportData: {
 			exportType: 'Single Chart',
+			// oxlint-disable-next-line typescript/no-non-null-assertion
 			chartData: [getStoredChart(chartName)!],
 		},
 	})

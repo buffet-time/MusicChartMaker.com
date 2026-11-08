@@ -44,6 +44,7 @@ onMounted(() => {
 	const storedLastChart = getCurrentChart()
 
 	if (storedLastChart) {
+		// oxlint-disable-next-line typescript/no-non-null-assertion
 		GlobalChartState.value = getStoredChart(storedLastChart)!
 	}
 	if (!storedLastChart || !GlobalChartState.value) {
@@ -63,6 +64,7 @@ onMounted(() => {
 })
 
 function onChartSelect() {
+	// oxlint-disable-next-line typescript/no-non-null-assertion
 	const loadedChart = getStoredChart(String(selectedChartTitle.value))!
 	if (!loadedChart) {
 		return console.error(

@@ -220,7 +220,7 @@ export function importFromTopsters2(event: Event) {
 						rowSizes: usedRowSizes,
 						presetName: 'Topsters2Import',
 					},
-					mediaType: 'album',
+					mediaType: 'Music',
 				})
 
 				// TODO: Look into extracting this out!

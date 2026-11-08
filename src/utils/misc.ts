@@ -10,6 +10,7 @@ import { top42, top100 } from '#utils/chart'
 const grayBoxFileBase = 'grayBox'
 const grayBox2to3 = `${grayBoxFileBase}-200300`
 const grayBox1to1 = `${grayBoxFileBase}-300300`
+export const LegacyPlaceholder = 'grayBox.jpg'
 export const GrayBoxImgForPlaceholderForMusic = `${grayBox1to1}.jpg`
 export const GrayBoxImgFromApiForMusic = `${grayBox1to1}.jpeg`
 export const GrayBoxImgForPlaceholderForMedia = `${grayBox2to3}.jpeg`
@@ -73,6 +74,7 @@ export function delay(t: number) {
 	return new Promise((resolve) => setTimeout(resolve, t))
 }
 
+// TODO: make this a single compute that stays up to date for consumers to get the value, instead of recomputing
 export function isMobile() {
 	// If anyone else sees this, trust me. Its ok in this case, it isn't a SAAS product being sold <3
 	return document.body.clientWidth < 768

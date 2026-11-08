@@ -18,15 +18,19 @@
 
 ---
 
-## Version 2.0.2 - November 7th, 2026
+## Version 2.0.2 - November 8th, 2026
 
 - Bug Fixes
   - Search being broken on mobile
   - Search tabs not always updating, showing all 3 when it should only show 1 or 2
+  - broken click to add from search
+  - Error with showing text for placeholders
+  - And many more small things.
 - Dev
   - Enabled more OXLint settings
   - Removed swc minifier to use default OXC minifier w/ Rolldown in Vite
-  - Moved to 3.6 Release Candidate
+  - Moved to Vue 3.6 Release Candidate
+    - testing with vapor to come
 
 ## Version 2.0.1 - November 6th, 2026
 

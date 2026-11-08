@@ -33,12 +33,14 @@ export function ImportFile(importFile: File | null) {
 				: 'Everything'
 
 			if (exportType === 'Everything' || exportType === 'Site Config') {
+				// oxlint-disable-next-line typescript/no-non-null-assertion
 				const options: SiteOptions = parsed.siteData!
 
 				GlobalSiteOptions.value = options
 			}
 
 			if (exportType !== 'Site Config') {
+				// oxlint-disable-next-line typescript/no-non-null-assertion
 				const data: ChartState[] = parsed.chartData!
 				data.forEach((state) => setStoredChart(state.options.chartTitle, state))
 

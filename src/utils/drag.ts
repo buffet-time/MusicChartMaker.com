@@ -4,6 +4,7 @@ import type {
 	IndicesObject,
 	MovieAndTvSearchResult,
 	SearchResult,
+	Tabs,
 } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { getMediaNameWithoutNumber } from './chart'
@@ -129,6 +130,7 @@ export function onTouchStart({
 	source,
 	openDialog,
 	originatingIndices,
+	chartType,
 }: {
 	touchEvent: TouchEvent
 	album?: AlbumSearchResult
@@ -136,6 +138,7 @@ export function onTouchStart({
 	source: 'Search' | 'Chart'
 	originatingIndices?: IndicesObject
 	openDialog?: (indices?: IndicesObject) => void
+	chartType?: Tabs
 }) {
 	if (typeof DragEvent !== 'function') {
 		// If the HTML Drag and Drop API is supported
@@ -194,6 +197,9 @@ export function onTouchStart({
 	}
 
 	function onTouchEnd(onTouchEndEvent: TouchEvent) {
+		if (chartType) {
+			GlobalChartState.value.options.mediaType = chartType
+		}
 		movingCopy.remove()
 		document.removeEventListener('touchmove', onTouchMove)
 		document.removeEventListener('touchend', onTouchEnd)
@@ -260,7 +266,15 @@ export function onTouchStart({
 	document.addEventListener('touchend', onTouchEnd)
 }
 
-export function onDragStart(dragEvent: DragEvent, search: SearchResult) {
+export function onDragStart({
+	dragEvent,
+	search,
+	chartType,
+}: {
+	dragEvent: DragEvent
+	search: SearchResult
+	chartType: Tabs
+}) {
 	DragSetData(dragEvent, {
 		// oxlint-disable-next-line no-undefined
 		albumObject: search.type === 'album' ? search.result : undefined,
@@ -268,6 +282,7 @@ export function onDragStart(dragEvent: DragEvent, search: SearchResult) {
 		mediaObject: search.type === 'media' ? search.result : undefined,
 		dragSource: 'Search',
 		originatingIndices: { index1: 0, index2: 0 },
+		chartType,
 	})
 
 	if (!dragEvent.dataTransfer) {
@@ -278,25 +293,36 @@ export function onDragStart(dragEvent: DragEvent, search: SearchResult) {
 	dragEvent.dataTransfer.dropEffect = 'copy'
 }
 
-export function onDrop(
-	dragEvent: DragEvent,
-	{ index1, index2 }: IndicesObject,
-) {
+export function onDrop({
+	dragEvent,
+	indices,
+}: {
+	dragEvent: DragEvent
+	indices: IndicesObject
+}) {
 	const data = dragEvent.dataTransfer?.getData('text/plain')
 
 	if (!data) {
-		return console.error('onDrop() failed: ', dragEvent, index1, index2, data)
+		return console.error(
+			'onDrop() failed: ',
+			dragEvent,
+			indices.index1,
+			indices.index2,
+			data,
+		)
 	}
 
 	const mediaDraggedIn = JSON.parse(data) as DragDataTransfer
 
+	GlobalChartState.value.options.mediaType = mediaDraggedIn.chartType
+
 	if (mediaDraggedIn.dragSource === 'Chart') {
 		// If in chart move the dragged element to the position you drop and push everything else back one
 		return RearrangeChart(
-			{ index1, index2 },
+			indices,
 			mediaDraggedIn.originatingIndices,
-			GlobalChartState.value.chartTiles[index1][index2].image ===
-				GrayBoxImgForPlaceholderForMusic,
+			GlobalChartState.value.chartTiles[indices.index1][indices.index2]
+				.image === GrayBoxImgForPlaceholderForMusic,
 		)
 	}
 
@@ -308,8 +334,8 @@ export function onDrop(
 		: // oxlint-disable-next-line typescript/no-non-null-assertion
 			mediaDraggedIn.mediaObject!
 
-	GlobalChartState.value.chartTiles[index1].splice(
-		index2,
+	GlobalChartState.value.chartTiles[indices.index1].splice(
+		indices.index2,
 		1,
 		// @ts-expect-error - it is only one or the other.
 		mediaDraggedIn.albumObject
