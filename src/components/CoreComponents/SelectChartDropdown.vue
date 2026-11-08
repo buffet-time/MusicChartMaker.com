@@ -34,6 +34,7 @@ function sortStoredChartNames() {
 			break
 
 		case 'Descending':
+			// oxlint-disable-next-line unicorn/no-array-sort
 			chartNamesArray.sort().reverse()
 			break
 

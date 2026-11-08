@@ -2,8 +2,11 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import { version as PackageVersion } from '#root/package.json'
+// oxlint-disable-next-line import/no-unassigned-import
 import './uno.css'
+// oxlint-disable-next-line import/no-unassigned-import
 import './global.css'
+// oxlint-disable-next-line import/no-unassigned-import
 import 'virtual:uno.css'
 
 const app = createApp(App)

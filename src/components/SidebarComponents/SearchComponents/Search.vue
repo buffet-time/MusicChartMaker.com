@@ -5,15 +5,18 @@ import type {
 	MovieAndTvSearchResult,
 	SearchResult,
 	SearchResults,
+	Tabs,
 } from '#types'
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'
-import { DragSetData, onTouchStart } from '#utils/drag'
+import { onDragStart, onTouchStart } from '#utils/drag'
 import {
 	GrayBoxImgFromApiForMusic,
 	GrayBoxImgFromApiForMedia,
 	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgForPlaceholderForMedia,
 	IsImage,
+	isMobile,
+	LegacyPlaceholder,
 } from '#utils/misc'
 
 import Tooltip from '#core/Tooltip.vue'
@@ -30,16 +33,15 @@ const showSearchResults = ref(false)
 const activeTab = ref<Tabs>('Music')
 const currentTabs = ref<Tabs[]>([])
 
-type Tabs = 'Music' | 'Movies' | 'TV'
 const allTabs: Tabs[] = ['Music', 'Movies', 'TV']
-const musicTabs: Tabs[] = ['Music']
-const mediaTabs: Tabs[] = ['Movies', 'TV']
 
+// oxlint-disable-next-line unicorn/prefer-set-has
 const PLACEHOLDERS = [
 	GrayBoxImgFromApiForMusic,
 	GrayBoxImgFromApiForMedia,
 	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgForPlaceholderForMedia,
+	LegacyPlaceholder,
 ]
 
 watch(activeTab, () => {
@@ -50,105 +52,86 @@ watch(activeTab, () => {
 
 watchDeep(
 	() => GlobalChartState.value.chartTiles,
-	() => setWhichTabsAreAvailable(false),
+	// oxlint-disable-next-line no-use-before-define
+	() => setWhichTabsAreAvailable(),
 )
 
 watch(
 	() => GlobalSiteOptions.value.currentChart,
-	() => {
-		setWhichTabsAreAvailable(true)
-	},
+	() => setWhichTabsAreAvailable(),
 )
 
-onMounted(() => {
-	setWhichTabsAreAvailable(true)
-})
+onMounted(() => setWhichTabsAreAvailable())
 
-function setWhichTabsAreAvailable(adjustAvailableTabs: boolean) {
+// remove the boolean, and fix this not updating properly.
+function setWhichTabsAreAvailable() {
 	for (let x = 0; x < GlobalChartState.value.chartTiles.length; x++) {
 		for (let y = 0; y < GlobalChartState.value.chartTiles[x].length; y++) {
 			if (
 				!PLACEHOLDERS.includes(GlobalChartState.value.chartTiles[x][y].image)
 			) {
-				const mediaTypeIsMusic =
-					'artist' in GlobalChartState.value.chartTiles[x][y]
-
-				GlobalChartState.value.options.mediaType = mediaTypeIsMusic
-					? 'album'
-					: 'media'
-
-				if (adjustAvailableTabs) {
-					activeTab.value = mediaTypeIsMusic ? 'Music' : 'Movies'
-					currentTabs.value = mediaTypeIsMusic ? musicTabs : mediaTabs
+				// @ts-expect-error - this is to change what this value did, it used top be 'album' | 'media'
+				if (GlobalChartState.value.options.mediaType === 'album') {
+					GlobalChartState.value.options.mediaType = 'Music'
+					activeTab.value = 'Music'
+					currentTabs.value = ['Music']
+					return
 				}
 
+				// @ts-expect-error - this is to change what this value did, it used top be 'album' | 'media'
+				if (GlobalChartState.value.options.mediaType === 'media') {
+					GlobalChartState.value.options.mediaType = 'Movies'
+					activeTab.value = 'Movies'
+					currentTabs.value = ['Movies', 'TV']
+					return
+				}
+
+				activeTab.value = GlobalChartState.value.options.mediaType ?? 'Music'
+				currentTabs.value = GlobalChartState.value.options.mediaType
+					? [GlobalChartState.value.options.mediaType]
+					: allTabs
 				return
 			}
 		}
 	}
-
 	currentTabs.value = allTabs
 	activeTab.value = 'Music'
-}
-
-function onDragStart(dragEvent: DragEvent, search: SearchResult) {
-	DragSetData(dragEvent, {
-		albumObject: search.type === 'album' ? search.result : undefined,
-		mediaObject: search.type === 'media' ? search.result : undefined,
-		dragSource: 'Search',
-		originatingIndices: { index1: 0, index2: 0 },
-	})
-
-	if (!dragEvent.dataTransfer) {
-		return console.error('Error in onDragStart(): ', dragEvent, search)
-	}
-
-	dragEvent.dataTransfer.dropEffect = 'copy'
 }
 
 function getSearchResultsLength() {
 	return searchResults.value ? searchResults.value.results.length : 0
 }
 
-function handleClick(result: SearchResult) {
+function handleClick(searchResult: SearchResult) {
+	GlobalChartState.value.options.mediaType = activeTab.value
 	for (
 		let rowIndex = 0;
 		rowIndex < GlobalChartState.value.chartTiles.length;
-		rowIndex++
+		rowIndex += 1
 	) {
 		for (
 			let elementIndex = 0;
 			elementIndex < GlobalChartState.value.chartTiles[rowIndex].length;
-			elementIndex++
+			elementIndex += 1
 		) {
 			if (
-				GlobalChartState.value.chartTiles[rowIndex][elementIndex].image ===
-				GrayBoxImgForPlaceholderForMusic
+				PLACEHOLDERS.includes(
+					GlobalChartState.value.chartTiles[rowIndex][elementIndex].image,
+				)
 			) {
-				switch (result.type) {
-					case 'album':
-						GlobalChartState.value.options.mediaType = 'album'
-						GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							artist: result.results.artist,
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							image: result.results.image,
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							name: result.results.name,
-						}
-						break
+				if (searchResult.type === 'album') {
+					GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
+						artist: searchResult.result.artist,
+						image: searchResult.result.image,
+						name: searchResult.result.name,
+					}
+					return
+				}
 
-					case 'media':
-						GlobalChartState.value.options.mediaType = 'media'
-						GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							artist: result.results.artist,
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							image: result.results.image,
-							// @ts-expect-error - its fine due to the type checking above, im too lazy for proper ts typing
-							name: result.results.name,
-						}
-						break
+				GlobalChartState.value.chartTiles[rowIndex][elementIndex] = {
+					title: searchResult.result.title,
+					image: searchResult.result.image,
+					year: searchResult.result.year,
 				}
 				return
 			}
@@ -266,7 +249,7 @@ async function searchTvShows(searchString: string) {
 </script>
 
 <template>
-	<div class="flex-col h-full gap-4 mt-1">
+	<div class="flex-col h-full gap-2 mt-1 flex">
 		<div class="flex w-full justify-between tab-container mb-1">
 			<a
 				v-for="(tabName, index) in currentTabs"
@@ -310,10 +293,16 @@ async function searchTvShows(searchString: string) {
 
 		<div
 			v-if="showSearchResults"
-			class="uno-flex-center uno-search-results-div results-div"
+			class="uno-flex-center uno-search-results-div results-div md:flex-[0.98] m-0"
 			:class="{
 				'items-start': getSearchResultsLength() < 1,
 				'overflow-hidden': getSearchResultsLength() < 1,
+				'bg-[rgb(100,100,100)]': isMobile(),
+				absolute: isMobile(),
+				'top-0': isMobile(),
+				'left-0': isMobile(),
+				'w-full': isMobile(),
+				'py-2': isMobile(),
 			}"
 		>
 			<ul
@@ -364,15 +353,17 @@ async function searchTvShows(searchString: string) {
 							"
 							@dragstart="
 								(dragEvent) =>
-									onDragStart(
+									onDragStart({
 										dragEvent,
-										searchResults?.type === 'album'
-											? { type: 'album', result: result as AlbumSearchResult }
-											: {
-													type: 'media',
-													result: result as MovieAndTvSearchResult,
-												},
-									)
+										search:
+											searchResults?.type === 'album'
+												? { type: 'album', result: result as AlbumSearchResult }
+												: {
+														type: 'media',
+														result: result as MovieAndTvSearchResult,
+													},
+										chartType: activeTab,
+									})
 							"
 							@touchstart.prevent="
 								(touchEvent) =>
@@ -387,6 +378,7 @@ async function searchTvShows(searchString: string) {
 												? (result as MovieAndTvSearchResult)
 												: undefined,
 										source: 'Search',
+										chartType: activeTab,
 									})
 							"
 						/>
@@ -432,9 +424,6 @@ async function searchTvShows(searchString: string) {
 .results-div {
 	scrollbar-width: thin;
 	scrollbar-color: gray dimgray;
-	/* 96.8px is the height of the search box */
-	max-height: calc(100% - 96.8px - 120px);
-	height: 100%;
 }
 
 .tab-container {

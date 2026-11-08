@@ -28,6 +28,7 @@ export function getFirstChart(): ChartState | undefined {
 
 	if (localStorageKeys.length >= 2) {
 		return getStoredChart(
+			// oxlint-disable-next-line unicorn/prefer-array-find
 			localStorageKeys.filter((key) => !hasLocalStorageIgnore(key))[0],
 		)
 	}

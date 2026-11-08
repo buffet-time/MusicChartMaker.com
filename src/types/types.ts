@@ -5,6 +5,7 @@ export interface DragDataTransfer {
 	mediaObject?: MovieAndTvSearchResult
 	dragSource: 'Search' | 'Chart'
 	originatingIndices: IndicesObject
+	chartType: Tabs
 }
 
 export interface IndicesObject {
@@ -59,7 +60,7 @@ export interface ChartOptions {
 	textShadow?: string
 	constrainTitles?: boolean
 	constrainTitlesCentered?: boolean
-	mediaType?: SearchTypes
+	mediaType?: Tabs
 	boldText?: boolean
 	italicsText?: boolean
 }
@@ -79,6 +80,8 @@ export interface SiteOptions {
 	chartTitleSortingMethod?: OrderOptions
 	allowAdultSearch?: boolean
 }
+
+export type Tabs = 'Music' | 'Movies' | 'TV'
 
 export interface ChartState {
 	options: ChartOptions

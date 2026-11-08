@@ -56,12 +56,12 @@ function onDragStart({
 	DragSetData(dragEvent, {
 		// @ts-expect-error -this is fine.
 		albumObject:
-			GlobalChartState.value.options.mediaType === 'album'
+			GlobalChartState.value.options.mediaType === 'Music'
 				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
 				: undefined,
 		// @ts-expect-error -this is fine.
 		mediaObject:
-			GlobalChartState.value.options.mediaType === 'media'
+			GlobalChartState.value.options.mediaType !== 'Music'
 				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
 				: undefined,
 		dragSource: 'Chart',

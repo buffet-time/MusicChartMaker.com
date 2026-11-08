@@ -73,6 +73,7 @@ async function getFontSize() {
 
 async function reduceFontSize() {
 	if (isOverflowing()) {
+		// oxlint-disable-next-line typescript/no-non-null-assertion
 		GlobalChartState.value.options.fontSize! -= 1
 		await nextTick()
 		reduceFontSize()
@@ -83,7 +84,9 @@ async function reduceFontSize() {
 }
 
 async function increaseFontSize() {
+	// oxlint-disable-next-line typescript/no-non-null-assertion
 	if (!isOverflowing() && GlobalChartState.value.options.fontSize! < 18) {
+		// oxlint-disable-next-line typescript/no-non-null-assertion
 		GlobalChartState.value.options.fontSize! += 0.05
 		await nextTick()
 		increaseFontSize()

@@ -12,6 +12,7 @@ onMounted(async () => {
 		await document.fonts.ready
 
 		// checks all the fonts above to see if they're supported on the persons given browser
+		// oxlint-disable-next-line unicorn/no-array-sort
 		GlobalSiteOptions.value.fontCache = PossibleFonts.sort().filter((font) =>
 			document.fonts.check(`12px "${font}"`),
 		)

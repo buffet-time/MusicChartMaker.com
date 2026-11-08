@@ -39,6 +39,7 @@ export async function searchAlbum(limit: number, album: string) {
 			apiUrl,
 		)) as unknown as AlbumResults
 
+		// oxlint-disable-next-line no-shadow
 		return results.results.albummatches.album.map((album) => {
 			return {
 				image: album.image[3]['#text']

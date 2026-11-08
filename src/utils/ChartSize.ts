@@ -42,6 +42,7 @@ function addColumn(difference: number) {
 				// @ts-expect-error - this function being called means we already do not need to care about knowing which of the 2 types there are
 				tempChartTileUnderflowArray.length > 0
 					? // Non-Null because we check to see if there is an item in the array first
+						// oxlint-disable-next-line typescript/no-non-null-assertion
 						tempChartTileUnderflowArray.shift()!
 					: FillerAlbum,
 			)
@@ -57,6 +58,7 @@ function addRow(difference: number) {
 		].map(() =>
 			tempChartTileUnderflowArray.length > 0
 				? // Non-Null because we check to see if there is an item in the array first
+					// oxlint-disable-next-line typescript/no-non-null-assertion
 					tempChartTileUnderflowArray.shift()!
 				: FillerAlbum,
 		)

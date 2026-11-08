@@ -67,27 +67,28 @@ function newChart({ type, lastfm, chartValues, preset }: NewChartParams) {
 
 	switch (type) {
 		case 'Dynamic':
-			// mark generated chart as music!
 			tempChart = lastfm
 				? GenerateChartWithValues({
 						title: nameToSave,
+						// oxlint-disable-next-line typescript/no-non-null-assertion
 						chartValues: chartValues!,
-						mediaType: 'album',
+						mediaType: 'Music',
 					})
 				: GenerateDefaultChart({ title: nameToSave })
 
 			break
 
 		case 'Preset':
-			// mark generated chart as music!
 			tempChart = lastfm
 				? GenerateChartWithValues({
 						title: nameToSave,
+						// oxlint-disable-next-line typescript/no-non-null-assertion
 						chartValues: chartValues!,
 						preset,
-						mediaType: 'album',
+						mediaType: 'Music',
 					})
-				: GeneratePresetChart({ title: nameToSave, preset: preset! })
+				: // oxlint-disable-next-line typescript/no-non-null-assertion
+					GeneratePresetChart({ title: nameToSave, preset: preset! })
 			break
 
 		default:

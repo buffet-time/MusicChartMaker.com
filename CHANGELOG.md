@@ -7,13 +7,30 @@
   - Add Import from Topsters 3 (topsters.org)?
   - Add Games charts?
   - Add books Charts?
-  - Define a strict browser support w/ Browserlist & make that available to end users.
-  - Create a version of the popover that uses the new native component
   - Add user site level customizations
   - Add Import from Topchart (topchart.amanharwara.com)?
   - Re-adding neatly spacing text in side bar
 
+- Dev stuff todo
+  - Define a strict browser support w/ Browserlist & make that available to end users.
+  - Create a version of the popover that uses the new native component
+  - Fix all ts and oxlint disabled stuff
+
 ---
+
+## Version 2.0.2 - November 8th, 2026
+
+- Bug Fixes
+  - Search being broken on mobile
+  - Search tabs not always updating, showing all 3 when it should only show 1 or 2
+  - broken click to add from search
+  - Error with showing text for placeholders
+  - And many more small things.
+- Dev
+  - Enabled more OXLint settings
+  - Removed swc minifier to use default OXC minifier w/ Rolldown in Vite
+  - Moved to Vue 3.6 Release Candidate
+    - testing with vapor to come
 
 ## Version 2.0.1 - November 6th, 2026
 

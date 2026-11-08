@@ -5,6 +5,7 @@ import type {
 	AlbumSearchResult,
 	MovieAndTvSearchResult,
 	SearchTypes,
+	Tabs,
 } from '#types'
 import { FillerAlbum, FillerMedia } from '#utils/misc'
 import { getAllSavedKeys } from '#utils/storage'
@@ -42,7 +43,7 @@ const baseOptionsDefault = {
 	textShadow: '0px 0px 0px #FFFFFF',
 	constrainTitles: false,
 	constrainTitlesCentered: false,
-	mediaType: 'album',
+	mediaType: 'Music',
 } satisfies Partial<ChartOptions>
 
 interface GenerateDefaultChartParams {
@@ -87,6 +88,7 @@ export function GenerateDefaultChart({
 export function PreventNameCollision(name: string): string {
 	const storedCharts = getAllSavedKeys()
 
+	// oxlint-disable-next-line no-shadow
 	function GetUnusedName(name: string): string {
 		if (storedCharts.some((storedName) => storedName === name)) {
 			const matchArray = numberInParensRegex.exec(name)
@@ -153,7 +155,7 @@ export function GenerateChartWithValues({
 	title: string
 	chartValues: AlbumSearchResult[][] | MovieAndTvSearchResult[][]
 	preset?: ChartPreset
-	mediaType: SearchTypes
+	mediaType: Tabs
 }): ChartState {
 	return {
 		options: {

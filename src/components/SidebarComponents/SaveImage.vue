@@ -20,6 +20,7 @@ const scale = ref(2)
 type ImageTypes = 'png' | 'jpeg' | 'webp' | 'bmp' | 'ico' | 'gif'
 
 function openSaveImage() {
+	// oxlint-disable-next-line no-shadow
 	const saveImage = document.getElementById(saveImageId) as HTMLDialogElement
 	saveImage.showModal()
 }
@@ -60,9 +61,9 @@ async function saveImage() {
 			// scale 1 = 96 dpi, each increment is a multiplier on that
 			scale: scale.value,
 			allowTaint: true,
-			useCORS: GlobalChartState.value.options.mediaType !== 'media',
+			useCORS: GlobalChartState.value.options.mediaType === 'Music',
 			proxy:
-				GlobalChartState.value.options.mediaType === 'media'
+				GlobalChartState.value.options.mediaType !== 'Music'
 					? 'https://api.musicchartmaker.com/TmdbImageProxy'
 					: undefined,
 			backgroundColor: GlobalChartState.value.options.background,
