@@ -1,4 +1,4 @@
-<script setup vapor lang="ts">
+<script setup lang="ts">
 import type { IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
 import { dragDialogId, onDrop } from '#utils/drag'

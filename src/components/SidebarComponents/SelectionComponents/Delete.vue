@@ -1,4 +1,4 @@
-<script setup vapor lang="ts">
+<script setup lang="ts">
 import type { ChartState } from '#types'
 import { GenerateDefaultChart } from '#utils/chart'
 import {

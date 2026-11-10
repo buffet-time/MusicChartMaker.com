@@ -1,4 +1,4 @@
-<script setup vapor lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue'
 import BackButton from '#core/BackButton.vue'
 import SidebarButton from '#core/SidebarButton.vue'

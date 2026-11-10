@@ -1,4 +1,4 @@
-<script setup vapor lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue'
 import { GlobalSiteOptions } from '#utils/globals'
 import type { OrderOptions } from '#types'

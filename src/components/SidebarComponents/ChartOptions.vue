@@ -1,4 +1,4 @@
-<script setup vapor lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue'
 import { GenerateDefaultChart } from '#utils/chart'
 import { GlobalChartState, GlobalSiteOptions } from '#utils/globals'

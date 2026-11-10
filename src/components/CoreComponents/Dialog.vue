@@ -17,17 +17,6 @@ onMounted(async () => {
 		return console.error('The passed modal doesnt exist', currentDialog.value)
 	}
 
-	if (typeof HTMLDialogElement !== 'function') {
-		const link = document.createElement('link')
-		link.type = 'text/css'
-		link.rel = 'stylesheet'
-		link.href = '/dialog-polyfill.css'
-		document.head.appendChild(link)
-
-		const { default: dialogPolyfill } = await import('dialog-polyfill')
-		dialogPolyfill.registerDialog(currentDialog.value)
-	}
-
 	currentDialog.value.addEventListener('mousedown', (event) => {
 		if (currentDialog.value?.open && event.target === currentDialog.value) {
 			closeDialog()

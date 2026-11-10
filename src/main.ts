@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { createApp, vaporInteropPlugin } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'

@@ -180,6 +180,7 @@ export function GetHeightOfImages() {
 	const firstImage = document.getElementById(idForFirstImage)
 	const heightOfImages = firstImage?.getBoundingClientRect().height
 
+	console.log(67, heightOfImages)
 	return heightOfImages ?? 300
 }
 
