@@ -107,13 +107,6 @@ function isOverflowing() {
 		if (!chartTitlesRef.value) {
 			return false
 		}
-		console.log(
-			1,
-			chartTitlesRef.value.scrollWidth,
-			chartTitlesRef.value.clientWidth,
-
-			chartTitlesRef.value.offsetWidth,
-		)
 
 		return chartTitlesRef.value.scrollWidth > chartTitlesRef.value.clientWidth
 	} else {
@@ -133,6 +126,7 @@ function isOverflowing() {
 		:style="{
 			height: `${props.heightOfChartImages}px`,
 			fontSize: GlobalChartState.options.fontSize + 'px',
+			gap: `${GlobalChartState.options.padding ?? 0.2}rem`,
 		}"
 		:class="{
 			'w-full': isMobile(),
@@ -152,9 +146,6 @@ function isOverflowing() {
 					!GlobalChartState.options.preset
 						? `${GetHeightOfImages()}px`
 						: undefined,
-				marginBottom: GlobalChartState.options.constrainTitles
-					? `${GlobalChartState?.options.padding}rem`
-					: undefined,
 			}"
 		>
 			<template

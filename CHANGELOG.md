@@ -12,11 +12,22 @@
   - Re-adding neatly spacing text in side bar
 
 - Dev stuff todo
-  - Define a strict browser support w/ Browserlist & make that available to end users.
   - Create a version of the popover that uses the new native component
   - Fix all ts and oxlint disabled stuff
+  - Breaking down some larger components into more manageable pieces
 
 ---
+
+## Version 2.0.3 - November 10th, 2026
+
+- Bug Fixes
+  - Changing text color not clearly disabled when text is not rendered
+    - Also some off spacing
+  - Text alignment on chart centering off for TV/ Movies
+- Performance/ Dev
+  - Initial usage of Vue Vapor on certain components to reduce bundle size and faster rendering.
+  - Define a strict browser support w/ Browserlist & make that available to end users.
+    - Using Vite Legacy Plugin
 
 ## Version 2.0.2 - November 8th, 2026
 

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, vaporInteropPlugin } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import { version as PackageVersion } from '#root/package.json'
@@ -11,7 +11,7 @@ import 'virtual:uno.css'
 
 const app = createApp(App)
 const pinia = createPinia()
-app.use(pinia).mount('#app')
+app.use(vaporInteropPlugin).use(pinia).mount('#app')
 addVersionMetaTag()
 
 function addVersionMetaTag() {
