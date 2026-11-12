@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { type Ref, onMounted, ref } from 'vue'
 import { GlobalChartState } from '#utils/globals'
 import { ToasterStore } from '#stores/toaster'

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { version } from '#root/package.json'
 
 import Dialog from '#core/Dialog.vue'

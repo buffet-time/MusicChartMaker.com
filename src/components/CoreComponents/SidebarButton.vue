@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script vapor setup lang="ts">
 const emit = defineEmits(['clickHandler'])
 const { buttonText, buttonIcon } = defineProps<{
 	buttonText: string

@@ -42,7 +42,6 @@ function onExportPressed() {
 			ExportSiteConfig()
 			break
 		case 'Single Chart':
-			console.log(singleChartSelectedChartTitle.value)
 			ExportSingleChart(singleChartSelectedChartTitle.value)
 			break
 	}

@@ -129,7 +129,7 @@ function isOverflowing() {
 			gap: `${GlobalChartState.options.padding ?? 0.2}rem`,
 		}"
 		:class="{
-			'w-full': isMobile(),
+			'w-full': isMobile,
 		}"
 	>
 		<div

@@ -50,7 +50,7 @@ export async function searchAlbum(limit: number, album: string) {
 			}
 		})
 	} catch (error: any) {
-		console.log(`Error in /Search request:\n ${error}`)
+		console.error(`Error in /Search request:\n ${error}`)
 	}
 }
 
@@ -88,6 +88,6 @@ export async function getTopAlbums(
 			} as AlbumReturn
 		})
 	} catch (error: any) {
-		console.log(`Error in /Search request:\n ${error}`)
+		console.error(`Error in /Search request:\n ${error}`)
 	}
 }

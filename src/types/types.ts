@@ -1,9 +1,11 @@
 import type { TopAlbumsResult } from '#lastfm/types'
 
+export type DragSource = 'Search' | 'Chart'
+
 export interface DragDataTransfer {
 	albumObject?: AlbumSearchResult
 	mediaObject?: MovieAndTvSearchResult
-	dragSource: 'Search' | 'Chart'
+	dragSource: DragSource
 	originatingIndices: IndicesObject
 	chartType: Tabs
 }

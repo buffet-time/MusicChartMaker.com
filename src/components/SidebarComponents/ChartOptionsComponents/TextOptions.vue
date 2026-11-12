@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import { GlobalChartState } from '#utils/globals'
 import Tooltip from '../../CoreComponents/Tooltip.vue'
 </script>

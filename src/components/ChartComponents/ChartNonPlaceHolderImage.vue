@@ -1,25 +1,31 @@
-<script setup lang="ts">
+<script setup vapor lang="ts">
 import type {
 	AlbumSearchResult,
 	IndicesObject,
 	MovieAndTvSearchResult,
 } from '#types'
 import { GlobalChartState } from '#utils/globals'
-import { dragDialogId, DragSetData, onTouchStart } from '#utils/drag'
+import {
+	dragDialogId,
+	DragSetData,
+	onDragStart,
+	onDrop,
+	onTouchStart,
+} from '#utils/drag'
 import {
 	GrayBoxImgFromApiForMusic,
 	GrayBoxImgFromApiForMedia,
+	FillerAlbum,
 } from '#utils/misc'
 import { getMediaNameWithoutNumber } from '#utils/chart'
 import { ref } from 'vue'
+import Dialog from '#core/Dialog.vue'
 
 const props = defineProps<{
 	index1: number
 	index2: number
 	mediaTile: AlbumSearchResult | MovieAndTvSearchResult
 	selectedAlbumIndices: IndicesObject
-	deleteCurrent: (indices: IndicesObject) => void
-	onDrop: (dragEvent: DragEvent, { index1, index2 }: IndicesObject) => void
 }>()
 
 const emit = defineEmits<{
@@ -39,45 +45,6 @@ function onDragOver(dragEvent: DragEvent) {
 	dragEvent.dataTransfer.dropEffect = 'move'
 }
 
-function onDragStart({
-	dragEvent,
-	indexes,
-}: {
-	dragEvent: DragEvent
-	indexes: IndicesObject
-}) {
-	if (!GlobalChartState) {
-		return console.error(
-			'Error getting GlobalChartState in onDragStart()',
-			GlobalChartState,
-		)
-	}
-
-	DragSetData(dragEvent, {
-		// @ts-expect-error -this is fine.
-		albumObject:
-			GlobalChartState.value.options.mediaType === 'Music'
-				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
-				: undefined,
-		// @ts-expect-error -this is fine.
-		mediaObject:
-			GlobalChartState.value.options.mediaType !== 'Music'
-				? GlobalChartState.value.chartTiles[indexes.index1][indexes.index2]
-				: undefined,
-		dragSource: 'Chart',
-		originatingIndices: {
-			index1: indexes.index1,
-			index2: indexes.index2,
-		},
-	})
-
-	if (!dragEvent.dataTransfer) {
-		return console.error('Error dragEvent.dataTransfer not defined in onDrop()')
-	}
-
-	dragEvent.dataTransfer.dropEffect = 'copy'
-}
-
 function openDialog(indices?: IndicesObject) {
 	const dialog = document.getElementById(dragDialogId) as HTMLDialogElement
 	dialog.showModal()
@@ -88,6 +55,26 @@ function openDialog(indices?: IndicesObject) {
 
 	emit('updateSelectedAlbumIndices', indices)
 }
+
+function closeDialog() {
+	const dialog = document.getElementById(dragDialogId) as HTMLDialogElement
+	dialog.close()
+}
+
+function deleteSelectedAlbum() {
+	// @ts-expect-error - this is being defined in sub component
+	// oxlint-disable-next-line no-use-before-define
+	deleteCurrent(selectedAlbumIndices)
+	closeDialog()
+}
+
+function deleteCurrent(indices: IndicesObject) {
+	GlobalChartState.value.chartTiles[indices.index1].splice(
+		indices.index2,
+		1,
+		FillerAlbum,
+	)
+}
 </script>
 
 <template>
@@ -96,6 +83,7 @@ function openDialog(indices?: IndicesObject) {
 			v-show="mediaTile && !GlobalChartState.options.lockChart"
 			src="/blackClose.svg"
 			loading="lazy"
+			draggable="false"
 			class="hidden absolute left-0 top-0 m-1 cursor-pointer group-hover:block group-hover:bg-white"
 			@click="deleteCurrent({ index1, index2 })"
 		/>
@@ -123,7 +111,10 @@ function openDialog(indices?: IndicesObject) {
 				(dragEvent) =>
 					onDragStart({
 						dragEvent,
-						indexes: { index1: index1, index2: index2 },
+						chartType: GlobalChartState.options.mediaType!,
+						dragSource: 'Chart',
+						tileObject: GlobalChartState.chartTiles[index1][index2],
+						originatingIndices: { index1, index2 },
 					})
 			"
 			@dragover.prevent="
@@ -135,7 +126,10 @@ function openDialog(indices?: IndicesObject) {
 			@drop.prevent="
 				(dragEvent) => {
 					if (GlobalChartState.options.lockChart) return
-					onDrop(dragEvent, { index1: index1, index2: index2 })
+					onDrop({
+						dragEvent,
+						indices: { index1: index1, index2: index2 },
+					})
 				}
 			"
 			@touchstart.prevent="
@@ -160,6 +154,16 @@ function openDialog(indices?: IndicesObject) {
 			{{ getMediaNameWithoutNumber(mediaTile) }}
 		</div>
 	</div>
+
+	<Dialog :dialog-id="dragDialogId" :close-button="false">
+		<template #content>
+			Delete the selected album?
+			<div class="flex gap-2">
+				<button class="uno-button" @click="deleteSelectedAlbum">Yes</button>
+				<button class="uno-button" @click="closeDialog">No</button>
+			</div>
+		</template>
+	</Dialog>
 </template>
 
 <style scoped>
