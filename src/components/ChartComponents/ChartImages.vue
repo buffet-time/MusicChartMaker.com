@@ -1,41 +1,19 @@
 <script setup lang="ts">
 import type { IndicesObject } from '#types'
 import { GlobalChartState } from '#utils/globals'
-import { dragDialogId, onDrop } from '#utils/drag'
 import {
-	FillerAlbum,
 	GrayBoxImgForPlaceholderForMusic,
 	GrayBoxImgForPlaceholderForMedia,
 	LegacyPlaceholder,
 } from '#utils/misc'
 
-import Dialog from '#core/Dialog.vue'
 import Tooltip from '#core/Tooltip.vue'
 import { getMediaNameWithNumber, idForFirstImage } from '#utils/chart'
 import ChartNonPlaceHolderImage from './ChartNonPlaceHolderImage.vue'
+import ChartPlaceholderImages from './ChartPlaceholderImages.vue'
 
 // oxlint-disable-next-line no-unassigned-vars
 let selectedAlbumIndices: IndicesObject
-
-function closeDialog() {
-	const dialog = document.getElementById(dragDialogId) as HTMLDialogElement
-	dialog.close()
-}
-
-function deleteSelectedAlbum() {
-	// @ts-expect-error - this is being defined in sub component
-	// oxlint-disable-next-line no-use-before-define
-	deleteCurrent(selectedAlbumIndices)
-	closeDialog()
-}
-
-function deleteCurrent(indices: IndicesObject) {
-	GlobalChartState.value.chartTiles[indices.index1].splice(
-		indices.index2,
-		1,
-		FillerAlbum,
-	)
-}
 </script>
 
 <template>
@@ -65,36 +43,15 @@ function deleteCurrent(indices: IndicesObject) {
 				:key="`img-${index1}-${index2}`"
 				class="group"
 			>
-				<!-- Genuinely not sure where the extra 4px is coming from for these -->
-				<div
+				<ChartPlaceholderImages
 					v-if="
 						mediaTile.image?.includes(GrayBoxImgForPlaceholderForMusic) ||
 						mediaTile.image?.includes(GrayBoxImgForPlaceholderForMedia) ||
 						mediaTile.image?.includes(LegacyPlaceholder)
 					"
-					class="mb-[-4px]"
-				>
-					<img
-						:firstIndex="index1"
-						:secondIndex="index2"
-						:src="`/placeholders/${GlobalChartState.options.mediaType === 'Music' ? GrayBoxImgForPlaceholderForMusic : GrayBoxImgForPlaceholderForMedia}`"
-						:alt="'placeholder square'"
-						loading="lazy"
-						draggable="false"
-						class="uno-chart-image-size select-none"
-						@dragstart="() => undefined"
-						@dragover.prevent="() => undefined"
-						@drop.prevent="
-							(dragEvent) => {
-								if (GlobalChartState.options.lockChart) return
-								onDrop({
-									dragEvent,
-									indices: { index1: index1, index2: index2 },
-								})
-							}
-						"
-					/>
-				</div>
+					:index1="index1"
+					:index2="index2"
+				/>
 
 				<Tooltip
 					v-else
@@ -109,11 +66,6 @@ function deleteCurrent(indices: IndicesObject) {
 							:index2="index2"
 							:media-tile="mediaTile"
 							:selectedAlbumIndices="selectedAlbumIndices"
-							:delete-current="deleteCurrent"
-							:on-drop="
-								(dragEvent) =>
-									onDrop({ dragEvent, indices: { index1, index2 } })
-							"
 							@updateSelectedAlbumIndices="
 								(newVal: IndicesObject) => (selectedAlbumIndices = newVal)
 							"
@@ -125,14 +77,5 @@ function deleteCurrent(indices: IndicesObject) {
 				</Tooltip>
 			</div>
 		</div>
-		<Dialog :dialog-id="dragDialogId" :close-button="false">
-			<template #content>
-				Delete the selected album?
-				<div class="flex gap-2">
-					<button class="uno-button" @click="deleteSelectedAlbum">Yes</button>
-					<button class="uno-button" @click="closeDialog">No</button>
-				</div>
-			</template>
-		</Dialog>
 	</div>
 </template>

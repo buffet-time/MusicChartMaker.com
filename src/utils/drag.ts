@@ -1,9 +1,9 @@
 import type {
 	AlbumSearchResult,
 	DragDataTransfer,
+	DragSource,
 	IndicesObject,
 	MovieAndTvSearchResult,
-	SearchResult,
 	Tabs,
 } from '#types'
 import { GlobalChartState } from '#utils/globals'
@@ -268,26 +268,30 @@ export function onTouchStart({
 
 export function onDragStart({
 	dragEvent,
-	search,
+	tileObject,
 	chartType,
+	dragSource,
+	originatingIndices,
 }: {
 	dragEvent: DragEvent
-	search: SearchResult
+	tileObject: AlbumSearchResult | MovieAndTvSearchResult
 	chartType: Tabs
+	dragSource: DragSource
+	originatingIndices: IndicesObject
 }) {
 	DragSetData(dragEvent, {
 		// oxlint-disable-next-line no-undefined
-		albumObject: search.type === 'album' ? search.result : undefined,
+		albumObject: 'artist' in tileObject ? tileObject : undefined,
 		// oxlint-disable-next-line no-undefined
-		mediaObject: search.type === 'media' ? search.result : undefined,
-		dragSource: 'Search',
-		originatingIndices: { index1: 0, index2: 0 },
+		mediaObject: 'year' in tileObject ? tileObject : undefined,
+		dragSource: dragSource,
+		originatingIndices,
 		chartType,
 	})
 
 	if (!dragEvent.dataTransfer) {
 		// oxlint-disable-next-line no-console
-		return console.error('Error in onDragStart(): ', dragEvent, search)
+		return console.error('Error in onDragStart(): ', dragEvent, tileObject)
 	}
 
 	dragEvent.dataTransfer.dropEffect = 'copy'

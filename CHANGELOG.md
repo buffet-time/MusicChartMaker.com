@@ -18,6 +18,14 @@
 
 ---
 
+## Version 2.0.4 - November 11th, 2026
+
+- Bug Fixes
+  - Bug in drag and drop causing tabs available and placeholder image issues.
+- Performance / Dev
+  - Breaking down some components to be more manageable
+  - Made chart images and some other components be rendered via Vapor for better performance
+
 ## Version 2.0.3 - November 10th, 2026
 
 - Bug Fixes

@@ -5,6 +5,8 @@ import type {
 	SiteOptions,
 } from '#types'
 import { top42, top100 } from '#utils/chart'
+import { useDebounceFn } from '@vueuse/core'
+import { ref } from 'vue'
 
 // These are separate to trivialize knowing whether its a placeholder box or just no image.
 const grayBoxFileBase = 'grayBox'
@@ -37,7 +39,6 @@ export function GenerateDefaultSiteOptions(): SiteOptions {
 }
 
 export async function IsImage(url: string): Promise<boolean> {
-	// returns a Promise that'll resolve to a boolean whether or not a url is an image
 	return new Promise((resolve) => {
 		const image = new Image()
 		// oxlint-disable-next-line unicorn/prefer-add-event-listener
@@ -74,8 +75,10 @@ export function delay(t: number) {
 	return new Promise((resolve) => setTimeout(resolve, t))
 }
 
-// TODO: make this a single compute that stays up to date for consumers to get the value, instead of recomputing
-export function isMobile() {
-	// If anyone else sees this, trust me. Its ok in this case, it isn't a SAAS product being sold <3
-	return document.body.clientWidth < 768
-}
+export const isMobile = ref<boolean>()
+
+const debouncedIsMobile = useDebounceFn(() => {
+	isMobile.value = document.body.clientWidth < 768
+}, 50)
+
+window.addEventListener('resize', debouncedIsMobile)

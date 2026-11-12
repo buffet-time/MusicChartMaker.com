@@ -297,12 +297,12 @@ async function searchTvShows(searchString: string) {
 			:class="{
 				'items-start': getSearchResultsLength() < 1,
 				'overflow-hidden': getSearchResultsLength() < 1,
-				'bg-[rgb(100,100,100)]': isMobile(),
-				absolute: isMobile(),
-				'top-0': isMobile(),
-				'left-0': isMobile(),
-				'w-full': isMobile(),
-				'py-2': isMobile(),
+				'bg-[rgb(100,100,100)]': isMobile,
+				absolute: isMobile,
+				'top-0': isMobile,
+				'left-0': isMobile,
+				'w-full': isMobile,
+				'py-2': isMobile,
 			}"
 		>
 			<ul
@@ -355,14 +355,10 @@ async function searchTvShows(searchString: string) {
 								(dragEvent) =>
 									onDragStart({
 										dragEvent,
-										search:
-											searchResults?.type === 'album'
-												? { type: 'album', result: result as AlbumSearchResult }
-												: {
-														type: 'media',
-														result: result as MovieAndTvSearchResult,
-													},
+										dragSource: 'Search',
+										tileObject: result,
 										chartType: activeTab,
+										originatingIndices: { index1: 0, index2: 0 },
 									})
 							"
 							@touchstart.prevent="
